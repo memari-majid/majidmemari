@@ -105,7 +105,7 @@ export function ContactForm() {
           value={message}
           onChange={(e) => setMessage(e.target.value)}
           className={inputClass}
-          placeholder="Tell us about your project or how we can help..."
+          placeholder="Tell me about your project, workshop, or how I can help…"
         />
       </div>
       <div className="flex flex-wrap items-center gap-4">
