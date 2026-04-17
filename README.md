@@ -9,7 +9,7 @@ Live at [majidmemari.com](https://majidmemari.com)
 - [Next.js 15](https://nextjs.org) (App Router) + React 19
 - [Tailwind CSS v4](https://tailwindcss.com)
 - TypeScript 5.8
-- [Vercel AI SDK](https://sdk.vercel.ai/) + OpenAI (chat widget + contact-form classifier)
+- [Vercel AI SDK](https://sdk.vercel.ai/) + OpenAI (optional contact-form inquiry classification)
 - [Resend](https://resend.com) for outbound email (optional)
 - Deployed on [Vercel](https://vercel.com) in `iad1`
 
@@ -24,8 +24,7 @@ Live at [majidmemari.com](https://majidmemari.com)
 ## Theme & layout
 
 - **Dark/light:** `next-themes` with Tailwind v4 class-based `dark:` (toggle in the nav). Default theme is dark.
-- **Floating chat widget:** AI assistant grounded in Dr. Memari's work — answers questions about projects, workshops, mentorship, and how to get in touch.
-- **Mobile:** safe-area aware, full-screen chat on small viewports, horizontal scroll for the workflow diagram.
+- **Mobile:** safe-area aware, horizontal scroll for the workflow diagram, responsive cards.
 
 ## Development
 
@@ -44,10 +43,9 @@ Open [http://localhost:3000](http://localhost:3000).
 | `NEXT_PUBLIC_SITE_URL` | Canonical URL (SEO, sitemap, JSON-LD). Default: `https://majidmemari.com` |
 | `NEXT_PUBLIC_AI_CPA_URL` | Optional. Public URL for the AI Financial Assistant app (Try My AI section). |
 | `NEXT_PUBLIC_AI_TA_URL` | Optional. Public URL for the CS 4720R AI teaching assistant. |
-| `OPENAI_API_KEY` | Required for the floating chat assistant (`/api/chat`) and contact-form classification. |
-| `OPENAI_MODEL` | Optional. Default: `gpt-5.4-mini` |
+| `OPENAI_API_KEY` | Optional. Powers contact-form inquiry classification + a personalized auto-reply. Without it, a generic acknowledgment is shown. |
 | `CONTACT_CLASSIFY_MODEL` | Optional. Model for inquiry classification + auto-reply. Default: `gpt-4o-mini` |
-| `RESEND_API_KEY` | Optional. If set, contact form + chat lead form send email via [Resend](https://resend.com). |
+| `RESEND_API_KEY` | Optional. If set, contact form sends email via [Resend](https://resend.com). |
 | `RESEND_FROM_EMAIL` | Verified sender in Resend (e.g. `Majid Memari <hello@majidmemari.com>`). |
 | `CONTACT_TO_EMAIL` | Inbox for inquiries. Default: `memari.majid@hotmail.com` |
 
