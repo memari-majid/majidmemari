@@ -1,3 +1,4 @@
+import { ChatWidget } from "@/app/components/ChatWidget";
 import { HomePageContent } from "@/app/components/HomePageContent";
 import { JsonLd } from "@/app/components/JsonLd";
 import { NavBar } from "@/app/components/NavBar";
@@ -8,6 +9,7 @@ export default function HomePage() {
       <JsonLd />
       <NavBar />
       <HomePageContent />
+      <ChatWidget />
     </div>
   );
 }

@@ -1,5 +1,4 @@
-import { createOpenAI } from "@ai-sdk/openai";
-import { generateObject } from "ai";
+import { gateway, generateObject } from "ai";
 import { z } from "zod";
 
 const inquirySchema = z.object({
@@ -9,21 +8,20 @@ const inquirySchema = z.object({
 
 export type InquiryCategory = z.infer<typeof inquirySchema>["category"];
 
-export async function classifyInquiry(input: {
-  name: string;
-  message: string;
-  apiKey: string;
-  modelId: string;
-}) {
-  const openai = createOpenAI({ apiKey: input.apiKey });
+export async function classifyInquiry(input: { name: string; message: string; modelId: string }) {
   const { object } = await generateObject({
-    model: openai(input.modelId),
+    model: gateway(input.modelId),
     schema: inquirySchema,
-    prompt: `You are the intake assistant for the personal website of Dr. Majid Memari (AI engineer, NVIDIA Ambassador, Assistant Professor at Utah Valley University, Principal AI Architect at the Gary R. Herbert Institute for Public Policy).
+    providerOptions: {
+      gateway: {
+        tags: ["site:majidmemari", "feature:contact-classify", `env:${process.env.VERCEL_ENV ?? "dev"}`],
+      },
+    },
+    prompt: `You are the intake assistant for the personal website of Dr. Majid Memari — Assistant Professor of Computer Science at Utah Valley University, NVIDIA University Ambassador, Principal AI Architect at the Gary R. Herbert Institute for Public Policy, and founder of Nexus AI Solutions LLC.
 
 Classify this contact form message into exactly one category:
-- consulting: AI/ML strategy, integration, custom AI builds, public-sector AI, paid engagements
-- workshop: NVIDIA DLI, university GPU training, instructor-led workshops, campus invitations
+- consulting: AI consulting, adoption advice, architecture review, when to use AI, paid advisory
+- workshop: workshops, team training, in-house training, NVIDIA DLI, campus invitations
 - mentorship: student internships, AI Engineer Intern role, applying to work with him, resume
 - collaboration: research collaboration, joint project, partnership, vendor inquiry
 - general: other or unclear

@@ -4,12 +4,12 @@ import { useState } from "react";
 
 const FAQS = [
   {
-    q: "What kinds of projects do you take on?",
-    a: "Production AI work — LLM-powered apps, agentic workflows, EdTech, simulation training, drone & 3D imaging, and public-sector data systems. I bring student teams into many engagements as part of the mentorship program.",
+    q: "What do you do for clients?",
+    a: "My active client work is AI consulting and team training. That includes advisory sessions on what to adopt and when not to use AI, instructor-led workshops, and hands-on training for your team. Commercial engagements go through Nexus AI Solutions. When a team needs a system built, that is a separate, scoped statement of work.",
   },
   {
-    q: "How are the NVIDIA workshops structured?",
-    a: "I deliver hands-on workshops aligned with NVIDIA Deep Learning Institute standards — GPU-accelerated cloud labs, real-world exercises, and DLI-style certificates of completion. On-campus sessions are free for students at participating universities.",
+    q: "How are workshops and team training structured?",
+    a: "I deliver instructor-led workshops and in-house team training — typically a half-day or full-day session, or a short series. NVIDIA Deep Learning Institute workshops use GPU-accelerated labs and DLI-style certificates of completion. Campus student sessions are offered at no charge to students at participating universities. Organizational training is scoped to your team's tools and goals.",
   },
   {
     q: "How do I apply for the AI Engineer Intern role?",
@@ -17,7 +17,7 @@ const FAQS = [
   },
   {
     q: "Can you work with our existing tech stack?",
-    a: "Yes. I integrate with AWS, Azure, GCP, on-prem, and hybrid setups. My work spans Python, PyTorch, LangChain, Next.js, n8n, and modern cloud-native architectures.",
+    a: "Yes, when the stack is in service of an AI system. Typical work includes Python, PyTorch, LangChain / LangGraph, RAG over private data, evaluation and guardrails, and NVIDIA DLI-style GPU labs.",
   },
   {
     q: "What does a typical engagement look like?",

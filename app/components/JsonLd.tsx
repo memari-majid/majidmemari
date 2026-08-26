@@ -1,49 +1,22 @@
-import { SITE, SITE_URL } from "@/lib/site";
+import { personJsonLd, websiteJsonLd } from "@/lib/seo";
+import { SITE_URL } from "@/lib/site";
 
-export function JsonLd() {
+export function JsonLd({ page = "/" }: { page?: string }) {
   const data = {
     "@context": "https://schema.org",
-    "@type": "Person",
-    name: SITE.fullName,
-    alternateName: SITE.shortName,
-    url: SITE_URL,
-    image: `${SITE_URL}/majid-memari.png`,
-    jobTitle: "Assistant Professor · Principal AI Architect · NVIDIA Ambassador",
-    description: SITE.description,
-    email: `mailto:${SITE.email}`,
-    sameAs: [SITE.linkedin, SITE.github, SITE.scholar],
-    address: {
-      "@type": "PostalAddress",
-      addressLocality: SITE.addressLocality,
-      addressRegion: SITE.addressRegion,
-      addressCountry: SITE.addressCountry,
-    },
-    affiliation: [
+    "@graph": [
+      personJsonLd(),
+      websiteJsonLd(),
       {
-        "@type": "CollegeOrUniversity",
-        name: "Utah Valley University",
-        url: "https://www.uvu.edu/",
+        "@type": "ProfilePage",
+        "@id": `${SITE_URL}${page === "/" ? "" : page}#page`,
+        url: page === "/" ? SITE_URL : `${SITE_URL}${page}`,
+        name: "Majid Memari",
+        isPartOf: { "@id": `${SITE_URL}/#website` },
+        about: { "@id": `${SITE_URL}/#person` },
+        mainEntity: { "@id": `${SITE_URL}/#person` },
+        inLanguage: "en-US",
       },
-      {
-        "@type": "Organization",
-        name: "Gary R. Herbert Institute for Public Policy",
-      },
-      {
-        "@type": "Organization",
-        name: "NVIDIA Deep Learning Institute",
-        url: "https://www.nvidia.com/en-us/training/",
-      },
-    ],
-    knowsAbout: [
-      "Artificial Intelligence",
-      "Large Language Models",
-      "Agentic AI",
-      "Deep Learning",
-      "Computer Vision",
-      "Drone Imaging",
-      "Public-Sector AI",
-      "EdTech",
-      "Responsible AI",
     ],
   };
 

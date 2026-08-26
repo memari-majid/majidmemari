@@ -43,13 +43,16 @@ Open [http://localhost:3000](http://localhost:3000).
 | `NEXT_PUBLIC_SITE_URL` | Canonical URL (SEO, sitemap, JSON-LD). Default: `https://majidmemari.com` |
 | `NEXT_PUBLIC_AI_CPA_URL` | Optional. Public URL for the AI Financial Assistant app (Try My AI section). |
 | `NEXT_PUBLIC_AI_TA_URL` | Optional. Public URL for the CS 4720R AI teaching assistant. |
-| `OPENAI_API_KEY` | Optional. Powers contact-form inquiry classification + a personalized auto-reply. Without it, a generic acknowledgment is shown. |
-| `CONTACT_CLASSIFY_MODEL` | Optional. Model for inquiry classification + auto-reply. Default: `gpt-4o-mini` |
+| `AI_CHAT_MODEL` | Optional. Model slug for the floating site chatbot (`/api/chat`) via Vercel AI Gateway. Default: `openai/gpt-oss-20b` |
+| `CONTACT_CLASSIFY_MODEL` | Optional. Model slug for contact-form inquiry classification + a personalized auto-reply via AI Gateway. Default: `openai/gpt-oss-20b` |
+| `AI_GATEWAY_API_KEY` | Optional fallback for non-Vercel environments. On Vercel, OIDC auth is automatic after enabling AI Gateway in project settings. |
 | `RESEND_API_KEY` | Optional. If set, contact form sends email via [Resend](https://resend.com). |
 | `RESEND_FROM_EMAIL` | Verified sender in Resend (e.g. `Majid Memari <hello@majidmemari.com>`). |
 | `CONTACT_TO_EMAIL` | Inbox for inquiries. Default: `memari.majid@hotmail.com` |
 
 Without `RESEND_API_KEY`, contact submissions are logged on the server only — configure Resend for production email delivery.
+
+**AI Gateway setup:** enable AI Gateway in the Vercel dashboard (**Project → AI Gateway**). For local dev, run `vercel link` then `vercel env pull .env.local` — this provisions a short-lived `VERCEL_OIDC_TOKEN` (~24 h). The floating chatbot (`app/components/ChatWidget.tsx`) and contact-form classifier both route through the gateway.
 
 ## Deploy (Vercel)
 

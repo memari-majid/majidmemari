@@ -7,7 +7,7 @@ const HIGHLIGHTS = [
     domain: "Industry & community",
     body: (
       <>
-        Collaboration with professionals across business, software engineering, and the{" "}
+        Applied AI consulting with Clarion AI Partners on LLM and agent workflows, plus the{" "}
         <a
           href="https://www.siliconslopes.com/"
           target="_blank"
@@ -16,7 +16,7 @@ const HIGHLIGHTS = [
         >
           Silicon Slopes
         </a>{" "}
-        technology community.
+        tech community.
       </>
     ),
     icon: (
@@ -31,8 +31,8 @@ const HIGHLIGHTS = [
     domain: "Education",
     body: (
       <>
-        Led 100+ students; designed, taught, and delivered about 10 Applied AI courses, workshops, and
-        hands-on training aligned with industry tools and university partners.
+        Mentors 20+ undergraduate researchers at Utah Valley University and teaches Fall 2026 applied-AI
+        courses: CS-1400, CS-2700, CS 6470, and CS 4720R, plus NVIDIA DLI workshops.
       </>
     ),
     icon: (
@@ -47,8 +47,8 @@ const HIGHLIGHTS = [
     domain: "Software engineering",
     body: (
       <>
-        200+ public repositories on GitHub; production integrations, APIs, and agentic AI workflows (including
-        tools like n8n) for automation and delivery.
+        Public GitHub work (memari-majid) on agents, RAG, course tooling, and production integrations —
+        including n8n workflows.
       </>
     ),
     icon: (
@@ -63,8 +63,8 @@ const HIGHLIGHTS = [
     domain: "Government & research",
     body: (
       <>
-        Led 10+ funded projects; USHE and state-agency collaborations including privacy-preserving AI and
-        responsible use of data in education and public programs.
+        GEL- and Perkins-funded projects plus NSF ACCESS allocations; Herbert Institute work with the Utah
+        Office of Data Privacy and DHHS; GridEye collaboration with the University of Utah and PacifiCorp.
       </>
     ),
     icon: (
