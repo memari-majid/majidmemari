@@ -43,7 +43,7 @@ Open [http://localhost:3000](http://localhost:3000).
 | `NEXT_PUBLIC_SITE_URL` | Canonical URL (SEO, sitemap, JSON-LD). Default: `https://www.majidmemari.com` |
 | `NEXT_PUBLIC_AI_CPA_URL` | Optional. Public URL for the AI Financial Assistant app (Try My AI section). |
 | `NEXT_PUBLIC_AI_TA_URL` | Optional. Public URL for the AI Entrepreneurship teaching assistant. |
-| `AI_CHAT_MODEL` | Optional. Model slug for the floating site chatbot (`/api/chat`) via Vercel AI Gateway. Default: `openai/gpt-oss-20b` |
+| `AI_CHAT_MODEL` | Model slug for the site chatbot (`/api/chat`) via Vercel AI Gateway. Production and code default: `anthropic/claude-opus-5` (chosen 2026-09-12 after a bake-off; see `AI-WEBSITES-HANDOFF.md`). |
 | `CONTACT_CLASSIFY_MODEL` | Optional. Model slug for contact-form inquiry classification + a personalized auto-reply via AI Gateway. Default: `openai/gpt-oss-20b` |
 | `AI_GATEWAY_API_KEY` | Optional fallback for non-Vercel environments. On Vercel, OIDC auth is automatic after enabling AI Gateway in project settings. |
 | `RESEND_API_KEY` | Optional. If set, contact form sends email via [Resend](https://resend.com). |
