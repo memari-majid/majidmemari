@@ -17,7 +17,7 @@ export async function classifyInquiry(input: { name: string; message: string; mo
         tags: ["site:majidmemari", "feature:contact-classify", `env:${process.env.VERCEL_ENV ?? "dev"}`],
       },
     },
-    prompt: `You are the intake assistant for the personal website of Dr. Majid Memari — Assistant Professor of Computer Science at Utah Valley University, NVIDIA University Ambassador, Principal AI Architect at the Gary R. Herbert Institute for Public Policy, and founder of Nexus AI Solutions LLC.
+    prompt: `You are the intake assistant for the personal website of Dr. Majid Memari, Assistant Professor of Computer Science at Utah Valley University, NVIDIA University Ambassador, Principal AI Architect at the Gary R. Herbert Institute for Public Policy, and founder of Nexus AI Solutions LLC.
 
 Classify this contact form message into exactly one category:
 - consulting: AI consulting, adoption advice, architecture review, when to use AI, paid advisory
@@ -26,7 +26,7 @@ Classify this contact form message into exactly one category:
 - collaboration: research collaboration, joint project, partnership, vendor inquiry
 - general: other or unclear
 
-Then write a short personalized acknowledgment (2–4 sentences) the visitor will see on the website after submitting. Use their name if natural. Be warm and professional. Do not promise specific timelines; say Dr. Memari will follow up personally.
+Then write a short personalized acknowledgment (2 to 4 sentences) the visitor will see on the website after submitting. Use their name if natural. Be warm and professional. Plain sentences, no em dashes. Do not promise specific timelines; say Dr. Memari will follow up personally.
 
 Name: ${input.name}
 Message:
@@ -39,6 +39,6 @@ export function fallbackInquiryResponse(): { category: InquiryCategory; autoRepl
   return {
     category: "general",
     autoReply:
-      "Thanks for reaching out. Your message was received — Dr. Memari will follow up personally as soon as he can.",
+      "Thanks for reaching out. Your message was received. Dr. Memari will follow up personally as soon as he can.",
   };
 }

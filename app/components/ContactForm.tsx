@@ -22,6 +22,9 @@ export function ContactForm() {
   const [errorMsg, setErrorMsg] = useState("");
   const [category, setCategory] = useState<string | null>(null);
   const [autoReply, setAutoReply] = useState<string | null>(null);
+  // False when the route only logged the message (email not configured), so
+  // the form must not say it was received or that Majid will follow up.
+  const [delivered, setDelivered] = useState(true);
 
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -39,15 +42,20 @@ export function ContactForm() {
         error?: string;
         category?: string;
         autoReply?: string;
+        dev?: boolean;
+        delivered?: boolean;
       };
       if (!res.ok) {
         setStatus("error");
         setErrorMsg(typeof data.error === "string" ? data.error : "Something went wrong.");
         return;
       }
+      const wasDelivered = typeof data.delivered === "boolean" ? data.delivered : data.dev !== true;
+      setDelivered(wasDelivered);
       setStatus("success");
       if (typeof data.category === "string") setCategory(data.category);
-      if (typeof data.autoReply === "string") setAutoReply(data.autoReply);
+      // The auto-reply promises a personal follow-up; only show it when the message actually went out.
+      if (wasDelivered && typeof data.autoReply === "string") setAutoReply(data.autoReply);
       setName("");
       setEmail("");
       setMessage("");
@@ -117,8 +125,28 @@ export function ContactForm() {
           {status === "loading" ? "Sending…" : "Send message"}
         </button>
         {status === "success" && (
-          <div className="w-full space-y-3 rounded-xl border border-emerald-200 bg-emerald-50/80 px-4 py-3 text-left dark:border-emerald-900/50 dark:bg-emerald-950/20">
-            <p className="text-sm font-medium text-emerald-800 dark:text-emerald-400">Message received</p>
+          <div
+            className={
+              delivered
+                ? "w-full space-y-3 rounded-xl border border-emerald-200 bg-emerald-50/80 px-4 py-3 text-left dark:border-emerald-900/50 dark:bg-emerald-950/20"
+                : "w-full space-y-3 rounded-xl border border-amber-200 bg-amber-50/80 px-4 py-3 text-left dark:border-amber-900/50 dark:bg-amber-950/20"
+            }
+          >
+            {delivered ? (
+              <p className="text-sm font-medium text-emerald-800 dark:text-emerald-400">Message received</p>
+            ) : (
+              <>
+                <p className="text-sm font-medium text-amber-800 dark:text-amber-400">Logged on the server, not emailed yet</p>
+                <p className="text-sm leading-relaxed text-zinc-700 dark:text-zinc-300">
+                  Email is not connected on this site yet, so your message was written to the server log and nothing was
+                  sent to Majid. To be sure he sees it, email{" "}
+                  <a href={`mailto:${SITE.email}`} className="break-all text-sky-600 hover:underline dark:text-sky-400">
+                    {SITE.emailDisplay}
+                  </a>{" "}
+                  directly.
+                </p>
+              </>
+            )}
             {category && (
               <p className="text-xs text-zinc-600 dark:text-zinc-500">
                 Routed as:{" "}

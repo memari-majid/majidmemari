@@ -1,12 +1,9 @@
 import { NextResponse } from "next/server";
-import { Resend } from "resend";
-import { SITE } from "@/lib/site";
+import { EMAIL_RE, founderInbox, isEmailConfigured, sendEmail } from "@/lib/email";
 import { classifyInquiry, fallbackInquiryResponse, type InquiryCategory } from "@/lib/inquiry-ai";
 
-const resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KEY) : null;
-
 /** Smaller / cheaper model for classification (override with CONTACT_CLASSIFY_MODEL).
- *  Routed through Vercel AI Gateway — use a `provider/model` slug. */
+ *  Routed through Vercel AI Gateway; use a `provider/model` slug. */
 const CLASSIFY_MODEL = process.env.CONTACT_CLASSIFY_MODEL ?? "openai/gpt-oss-20b";
 
 export async function POST(request: Request) {
@@ -23,7 +20,7 @@ export async function POST(request: Request) {
         { status: 400 },
       );
     }
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    if (!EMAIL_RE.test(email)) {
       return NextResponse.json({ error: "Invalid email address." }, { status: 400 });
     }
 
@@ -45,37 +42,25 @@ export async function POST(request: Request) {
       autoReply = fb.autoReply;
     }
 
-    const to = process.env.CONTACT_TO_EMAIL ?? SITE.email;
-    const subject = `[majidmemari.com] [${category}] Message from ${name}`;
-
-    if (resend) {
-      const { error } = await resend.emails.send({
-        from: process.env.RESEND_FROM_EMAIL ?? "Majid Memari <onboarding@resend.dev>",
-        to: [to],
-        replyTo: email,
-        subject,
-        text: `From: ${name} <${email}>\nSource: ${source}\nAI category: ${category}\n\n${message}`,
-      });
-      if (error) {
-        console.error("Resend error:", error);
-        return NextResponse.json(
-          { error: "Failed to send message. Please try again later." },
-          { status: 502 },
-        );
-      }
-    } else {
-      console.info("[contact] RESEND_API_KEY not set — message logged only:", {
-        name,
-        email,
-        source,
-        category,
-        messagePreview: message.slice(0, 200),
-      });
+    // One delivery path for the whole site (`lib/email.ts`). Not configured:
+    // the message is logged server-side and `dev: true` tells the form so.
+    const sent = await sendEmail({
+      to: founderInbox(),
+      replyTo: email,
+      subject: `[majidmemari.com] [${category}] Message from ${name}`,
+      text: `From: ${name} <${email}>\nSource: ${source}\nAI category: ${category}\n\n${message}`,
+    });
+    if (!sent.ok) {
+      return NextResponse.json(
+        { error: "Failed to send message. Please try again later." },
+        { status: 502 },
+      );
     }
 
     return NextResponse.json({
       ok: true,
-      dev: !resend,
+      dev: !isEmailConfigured(),
+      delivered: sent.delivered,
       category,
       autoReply,
     });
