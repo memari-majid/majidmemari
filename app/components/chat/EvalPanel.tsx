@@ -177,6 +177,12 @@ function PublishedBlock() {
     );
   }
 
+  // A table where every row is perfect says more about the judge than about the
+  // models, and a page arguing for evaluation should be the first to say so.
+  const scoredRows = published.rows.filter((row) => row.total != null);
+  const maxTotal = RUBRIC.length * RUBRIC_MAX;
+  const everyoneTied = scoredRows.length > 1 && scoredRows.every((row) => row.total === maxTotal);
+
   const missing = unmeasuredModels(published.rows);
   const missingJudges = missing.filter((m) =>
     published.judgedBy?.judges.some((judge) => judge.model === m.id),
@@ -238,6 +244,15 @@ function PublishedBlock() {
           earlier run.
         </p>
       )}
+      {everyoneTied && (
+        <p className="text-xs leading-relaxed text-zinc-600 dark:text-zinc-400">
+          Every scored row came back at {maxTotal} of {maxTotal}, which is a finding about the rubric
+          and the judge rather than a tie between the models. On a scenario this familiar the five
+          questions stop separating good answers from very good ones, and this judge is a generous
+          one. The honest next change to this page is a harder scenario and a stricter judge, not a
+          better looking table.
+        </p>
+      )}
       {missing.length > 0 && (
         <p className="text-xs leading-relaxed text-zinc-600 dark:text-zinc-400">
           {nameList(missing.map((m) => m.label))} {missing.length === 1 ? "is" : "are"} on the model
@@ -260,7 +275,19 @@ function PublishedBlock() {
   );
 }
 
-export function EvalPanel() {
+export type EvalPanelProps = {
+  /**
+   * Where this panel's progress line and its notices go to be spoken. The
+   * inline demo frame passes its own always-rendered region here, because the
+   * tabpanel this panel sits in is hidden with `display: none` whenever the
+   * visitor is on another tab, and a hidden subtree is not in the
+   * accessibility tree. Left out, where nothing hides this panel, the copy
+   * below carries its own regions exactly as it did before.
+   */
+  onAnnounce?: (announcement: { key: string; text: string } | undefined) => void;
+};
+
+export function EvalPanel({ onAnnounce }: EvalPanelProps) {
   const others = CHAT_MODELS.filter((m) => m.id !== DEFAULT_MODEL.id);
   const [contestant, setContestant] = useState(others[0]?.id ?? CHAT_MODELS[0].id);
   const [state, setState] = useState<RunState>("idle");
@@ -371,6 +398,28 @@ export function EvalPanel() {
     setNote("You stopped the run. The models already called are still counted.");
   }
 
+  /** The one line this panel has while a run is in flight, rendered and spoken. */
+  const progress =
+    running && !start
+      ? "Reserving budget and starting the run."
+      : start
+        ? `${start.cached ? "Today's run, replayed from cache: " : ""}up to ${formatTokens(start.maxOutputTokens)} output tokens each, judged by ${start.judge.label}.`
+        : "";
+  /** A notice outranks the progress line: a refusal or a stop is the answer. */
+  const spoken = note || progress;
+
+  // What the frame's region was last handed, so an unrelated re-render does
+  // not read the same line out again. A new key every time the words change is
+  // what makes two runs with the same progress line two announcements.
+  const spokenRef = useRef("");
+  const seqRef = useRef(0);
+  useEffect(() => {
+    if (!onAnnounce || spoken === spokenRef.current) return;
+    spokenRef.current = spoken;
+    seqRef.current += 1;
+    onAnnounce(spoken ? { key: `eval-live-${seqRef.current}`, text: spoken } : undefined);
+  }, [onAnnounce, spoken]);
+
   const sortedReplies = [...replies].sort((a, b) => a.slot.localeCompare(b.slot));
   const scoreBySlot = new Map(scores?.results.map((r) => [r.slot, r]) ?? []);
 
@@ -436,11 +485,21 @@ export function EvalPanel() {
           </button>
         </div>
 
-        <p aria-live="polite" className="min-w-0 text-xs text-zinc-600 dark:text-zinc-400">
-          {running && !start ? "Reserving budget and starting the run." : ""}
-          {start
-            ? `${start.cached ? "Today's run, replayed from cache: " : ""}up to ${formatTokens(start.maxOutputTokens)} output tokens each, judged by ${start.judge.label}.`
-            : ""}
+        {/*
+          Where this line is announced depends on who rendered the panel.
+          Inside the inline demo the run outlives the tab: a visitor presses
+          Run it live, waits out the 20 to 40 seconds on another tab, and this
+          subtree is `display: none` by then, pruned out of the accessibility
+          tree with every word in it. So the frame passes `onAnnounce` and the
+          speaking happens in its region, outside every tabpanel. With no frame
+          around it this paragraph is the region, as it was. The words on
+          screen are the same either way.
+        */}
+        <p
+          aria-live={onAnnounce ? undefined : "polite"}
+          className="min-w-0 text-xs text-zinc-600 dark:text-zinc-400"
+        >
+          {progress}
         </p>
 
         {start && (
@@ -557,10 +616,14 @@ export function EvalPanel() {
           refusal or a stop is exactly the outcome this line exists to speak.
           Empty it has no line box, and it is the last child here, so the
           spacing of the block is the same either way.
+
+          It stops being a region when the frame took the speaking over: the
+          notice is already in `spoken` above, and two regions saying it would
+          say it twice.
         */}
         <p
-          role="status"
-          aria-live="polite"
+          role={onAnnounce ? undefined : "status"}
+          aria-live={onAnnounce ? undefined : "polite"}
           className="min-w-0 break-words text-xs text-amber-700 dark:text-amber-400"
         >
           {note}

@@ -64,6 +64,11 @@ export function InlineAssistantDemo() {
   const prefix = useId();
   const tabsRef = useRef<HTMLDivElement>(null);
   const [announcement, setAnnouncement] = useState<{ key: string; text: string } | undefined>(undefined);
+  // The same, for the evaluations panel. `EvalPanel` decides what reaches this
+  // and when; the frame only holds it.
+  const [evalAnnouncement, setEvalAnnouncement] = useState<{ key: string; text: string } | undefined>(
+    undefined,
+  );
 
   // The saved model pick lands after mount, so the server and the first client
   // render agree on the seeded one.
@@ -137,8 +142,8 @@ export function InlineAssistantDemo() {
           ))}
         </div>
         {/*
-          The one live region for this surface, mounted here rather than inside
-          the chat tabpanel: an unselected tabpanel is hidden with
+          The chat live region for this surface, mounted here rather than
+          inside the chat tabpanel: an unselected tabpanel is hidden with
           `display: none`, which takes it out of the accessibility tree, so a
           reply that finishes while the visitor is reading another tab would be
           announced nowhere. The text is keyed by reply, so two replies that
@@ -153,6 +158,20 @@ export function InlineAssistantDemo() {
           className="sr-only"
         >
           {announcement && <p key={announcement.key}>{announcement.text}</p>}
+        </div>
+        {/*
+          The evaluations panel gets its own region here for the same reason,
+          and a second one rather than a share of the first. A live run takes
+          20 to 40 seconds, long enough to go back to Chat, and its progress,
+          its result and its refusals were all announced from inside the
+          tabpanel that switching away had just pruned. The two views run at
+          the same time and carry unrelated lines, so merging them would let a
+          reply overwrite the run's refusal, or the run overwrite a reply,
+          whichever landed second. This run is rendered here and nowhere else,
+          so it speaks whatever is showing and whatever else is open.
+        */}
+        <div role="status" aria-live="polite" aria-atomic="true" className="sr-only">
+          {evalAnnouncement && <p key={evalAnnouncement.key}>{evalAnnouncement.text}</p>}
         </div>
         <div className="ml-auto flex shrink-0 items-center gap-2 pl-2">
           {chat.busy && (
@@ -258,7 +277,8 @@ export function InlineAssistantDemo() {
           tabIndex={tab === "evals" ? 0 : -1}
           className={tab === "evals" ? "min-h-0 min-w-0 flex-1 overflow-y-auto" : "hidden"}
         >
-          <EvalPanel />
+          {/* Announced from the region above the panels, never from inside this one. */}
+          <EvalPanel onAnnounce={setEvalAnnouncement} />
         </div>
       </div>
     </div>
