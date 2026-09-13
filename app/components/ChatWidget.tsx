@@ -5,9 +5,9 @@ import { DefaultChatTransport } from "ai";
 import { useEffect, useMemo, useRef, useState } from "react";
 
 const QUICK_PROMPTS = [
-  "What can AI do for my team?",
-  "Do you offer AI consulting and team training?",
-  "Help me scope an AI project",
+  "We're exploring where AI fits",
+  "We have a project in mind",
+  "We want to train our team",
 ];
 
 /** Any CTA can open the chat by dispatching this event on window. */

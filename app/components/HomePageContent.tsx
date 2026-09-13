@@ -30,7 +30,7 @@ const SERVICES = [
   },
   {
     title: "Train",
-    text: "Hands-on AI training for your team, including NVIDIA DLI workshops I deliver in person as a Certified Instructor.",
+    text: "Hands-on Gen AI training — NVIDIA DLI Gen AI workshops I deliver in person, or a program customized to your team.",
   },
   {
     title: "Build",
@@ -473,11 +473,12 @@ export function HomePageContent() {
               Work with me
             </p>
             <h2 className="mt-4 text-4xl font-semibold tracking-tight text-zinc-900 dark:text-zinc-50 sm:text-5xl">
-              AI consulting and training
+              Generative AI consulting and training
             </h2>
             <p className="mx-auto mt-4 max-w-2xl text-lg text-zinc-600 dark:text-zinc-400">
-              Start with a conversation. I give you straight AI guidance, then help your team
-              learn it or build it. Client work runs through Nexus AI Solutions.
+              I specialize in generative AI. Start with a conversation: I give you straight
+              guidance, then help your team learn it or build it. Client work runs through Nexus
+              AI Solutions.
             </p>
           </Reveal>
           <div className="mt-14 grid gap-6 text-left sm:grid-cols-3">
