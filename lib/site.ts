@@ -9,7 +9,7 @@ export const SITE = {
   displayName: "Majid (MJ) Memari",
   role: "Academia · Industry · Community",
   description:
-    "Majid Memari, AI Scientist and Solution Architect. PhD in Gen AI (Computer Science, SIU 2023). Applied AI and AI Entrepreneurship at Utah Valley University. 11 years applied AI, 374 Scholar citations, 2026 AI Utah 100 honoree.",
+    "Majid Memari, AI Scientist and Solution Architect. AI consulting and team training for teams across the United States, in person or online. PhD in Gen AI (Computer Science, SIU 2023). Applied AI and AI Entrepreneurship at Utah Valley University. 11 years applied AI, 374 Scholar citations, 2026 AI Utah 100 honoree.",
   email: "memari.majid@hotmail.com",
   emailDisplay: "memari.majid@hotmail.com",
   uvuEmail: "mmemari@uvu.edu",
@@ -17,6 +17,8 @@ export const SITE = {
   uvuOffice: "SE 407J",
   bookingUrl:
     "https://bookings.cloud.microsoft/bookwithme/user/af8e2af355104ba38fdd04c7fb463f26%40uvu.edu?anonymous&ismsaljsauthenabled",
+  /** Home base for the practice; the market is the whole country. */
+  serviceArea: "United States",
   addressLocality: "Orem",
   addressRegion: "UT",
   addressCountry: "US",

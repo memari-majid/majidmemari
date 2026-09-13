@@ -1,7 +1,9 @@
 /**
  * Durable per-IP and site-wide counters for the chat route: a requests-per-
  * minute limiter, USD spend budgets reserved before the model runs and
- * settled afterwards, and a cap on outbound emails started from chat.
+ * settled afterwards, a cap on outbound emails started from chat, and a
+ * 24-hour memory of tool call ids whose email already went out, so a retried
+ * request cannot send the same hand-off twice.
  *
  * Backend: Upstash Redis over REST when the Marketplace variables are present
  * (`KV_REST_API_*` first, then `UPSTASH_REDIS_REST_*`), otherwise an in-memory
@@ -68,14 +70,32 @@ export type EmailReservation = {
   backend: LimiterBackend;
 };
 
+export type SendClaim = {
+  /** True the first time this id is claimed within the TTL; false on a replay. */
+  first: boolean;
+  count: number;
+  backend: LimiterBackend;
+};
+
 export interface RateLimiter {
   readonly backend: LimiterBackend;
   checkRate(ip: string): Promise<RateCheck>;
   reserveBudget(ip: string, estimateUsd: number): Promise<BudgetReservation>;
   reserveEmail(ip: string): Promise<EmailReservation>;
+  /**
+   * Idempotency claim for one outbound send, keyed by the SDK's tool call id
+   * and remembered for `SENT_TTL_S`. A request retried after a dropped
+   * connection carries the same tool call, finds the id claimed, and must not
+   * send again. Throws only when both stores fail; callers fail open.
+   */
+  claimSend(id: string): Promise<SendClaim>;
+  /** Undoes a claim whose send did not happen, so a later retry may try again. */
+  releaseSend(id: string): Promise<void>;
 }
 
 const DAY_TTL_S = 2 * 24 * 60 * 60;
+/** How long a sent tool call id is remembered; longer than any transcript survives in the widget. */
+const SENT_TTL_S = 24 * 60 * 60;
 const MINUTE_TTL_S = 120;
 const MICRO = 1_000_000;
 
@@ -140,6 +160,8 @@ class MemoryStore implements CounterStore {
         const entry = this.get(k, now);
         return entry ? String(entry.value) : null;
       }
+      case "DEL":
+        return this.get(k, now) && this.values.delete(k) ? 1 : 0;
       default:
         throw new Error(`MemoryStore: unsupported command ${String(op)}`);
     }
@@ -318,6 +340,26 @@ export function createRateLimiter(primary: CounterStore, fallback: CounterStore 
         return { allowed: false, reason: allCount > EMAIL_SITE_PER_DAY ? "site" : "ip", backend };
       }
       return { allowed: true, backend };
+    },
+
+    async claimSend(id) {
+      // INCR plus EXPIRE works on both stores; a replay sees a count above one.
+      // An unreadable count reads as 0, which counts as first: fail open.
+      const key = `${PREFIX}:sent:${id}`;
+      const { results, backend } = await run([
+        ["INCR", key],
+        ["EXPIRE", key, SENT_TTL_S],
+      ]);
+      const count = num(results[0]);
+      return { first: count <= 1, count, backend };
+    },
+
+    async releaseSend(id) {
+      // Nothing was sent for this id, whatever the count says (a replay may
+      // have bumped it while the original send was still failing), so the
+      // key goes away rather than being decremented.
+      const key = `${PREFIX}:sent:${id}`;
+      await run([["DEL", key]]);
     },
   };
 }

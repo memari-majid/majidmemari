@@ -1,12 +1,13 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import { ThemeProvider } from "@/app/components/ThemeProvider";
+import { OG_IMAGE } from "@/lib/seo";
 import { SITE, SITE_URL } from "@/lib/site";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: "Majid Memari — AI Scientist & Solution Architect",
+    default: "Majid Memari: AI Scientist & Solution Architect",
     template: "%s | Majid Memari",
   },
   description: SITE.description,
@@ -31,31 +32,28 @@ export const metadata: Metadata = {
     "DataGovAI",
     "NVIDIA Ambassador",
     "Nexus AI Solutions",
+    "AI consulting United States",
+    "AI team training United States",
+    "onsite AI workshops",
+    "online AI training",
   ],
   alternates: {
     canonical: "/",
   },
   openGraph: {
-    title: "Majid Memari — AI Scientist & Solution Architect",
+    title: "Majid Memari: AI Scientist & Solution Architect",
     description: SITE.description,
     url: SITE_URL,
     siteName: "Majid Memari",
     type: "profile",
     locale: "en_US",
-    images: [
-      {
-        url: "/majid-memari.png",
-        width: 1200,
-        height: 1200,
-        alt: SITE.fullName,
-      },
-    ],
+    images: [OG_IMAGE],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Majid Memari — AI Scientist & Solution Architect",
+    title: "Majid Memari: AI Scientist & Solution Architect",
     description: SITE.description,
-    images: ["/majid-memari.png"],
+    images: [OG_IMAGE],
   },
   robots: {
     index: true,

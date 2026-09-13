@@ -25,6 +25,7 @@ Live at [www.majidmemari.com](https://www.majidmemari.com)
 
 - **Dark/light:** `next-themes` with Tailwind v4 class-based `dark:` (toggle in the nav). Default theme is dark.
 - **Mobile:** safe-area aware, horizontal scroll for the workflow diagram, responsive cards.
+- **Social card:** `public/og-image.png` (1200x630) is the Open Graph and Twitter image for every page, generated with Pillow from `public/majid-memari.png`; `OG_IMAGE` in `lib/seo.ts` is the single reference.
 
 ## Development
 

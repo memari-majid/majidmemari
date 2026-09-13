@@ -410,11 +410,13 @@ export function HomePageContent() {
           <Reveal delay={200}>
             <p className="mx-auto mt-8 max-w-2xl text-lg leading-relaxed text-zinc-600 dark:text-zinc-400">
               AI Scientist and Solution Architect working in applied AI and Gen AI — a Ph.D. in
-              Computer Science (SIU 2023) with generative-model thesis work. I teach AI
-              Entrepreneurship at Utah Valley University. Active projects include DataGovAI,
-              AI-STER, AI-ClassSims, privacy-preserving synthetic data, wind-turbine RGB/thermal
-              inspection, and GridEye. I work with Utah agencies, UVU, the University of Utah, and
-              consult with {MAJID.clarion} on LLM and agent workflows.
+              Computer Science (SIU 2023) with generative-model thesis work. I consult and train
+              teams across the United States, in person at your offices or online, from a home base
+              in Utah. I teach AI Entrepreneurship at Utah Valley University. Active projects
+              include DataGovAI, AI-STER, AI-ClassSims, privacy-preserving synthetic data,
+              wind-turbine RGB/thermal inspection, and GridEye. Collaborations include Utah
+              agencies, UVU, the University of Utah, and {MAJID.clarion} on LLM and agent
+              workflows.
             </p>
           </Reveal>
           <Reveal delay={280}>
@@ -479,6 +481,10 @@ export function HomePageContent() {
               I specialize in generative AI. Start with a conversation: I give you straight
               guidance, then help your team learn it or build it. Client work runs through Nexus
               AI Solutions.
+            </p>
+            <p className="mx-auto mt-3 max-w-2xl text-sm text-zinc-600 dark:text-zinc-500">
+              Teams anywhere in the United States. On site at your offices, or online. Based in
+              Utah.
             </p>
           </Reveal>
           <div className="mt-14 grid gap-6 text-left sm:grid-cols-3">
@@ -1113,7 +1119,8 @@ export function HomePageContent() {
             </h2>
             <p className="mt-4 max-w-lg text-zinc-600 dark:text-zinc-400">
               AI consulting, workshops, team training, student mentorship, or a research
-              collaboration — send a message. UVU students can also{" "}
+              collaboration — send a message. I work with teams across the United States, on site
+              or online. UVU students can also{" "}
               <a
                 href={SITE.bookingUrl}
                 target="_blank"

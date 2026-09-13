@@ -1,6 +1,6 @@
 # Plan — majidmemari.com
 
-**Last updated:** 2026-08-28  
+**Last updated:** 2026-09-13  
 **Repo:** https://github.com/memari-majid/majidmemari  
 **This is the only living plan.** Do not add competing plan files.
 
@@ -14,7 +14,7 @@ Restore and keep the personal site live after the Vercel project was deleted. Ke
 | **Hero stats** | Done 2026-08-28 | `#top` H1: **Majid Memari** / **AI Scientist & Solution Architect** / Applied AI at UVU / AI Entrepreneurship and research that ships. Grid: **11** Years applied AI & CS; **PhD** in Gen AI (diploma is CS, SIU 2023 — public label only); **374** Scholar citations; **AI Utah 100** Honoree, 2026 (links to [aiutah.org/ai-utah-100](https://www.aiutah.org/ai-utah-100/)). No winner / #1 / category. **Faculty / UVU dropped** as cell 4. Same `heroStats` on `nexus-website`. |
 | **Design** | Sleek pass 2026-08-27 | Quiet zinc system: matching partner marks (no lone Silicon Slopes PNG), pill CTAs (`btn-primary` / `btn-secondary`), static gradient text, cards without lift/glow. |
 | **Env / AI** | Restore | Public URLs, Resend, AI Gateway models — no secrets in git |
-| **SEO / Google** | Keywords pass 2026-08-28 | Titles/JSON-LD match **Majid Memari**, **AI Scientist**, **AI Solution Architect**, **PhD in Gen AI**, **Applied AI**, **AI Entrepreneurship**, **AI Utah 100 honoree**. UVU is supporting. Canonical **www**. Sitemap/robots kept. **Majid must still** verify Search Console + submit sitemap and add Scholar/ORCID/ResearchGate/LinkedIn/UVU directory → majidmemari.com. |
+| **SEO / Google** | Keywords pass 2026-08-28 · market pass 2026-09-13 | Titles/JSON-LD match **Majid Memari**, **AI Scientist**, **AI Solution Architect**, **PhD in Gen AI**, **Applied AI**, **AI Entrepreneurship**, **AI Utah 100 honoree**. UVU is supporting. Canonical **www**. Sitemap/robots kept. **Majid must still** verify Search Console + submit sitemap and add Scholar/ORCID/ResearchGate/LinkedIn/UVU directory → majidmemari.com. **2026-09-13 market pass:** client-work copy, titles, descriptions and `Person.makesOffer.areaServed` now say the **United States**, and every page title uses a colon instead of an em-dash. |
 | **Publications** | Synced 2026-08-25 | Counts and selected list from [Google Scholar](https://scholar.google.com/citations?user=LQI4T24AAAAJ&hl=en) (20+ unique works). Do not invent citation counts. New 2026 item: Capability Ladder (arXiv:2608.07779) |
 | **Phone / voice AI** | On Nexus, not here | Public `(801) 810-9152` is Google Voice. AI engine is `nexus-website` `/api/voice` (GV → hidden Twilio → Vercel). |
 
@@ -59,6 +59,10 @@ Do **not** list instructor-TBD graduate shells or the canceled special-topics of
 **Intent this site owns:** branded **Majid Memari**; **AI Scientist** / **AI Solution Architect**; **PhD in Gen AI** (diploma is CS, SIU 2023 — public label only); **Applied AI**; **AI Entrepreneurship / Build and Launch AI-Powered Businesses**; **2026 AI Utah 100 honoree** (no category). UVU is supporting, not the lead keyword. Nexus is the *company* result — do not clone its consulting pitch here.
 
 **SEO keywords (on-page + metadata, no stuffing):** Majid Memari · AI Scientist · AI Solution Architect · PhD in Gen AI / generative AI · Applied AI · AI Entrepreneurship · Utah Valley University (supporting) · AI Utah 100 honoree 2026 · 11 years applied AI · 374 Scholar citations (sourced snapshot only).
+
+**Market framing (owner rule, 2026-09-13).** Utah is the home base, not the market boundary. Client-facing copy says he works with teams **across the United States**, on site at your offices or online: hero, page titles, meta descriptions, keywords, `Person.makesOffer.areaServed`, the FAQ, and the chat prompt geography. `SITE.serviceArea` in `lib/site.ts` is the single source for the market string. Never write “Utah-based”, “serving Utah”, or any state, region or travel-radius limit, and never ask a visitor whether they are in Utah before helping.
+
+These Utah references are **facts that build trust, not market limits**, and stay exactly as they are: Utah Valley University employment and teaching; the Gary R. Herbert Institute for Public Policy, the Utah Office of Data Privacy and Utah DHHS collaborations; the University of Utah One-U Responsible AI work; GridEye with PacifiCorp; Silicon Slopes community involvement; the 2026 AI Utah 100 honoree line; and the Orem, UT address with its `PostalAddress` schema.
 
 **Shipped (2026-08-27)**
 

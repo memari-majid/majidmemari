@@ -9,7 +9,7 @@ import {
   type UIDataTypes,
   type UIMessagePart,
 } from "ai";
-import { Fragment, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
+import { Fragment, useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import {
   chatMessageMetadataSchema,
   formatMs,
@@ -252,6 +252,66 @@ async function copyText(text: string): Promise<boolean> {
   } catch {
     return false;
   }
+}
+
+/** Visitors who asked for less motion get an instant scroll instead of the smooth one. */
+function prefersReducedMotion(): boolean {
+  return typeof window !== "undefined" && window.matchMedia?.("(prefers-reduced-motion: reduce)").matches === true;
+}
+
+const FOCUSABLE_SELECTOR =
+  'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
+
+/** Tabbable elements inside the dialog in DOM order, skipping anything not rendered. */
+function focusableIn(root: HTMLElement | null): HTMLElement[] {
+  if (!root) return [];
+  return Array.from(root.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR)).filter(
+    (el) => !el.hasAttribute("hidden") && el.getClientRects().length > 0,
+  );
+}
+
+/** Mirrors Tailwind's `sm`: below it the dialog is a full-screen sheet, above it a floating panel. */
+const SHEET_PANEL_QUERY = "(min-width: 40rem)";
+
+/**
+ * Escape closes the dialog unless focus sits on a native select. There the key
+ * closes the open option list first, and the dialog has to stay put, or picking
+ * a model would throw the visitor out of the chat.
+ */
+function escapeClosesDialog(targetTagName: string | undefined | null): boolean {
+  return (targetTagName ?? "").toUpperCase() !== "SELECT";
+}
+
+/**
+ * Inline styles that freeze the page behind the full-screen sheet, including on
+ * iOS Safari, which scrolls straight through `overflow: hidden`. The negative
+ * top keeps the page where it was; the widget puts the offset back on release.
+ */
+function lockedBodyStyle(scrollY: number): Record<string, string> {
+  const top = Number.isFinite(scrollY) && scrollY > 0 ? Math.round(scrollY) : 0;
+  return {
+    position: "fixed",
+    top: `-${top}px`,
+    left: "0",
+    right: "0",
+    width: "100%",
+    overflow: "hidden",
+  };
+}
+
+/**
+ * The last text of a reply, the part a screen reader hears once the reply is
+ * complete. Keyed by message id and position so the continuation after an
+ * approval card (same message, new text after the card) is announced as well,
+ * while the same text is never read twice.
+ */
+function lastReplyText(m: ChatUIMessage): { key: string; text: string } | undefined {
+  const segments = segmentsOf(m);
+  for (let i = segments.length - 1; i >= 0; i--) {
+    const seg = segments[i];
+    if (seg.kind === "text") return { key: `${m.id}:${i}`, text: splitSuggestions(seg.text).body.trim() };
+  }
+  return undefined;
 }
 
 /* ---------- Presentational pieces ---------- */
@@ -818,6 +878,24 @@ export function ChatWidget() {
   const [modelId, setModelId] = useState<string>(DEFAULT_MODEL_ID);
   const modelRef = useRef<string>(DEFAULT_MODEL_ID);
   const endRef = useRef<HTMLDivElement>(null);
+  const launcherRef = useRef<HTMLButtonElement>(null);
+  const dialogRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
+  const wasOpenRef = useRef(false);
+  /**
+   * Whatever had focus when the dialog opened: the launcher, or a page CTA that
+   * dispatched the open-chat event. Focus goes back there on close.
+   */
+  const openerRef = useRef<HTMLElement | null>(null);
+  /** Key of the reply the live region last announced, so each completed reply is read once. */
+  const announcedRef = useRef<string | null>(null);
+  const [announcement, setAnnouncement] = useState("");
+
+  const openDialog = useCallback(() => {
+    const active = document.activeElement;
+    openerRef.current = active instanceof HTMLElement && active !== document.body ? active : null;
+    setOpen(true);
+  }, []);
 
   // The transport is created once; the body callback reads the current pick on every request,
   // including the automatic re-send after an approval.
@@ -840,15 +918,108 @@ export function ChatWidget() {
   const busy = status === "streaming" || status === "submitted";
 
   useEffect(() => {
-    endRef.current?.scrollIntoView({ behavior: "smooth" });
+    endRef.current?.scrollIntoView({ behavior: prefersReducedMotion() ? "auto" : "smooth" });
   }, [messages, open]);
+
+  // Focus follows the dialog: the input takes it on open (the first control
+  // when the input is locked), and on close it goes back to whatever opened the
+  // dialog, falling back to the launcher when that element is gone or hidden.
+  // A keyboard or screen-reader visitor is never dropped at the top of the page.
+  useEffect(() => {
+    if (open) {
+      const field = inputRef.current;
+      if (field && !field.disabled) field.focus({ preventScroll: true });
+      else focusableIn(dialogRef.current)[0]?.focus({ preventScroll: true });
+    } else if (wasOpenRef.current) {
+      const opener = openerRef.current;
+      const usable = !!opener && opener.isConnected && opener.getClientRects().length > 0;
+      (usable ? opener : launcherRef.current)?.focus({ preventScroll: true });
+      openerRef.current = null;
+    }
+    wasOpenRef.current = open;
+  }, [open]);
+
+  // Escape closes; Tab and Shift+Tab cycle inside the dialog while it is open.
+  useEffect(() => {
+    if (!open) return;
+    function onKeyDown(e: KeyboardEvent) {
+      if (e.key === "Escape") {
+        if (e.isComposing) return;
+        if (!escapeClosesDialog(e.target instanceof Element ? e.target.tagName : undefined)) return;
+        e.preventDefault();
+        setOpen(false);
+        return;
+      }
+      if (e.key !== "Tab") return;
+      const items = focusableIn(dialogRef.current);
+      if (items.length === 0) return;
+      const first = items[0];
+      const last = items[items.length - 1];
+      const active = document.activeElement;
+      const inside = active instanceof HTMLElement && dialogRef.current?.contains(active);
+      if (!inside) {
+        e.preventDefault();
+        (e.shiftKey ? last : first).focus();
+      } else if (e.shiftKey && active === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && active === last) {
+        e.preventDefault();
+        first.focus();
+      }
+    }
+    document.addEventListener("keydown", onKeyDown);
+    return () => document.removeEventListener("keydown", onKeyDown);
+  }, [open]);
+
+  // Below `sm` the dialog is a full-screen sheet, so the page behind it is
+  // pinned while it is open: iOS Safari scrolls straight through
+  // `overflow: hidden`, so the body is fixed in place at its current offset and
+  // restored, inline styles and scroll position both, on close. The floating
+  // panel on wider screens leaves the page alone, which keeps the desktop
+  // layout from jumping sideways when the scrollbar disappears.
+  useEffect(() => {
+    if (!open) return;
+    const media = window.matchMedia(SHEET_PANEL_QUERY);
+    const body = document.body;
+    let lock: { scrollY: number; previous: [string, string][] } | undefined;
+    const release = () => {
+      if (!lock) return;
+      for (const [name, value] of lock.previous) {
+        if (value) body.style.setProperty(name, value);
+        else body.style.removeProperty(name);
+      }
+      window.scrollTo({ top: lock.scrollY, behavior: "instant" });
+      lock = undefined;
+    };
+    const sync = () => {
+      if (media.matches) {
+        release();
+        return;
+      }
+      if (lock) return;
+      const scrollY = window.scrollY;
+      const style = lockedBodyStyle(scrollY);
+      lock = {
+        scrollY,
+        previous: Object.keys(style).map((name): [string, string] => [name, body.style.getPropertyValue(name)]),
+      };
+      for (const [name, value] of Object.entries(style)) body.style.setProperty(name, value);
+    };
+    sync();
+    media.addEventListener("change", sync);
+    return () => {
+      media.removeEventListener("change", sync);
+      release();
+    };
+  }, [open]);
 
   // Any CTA (e.g. the hero "Start a conversation" button) can open the chat.
   useEffect(() => {
-    const onOpen = () => setOpen(true);
+    const onOpen = () => openDialog();
     window.addEventListener(OPEN_CHAT_EVENT, onOpen);
     return () => window.removeEventListener(OPEN_CHAT_EVENT, onOpen);
-  }, []);
+  }, [openDialog]);
 
   // Hydration-safe: the server and the first client render both use the default; the saved pick lands after mount.
   useEffect(() => {
@@ -889,6 +1060,17 @@ export function ChatWidget() {
   const stalledApproval = hasStalledApproval(lastAssistant, busy);
   const inputLocked = busy || awaitingApproval || stalledApproval;
 
+  // Each completed reply reaches the polite live region once, after the
+  // stream has finished, so a screen reader hears the whole answer rather
+  // than every streamed fragment.
+  useEffect(() => {
+    if (!open || status !== "ready" || !lastAssistant) return;
+    const reply = lastReplyText(lastAssistant);
+    if (!reply || !reply.text || announcedRef.current === reply.key) return;
+    announcedRef.current = reply.key;
+    setAnnouncement(reply.text);
+  }, [open, status, lastAssistant]);
+
   /** Re-posts the transcript as is; the approved hand-off in its final step is then executed by the server. */
   function retrySend() {
     void sendMessage();
@@ -917,11 +1099,17 @@ export function ChatWidget() {
 
   return (
     <>
+      {/* Always mounted so assistive tech registers the region before a reply lands in it. */}
+      <div aria-live="polite" aria-atomic="true" className="sr-only">
+        {announcement}
+      </div>
       <button
+        ref={launcherRef}
         type="button"
-        onClick={() => setOpen(true)}
-        className={`fixed z-[60] flex h-14 w-14 min-h-[56px] min-w-[56px] items-center justify-center rounded-full bg-sky-600 text-white shadow-lg shadow-sky-900/40 transition hover:bg-sky-500 focus:outline-none focus:ring-2 focus:ring-sky-400 focus:ring-offset-2 focus:ring-offset-zinc-50 dark:focus:ring-offset-zinc-950 ${open ? "hidden" : ""} bottom-[max(1.25rem,env(safe-area-inset-bottom))] right-[max(1.25rem,env(safe-area-inset-right))]`}
+        onClick={openDialog}
+        className={`fixed z-[60] flex h-14 w-14 min-h-[56px] min-w-[56px] items-center justify-center rounded-full bg-sky-600 text-white shadow-lg shadow-sky-900/40 transition hover:bg-sky-500 focus:outline-none focus:ring-2 focus:ring-sky-400 focus:ring-offset-2 focus:ring-offset-zinc-50 motion-reduce:transition-none dark:focus:ring-offset-zinc-950 ${open ? "hidden" : ""} bottom-[max(1.25rem,env(safe-area-inset-bottom))] right-[max(1.25rem,env(safe-area-inset-right))]`}
         aria-label="Open chat"
+        aria-haspopup="dialog"
       >
         <svg className="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
           <path
@@ -934,6 +1122,7 @@ export function ChatWidget() {
 
       {open && (
         <div
+          ref={dialogRef}
           className="fixed inset-0 z-[70] flex items-stretch justify-end bg-black/50 p-0 pt-[env(safe-area-inset-top)] sm:items-end sm:p-4 md:p-6"
           role="dialog"
           aria-modal="true"
@@ -1106,7 +1295,7 @@ export function ChatWidget() {
                 </div>
               )}
               {error && (
-                <p className="text-xs text-amber-700 dark:text-amber-400">
+                <p role="alert" className="text-xs text-amber-700 dark:text-amber-400">
                   {formatChatConfigMessage(error.message) ||
                     "Something went wrong. Try again or use the contact form."}
                 </p>
@@ -1117,8 +1306,10 @@ export function ChatWidget() {
             <div className="space-y-2 border-t border-zinc-200 p-3 dark:border-zinc-800">
               <form onSubmit={onSubmit} className="flex gap-2">
                 <input
+                  ref={inputRef}
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
+                  aria-label="Message Dr. MJ"
                   placeholder={
                     awaitingApproval
                       ? "Choose Send to Majid or Not now above"

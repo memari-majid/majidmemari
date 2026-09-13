@@ -22,19 +22,26 @@ export const PERSON_SAME_AS = [
   MAJID.nvidiaInstructorDirectory,
 ] as const;
 
+/** Social share card (1200x630) generated from the headshot; see README. */
+export const OG_IMAGE = {
+  url: "/og-image.png",
+  width: 1200,
+  height: 630,
+  alt: "Majid Memari, AI Scientist and Solution Architect",
+} as const;
+
 const COURSE_NAME = `${MAJID.cs4720r.title}: ${MAJID.cs4720r.tagline}`;
 const COURSE_DESCRIPTION = `${MAJID.cs4720r.summary} ${MAJID.cs4720r.catalog}`;
 
 export const PAGE_COPY = {
   home: {
-    title: "Majid Memari — AI Scientist & Solution Architect",
-    description:
-      "Majid Memari, AI Scientist and Solution Architect. PhD in Gen AI (Computer Science, SIU 2023). Applied AI and AI Entrepreneurship at Utah Valley University. 11 years applied AI, 374 Scholar citations, 2026 AI Utah 100 honoree.",
+    title: "Majid Memari: AI Scientist & Solution Architect",
+    description: SITE.description,
   },
   about: {
-    title: "About Majid Memari — AI Scientist & Solution Architect",
+    title: "About Majid Memari: AI Scientist & Solution Architect",
     description:
-      "About Majid Memari: AI Scientist and Solution Architect; Assistant Professor of Computer Science at UVU. Applied AI, Gen AI, and AI Entrepreneurship. 2026 AI Utah 100 honoree — academia, industry, and community.",
+      "About Majid Memari: AI Scientist and Solution Architect; Assistant Professor of Computer Science at UVU. AI consulting and team training for teams across the United States, in person or online. 2026 AI Utah 100 honoree across academia, industry, and community.",
   },
   teaching: {
     title: "AI Entrepreneurship: Build and Launch AI-Powered Businesses",
@@ -42,14 +49,14 @@ export const PAGE_COPY = {
       "Majid Memari designed and teaches AI Entrepreneurship: Build and Launch AI-Powered Businesses at Utah Valley University. Applied AI and Gen AI teaching, plus NVIDIA DLI workshops. No catalog numbers.",
   },
   publications: {
-    title: "Majid Memari Research — Applied AI, Gen AI, 374 Citations",
+    title: "Majid Memari Research: Applied AI, Gen AI, 374 Citations",
     description:
       "Applied AI and Gen AI research by Majid Memari: 374 Google Scholar citations (snapshot 2026-08-21). Wind-turbine UAV inspection, GridEye, DataGovAI, and the Capability Ladder. Ph.D. Computer Science, SIU 2023.",
   },
   contact: {
-    title: "Contact Majid Memari — AI Scientist at UVU",
+    title: "Contact Majid Memari: AI Scientist & Solution Architect",
     description:
-      "Contact Majid Memari, AI Scientist and Solution Architect at Utah Valley University — applied AI teaching, Gen AI research, or AI consulting via Nexus AI Solutions. Orem, Utah.",
+      "Contact Majid Memari, AI Scientist and Solution Architect at Utah Valley University: applied AI teaching, Gen AI research, or AI consulting and team training via Nexus AI Solutions for teams across the United States. Based in Orem, Utah.",
   },
 } as const;
 
@@ -67,11 +74,16 @@ export function pageMetadata(
       title: copy.title,
       description: copy.description,
       url: path,
+      siteName: SITE.name,
+      locale: "en_US",
       type: ogType,
+      images: [OG_IMAGE],
     },
     twitter: {
+      card: "summary_large_image",
       title: copy.title,
       description: copy.description,
+      images: [OG_IMAGE],
     },
   };
 }
@@ -100,6 +112,13 @@ export function personJsonLd() {
       addressLocality: SITE.addressLocality,
       addressRegion: SITE.addressRegion,
       addressCountry: SITE.addressCountry,
+    },
+    makesOffer: {
+      "@type": "Offer",
+      name: MAJID.clientOffer.label,
+      description: MAJID.clientOffer.summary,
+      areaServed: { "@type": "Country", name: SITE.serviceArea },
+      seller: { "@type": "Organization", name: "Nexus AI Solutions LLC", url: MAJID.nexusSite },
     },
     worksFor: {
       "@type": "CollegeOrUniversity",

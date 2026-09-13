@@ -25,8 +25,8 @@ export default function ContactPage() {
           Valley University, or AI consulting and team training through{" "}
           <a className="text-sky-600 underline dark:text-sky-400" href={MAJID.nexusSite}>
             Nexus AI Solutions
-          </a>
-          . UVU students can{" "}
+          </a>{" "}
+          for teams across the United States, on site or online. UVU students can{" "}
           <a
             className="text-sky-600 underline dark:text-sky-400"
             href={SITE.bookingUrl}

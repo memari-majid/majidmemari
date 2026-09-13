@@ -140,13 +140,56 @@ const handOffInputSchema = z.object({
 
 type HandOffFailure = "invalid-email" | "quota" | "not-configured" | "send-failed";
 
+type HandOffOutput = {
+  to: string;
+  name: string;
+  email: string;
+  topic: string;
+  organization?: string;
+  delivered: boolean;
+  briefAttached: boolean;
+  reason?: HandOffFailure;
+  /** True on a replay: the same approved tool call already sent its email once. */
+  alreadySent?: boolean;
+};
+
+/**
+ * Idempotency for the hand-off, keyed by the SDK's toolCallId. A request that
+ * the client retries after a dropped connection (the widget's Retry re-posts
+ * the transcript unchanged) carries the same approved tool call, and the
+ * email must not go out twice. The claim lives in the rate-limit store
+ * (Upstash, or per-instance memory) for 24 hours. Store errors fail open: a
+ * hand-off that cannot be de-duplicated still goes out, since a lost lead is
+ * worse than a duplicate email.
+ */
+async function claimHandOff(toolCallId: string, requestId: string): Promise<boolean> {
+  if (!toolCallId) return true;
+  try {
+    return (await getRateLimiter().claimSend(toolCallId)).first;
+  } catch (err) {
+    console.warn("[chat] hand-off idempotency claim failed; sending anyway:", { requestId, err });
+    return true;
+  }
+}
+
+/** Gives the claim back when nothing was sent, so a later retry can still send. Best effort. */
+async function releaseHandOff(toolCallId: string, requestId: string): Promise<void> {
+  if (!toolCallId) return;
+  try {
+    await getRateLimiter().releaseSend(toolCallId);
+  } catch (err) {
+    console.warn("[chat] hand-off idempotency release failed:", { requestId, err });
+  }
+}
+
 const handOffToMajid = tool({
   description:
     "Send Majid Memari a structured hand-off email (name, email, what they need, and the consulting brief if one was drafted) so he can follow up personally about consulting or team training. Use only when the visitor says they want Majid to follow up AND has given both their name and email in this conversation; never invent or guess either one, ask for them first. The visitor sees the exact email and must approve it on screen before anything is sent. If they decline, do not call this again unless they ask.",
   inputSchema: handOffInputSchema,
   needsApproval: true,
-  execute: async (input, options: ToolCallOptions) => {
+  execute: async (input, options: ToolCallOptions): Promise<HandOffOutput> => {
     const ctx = toolContext(options.experimental_context);
+    const toolCallId = typeof options.toolCallId === "string" ? options.toolCallId : "";
     const name = input.name.trim();
     const email = input.email.trim();
     const topic = input.topic.trim();
@@ -154,7 +197,23 @@ const handOffToMajid = tool({
     const base = { to: "Majid Memari", name, email, topic, organization };
 
     if (!EMAIL_RE.test(email)) {
-      return { ...base, delivered: false as const, briefAttached: false, reason: "invalid-email" as HandOffFailure };
+      return { ...base, delivered: false, briefAttached: false, reason: "invalid-email" };
+    }
+
+    // A brief drafted in the same step as the hand-off (parallel calls) is not
+    // visible here yet; the hand-off then goes out without it.
+    const brief = findBrief(options.messages, input.briefToolCallId);
+
+    // Same approved tool call seen before: the client retried after a dropped
+    // connection and the email already went out once. Report that instead of
+    // sending again. Checked before the quota so a retry does not spend a
+    // second allowance unit.
+    if (!(await claimHandOff(toolCallId, ctx.requestId))) {
+      console.info("[chat] hand-off already sent for this tool call; not sending again:", {
+        requestId: ctx.requestId,
+        toolCallId,
+      });
+      return { ...base, delivered: true, briefAttached: Boolean(brief), alreadySent: true };
     }
 
     // Only spend the visitor's daily hand-off allowance on a send that can
@@ -165,13 +224,11 @@ const handOffToMajid = tool({
       const quota = await getRateLimiter().reserveEmail(ctx.ip);
       if (!quota.allowed) {
         console.info("[chat] hand-off refused by email quota:", { reason: quota.reason, requestId: ctx.requestId });
-        return { ...base, delivered: false as const, briefAttached: false, reason: "quota" as HandOffFailure };
+        await releaseHandOff(toolCallId, ctx.requestId);
+        return { ...base, delivered: false, briefAttached: false, reason: "quota" };
       }
     }
 
-    // A brief drafted in the same step as the hand-off (parallel calls) is not
-    // visible here yet; the hand-off then goes out without it.
-    const brief = findBrief(options.messages, input.briefToolCallId);
     const readiness = findReadiness(options.messages);
     const mail = handOffEmail({ name, email, organization, topic, brief, readiness, model: ctx.model });
 
@@ -191,15 +248,17 @@ const handOffToMajid = tool({
         topic: topic.slice(0, 120),
         briefAttached: Boolean(brief),
       });
+      // Nothing went out, so the id must not block a later retry.
+      await releaseHandOff(toolCallId, ctx.requestId);
       return {
         ...base,
-        delivered: false as const,
+        delivered: false,
         briefAttached: Boolean(brief),
-        reason: (sent.ok ? "not-configured" : "send-failed") as HandOffFailure,
+        reason: sent.ok ? "not-configured" : "send-failed",
       };
     }
 
-    return { ...base, delivered: true as const, briefAttached: Boolean(brief), reason: undefined };
+    return { ...base, delivered: true, briefAttached: Boolean(brief) };
   },
   toModelOutput: ({ output }) =>
     safeText(
@@ -207,15 +266,20 @@ const handOffToMajid = tool({
       () => {
         if (!output || typeof output.delivered !== "boolean") return undefined;
         if (output.delivered) {
-          return `Hand-off email sent to Majid Memari${output.briefAttached ? " with the consulting brief attached" : ""}. He will reply to ${output.email ?? "the visitor's email"} himself. Confirm that in one short sentence; do not promise a time, a call, or a price.`;
+          const once = output.alreadySent
+            ? "This same approved hand-off had already been sent once (the earlier request was interrupted), so it was not sent a second time. "
+            : "";
+          return `${once}Hand-off email sent to Majid Memari${output.briefAttached ? " with the consulting brief attached" : ""}. He will reply to ${output.email ?? "the visitor's email"} himself. Confirm that in one short sentence; do not promise a time, a call, or a price.`;
         }
         switch (output.reason) {
           case "invalid-email":
             return "Not sent: that email address does not look valid. Ask the visitor to re-type it; do not guess.";
           case "quota":
             return `Not sent: this connection has reached today's hand-off limit. Say so plainly and point the visitor to ${CONTACT_FALLBACK}.`;
-          default:
+          case "not-configured":
             return `Not sent: email is not configured on this server, so nothing went out. The request was noted in the server log only. Say plainly that it was NOT emailed and that the fastest way to reach Majid is ${CONTACT_FALLBACK}. Never say an email went out.`;
+          default:
+            return `Not sent: the email provider failed on this send, so nothing went out. This is a fault on our side, not anything the visitor did wrong, and it is not a setup gap. Say plainly that it was NOT emailed, say briefly that you are sorry, and give them ${CONTACT_FALLBACK} as the sure way to reach Majid. Never say an email went out.`;
         }
       },
     ),

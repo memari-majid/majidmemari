@@ -123,14 +123,26 @@ const CONTACT_FALLBACK = `Please email ${SITE.email} or use the contact form ins
  * keep text only; assistant turns keep text, step boundaries, and tool parts
  * for tools in `chatTools`, rebuilt from known keys.
  *
- * An approval that can no longer complete (`approval-requested`, or
- * `approval-responded` outside the final step of the last message, the only
- * place the SDK executes it) is rewritten to `output-denied`. Left alone, the
- * SDK emits a tool call with no result and every later request in the
- * conversation fails with MissingToolResultsError until the visitor taps New.
+ * An approval that can no longer complete is rewritten to `output-denied`
+ * with a reason that tells the model what really happened. The SDK executes
+ * an approval only in the final step of the last message, so:
+ * - `approval-requested` anywhere (never answered): the stale reason.
+ * - `approval-responded` with approved false outside the final step (the
+ *   visitor tapped Not now, but the request carrying the decline did not
+ *   complete before they typed again): the visitor's decline, never the
+ *   stale reason.
+ * - `approval-responded` with approved true outside the final step (approved,
+ *   but the send never ran and the conversation moved on): approved, not sent.
+ * Left alone, the SDK emits a tool call with no result and every later
+ * request in the conversation fails with MissingToolResultsError until the
+ * visitor taps New.
  */
 const STALE_APPROVAL_REASON =
   "Not sent: this approval was not completed before the conversation moved on, so nothing went out. Offer the hand-off again only if the visitor still wants it.";
+const DECLINED_APPROVAL_REASON =
+  "Not sent: the visitor declined this hand-off on screen, so nothing went out. Do not offer it again unless they ask.";
+const APPROVED_NOT_SENT_REASON =
+  "Not sent: the visitor approved this hand-off, but the send did not run before the conversation moved on, so nothing went out. Offer to send it again if they still want it.";
 
 type CleanPart = { type: string } & Record<string, unknown>;
 type CleanMessage = { id: string; role: "user" | "assistant"; parts: CleanPart[] };
@@ -171,13 +183,8 @@ function cleanToolPart(part: EchoedPart, finalStep: boolean): CleanPart | undefi
   if (typeof toolCallId !== "string" || !toolCallId || toolCallId.length > 128) return undefined;
   const base = { type: part.type, toolCallId, input: part.input ?? {} };
   const approval = approvalOf(part);
-  const stale = approval
-    ? {
-        ...base,
-        state: "output-denied",
-        approval: { id: approval.id, approved: false, reason: STALE_APPROVAL_REASON },
-      }
-    : undefined;
+  const denied = (reason: string): CleanPart | undefined =>
+    approval ? { ...base, state: "output-denied", approval: { id: approval.id, approved: false, reason } } : undefined;
 
   switch (part.state) {
     case "output-available":
@@ -199,14 +206,18 @@ function cleanToolPart(part: EchoedPart, finalStep: boolean): CleanPart | undefi
         : undefined;
     case "approval-responded":
       if (!approval || typeof approval.approved !== "boolean") return undefined;
-      if (!finalStep) return stale;
+      if (!finalStep) {
+        // The visitor's answer is the true story; the stale reason is only for
+        // an approval nobody answered.
+        return denied(approval.approved ? APPROVED_NOT_SENT_REASON : approval.reason || DECLINED_APPROVAL_REASON);
+      }
       return {
         ...base,
         state: "approval-responded",
         approval: { id: approval.id, approved: approval.approved, ...(approval.reason ? { reason: approval.reason } : {}) },
       };
     case "approval-requested":
-      return stale;
+      return denied(STALE_APPROVAL_REASON);
     default:
       // input-streaming, input-available, or unknown: the call never completed.
       return undefined;
@@ -298,7 +309,7 @@ function buildSystem(): string {
 YOUR JOB, IN ORDER. CONSULT FIRST, DO NOT SELL FIRST.
 1) Understand the visitor: what they do, what they want to do with AI, and where they are stuck. Ask one or two short questions, one at a time.
 2) Give genuinely useful AI guidance, including when the honest answer is that they may not need AI for it. This is real consulting and it has value; never call it free.
-3) Once you understand the need, put it in writing with the draftConsultingBrief tool, and when it helps, score readiness with assessReadiness. Then offer his services: generative AI consulting and team training. ${MAJID.clientOffer.summary} Gen AI is the specialty. He delivers NVIDIA DLI Gen AI workshops in person as a Certified Instructor, or customized Gen AI training when a standard course is not the fit; he is not limited to NVIDIA's courses. Client work is contracted through Nexus AI Solutions (${MAJID.nexusSite}).
+3) Once you understand the need, put it in writing with the draftConsultingBrief tool, and when it helps, score readiness with assessReadiness. Then offer his services: generative AI consulting and team training. ${MAJID.clientOffer.summary} Gen AI is the specialty. He delivers NVIDIA DLI Gen AI workshops in person as a Certified Instructor, or customized Gen AI training when a standard course is not the fit; he is not limited to NVIDIA's courses. He works with teams across the ${SITE.serviceArea}, on site or online. Client work is contracted through Nexus AI Solutions (${MAJID.nexusSite}).
 4) When they are ready to move forward, offer to hand them off to Majid with the handOffToMajid tool. Never promise prices, dates, or a call.
 Do not open by pitching or reciting credentials. Earn it by being useful first.
 
@@ -324,7 +335,8 @@ Facts you may share when relevant (never invent beyond these):
 - ${MAJID.aiUtah100.label} (${MAJID.aiUtah100.url}). Honoree, not a winner or a rank.
 - AI Engineer intern opportunities (fully online, multiple projects): point to ${SITE.email} or the contact form.
 - To try his shipped AI, point to the "Try My AI" cards on the homepage (AI Financial Assistant and AI Teaching Assistant).
-- Reach him: email ${SITE.email} or ${SITE.uvuEmail}; location ${SITE.addressLocality}, ${SITE.addressRegion}.
+- Where he works: he is based in ${SITE.addressLocality}, ${SITE.addressRegion}, and works with teams anywhere in the ${SITE.serviceArea}. Consulting and training are delivered on site at the client's offices, wherever they are in the country, or online. Utah is his home base and the place his university and public-sector work happens, never a limit on who he takes on. Never tell a visitor he only serves Utah, and never ask whether they are in Utah before helping them.
+- Reach him: email ${SITE.email} or ${SITE.uvuEmail}.
 
 HOW TO TALK
 - Sound like a person, not a bot: react to what they said in a phrase before you ask anything, ask one question at a time, and vary your rhythm. Warm, sharp, quietly confident, a little dry. No corporate filler.

@@ -3,7 +3,7 @@
 export const FAQS = [
   {
     q: "What do you do for clients?",
-    a: "My active client work is AI consulting and team training. That includes advisory sessions on what to adopt and when not to use AI, instructor-led workshops, and hands-on training for your team. Commercial engagements go through Nexus AI Solutions. When a team needs a system built, that is a separate, scoped statement of work.",
+    a: "My active client work is AI consulting and team training. That includes advisory sessions on what to adopt and when not to use AI, instructor-led workshops, and hands-on training for your team. I work with teams across the United States, on site at your offices or online, from a home base in Utah. Commercial engagements go through Nexus AI Solutions. When a team needs a system built, that is a separate, scoped statement of work.",
   },
   {
     q: "What is AI Entrepreneurship: Build and Launch AI-Powered Businesses?",
@@ -15,7 +15,7 @@ export const FAQS = [
   },
   {
     q: "How are workshops and team training structured?",
-    a: "I deliver instructor-led workshops and in-house team training — typically a half-day or full-day session, or a short series. NVIDIA Deep Learning Institute workshops use GPU-accelerated labs and DLI-style certificates of completion. I am listed in the NVIDIA Certified Instructor Directory. Campus student sessions are offered at no charge to students at participating universities. Organizational training is scoped to your team's tools and goals.",
+    a: "I deliver instructor-led workshops and in-house team training — typically a half-day or full-day session, or a short series. Sessions run on site at your offices anywhere in the United States, or online. NVIDIA Deep Learning Institute workshops use GPU-accelerated labs and DLI-style certificates of completion. I am listed in the NVIDIA Certified Instructor Directory. Campus student sessions are offered at no charge to students at participating universities. Organizational training is scoped to your team's tools and goals.",
   },
   {
     q: "How do I apply for the AI Engineer Intern role?",
