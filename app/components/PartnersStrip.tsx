@@ -5,8 +5,8 @@ const UVU_URL = "https://www.uvu.edu/";
 const ONE_U_RAI_URL = "https://rai.utah.edu/";
 
 /**
- * Named collaborators only. No client counts. No mixed brand logos —
- * every card uses the same mark + type treatment.
+ * Named collaborators only. No client counts. No mixed brand logos: every card
+ * uses the same mark and type treatment.
  * Silicon Slopes is community, not a client. PacifiCorp is GridEye collaboration, not a client.
  */
 export function PartnersStrip({
@@ -32,7 +32,7 @@ export function PartnersStrip({
         </h2>
         <p className="mx-auto mt-4 max-w-2xl text-center text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
           State institutes and agencies, Utah campuses, Utah&apos;s Silicon Slopes tech community,
-          and industry consulting — named collaborators, not a client count.
+          and industry consulting: named collaborators, not a client count.
         </p>
 
         <div className="mt-14 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
@@ -61,7 +61,7 @@ export function PartnersStrip({
               <a href={ONE_U_RAI_URL} target="_blank" rel="noopener noreferrer" className="text-link">
                 University of Utah One-U RAI
               </a>
-              {" — "}
+              {": "}
               public and policy conversations.
             </p>
             <p className="mt-3 text-sm leading-relaxed text-zinc-500 dark:text-zinc-500">
@@ -77,14 +77,14 @@ export function PartnersStrip({
               </a>
             </PartnerName>
             <p className="mt-2 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
-              A 501(c)(3) community — not an employer or client.
+              A 501(c)(3) community, not an employer or client.
             </p>
           </PartnerColumn>
 
           <PartnerColumn facet="Industry" mark="industry">
             <PartnerName>{MAJID.clarion}</PartnerName>
             <p className="mt-2 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
-              Applied AI consulting on LLM and agent workflows — including when to use AI.
+              Applied AI consulting on LLM and agent workflows, including when to use AI.
             </p>
             <p className="mt-4 text-sm leading-relaxed text-zinc-500 dark:text-zinc-500">
               <a
@@ -95,7 +95,7 @@ export function PartnersStrip({
               >
                 NVIDIA Certified Instructor Directory
               </a>
-              {" — "}
+              {": "}
               Deep Learning Institute listing. Instructional certification, not a client.
             </p>
           </PartnerColumn>
@@ -133,7 +133,8 @@ function PartnerMark({ kind }: { kind: "state" | "universities" | "community" | 
   return (
     <span
       aria-hidden
-      className="flex h-10 w-10 items-center justify-center rounded-lg bg-zinc-100 text-zinc-600 dark:bg-zinc-800 dark:text-zinc-300"
+      /* Same icon treatment as every other mark on the site: gray on gray read as a smudge in the light theme. */
+      className="flex h-10 w-10 items-center justify-center rounded-lg bg-sky-100/80 text-sky-700 dark:bg-sky-950/40 dark:text-sky-400"
     >
       {MARKS[kind]}
     </span>

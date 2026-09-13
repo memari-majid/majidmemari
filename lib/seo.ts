@@ -51,7 +51,7 @@ export const PAGE_COPY = {
   publications: {
     title: "Majid Memari Research: Applied AI, Gen AI, 374 Citations",
     description:
-      "Applied AI and Gen AI research by Majid Memari: 374 Google Scholar citations (snapshot 2026-08-21). Wind-turbine UAV inspection, GridEye, DataGovAI, and the Capability Ladder. Ph.D. Computer Science, SIU 2023.",
+      "Applied AI and Gen AI research by Majid Memari: 374 Google Scholar citations (snapshot 2026-08-21). Wind-turbine UAV inspection, GridEye, DataGovAI, and the Capability Ladder. PhD Computer Science, SIU 2023.",
   },
   contact: {
     title: "Contact Majid Memari: AI Scientist & Solution Architect",
@@ -103,7 +103,7 @@ export function personJsonLd() {
     image: `${SITE_URL}/majid-memari.png`,
     jobTitle: [MAJID.headlineRole, MAJID.jobTitle],
     award: MAJID.aiUtah100.label,
-    description: `${MAJID.headlineRole}. ${MAJID.shortBio} Ph.D. in Computer Science (SIU 2023) with gen-AI thesis work. Teaches ${COURSE_NAME}. ${MAJID.aiUtah100.label}. Research includes wind-turbine UAV inspection, GridEye, and public-sector DataGovAI.`,
+    description: `${MAJID.headlineRole}. ${MAJID.shortBio} PhD in Computer Science (SIU 2023) with gen-AI thesis work. Teaches ${COURSE_NAME}. ${MAJID.aiUtah100.label}. Research includes wind-turbine UAV inspection, GridEye, and public-sector DataGovAI.`,
     email: SITE.uvuEmail,
     telephone: SITE.uvuPhone,
     sameAs: [...PERSON_SAME_AS],
@@ -187,7 +187,7 @@ export function websiteJsonLd() {
   };
 }
 
-/** UVU course — no catalog codes. Provider is the university, not Nexus. */
+/** UVU course, no catalog codes. Provider is the university, not Nexus. */
 export function courseJsonLd() {
   return {
     "@type": "Course",
@@ -240,7 +240,7 @@ export function publicationListJsonLd() {
   return {
     "@type": "ItemList",
     "@id": `${SITE_URL}/publications#list`,
-    name: "Selected publications by Dr. Majid Memari",
+    name: "Selected publications by Majid Memari, PhD",
     itemListElement: MAJID.publications.map((p, i) => ({
       "@type": "ListItem",
       position: i + 1,

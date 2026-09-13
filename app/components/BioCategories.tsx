@@ -4,7 +4,7 @@ const linkClass = "text-link";
 
 const headingClass = "text-sm font-semibold tracking-tight text-zinc-900 dark:text-zinc-100";
 
-/** Academia · Industry · Community — matches instructor_profile bio_full. */
+/** Academia, Industry, Community. Matches instructor_profile bio_full. */
 export function BioCategories({ className = "" }: { className?: string }) {
   return (
     <div className={`space-y-6 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400 ${className}`}>
@@ -29,7 +29,7 @@ export function BioCategories({ className = "" }: { className?: string }) {
           <a href={MAJID.siliconSlopes} target="_blank" rel="noopener noreferrer" className={linkClass}>
             Silicon Slopes
           </a>{" "}
-          tech community he consults with {MAJID.clarion} on LLM and agent workflows—including when to
+          tech community he consults with {MAJID.clarion} on LLM and agent workflows, including when to
           use AI and when not to. Through{" "}
           <a href={MAJID.nexusSite} className={linkClass}>
             Nexus AI Solutions

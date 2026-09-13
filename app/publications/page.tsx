@@ -25,8 +25,8 @@ export default function PublicationsPage() {
           Research &amp; publications
         </h1>
         <p className="mt-3 text-lg text-zinc-600 dark:text-zinc-400">
-          Applied AI and Gen AI research — {MAJID.scholarCitations} Google Scholar citations
-          (snapshot {MAJID.scholarCitationsAsOf}). Ph.D. in Computer Science (SIU 2023) with
+          Applied AI and Gen AI research: {MAJID.scholarCitations} Google Scholar citations
+          (snapshot {MAJID.scholarCitationsAsOf}). PhD in Computer Science (SIU 2023) with
           generative-model thesis work. Wind-turbine UAV inspection, GridEye aerial grid
           inspection, DataGovAI public-sector work, and the Capability Ladder. {MAJID.scholarListedWorks}+
           works on{" "}

@@ -1,5 +1,6 @@
 /**
- * The structured hand-off Dr. MJ sends to Majid's inbox. A fixed template:
+ * The structured hand-off the AI Consultant files to the founder's inbox. A
+ * fixed template:
  * the only variables are the scrubbed visitor fields and the schema-validated,
  * scrubbed brief. The visitor's address is validated with `EMAIL_RE` by the
  * tool and used as reply-to; it is never a recipient.

@@ -4,8 +4,16 @@ type LogoItem = { name: string; src: string };
 
 type Variant = "mono" | "color";
 
+/*
+ * One ink for every mark, in both themes. The source files are a mix: most are
+ * single-path black, AWS ships its two brand colours, so left alone the light
+ * theme showed one navy and orange logo in a row of black ones and every mark
+ * read as heavy pure black on white. `brightness-0` flattens any source colour
+ * to black, the opacity softens it to the zinc the rest of the page uses, and
+ * the dark theme inverts the same flattened mark to white.
+ */
 const imgMono =
-  "h-10 w-auto max-h-10 max-w-full object-contain opacity-85 transition hover:opacity-100 sm:h-12 sm:max-h-12 dark:brightness-0 dark:invert";
+  "h-10 w-auto max-h-10 max-w-full object-contain brightness-0 opacity-65 transition hover:opacity-90 motion-reduce:transition-none sm:h-12 sm:max-h-12 dark:brightness-0 dark:invert dark:opacity-70 dark:hover:opacity-100";
 
 const imgColor =
   "h-10 w-auto max-h-10 max-w-full object-contain opacity-90 transition hover:opacity-100 sm:h-12 sm:max-h-12 dark:opacity-95 dark:hover:opacity-100";

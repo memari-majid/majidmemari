@@ -5,7 +5,7 @@ export const SITE_URL =
 export const SITE = {
   name: "Majid Memari",
   shortName: "Majid Memari",
-  fullName: "Dr. Majid Memari",
+  fullName: "Majid Memari, PhD",
   displayName: "Majid (MJ) Memari",
   role: "Academia · Industry · Community",
   description:

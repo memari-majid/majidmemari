@@ -18,6 +18,31 @@
   h3 {
     text-wrap: balance;
   }
+  /* Wide content scrolls inside its own box; the page itself never scrolls sideways. */
+  pre,
+  table {
+    max-width: 100%;
+  }
+  pre {
+    overflow-x: auto;
+  }
+}
+
+/*
+ * Visitors who asked for less motion get the layout, not the choreography.
+ * The reveal transitions, the pulsing tool dot and the smooth transcript
+ * scroll all collapse to an instant state change.
+ */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    transition-delay: 0ms !important;
+    scroll-behavior: auto !important;
+  }
 }
 
 @keyframes fadeUp {
@@ -45,11 +70,13 @@
   background-clip: text;
 }
 
-/* Solid, quiet card — no lift, no glow */
+/* Solid, quiet card: no lift, no glow */
 .card {
   background: rgb(255 255 255);
   border: 1px solid rgb(228 228 231);
   border-radius: 1rem;
+  /* A card in a flex or grid row must be allowed to shrink, or its widest child sets the page width. */
+  min-width: 0;
   transition: border-color 0.2s ease;
 }
 

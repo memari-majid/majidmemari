@@ -15,14 +15,22 @@
  * bounded by `LIMITER_TIMEOUT_MS`; a timeout counts as a transport failure
  * and falls back to the in-memory store for that call.
  *
+ * Client IPs never reach a key: every visitor-scoped key embeds `ipHash(ip)`
+ * instead, so the keyspace carries no personal data and every route buckets
+ * one visitor the same way.
+ *
  * Server-only. Reads env lazily on the first `getRateLimiter()` call so
  * importing this module has no side effects. Never import from a client
  * component.
  */
 
+import { createHash } from "node:crypto";
 import {
   EMAIL_PER_IP_PER_DAY,
   EMAIL_SITE_PER_DAY,
+  EVAL_CACHE_TTL_SECONDS,
+  EVAL_RUNS_PER_IP_PER_DAY,
+  GLOBAL_EVAL_USD_PER_DAY,
   GLOBAL_HARD_BUDGET_USD,
   GLOBAL_SOFT_BUDGET_USD,
   IP_DAILY_BUDGET_USD,
@@ -51,9 +59,17 @@ export type BudgetReservation =
       ipUsd: number;
       globalUsd: number;
       backend: LimiterBackend;
-      /** Refund or top up against actual spend. Idempotent. */
+      /**
+       * Refund or top up against actual spend. Runs once: it is the only path
+       * that may lower the reservation, so a second call is ignored.
+       */
       settle(actualUsd: number): Promise<void>;
-      /** Only ever adds; used on abort where the actual spend is a lower bound. */
+      /**
+       * Only ever adds, and stays open after `settle`. Used on abort, where
+       * the actual spend is a lower bound, and by a leg that lands after the
+       * request was already reconciled: pass the running total and the
+       * difference against what is already charged is what gets added.
+       */
       topUp(actualUsd: number): Promise<void>;
     }
   | {
@@ -77,6 +93,47 @@ export type SendClaim = {
   backend: LimiterBackend;
 };
 
+export type EvalRunReservation =
+  | {
+      ok: true;
+      estimateUsd: number;
+      /** Live-run spend today, site-wide, including this reservation. */
+      evalUsd: number;
+      runsToday: number;
+      backend: LimiterBackend;
+      /**
+       * Reconciles the eval sub-budget against what a finished run actually
+       * cost. Runs once, and is the only path that may lower the reservation.
+       */
+      settle(actualUsd: number): Promise<void>;
+      /**
+       * Settles a run that was abandoned or failed. Only ever adds: the
+       * prompts were already sent to the gateway, so the estimate stays
+       * charged and the sub-budget is never credited back for spend that
+       * really happened.
+       *
+       * Stays open after `settle`, because an abandoned run's legs keep
+       * landing after it was reconciled. The caller passes its running total
+       * and only the difference against what is already charged is added, so
+       * a late leg is billed once and never twice.
+       */
+      topUp(actualUsd: number): Promise<void>;
+      /**
+       * Gives the run count back. Only for a refusal that happened before any
+       * model was called: a run where a model ran keeps its count whether or
+       * not the visitor stayed to read it, so this is never reached from a
+       * failure or an abandonment. Runs once, and never touches the spend.
+       */
+      release(): Promise<void>;
+    }
+  | {
+      ok: false;
+      reason: "ip-runs" | "eval-budget";
+      evalUsd: number;
+      runsToday: number;
+      backend: LimiterBackend;
+    };
+
 export interface RateLimiter {
   readonly backend: LimiterBackend;
   checkRate(ip: string): Promise<RateCheck>;
@@ -91,6 +148,23 @@ export interface RateLimiter {
   claimSend(id: string): Promise<SendClaim>;
   /** Undoes a claim whose send did not happen, so a later retry may try again. */
   releaseSend(id: string): Promise<void>;
+  /**
+   * Allowance for one live evaluation run: a per-IP daily count and the
+   * site-wide eval sub-budget. This is in addition to `reserveBudget`, which
+   * every model call still passes through and which owns the hard cap.
+   *
+   * The run count is spent on reservation and is never given back once a
+   * model has been called, including when the run fails or the visitor
+   * abandons it: a run that called the models cost real money whether or not
+   * the visitor stayed to read it. The one exception is `release()`, for a
+   * refusal that happened before anything was called, where keeping the count
+   * would charge a visitor for a run that never existed.
+   */
+  reserveEvalRun(ip: string, estimateUsd: number): Promise<EvalRunReservation>;
+  /** Stores a finished run so the same scenario is replayed, not rerun, for a day. */
+  rememberRun(key: string, payload: string): Promise<void>;
+  /** Returns a stored run, or undefined when nothing is cached or the store is unreadable. */
+  recallRun(key: string): Promise<string | undefined>;
 }
 
 const DAY_TTL_S = 2 * 24 * 60 * 60;
@@ -106,6 +180,18 @@ const num = (v: unknown): number => {
   return Number.isFinite(n) ? n : 0;
 };
 
+/**
+ * The visitor half of a key. A raw IP is personal data and the Upstash
+ * keyspace is shared infrastructure, so only a truncated SHA-256 of it is
+ * ever written. Twelve hex characters is 48 bits: collisions across one day's
+ * visitors are negligible, and a collision costs a shared allowance, not a
+ * leak. Exported so a route that builds its own per-visitor key (the eval run
+ * cache) buckets a visitor exactly the way the counters do.
+ */
+export function ipHash(ip: string): string {
+  return createHash("sha256").update(ip).digest("hex").slice(0, 12);
+}
+
 function dayBucket(now = Date.now()): string {
   return new Date(now).toISOString().slice(0, 10).replace(/-/g, "");
 }
@@ -120,7 +206,12 @@ function minuteBucket(now = Date.now()): number {
 
 class MemoryStore implements CounterStore {
   readonly backend = "memory" as const;
-  private readonly values = new Map<string, { value: number; expiresAt: number | null }>();
+  /**
+   * Values are counters except for the cached eval run, which is a JSON
+   * string written with SET. Counter commands read whatever is there through
+   * `num()`, so a mixed key can never throw.
+   */
+  private readonly values = new Map<string, { value: number | string; expiresAt: number | null }>();
 
   async pipeline(commands: Command[]): Promise<unknown[]> {
     const now = Date.now();
@@ -146,9 +237,20 @@ class MemoryStore implements CounterStore {
       case "INCRBY": {
         const by = op === "INCR" ? 1 : num(arg);
         const entry = this.get(k, now) ?? { value: 0, expiresAt: null };
-        entry.value += by;
+        const next = num(entry.value) + by;
+        entry.value = next;
         this.values.set(k, entry);
-        return entry.value;
+        return next;
+      }
+      case "SET": {
+        // Only the `SET key value EX seconds` form is used.
+        const [, , value, , ttl] = command;
+        const seconds = num(ttl);
+        this.values.set(k, {
+          value: String(value ?? ""),
+          expiresAt: seconds > 0 ? now + seconds * 1000 : null,
+        });
+        return "OK";
       }
       case "EXPIRE": {
         const entry = this.get(k, now);
@@ -246,7 +348,7 @@ export function createRateLimiter(primary: CounterStore, fallback: CounterStore 
     backend: primary.backend,
 
     async checkRate(ip) {
-      const key = `${PREFIX}:rate:${ip}:${minuteBucket()}`;
+      const key = `${PREFIX}:rate:${ipHash(ip)}:${minuteBucket()}`;
       const { results, backend } = await run([
         ["INCR", key],
         ["EXPIRE", key, MINUTE_TTL_S],
@@ -257,7 +359,7 @@ export function createRateLimiter(primary: CounterStore, fallback: CounterStore 
 
     async reserveBudget(ip, estimateUsd) {
       const day = dayBucket();
-      const ipKey = `${PREFIX}:spend:ip:${ip}:${day}`;
+      const ipKey = `${PREFIX}:spend:ip:${ipHash(ip)}:${day}`;
       const allKey = `${PREFIX}:spend:all:${day}`;
       const estimate = toMicro(estimateUsd);
 
@@ -291,6 +393,13 @@ export function createRateLimiter(primary: CounterStore, fallback: CounterStore 
       if (ipTotal > toMicro(IP_DAILY_BUDGET_USD)) return refuse("ip-budget");
 
       let settled = false;
+      /**
+       * What the counters are currently holding for this reservation. Every
+       * adjustment is the difference against this, never against the estimate,
+       * so a top up that lands after the reconciliation charges the new spend
+       * once instead of charging the whole running total a second time.
+       */
+      let chargedMicro = estimate;
       const adjust = async (deltaMicro: number) => {
         if (deltaMicro === 0) return;
         await run([
@@ -309,20 +418,27 @@ export function createRateLimiter(primary: CounterStore, fallback: CounterStore 
         async settle(actualUsd) {
           if (settled) return;
           settled = true;
-          await adjust(toMicro(actualUsd) - estimate);
+          const target = toMicro(actualUsd);
+          const delta = target - chargedMicro;
+          // Booked before the await: two legs racing here must not both read
+          // the same starting point and adjust twice.
+          chargedMicro = target;
+          await adjust(delta);
         },
         async topUp(actualUsd) {
-          if (settled) return;
+          const target = toMicro(actualUsd);
+          if (target <= chargedMicro) return;
+          const delta = target - chargedMicro;
+          chargedMicro = target;
           settled = true;
-          const delta = toMicro(actualUsd) - estimate;
-          if (delta > 0) await adjust(delta);
+          await adjust(delta);
         },
       };
     },
 
     async reserveEmail(ip) {
       const day = dayBucket();
-      const ipKey = `${PREFIX}:email:ip:${ip}:${day}`;
+      const ipKey = `${PREFIX}:email:ip:${ipHash(ip)}:${day}`;
       const allKey = `${PREFIX}:email:all:${day}`;
       const { results, backend } = await run([
         ["INCR", ipKey],
@@ -360,6 +476,98 @@ export function createRateLimiter(primary: CounterStore, fallback: CounterStore 
       // key goes away rather than being decremented.
       const key = `${PREFIX}:sent:${id}`;
       await run([["DEL", key]]);
+    },
+
+    async reserveEvalRun(ip, estimateUsd) {
+      const day = dayBucket();
+      const runKey = `${PREFIX}:eval:runs:${ipHash(ip)}:${day}`;
+      const spendKey = `${PREFIX}:eval:spend:${day}`;
+      const estimate = toMicro(estimateUsd);
+
+      // Count and spend go up first, refuse and refund second, so parallel
+      // taps at the edge of the allowance cannot all slip through.
+      const { results, backend } = await run([
+        ["INCR", runKey],
+        ["EXPIRE", runKey, DAY_TTL_S],
+        ["INCRBY", spendKey, estimate],
+        ["EXPIRE", spendKey, DAY_TTL_S],
+      ]);
+      const runsToday = num(results[0]);
+      const evalTotal = num(results[2]);
+
+      const refuse = async (reason: "ip-runs" | "eval-budget"): Promise<EvalRunReservation> => {
+        await run([
+          ["INCRBY", runKey, -1],
+          ["INCRBY", spendKey, -estimate],
+        ]);
+        return {
+          ok: false,
+          reason,
+          evalUsd: fromMicro(evalTotal - estimate),
+          runsToday: runsToday - 1,
+          backend,
+        };
+      };
+
+      if (runsToday > EVAL_RUNS_PER_IP_PER_DAY) return refuse("ip-runs");
+      if (evalTotal > toMicro(GLOBAL_EVAL_USD_PER_DAY)) return refuse("eval-budget");
+
+      let settled = false;
+      let released = false;
+      /** As in `reserveBudget`: what the sub-budget is holding right now. */
+      let chargedMicro = estimate;
+      const adjust = async (deltaMicro: number) => {
+        if (deltaMicro === 0) return;
+        await run([["INCRBY", spendKey, deltaMicro]]);
+      };
+
+      return {
+        ok: true,
+        estimateUsd: fromMicro(estimate),
+        evalUsd: fromMicro(evalTotal),
+        runsToday,
+        backend,
+        async settle(actualUsd) {
+          if (settled) return;
+          settled = true;
+          const target = toMicro(actualUsd);
+          const delta = target - chargedMicro;
+          chargedMicro = target;
+          await adjust(delta);
+        },
+        async topUp(actualUsd) {
+          // The run did not finish, so `actualUsd` is a lower bound on what
+          // the gateway billed. Refunding the difference would let an
+          // abandoned run spend outside the daily eval allowance, so this only
+          // ever adds. It stays open after `settle` because the legs of an
+          // abandoned run keep landing afterwards, and it charges the
+          // difference against what is already held rather than the whole
+          // running total.
+          const target = toMicro(actualUsd);
+          if (target <= chargedMicro) return;
+          const delta = target - chargedMicro;
+          chargedMicro = target;
+          settled = true;
+          await adjust(delta);
+        },
+        async release() {
+          // The run count only. The spend is `settle`'s to give back, and the
+          // caller does both on a refusal that called no model.
+          if (released) return;
+          released = true;
+          await run([["INCRBY", runKey, -1]]);
+        },
+      };
+    },
+
+    async rememberRun(key, payload) {
+      await run([["SET", `${PREFIX}:eval:run:${key}`, payload, "EX", EVAL_CACHE_TTL_SECONDS]]);
+    },
+
+    async recallRun(key) {
+      const { results } = await run([["GET", `${PREFIX}:eval:run:${key}`]]);
+      const value = results[0];
+      return typeof value === "string" && value.length > 0 ? value : undefined;
     },
   };
 }

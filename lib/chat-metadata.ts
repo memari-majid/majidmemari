@@ -28,6 +28,12 @@ export const chatMessageMetadataSchema = z.object({
   requestedModel: z.string().optional(),
   /** True when the global soft budget routed this reply to the fallback model. */
   budgetFallback: z.boolean().optional(),
+  /**
+   * True when the model the visitor picked ended its turn without delivering
+   * anything and the fallback model answered instead. `requestedModel` names
+   * the model that failed, `model` the one that answered.
+   */
+  errorFallback: z.boolean().optional(),
   /** Milliseconds from request start to the first streamed token. */
   ttftMs: z.number().optional(),
   /** Milliseconds from request start to the end of the last step. */
@@ -62,5 +68,6 @@ export function formatStatsLine(meta: ChatMessageMetadata | undefined): string {
   if (meta.tokens) parts.push(`${formatTokens(meta.tokens.total)} tokens`);
   if (meta.costUsd != null) parts.push(formatUsd(meta.costUsd));
   if (meta.budgetFallback) parts.push("budget fallback");
+  if (meta.errorFallback) parts.push("error fallback");
   return parts.filter(Boolean).join(" · ");
 }

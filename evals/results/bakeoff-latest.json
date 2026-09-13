@@ -1,0 +1,45 @@
+{
+  "schemaVersion": 1,
+  "site": "majidmemari",
+  "generatedAt": "2026-09-13T20:29:26.874Z",
+  "gitSha": "63ea3e2c6bc45fd6877f66b7b259ab2ffb84ff6f",
+  "promptHash": "537b7696",
+  "scenarioId": "sop-rag-vs-finetune",
+  "turns": 2,
+  "maxOutputTokens": 2500,
+  "runs": [
+    {
+      "model": "anthropic/claude-opus-5",
+      "label": "Claude Opus 5",
+      "vendor": "Anthropic",
+      "ttftMs": 3237,
+      "totalMs": 22377,
+      "inputTokens": 9711,
+      "outputTokens": 1180,
+      "costUsd": 0.078055,
+      "replyChars": 1996
+    },
+    {
+      "model": "anthropic/claude-sonnet-5",
+      "label": "Claude Sonnet 5",
+      "vendor": "Anthropic",
+      "ttftMs": 1610,
+      "totalMs": 13339,
+      "inputTokens": 9734,
+      "outputTokens": 839,
+      "costUsd": 0.027858,
+      "replyChars": 2052
+    },
+    {
+      "model": "openai/gpt-5.6-sol",
+      "label": "GPT-5.6 Sol",
+      "vendor": "OpenAI",
+      "ttftMs": 3654,
+      "totalMs": 21015,
+      "inputTokens": 6404,
+      "outputTokens": 601,
+      "costUsd": 0.018818,
+      "replyChars": 1725
+    }
+  ]
+}

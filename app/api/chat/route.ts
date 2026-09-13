@@ -1,11 +1,17 @@
 import {
   convertToModelMessages,
+  createUIMessageStream,
+  createUIMessageStreamResponse,
   gateway,
   stepCountIs,
   streamText,
+  type FinishReason,
+  type InferUIMessageChunk,
   type SystemModelMessage,
+  type UIMessageStreamWriter,
 } from "ai";
 import { z } from "zod";
+import { chatSystemPrompt } from "@/lib/assistant";
 import {
   CHARS_PER_TOKEN,
   MAX_BODY_CHARS,
@@ -13,6 +19,7 @@ import {
   MAX_CHARS_TOTAL,
   MAX_MESSAGES,
   MAX_PARTS_PER_MESSAGE,
+  MAX_TOOL_CHARS_TOTAL,
   STREAM_TIMEOUT_MS,
   prechargeEstimateUsd,
 } from "@/lib/chat-limits";
@@ -25,10 +32,11 @@ import {
   round6,
   tokenBreakdown,
   type ChatModel,
+  type TokenBreakdown,
 } from "@/lib/chat-models";
+import { ASSISTANT_NAME } from "@/lib/chat-persona";
 import { chatTools, type ChatUIMessage, type ToolContext } from "@/lib/chat-tools";
-import { MAJID } from "@/lib/majid";
-import { plainPunctuation } from "@/lib/plain-punctuation";
+import { isEmailConfigured } from "@/lib/email";
 import { getRateLimiter } from "@/lib/rate-limit";
 import { SITE } from "@/lib/site";
 
@@ -41,18 +49,29 @@ export const maxDuration = 180;
  * rate limit, body caps) live in `lib/chat-limits.ts`; the model allowlist
  * and prices in `lib/chat-models.ts`. What stays here is per-route:
  *
- * - MAX_OUTPUT_TOKENS bounds one reply (and the reasoning that precedes it
- *   on thinking models).
- * - MAX_STEPS: a brief plus a snapshot plus the reply, with one spare step.
+ * - MAX_OUTPUT_TOKENS bounds one reply AND the reasoning that precedes it on
+ *   thinking models, which is why it is not set to the size of an answer.
+ *   Measured 2026-09-13: at 2,000, `google/gemini-3.8-flash` spent the whole
+ *   budget reasoning on the bake-off's second turn and returned an empty
+ *   reply. 2,500 matches the company site and leaves that headroom. A visitor
+ *   who picks a thinking model gets no answer at all when this is too low.
+ * - MAX_STEPS: a lookup plus a brief plus an estimate plus the reply, with
+ *   one spare step. Ten tools make a longer loop possible, not desirable.
  * - ASSISTANT_TEXT_CAP: an echoed assistant reply cannot be longer than one
  *   full output, so anything past it is trimmed rather than 400ing the whole
  *   conversation (the visitor's own turns keep the tighter per-part cap).
  * - The default model comes from `AI_CHAT_MODEL`, validated against the
  *   allowlist once at module load; an unknown slug logs a warning and falls
  *   back to Opus 5 rather than silently changing the experience.
+ *
+ * One turn may be two model calls. A provider can end a stream after billing
+ * real tokens and hand the route nothing to show, and a visitor must never be
+ * left looking at an empty bubble, so a turn that delivers nothing at all is
+ * recovered once on the fallback model. See "Empty turn recovery" below for
+ * the rules, the wording and the accounting.
  */
-const MAX_OUTPUT_TOKENS = 2_000;
-const MAX_STEPS = 4;
+const MAX_OUTPUT_TOKENS = 2_500;
+const MAX_STEPS = 5;
 const ASSISTANT_TEXT_CAP = MAX_OUTPUT_TOKENS * CHARS_PER_TOKEN;
 
 const configured = configuredDefaultModel(process.env.AI_CHAT_MODEL);
@@ -274,7 +293,51 @@ function sanitizeMessages(messages: EchoedMessage[]): Sanitized {
   }
 
   if (out.length === 0) return { ok: false, status: 400, error: INVALID_MESSAGE };
-  return { ok: true, messages: out, textChars, toolChars };
+  return { ok: true, messages: out, textChars, toolChars: trimToolPayloads(out, toolChars) };
+}
+
+/**
+ * Keeps echoed tool payloads inside `MAX_TOOL_CHARS_TOTAL`.
+ *
+ * Only visible text is measured against `MAX_CHARS_TOTAL`, so without this
+ * the ten tools are bounded by the raw body cap alone: a project estimate
+ * input is about 3.5k characters, an outreach draft about 1.5k, and every one
+ * of them is re-sent and re-charged on every later turn.
+ *
+ * Oldest first, and outputs before inputs. An output is a summary the model
+ * has already read and acted on, so losing an old one costs little. An input
+ * is what a card was rendered from and what `findBrief` recovers a brief
+ * from, so inputs are only trimmed if dropping every old output was not
+ * enough, and the newest turns survive either way.
+ */
+const TRIMMED_MARKER = {
+  trimmed: "Removed to keep this conversation inside its size limit. Ask the visitor if you need it again.",
+};
+
+function trimToolPayloads(messages: CleanMessage[], toolChars: number): number {
+  if (toolChars <= MAX_TOOL_CHARS_TOTAL) return toolChars;
+  const markerLength = jsonLength(TRIMMED_MARKER);
+  let total = toolChars;
+
+  const sweep = (key: "output" | "input") => {
+    for (const message of messages) {
+      if (total <= MAX_TOOL_CHARS_TOTAL) return;
+      // The final message carries the turn the model is answering right now.
+      if (message === messages[messages.length - 1]) continue;
+      for (const part of message.parts) {
+        if (total <= MAX_TOOL_CHARS_TOTAL) return;
+        if (!part.type.startsWith("tool-")) continue;
+        const current = jsonLength(part[key]);
+        if (current <= markerLength) continue;
+        part[key] = TRIMMED_MARKER;
+        total -= current - markerLength;
+      }
+    }
+  };
+
+  sweep("output");
+  sweep("input");
+  return total;
 }
 
 /* ------------------------------------------------------------------------ */
@@ -282,89 +345,17 @@ function sanitizeMessages(messages: EchoedMessage[]): Sanitized {
 /* ------------------------------------------------------------------------ */
 
 /**
- * Follow-up chips the prompt asks the model to append. Defined here because
- * the personal site has no chips lib; the widget only parses the marker.
- * Each chip is under seven words and 42 characters (the widget's chip cap).
+ * The prompt lives in `lib/assistant.ts`, not here, because three callers
+ * must render the same string: this route, the published bake-off, and the
+ * live evaluation run. A result measured against a different prompt would be
+ * a published lie.
+ *
+ * Rendered once per instance. `emailEnabled` reflects what this server can
+ * actually do, so the assistant is never told it can send mail that cannot
+ * leave the box.
  */
-const SUGGESTION_MARKER = "SUGGESTIONS:";
-const chipLine = (chips: readonly string[]) => chips.join(" | ");
-const DISCOVERY_CHIPS = ["We're exploring where AI fits", "We have a project in mind", "We want to train our team"];
-const AFTER_ADVICE_CHIPS = ["What would you do first?", "Is this worth building?", "Would training help my team?"];
-const READY_CHIPS = ["Draft a consulting brief", "Rate our AI readiness", "Have Majid follow up"];
-const AFTER_BRIEF_CHIPS = ["Send it to Majid", "Rate our AI readiness", "Something in the brief is off"];
-const AFTER_SNAPSHOT_CHIPS = ["Draft a consulting brief", "What should we fix first?", "Have Majid follow up"];
-const AFTER_HANDOFF_CHIPS = ["What should we prepare?", "How does consulting work?", "What does NVIDIA training cover?"];
-const ACADEMIC_CHIPS = ["Book office hours", "Ask about a course", "Research collaboration"];
-
-/**
- * System prompt. Rendered once per instance and passed through
- * `plainPunctuation()` because the data files it interpolates contain em and
- * en dashes, and the model mirrors the punctuation it is shown. Replies must
- * stay plain text: the widget does not render markdown. Tool cards render
- * themselves, so the prompt tells Dr. MJ not to repeat their contents.
- */
-function buildSystem(): string {
-  return `You are Dr. MJ, the AI assistant on ${SITE.fullName}'s personal site. You are an AI, not Majid himself; say so if asked (the name is a nod to Majid, who goes by MJ). Majid is an AI Scientist and Solution Architect who specializes in generative AI (LLMs, agents, RAG). THE MAIN PURPOSE of this site is his services: generative AI consulting and team training. You are also a live demo: the visitor can watch you work (your tool steps show up as cards), and a well built assistant is itself the pitch.
-
-YOUR JOB, IN ORDER. CONSULT FIRST, DO NOT SELL FIRST.
-1) Understand the visitor: what they do, what they want to do with AI, and where they are stuck. Ask one or two short questions, one at a time.
-2) Give genuinely useful AI guidance, including when the honest answer is that they may not need AI for it. This is real consulting and it has value; never call it free.
-3) Once you understand the need, put it in writing with the draftConsultingBrief tool, and when it helps, score readiness with assessReadiness. Then offer his services: generative AI consulting and team training. ${MAJID.clientOffer.summary} Gen AI is the specialty. He delivers NVIDIA DLI Gen AI workshops in person as a Certified Instructor, or customized Gen AI training when a standard course is not the fit; he is not limited to NVIDIA's courses. He works with teams across the ${SITE.serviceArea}, on site or online. Client work is contracted through Nexus AI Solutions (${MAJID.nexusSite}).
-4) When they are ready to move forward, offer to hand them off to Majid with the handOffToMajid tool. Never promise prices, dates, or a call.
-Do not open by pitching or reciting credentials. Earn it by being useful first.
-
-YOUR TOOLS AND WHEN TO USE THEM
-- draftConsultingBrief: after two or three exchanges, once you know what they do, what they want, and what is in the way, or the moment they ask for a summary, plan, or brief. Never in your first reply. Say in one short line that you are drafting it, then call the tool. The card shows the brief; afterwards do not repeat it, just say what stands out in a sentence or two and ask whether anything is off. Ground every field in what they said; if the picture is thin, say so in the situation field and lean on the open questions.
-- assessReadiness: when they ask whether they are ready, or after a brief when it helps decide the first step. Score only from what they said. Low scores are honest and useful. Do not list the scores again in text; comment on the weakest area and the next step.
-- handOffToMajid: only when the visitor wants Majid to follow up and has given you their name and email in this conversation. If either is missing, ask for it first; never invent, guess, or reuse an address from anywhere else. The visitor sees the exact email and approves or declines it on screen. If they decline, drop it and do not call it again unless they ask. Pass briefToolCallId when a brief exists so it is attached.
-- offerOfficeHours: only for UVU students and academic contacts (course questions, advising, research or teaching collaboration). Not for consulting or business: those go through the hand-off. Do not paste the booking URL in text; the card carries it.
-After any tool runs, read its result before you speak. Say what happened in plain words.
-
-EMAIL HONESTY
-The hand-off result tells you whether the email was actually sent (delivered true) or not. If it was sent, say Majid has it and will reply to their email himself. If it was not sent, say plainly that it was noted but NOT emailed, and give them ${SITE.email} as the sure way to reach Majid (the contact form on this site records the message but does not email yet). Never claim an email went out when the tool says it did not. Never promise a time, a call, or a price.
-
-He can speak to his background when asked. Keep the three buckets separate and do not mix them:
-Academia: ${MAJID.bio.academia}
-Industry: ${MAJID.bio.industry}
-Community: ${MAJID.bio.community}
-
-Facts you may share when relevant (never invent beyond these):
-- Research: LLMs, agents, RAG, EdTech (AI-STER, AI-ClassSims), public-sector AI (DataGovAI, privacy-preserving synthetic data), drone RGB and thermal wind-turbine inspection, GridEye (University of Utah and PacifiCorp; a USHE proposal in development, do not call it a $1M award), the Capability Ladder curriculum framework (arXiv:2608.07779). Publications: ${MAJID.personalSite}/publications and Scholar ${MAJID.scholar}. Never invent citation counts.
-- Teaching at UVU in Fall 2026: ${MAJID.fall2026Courses.join("; ")}. Featured: he designed and teaches ${MAJID.cs4720r.title}: ${MAJID.cs4720r.tagline}. ${MAJID.cs4720r.summary} Never mention UVU catalog numbers or course codes, and do not invent industry-partner names.
-- NVIDIA DLI (Building Agentic AI Applications with LLMs; Certified Instructor and University Ambassador). Listing: ${MAJID.nvidiaInstructorDirectory}
-- ${MAJID.aiUtah100.label} (${MAJID.aiUtah100.url}). Honoree, not a winner or a rank.
-- AI Engineer intern opportunities (fully online, multiple projects): point to ${SITE.email} or the contact form.
-- To try his shipped AI, point to the "Try My AI" cards on the homepage (AI Financial Assistant and AI Teaching Assistant).
-- Where he works: he is based in ${SITE.addressLocality}, ${SITE.addressRegion}, and works with teams anywhere in the ${SITE.serviceArea}. Consulting and training are delivered on site at the client's offices, wherever they are in the country, or online. Utah is his home base and the place his university and public-sector work happens, never a limit on who he takes on. Never tell a visitor he only serves Utah, and never ask whether they are in Utah before helping them.
-- Reach him: email ${SITE.email} or ${SITE.uvuEmail}.
-
-HOW TO TALK
-- Sound like a person, not a bot: react to what they said in a phrase before you ask anything, ask one question at a time, and vary your rhythm. Warm, sharp, quietly confident, a little dry. No corporate filler.
-- Plain text only: no markdown, no asterisks, no headings, no tables (the chat window does not render formatting). For a short list, start each line with a dash.
-- Never use an em dash or en dash; use commas, periods, and colons.
-- Brief by default (two to four sentences), professional and warm, no emojis. When the visitor asks a substantive technical or strategy question, give a complete, specific answer: what you would do first, the trade-offs, and a realistic sense of effort. Use a short dashed list only when comparing options.
-- Consulting and training are the lead offer; do not bury them, and do not jump straight to a pitch.
-- Never invent collaborations, papers, prices, dates, or commitments. If you do not know, say so and point to ${SITE.email} or the contact form.
-- For unrelated topics, politely decline and redirect to his AI work.
-
-FOLLOW-UP SUGGESTIONS
-End every reply, every time, with one final line, exactly:
-${SUGGESTION_MARKER} option one | option two | option three
-The chat window turns that line into tap-to-send chips and hides it from the visitor. Chips must advance the conversation, not restart it.
-Rules:
-- Early on, chips advance discovery: "${chipLine(DISCOVERY_CHIPS)}"
-- After you give advice, offer: "${chipLine(AFTER_ADVICE_CHIPS)}"
-- When the picture is clear, offer: "${chipLine(READY_CHIPS)}"
-- Right after the brief card, offer: "${chipLine(AFTER_BRIEF_CHIPS)}"
-- Right after the readiness snapshot, offer: "${chipLine(AFTER_SNAPSHOT_CHIPS)}"
-- After a hand-off was sent or noted, offer: "${chipLine(AFTER_HANDOFF_CHIPS)}"
-- For a UVU student or academic contact, offer: "${chipLine(ACADEMIC_CHIPS)}"
-- Never use fluff: "Tell me more", "Anything else?", "Thanks", "Learn more", "Yes", "No".
-- Never repeat a chip the visitor already tapped, and never repeat the last user message.
-- Two or three chips, each under seven words, plain text. Put the line only at the very end of your final text for the turn, never before a tool call, and never put anything after it. Never mention it to the visitor.`;
-}
-
-const SYSTEM = plainPunctuation(buildSystem());
+const EMAIL_ENABLED = isEmailConfigured();
+const SYSTEM = chatSystemPrompt(EMAIL_ENABLED);
 
 /** Sum of per-step costs; a step with no reported usage is charged at the precharge estimate, never free. */
 function chargedUsd(
@@ -379,6 +370,91 @@ function chargedUsd(
   }
   return round6(total);
 }
+
+/** Anthropic prompt caching on the large, static system prompt. */
+function systemFor(model: ChatModel): SystemModelMessage {
+  return model.promptCache
+    ? {
+        role: "system",
+        content: SYSTEM,
+        providerOptions: { anthropic: { cacheControl: { type: "ephemeral" } } },
+      }
+    : { role: "system", content: SYSTEM };
+}
+
+const ZERO_TOKENS: TokenBreakdown = {
+  input: 0,
+  cacheRead: 0,
+  cacheWrite: 0,
+  output: 0,
+  reasoning: 0,
+  total: 0,
+};
+
+/**
+ * Tokens across both calls of a recovered turn. A turn that cost two calls
+ * shows what both of them cost, or the stats line would report a cost the
+ * token counts under it cannot explain.
+ */
+function addTokens(a: TokenBreakdown, b: TokenBreakdown): TokenBreakdown {
+  return {
+    input: a.input + b.input,
+    cacheRead: a.cacheRead + b.cacheRead,
+    cacheWrite: a.cacheWrite + b.cacheWrite,
+    output: a.output + b.output,
+    reasoning: a.reasoning + b.reasoning,
+    total: a.total + b.total,
+  };
+}
+
+/* ------------------------------------------------------------------------ */
+/* Empty turn recovery                                                       */
+/* ------------------------------------------------------------------------ */
+
+/**
+ * A provider can end a stream having delivered nothing, and it bills the
+ * tokens either way.
+ *
+ * Measured 2026-09-13 against this site's prompt: `google/gemini-3.8-flash`
+ * could not answer a SECOND turn. Through `streamText` with one prior
+ * assistant turn in `messages` it finished with `finishReason: "error"` after
+ * 422 output tokens, 358 of them reasoning, and handed over zero characters.
+ * It was reproduced on every attempt, and the company site's prompt on the
+ * same model and the same SDK answered normally, so it is this prompt on this
+ * model. Bisecting this site's prompt puts it in the tools paragraph, but the
+ * root cause is the provider's and the fix is not to reword a prompt whose
+ * hash is published in `evals/results/bakeoff-latest.json`.
+ *
+ * So the fix is here: a turn that hands the visitor nothing is run once more
+ * on the fallback model, and the visitor is told which model failed and which
+ * one answered. The rules, in order:
+ *
+ * - Delivered anything, retry nothing. Text, a tool card, an approval request
+ *   or a data part all count. An approval request is the case that matters:
+ *   it legitimately ends a turn with no text at all, and retrying it would ask
+ *   the visitor to approve the same send twice.
+ * - One retry, on the fallback model, never on the model that just failed.
+ *   When the model that failed IS the fallback, a second call would be the
+ *   same model failing again on the visitor's money, so the turn ends in the
+ *   plain sentence below instead.
+ * - Never an empty bubble. Every path writes a sentence.
+ * - Both calls are charged. The first call really did spend the tokens the
+ *   provider reported, so it tops up and is never settled downward, the same
+ *   rule `/api/evals/run` follows for an abandoned run.
+ * - One `chat.usage` line per model call, so `outcome: "no-reply"` can be
+ *   counted per model in the Vercel logs.
+ */
+const EMPTY_TURN_NOTICE = (failed: ChatModel, answering: ChatModel): string =>
+  `${failed.label} returned an error on this turn, so ${answering.label} took over.\n\n`;
+
+const RETRY_ALSO_EMPTY = (answering: ChatModel): string =>
+  `${answering.label} did not return anything either. ${CONTACT_FALLBACK}`;
+
+const NOTHING_TO_RETRY_ON = (failed: ChatModel): string =>
+  `${failed.label} returned an error on this turn, and it is the model this site falls back to, so there was nothing to retry on. Pick another model in the picker and send that again. ${CONTACT_FALLBACK}`;
+
+/** Every call streams into one message: the route writes `start` and `finish` itself. */
+const CALL_STREAM = { sendReasoning: false, sendStart: false, sendFinish: false } as const;
 
 export async function POST(req: Request) {
   const startedAt = Date.now();
@@ -417,7 +493,7 @@ export async function POST(req: Request) {
   const requested = findModel(parsed.data.model);
   let model: ChatModel = requested ?? DEFAULT_MODEL;
 
-  let modelMessages;
+  let modelMessages: Awaited<ReturnType<typeof convertToModelMessages>>;
   try {
     modelMessages = await convertToModelMessages(clean.messages as unknown as ChatUIMessage[], {
       tools: chatTools,
@@ -452,7 +528,7 @@ export async function POST(req: Request) {
     );
     if (reservation.reason === "hard-budget") {
       return json(503, {
-        error: `Dr. MJ has used up today's budget and is resting until tomorrow. ${CONTACT_FALLBACK}`,
+        error: `The ${ASSISTANT_NAME} has used up today's budget and is resting until tomorrow. ${CONTACT_FALLBACK}`,
       });
     }
     return json(429, {
@@ -466,16 +542,6 @@ export async function POST(req: Request) {
     budgetFallback = true;
   }
 
-  // Anthropic prompt caching on the large, static system prompt.
-  const system: SystemModelMessage = model.promptCache
-    ? {
-        role: "system",
-        content: SYSTEM,
-        providerOptions: { anthropic: { cacheControl: { type: "ephemeral" } } },
-      }
-    : { role: "system", content: SYSTEM };
-
-  const context: ToolContext = { ip, model: model.id, requestId };
   const turns = clean.messages.length;
   // Which limiter backend served the request stays in the server log only.
   const startMetadata: ChatMessageMetadata = {
@@ -485,24 +551,53 @@ export async function POST(req: Request) {
     ...(budgetFallback ? { budgetFallback: true } : {}),
   };
 
+  /**
+   * Request-level stats. A recovered turn is two model calls but one reply, so
+   * the line under it describes the request the visitor made rather than
+   * whichever call happened to answer.
+   */
   let firstTokenAt: number | undefined;
   let stepCount = 0;
   let toolCallCount = 0;
   let charged = 0;
-  let aborted = false;
-  let usageLogged = false;
+  /** Tokens from a call that delivered nothing, carried into the finish metadata. */
+  let carriedTokens = ZERO_TOKENS;
+  /**
+   * What earlier calls in this request already hold against the reservation.
+   * Zero on the first call, so its accounting is exactly what it always was;
+   * a second call adds to it and can never bring it down.
+   */
+  let priorUsd = 0;
+  /**
+   * Model calls started against this request, and how many of them have been
+   * reconciled against the reservation. The safety net at the end of `execute`
+   * charges the estimate for any call that started and never reported, so a
+   * throw between the two can never leave gateway spend off the books.
+   */
+  let callsStarted = 0;
+  let callsReconciled = 0;
+  /** The model of the most recent call, so the safety net logs the right one. */
+  let lastCallModel: ChatModel = model;
 
-  // One structured `chat.usage` line per request, from whichever of
-  // onAbort / onFinish runs first, so usage can be graphed from Vercel logs.
-  const logUsage = (fields: Record<string, unknown>) => {
-    if (usageLogged) return;
-    usageLogged = true;
+  /** Day totals after this request, given what it ended up charging. */
+  const dayTotals = (requestUsd: number) => ({
+    ipUsd: round6(reservation.ipUsd - estimateUsd + requestUsd),
+    globalUsd: round6(reservation.globalUsd - estimateUsd + requestUsd),
+  });
+
+  /**
+   * One structured `chat.usage` line per model call, so usage can be graphed
+   * from Vercel logs. A turn answered on the first call logs exactly one line,
+   * as it always did; a recovered turn logs two, the first with
+   * `outcome: "no-reply"` and the model that produced nothing.
+   */
+  const logUsage = (callModel: ChatModel, fields: Record<string, unknown>) => {
     console.log(
       JSON.stringify({
         event: "chat.usage",
         site: "majidmemari",
         requestId,
-        model: model.id,
+        model: callModel.id,
         requestedModel: requested?.id ?? null,
         budgetFallback,
         limiter: reservation.backend,
@@ -515,101 +610,313 @@ export async function POST(req: Request) {
     );
   };
 
-  const result = streamText({
-    model: gateway(model.id),
-    system,
-    messages: modelMessages,
-    tools: chatTools,
-    stopWhen: stepCountIs(MAX_STEPS),
-    maxOutputTokens: MAX_OUTPUT_TOKENS,
-    timeout: { totalMs: STREAM_TIMEOUT_MS },
-    experimental_context: context,
-    providerOptions: {
-      gateway: {
-        tags: ["site:majidmemari", "feature:chat", `env:${process.env.VERCEL_ENV ?? "dev"}`],
+  /** What one model call did, as the orchestration below needs to read it. */
+  type Call = {
+    /** Text characters that actually reached the visitor. */
+    chars: number;
+    /** Tool cards, approval requests and data parts that reached the visitor. */
+    visibleParts: number;
+    /** The visitor stopped the turn, or the stream timed out. `onAbort` has reconciled it. */
+    aborted: boolean;
+    finishReason: FinishReason;
+    tokens: TokenBreakdown;
+    /** What this call alone cost, at the prices in `lib/chat-models.ts`. */
+    actualUsd: number;
+    steps: number;
+    toolCalls: number;
+    tools: string[];
+    /** Provider error text, held back until it is known whether this call is the answer. */
+    errors: string[];
+  };
+
+  /** Prefixes a part id so a retry cannot reuse the failed call's part. */
+  const withAttemptId = (
+    chunk: InferUIMessageChunk<ChatUIMessage>,
+    attempt: number,
+  ): InferUIMessageChunk<ChatUIMessage> => {
+    const id = (chunk as { id?: unknown }).id;
+    return typeof id === "string"
+      ? ({ ...chunk, id: `a${attempt}-${id}` } as InferUIMessageChunk<ChatUIMessage>)
+      : chunk;
+  };
+
+  /** Anything at all on screen. An approval request counts: it is a turn with no text on purpose. */
+  const delivered = (call: Call): boolean => call.chars > 0 || call.visibleParts > 0;
+
+  const usageFields = (call: Call, requestUsd: number) => ({
+    steps: call.steps,
+    toolCalls: call.toolCalls,
+    tools: call.tools,
+    inputTokens: call.tokens.input,
+    cacheReadTokens: call.tokens.cacheRead,
+    cacheWriteTokens: call.tokens.cacheWrite,
+    outputTokens: call.tokens.output,
+    reasoningTokens: call.tokens.reasoning,
+    totalTokens: call.tokens.total,
+    replyChars: call.chars,
+    costUsd: call.actualUsd,
+    ...dayTotals(requestUsd),
+    finishReason: call.finishReason,
+  });
+
+  /**
+   * The one `finish` chunk of the turn. `model` is whoever actually answered
+   * and, on a recovered turn, `requestedModel` is the model that failed, so
+   * the stats line can say which was which without a second channel.
+   */
+  const finishChunk = (answering: ChatModel, call: Call, errorFallback: boolean) => {
+    const tokens = addTokens(carriedTokens, call.tokens);
+    const metadata: ChatMessageMetadata = {
+      ...startMetadata,
+      model: answering.id,
+      modelLabel: answering.label,
+      ...(errorFallback ? { requestedModel: model.id, errorFallback: true } : {}),
+      ...(firstTokenAt != null ? { ttftMs: firstTokenAt - startedAt } : {}),
+      totalMs: Date.now() - startedAt,
+      tokens,
+      costUsd: charged > 0 ? charged : costUsd(tokens, answering),
+      steps: stepCount,
+      toolCalls: toolCallCount,
+      finishReason: call.finishReason,
+    };
+    return { type: "finish" as const, finishReason: call.finishReason, messageMetadata: metadata };
+  };
+
+  /** One plain sentence in the reply itself, so no path can end in an empty bubble. */
+  let noticeCount = 0;
+  const writeNotice = (writer: UIMessageStreamWriter<ChatUIMessage>, text: string) => {
+    const id = `notice-${requestId}-${(noticeCount += 1)}`;
+    writer.write({ type: "text-start", id });
+    writer.write({ type: "text-delta", id, delta: text });
+    writer.write({ type: "text-end", id });
+  };
+
+  /**
+   * Provider error text is never streamed to visitors, so a call holds its
+   * error chunks until it is known whether it is the answer. A call that put
+   * something on screen flushes them, which is the alert line the widget has
+   * always shown under a half-finished reply; a call that delivered nothing
+   * drops them, because the sentence written in its place says more.
+   */
+  const flushErrors = (writer: UIMessageStreamWriter<ChatUIMessage>, call: Call) => {
+    for (const errorText of call.errors) writer.write({ type: "error", errorText });
+  };
+
+  const runCall = async (
+    writer: UIMessageStreamWriter<ChatUIMessage>,
+    callModel: ChatModel,
+    attempt: 1 | 2,
+  ): Promise<Call> => {
+    callsStarted += 1;
+    lastCallModel = callModel;
+    const context: ToolContext = { ip, model: callModel.id, requestId };
+    const call: Call = {
+      chars: 0,
+      visibleParts: 0,
+      aborted: false,
+      // Nothing reported yet. A call whose `onFinish` never ran did not finish cleanly.
+      finishReason: "error",
+      tokens: ZERO_TOKENS,
+      actualUsd: estimateUsd,
+      steps: 0,
+      toolCalls: 0,
+      tools: [],
+      errors: [],
+    };
+
+    const result = streamText({
+      model: gateway(callModel.id),
+      system: systemFor(callModel),
+      messages: modelMessages,
+      tools: chatTools,
+      stopWhen: stepCountIs(MAX_STEPS),
+      maxOutputTokens: MAX_OUTPUT_TOKENS,
+      timeout: { totalMs: STREAM_TIMEOUT_MS },
+      experimental_context: context,
+      providerOptions: {
+        gateway: {
+          tags: ["site:majidmemari", "feature:chat", `env:${process.env.VERCEL_ENV ?? "dev"}`],
+        },
       },
+      // Time to first token means the first visible text. Reasoning deltas,
+      // tool-input deltas, and the pre-executed approval's tool result all
+      // arrive earlier and would make the stat mean something else. It is not
+      // reset by a retry: the visitor waited through both calls.
+      onChunk: ({ chunk }) => {
+        if (firstTokenAt == null && chunk.type === "text-delta") firstTokenAt = Date.now();
+      },
+      onStepFinish: ({ usage, toolCalls }) => {
+        stepCount += 1;
+        toolCallCount += toolCalls.length;
+        const tokens = tokenBreakdown(usage);
+        charged = round6(charged + (tokens.total > 0 ? costUsd(tokens, callModel) : estimateUsd));
+      },
+      // Records what this call cost; the reservation is reconciled by the
+      // orchestration below, which is the only place that knows whether this
+      // call is the answer or the one being retried.
+      onFinish: ({ totalUsage, finishReason, steps }) => {
+        if (call.aborted) return;
+        call.finishReason = finishReason;
+        call.tokens = tokenBreakdown(totalUsage);
+        call.actualUsd = steps.length > 0 ? chargedUsd(steps, callModel, estimateUsd) : estimateUsd;
+        call.steps = steps.length;
+        call.toolCalls = steps.reduce((n, s) => n + s.toolCalls.length, 0);
+        call.tools = steps.flatMap((s) => s.toolCalls.map((c) => c.toolName));
+      },
+      // The visitor stopped or the timeout fired: completed steps are real
+      // spend and the interrupted step is charged at the estimate. Only top up,
+      // and on a retry on top of whatever the first call already holds.
+      onAbort: async ({ steps }) => {
+        call.aborted = true;
+        callsReconciled += 1;
+        const stepsUsd = chargedUsd(steps, callModel, estimateUsd);
+        const requestUsd = round6(priorUsd + stepsUsd + estimateUsd);
+        await reservation.topUp(requestUsd);
+        priorUsd = Math.max(priorUsd, requestUsd);
+        logUsage(callModel, {
+          outcome: "aborted",
+          attempt,
+          steps: steps.length,
+          toolCalls: steps.reduce((n, s) => n + s.toolCalls.length, 0),
+          tools: steps.flatMap((s) => s.toolCalls.map((c) => c.toolName)),
+          replyChars: call.chars,
+          costUsd: stepsUsd,
+          ...dayTotals(Math.max(estimateUsd, requestUsd)),
+          finishReason: "aborted",
+        });
+      },
+    });
+
+    for await (const chunk of result.toUIMessageStream<ChatUIMessage>({
+      ...CALL_STREAM,
+      // Never stream provider error text to visitors; log it and hold a plain
+      // sentence in its place until the orchestration decides what to do.
+      onError: (error) => {
+        console.error("[chat] stream error:", { requestId, model: callModel.id, attempt, error });
+        return `The ${ASSISTANT_NAME} is unavailable right now. ${CONTACT_FALLBACK}`;
+      },
+    })) {
+      if (chunk.type === "error") {
+        call.errors.push(chunk.errorText);
+        continue;
+      }
+      if (chunk.type === "text-delta") call.chars += chunk.delta.length;
+      else if (chunk.type.startsWith("tool-") || chunk.type.startsWith("data-")) {
+        call.visibleParts += 1;
+      }
+      // Each call is its own `streamText`, and each numbers its text and
+      // reasoning parts from zero. On a retry that means the second call
+      // reopens `id: "0"`, the same part the failed call already opened in
+      // this message, and the client merges two different calls into one part.
+      // Attempt two therefore gets its own id namespace. Tool parts are keyed
+      // by `toolCallId`, which the provider makes unique, and are left alone:
+      // an approval round trip sends that id back and it has to match.
+      writer.write(attempt === 1 ? chunk : withAttemptId(chunk, attempt));
+    }
+    // Resolves once the stream is done, which is where `onFinish` has run and
+    // the numbers above are final. It rejects when the call threw rather than
+    // ending in an error chunk, and the error is already logged above.
+    try {
+      await result.finishReason;
+    } catch {
+      call.finishReason = "error";
+    }
+    return call;
+  };
+
+  const stream = createUIMessageStream<ChatUIMessage>({
+    // Anything thrown out of `execute`. The visitor gets a sentence, never a stack.
+    onError: (error) => {
+      console.error("[chat] turn failed:", { requestId, error });
+      return `The ${ASSISTANT_NAME} is unavailable right now. ${CONTACT_FALLBACK}`;
     },
-    // Time to first token means the first visible text. Reasoning deltas,
-    // tool-input deltas, and the pre-executed approval's tool result all
-    // arrive earlier and would make the stat mean something else.
-    onChunk: ({ chunk }) => {
-      if (firstTokenAt == null && chunk.type === "text-delta") firstTokenAt = Date.now();
-    },
-    onStepFinish: ({ usage, toolCalls }) => {
-      stepCount += 1;
-      toolCallCount += toolCalls.length;
-      const tokens = tokenBreakdown(usage);
-      charged = round6(charged + (tokens.total > 0 ? costUsd(tokens, model) : estimateUsd));
-    },
-    // Settle the reservation against actual usage.
-    onFinish: async ({ totalUsage, finishReason, steps }) => {
-      // After an abort the SDK still calls onFinish when a step had completed;
-      // onAbort has already topped up and logged this request.
-      if (aborted) return;
-      const actualUsd = steps.length > 0 ? chargedUsd(steps, model, estimateUsd) : estimateUsd;
-      await reservation.settle(actualUsd);
-      const tokens = tokenBreakdown(totalUsage);
-      logUsage({
-        outcome: "finished",
-        steps: steps.length,
-        toolCalls: steps.reduce((n, s) => n + s.toolCalls.length, 0),
-        tools: steps.flatMap((s) => s.toolCalls.map((c) => c.toolName)),
-        inputTokens: tokens.input,
-        cacheReadTokens: tokens.cacheRead,
-        cacheWriteTokens: tokens.cacheWrite,
-        outputTokens: tokens.output,
-        reasoningTokens: tokens.reasoning,
-        totalTokens: tokens.total,
-        costUsd: actualUsd,
-        ipUsd: round6(reservation.ipUsd - estimateUsd + actualUsd),
-        globalUsd: round6(reservation.globalUsd - estimateUsd + actualUsd),
-        finishReason,
-      });
-    },
-    // The visitor stopped or the timeout fired: completed steps are real
-    // spend and the interrupted step is charged at the estimate. Only top up.
-    onAbort: async ({ steps }) => {
-      aborted = true;
-      const actualUsd = round6(chargedUsd(steps, model, estimateUsd) + estimateUsd);
-      await reservation.topUp(actualUsd);
-      const chargedTotal = Math.max(estimateUsd, actualUsd);
-      logUsage({
-        outcome: "aborted",
-        steps: steps.length,
-        toolCalls: steps.reduce((n, s) => n + s.toolCalls.length, 0),
-        tools: steps.flatMap((s) => s.toolCalls.map((c) => c.toolName)),
-        costUsd: actualUsd,
-        ipUsd: round6(reservation.ipUsd - estimateUsd + chargedTotal),
-        globalUsd: round6(reservation.globalUsd - estimateUsd + chargedTotal),
-        finishReason: "aborted",
-      });
+    execute: async ({ writer }) => {
+      try {
+        writer.write({ type: "start", messageMetadata: startMetadata });
+
+        const first = await runCall(writer, model, 1);
+        // The visitor's own stop: `onAbort` has reconciled and logged it, and
+        // the SDK has already written the abort chunk that ends the message.
+        if (first.aborted) return;
+
+        if (delivered(first)) {
+          callsReconciled += 1;
+          priorUsd = first.actualUsd;
+          await reservation.settle(first.actualUsd);
+          logUsage(model, { outcome: "finished", attempt: 1, ...usageFields(first, priorUsd) });
+          flushErrors(writer, first);
+          writer.write(finishChunk(model, first, false));
+          return;
+        }
+
+        // Nothing reached the visitor. The call still spent what the provider
+        // reported, so it tops up and is never settled downward.
+        callsReconciled += 1;
+        await reservation.topUp(first.actualUsd);
+        priorUsd = Math.max(estimateUsd, first.actualUsd);
+        const retryModel = model.id === FALLBACK_MODEL.id ? undefined : FALLBACK_MODEL;
+        logUsage(model, {
+          outcome: "no-reply",
+          attempt: 1,
+          retryModel: retryModel?.id ?? null,
+          ...usageFields(first, priorUsd),
+        });
+
+        if (!retryModel) {
+          writeNotice(writer, NOTHING_TO_RETRY_ON(model));
+          writer.write(finishChunk(model, first, false));
+          return;
+        }
+
+        carriedTokens = addTokens(carriedTokens, first.tokens);
+        writeNotice(writer, EMPTY_TURN_NOTICE(model, retryModel));
+
+        const second = await runCall(writer, retryModel, 2);
+        if (second.aborted) return;
+
+        callsReconciled += 1;
+        const requestUsd = round6(priorUsd + second.actualUsd);
+        await reservation.topUp(requestUsd);
+        priorUsd = Math.max(priorUsd, requestUsd);
+
+        if (delivered(second)) {
+          logUsage(retryModel, { outcome: "recovered", attempt: 2, ...usageFields(second, priorUsd) });
+          flushErrors(writer, second);
+        } else {
+          logUsage(retryModel, {
+            outcome: "no-reply",
+            attempt: 2,
+            retryModel: null,
+            ...usageFields(second, priorUsd),
+          });
+          writeNotice(writer, RETRY_ALSO_EMPTY(retryModel));
+        }
+        writer.write(finishChunk(retryModel, second, true));
+      } finally {
+        // A throw anywhere above must not leave a call nobody reconciled. Every
+        // call that started had its prompt handed to the gateway, so each one
+        // still owed is charged at the estimate. Upward only, never a refund.
+        const unreconciled = callsStarted - callsReconciled;
+        if (unreconciled > 0) {
+          callsReconciled = callsStarted;
+          const requestUsd = round6(priorUsd + estimateUsd * unreconciled);
+          await reservation.topUp(requestUsd);
+          priorUsd = Math.max(estimateUsd, requestUsd);
+          logUsage(lastCallModel, {
+            outcome: "failed",
+            attempt: callsStarted,
+            steps: stepCount,
+            toolCalls: toolCallCount,
+            tools: [],
+            replyChars: 0,
+            costUsd: charged,
+            ...dayTotals(priorUsd),
+            finishReason: "error",
+          });
+        }
+      }
     },
   });
 
-  return result.toUIMessageStreamResponse<ChatUIMessage>({
-    sendReasoning: false,
-    messageMetadata: ({ part }) => {
-      if (part.type === "start") return startMetadata;
-      if (part.type === "finish") {
-        const tokens = tokenBreakdown(part.totalUsage);
-        const now = Date.now();
-        return {
-          ...startMetadata,
-          ...(firstTokenAt != null ? { ttftMs: firstTokenAt - startedAt } : {}),
-          totalMs: now - startedAt,
-          tokens,
-          costUsd: charged > 0 ? charged : costUsd(tokens, model),
-          steps: stepCount,
-          toolCalls: toolCallCount,
-          finishReason: part.finishReason,
-        };
-      }
-      return undefined;
-    },
-    // Never stream provider error text to visitors; log it and show a plain fallback.
-    onError: (error) => {
-      console.error("[chat] stream error:", error);
-      return `Dr. MJ is unavailable right now. ${CONTACT_FALLBACK}`;
-    },
-  });
+  return createUIMessageStreamResponse({ stream });
 }

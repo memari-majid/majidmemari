@@ -1,5 +1,5 @@
 /**
- * The structured consulting brief Dr. MJ drafts mid-conversation. The model
+ * The structured consulting brief the AI Consultant drafts mid-conversation. The model
  * emits it as the input of the `draftConsultingBrief` tool, so the schema is
  * the contract for three readers: the tool (validation), the widget (the
  * card renders `part.input`, including partial input while streaming), and

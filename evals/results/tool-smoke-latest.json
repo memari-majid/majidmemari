@@ -1,0 +1,219 @@
+{
+  "schemaVersion": 1,
+  "site": "majidmemari",
+  "generatedAt": "2026-09-13T19:41:27.120Z",
+  "models": [
+    "anthropic/claude-opus-5",
+    "anthropic/claude-sonnet-5",
+    "openai/gpt-5.6-sol",
+    "google/gemini-3.8-flash"
+  ],
+  "tools": [
+    "lookupSiteFacts",
+    "recommendWorkshop",
+    "draftConsultingBrief",
+    "assessReadiness",
+    "estimateProject",
+    "draftOutreachNote",
+    "offerOfficeHours"
+  ],
+  "failures": 0,
+  "results": [
+    {
+      "model": "anthropic/claude-opus-5",
+      "tool": "lookupSiteFacts",
+      "ok": true,
+      "ms": 18312,
+      "note": "input keys: topic,query"
+    },
+    {
+      "model": "anthropic/claude-opus-5",
+      "tool": "recommendWorkshop",
+      "ok": true,
+      "ms": 20645,
+      "note": "input keys: role,need,level,text"
+    },
+    {
+      "model": "anthropic/claude-opus-5",
+      "tool": "draftConsultingBrief",
+      "ok": true,
+      "ms": 22641,
+      "note": "input keys: title,situation,goal,opportunities,risks,keepHuman,firstStep,openQuestions,engagement,engagementReason"
+    },
+    {
+      "model": "anthropic/claude-opus-5",
+      "tool": "assessReadiness",
+      "ok": true,
+      "ms": 10785,
+      "note": "input keys: goal,data,people,workflow,governance,context"
+    },
+    {
+      "model": "anthropic/claude-opus-5",
+      "tool": "estimateProject",
+      "ok": true,
+      "ms": 25054,
+      "note": "input keys: objective,shape,dataReadiness,integrations,compliance,team,assumptions,unknowns"
+    },
+    {
+      "model": "anthropic/claude-opus-5",
+      "tool": "draftOutreachNote",
+      "ok": true,
+      "ms": 25522,
+      "note": "input keys: audience,subject,body,asks"
+    },
+    {
+      "model": "anthropic/claude-opus-5",
+      "tool": "offerOfficeHours",
+      "ok": true,
+      "ms": 2151,
+      "note": "input keys: reason"
+    },
+    {
+      "model": "anthropic/claude-sonnet-5",
+      "tool": "lookupSiteFacts",
+      "ok": true,
+      "ms": 1875,
+      "note": "input keys: topic,query"
+    },
+    {
+      "model": "anthropic/claude-sonnet-5",
+      "tool": "recommendWorkshop",
+      "ok": true,
+      "ms": 3162,
+      "note": "input keys: role,need,text"
+    },
+    {
+      "model": "anthropic/claude-sonnet-5",
+      "tool": "draftConsultingBrief",
+      "ok": true,
+      "ms": 11694,
+      "note": "input keys: title,situation,goal,opportunities,risks,keepHuman,firstStep,openQuestions,engagement,engagementReason"
+    },
+    {
+      "model": "anthropic/claude-sonnet-5",
+      "tool": "assessReadiness",
+      "ok": true,
+      "ms": 5258,
+      "note": "input keys: goal,data,people,workflow,governance,context"
+    },
+    {
+      "model": "anthropic/claude-sonnet-5",
+      "tool": "estimateProject",
+      "ok": true,
+      "ms": 6307,
+      "note": "input keys: objective,shape,dataReadiness,integrations,compliance,team,assumptions,$ARRAY_ITEM,unknowns"
+    },
+    {
+      "model": "anthropic/claude-sonnet-5",
+      "tool": "draftOutreachNote",
+      "ok": true,
+      "ms": 6801,
+      "note": "input keys: 1,audience,subject,body,asks"
+    },
+    {
+      "model": "anthropic/claude-sonnet-5",
+      "tool": "offerOfficeHours",
+      "ok": true,
+      "ms": 1497,
+      "note": "input keys: "
+    },
+    {
+      "model": "openai/gpt-5.6-sol",
+      "tool": "lookupSiteFacts",
+      "ok": true,
+      "ms": 4250,
+      "note": "input keys: topic,query"
+    },
+    {
+      "model": "openai/gpt-5.6-sol",
+      "tool": "recommendWorkshop",
+      "ok": true,
+      "ms": 3741,
+      "note": "input keys: role,need,level,text"
+    },
+    {
+      "model": "openai/gpt-5.6-sol",
+      "tool": "draftConsultingBrief",
+      "ok": true,
+      "ms": 12184,
+      "note": "input keys: title,situation,goal,opportunities,risks,keepHuman,firstStep,openQuestions,engagement,engagementReason"
+    },
+    {
+      "model": "openai/gpt-5.6-sol",
+      "tool": "assessReadiness",
+      "ok": true,
+      "ms": 4745,
+      "note": "input keys: goal,data,people,workflow,governance,context"
+    },
+    {
+      "model": "openai/gpt-5.6-sol",
+      "tool": "estimateProject",
+      "ok": true,
+      "ms": 5825,
+      "note": "input keys: objective,shape,dataReadiness,integrations,compliance,team,assumptions,unknowns"
+    },
+    {
+      "model": "openai/gpt-5.6-sol",
+      "tool": "draftOutreachNote",
+      "ok": true,
+      "ms": 5011,
+      "note": "input keys: audience,subject,body,asks"
+    },
+    {
+      "model": "openai/gpt-5.6-sol",
+      "tool": "offerOfficeHours",
+      "ok": true,
+      "ms": 4926,
+      "note": "input keys: reason"
+    },
+    {
+      "model": "google/gemini-3.8-flash",
+      "tool": "lookupSiteFacts",
+      "ok": true,
+      "ms": 9717,
+      "note": "input keys: topic,query"
+    },
+    {
+      "model": "google/gemini-3.8-flash",
+      "tool": "recommendWorkshop",
+      "ok": true,
+      "ms": 70695,
+      "note": "input keys: role,need"
+    },
+    {
+      "model": "google/gemini-3.8-flash",
+      "tool": "draftConsultingBrief",
+      "ok": true,
+      "ms": 11908,
+      "note": "input keys: title,situation,goal,opportunities,risks,keepHuman,firstStep,openQuestions,engagement,engagementReason"
+    },
+    {
+      "model": "google/gemini-3.8-flash",
+      "tool": "assessReadiness",
+      "ok": true,
+      "ms": 13630,
+      "note": "input keys: goal,data,people,workflow,governance,context"
+    },
+    {
+      "model": "google/gemini-3.8-flash",
+      "tool": "estimateProject",
+      "ok": true,
+      "ms": 10992,
+      "note": "input keys: objective,shape,dataReadiness,integrations,compliance,team,assumptions,unknowns"
+    },
+    {
+      "model": "google/gemini-3.8-flash",
+      "tool": "draftOutreachNote",
+      "ok": true,
+      "ms": 8826,
+      "note": "input keys: audience,subject,body,asks"
+    },
+    {
+      "model": "google/gemini-3.8-flash",
+      "tool": "offerOfficeHours",
+      "ok": true,
+      "ms": 8853,
+      "note": "input keys: "
+    }
+  ]
+}

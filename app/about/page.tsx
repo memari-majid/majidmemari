@@ -18,13 +18,13 @@ export default function AboutPage() {
       <main className="mx-auto max-w-3xl px-4 pb-24 pt-[calc(6rem+env(safe-area-inset-top))] sm:px-6">
         <p className="text-xs font-medium uppercase tracking-[0.2em] text-zinc-500">About</p>
         <h1 className="mt-3 text-4xl font-semibold tracking-tight text-zinc-900 dark:text-zinc-50">
-          Dr. Majid Memari
+          {MAJID.fullName}
         </h1>
         <p className="mt-2 text-lg font-medium text-zinc-800 dark:text-zinc-200">
           {MAJID.headlineRole}
         </p>
         <p className="mt-3 text-lg text-zinc-600 dark:text-zinc-400">
-          {MAJID.shortBio} Ph.D. in Computer Science (SIU 2023) with gen-AI thesis work.{" "}
+          {MAJID.shortBio} PhD in Computer Science (SIU 2023) with gen-AI thesis work.{" "}
           {MAJID.cs4720r.title}: {MAJID.cs4720r.tagline}. He is a{" "}
           <a
             className="text-sky-600 underline dark:text-sky-400"

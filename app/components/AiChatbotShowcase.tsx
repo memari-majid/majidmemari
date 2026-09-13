@@ -26,7 +26,7 @@ export function AiChatbotShowcase() {
       title: "AI Financial Assistant",
       subtitle: "Finance & bookkeeping",
       description:
-        "Conversational assistant for bookkeeping, organized records, and finance workflows — full product experience with companies, ledger, and documents. Not a replacement for licensed professionals where required.",
+        "Conversational assistant for bookkeeping, organized records, and finance workflows: a full product experience with companies, ledger, and documents. Not a replacement for licensed professionals where required.",
       url: cpaUrl,
       icon: (
         <svg className="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
@@ -42,7 +42,7 @@ export function AiChatbotShowcase() {
       title: "AI Teaching Assistant",
       subtitle: "AI Entrepreneurship course",
       description:
-        "Course-grounded Q&A for AI Entrepreneurship — Canvas-aligned context and a dedicated assistant, not a generic chat window.",
+        "Course-grounded Q&A for AI Entrepreneurship: Canvas-aligned context and a dedicated assistant, not a generic chat window.",
       url: taUrl,
       icon: (
         <svg className="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>

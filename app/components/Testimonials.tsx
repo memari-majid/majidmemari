@@ -48,7 +48,7 @@ const HIGHLIGHTS = [
     domain: "Software engineering",
     body: (
       <>
-        Public GitHub work (memari-majid) on agents, RAG, course tooling, and production integrations —
+        Public GitHub work (memari-majid) on agents, RAG, course tooling, and production integrations,
         including n8n workflows.
       </>
     ),

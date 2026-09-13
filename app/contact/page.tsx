@@ -21,7 +21,7 @@ export default function ContactPage() {
           Contact Majid Memari
         </h1>
         <p className="mt-3 text-lg text-zinc-600 dark:text-zinc-400">
-          AI Scientist and Solution Architect — applied AI teaching and Gen AI research at Utah
+          AI Scientist and Solution Architect: applied AI teaching and Gen AI research at Utah
           Valley University, or AI consulting and team training through{" "}
           <a className="text-sky-600 underline dark:text-sky-400" href={MAJID.nexusSite}>
             Nexus AI Solutions

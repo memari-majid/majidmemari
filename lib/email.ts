@@ -12,13 +12,13 @@
  */
 
 import { Resend } from "resend";
+import { ASSISTANT_NAME } from "@/lib/chat-persona";
 import { SITE } from "@/lib/site";
 
 export const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 /** First line of every email that originates from a chat conversation. */
-export const EMAIL_ORIGIN_NOTE =
-  "Sent by Dr. MJ, the AI assistant on majidmemari.com, after the visitor approved this hand-off on screen. The fields below were typed or confirmed by the visitor; the brief was drafted by the assistant.";
+export const EMAIL_ORIGIN_NOTE = `Sent by the ${ASSISTANT_NAME}, the AI agent on majidmemari.com, after the visitor approved this send on screen. The fields below were typed or confirmed by the visitor; anything the agent drafted is labelled as drafted.`;
 
 export type SendEmailArgs = {
   to: string;

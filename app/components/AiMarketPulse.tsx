@@ -108,7 +108,7 @@ export function AiMarketPulse({ variant = "section" }: AiMarketPulseProps) {
             </h2>
           )}
           <p className="mx-auto mt-2 max-w-2xl text-sm text-zinc-600 dark:text-zinc-500">
-            Liquid, AI-focused public equities as a momentum snapshot — not a recommendation. Many
+            Liquid, AI-focused public equities as a momentum snapshot, not a recommendation. Many
             AI labs are still private. Refreshed about every minute. Not investment advice.
           </p>
         </div>
@@ -165,7 +165,7 @@ export function AiMarketPulse({ variant = "section" }: AiMarketPulseProps) {
                     </p>
                     {q.fiftyTwoWeekHigh != null && q.fiftyTwoWeekLow != null && (
                       <p className="mt-3 text-[11px] leading-relaxed text-zinc-500 dark:text-zinc-500">
-                        52-week range: {formatPrice(q.fiftyTwoWeekLow, q.currency)} –{" "}
+                        52-week range: {formatPrice(q.fiftyTwoWeekLow, q.currency)} to{" "}
                         {formatPrice(q.fiftyTwoWeekHigh, q.currency)}
                       </p>
                     )}
@@ -178,7 +178,7 @@ export function AiMarketPulse({ variant = "section" }: AiMarketPulseProps) {
 
         {data && (
           <p className="mt-6 break-words px-1 text-center text-[11px] leading-relaxed text-zinc-500 dark:text-zinc-600">
-            Informative only—not investment advice. Data via public market feeds; timing
+            Informative only, not investment advice. Data via public market feeds; timing
             and delays can vary by exchange. Last fetch:{" "}
             <time dateTime={new Date(data.updatedAt).toISOString()}>
               {new Date(data.updatedAt).toLocaleString()}

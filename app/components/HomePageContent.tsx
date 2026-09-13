@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { AiNowStrip } from "@/app/components/AiNowStrip";
 import { AiChatbotShowcase } from "@/app/components/AiChatbotShowcase";
+import { InlineAssistantDemo } from "@/app/components/chat/InlineAssistantDemo";
 import { ContactForm } from "@/app/components/ContactForm";
 import { FaqAccordion } from "@/app/components/FaqAccordion";
 import { Reveal } from "@/app/components/Reveal";
@@ -30,11 +31,11 @@ const SERVICES = [
   },
   {
     title: "Train",
-    text: "Hands-on Gen AI training — NVIDIA DLI Gen AI workshops I deliver in person, or a program customized to your team.",
+    text: "Hands-on Gen AI training: NVIDIA DLI Gen AI workshops I deliver in person, or a program customized to your team.",
   },
   {
     title: "Build",
-    text: "When you need it built, I design and ship it — LLMs, RAG, agents, and automation.",
+    text: "When you need it built, I design and ship it: LLMs, RAG, agents, and automation.",
   },
 ];
 
@@ -51,21 +52,21 @@ const PROJECTS = [
     title: "AI-ClassSims",
     tagline: "Classroom simulation for teacher prep",
     description:
-      "Multi-agent LLM platform for preservice STEM teacher training — AI student personas, classroom scenarios, and real-time feedback. GEL-funded collaboration with UVU's School of Education (IETC 2026).",
+      "Multi-agent LLM platform for preservice STEM teacher training: AI student personas, classroom scenarios, and real-time feedback. GEL-funded collaboration with UVU's School of Education (IETC 2026).",
     icon: "shield",
   },
   {
     title: "AI-STER",
     tagline: "AI-assisted teaching evaluation",
     description:
-      "AI-assisted rubric for student-teaching evaluation — faster, more consistent feedback while preserving instructor expertise. GEL-funded work with Krista Ruggles, published at SITE 2026.",
+      "AI-assisted rubric for student-teaching evaluation. Faster, more consistent feedback while preserving instructor expertise. GEL-funded work with Krista Ruggles, published at SITE 2026.",
     icon: "grad",
   },
   {
     title: "Wind-turbine & drone inspection",
     tagline: "RGB + thermal computer vision",
     description:
-      "Published research on drone RGB/thermal inspection of wind-turbine blades — data fusion, ensemble learning, and infrared NDT in IEEE Access, Energies, Machines, and Drones. Continues UVU postdoctoral work in applied computer vision.",
+      "Published research on drone RGB/thermal inspection of wind-turbine blades: data fusion, ensemble learning, and infrared NDT in IEEE Access, Energies, Machines, and Drones. Continues UVU postdoctoral work in applied computer vision.",
     icon: "drone",
   },
   {
@@ -79,14 +80,14 @@ const PROJECTS = [
     title: "GridEye",
     tagline: "Aerial inspection of the electrical grid",
     description:
-      "AI-driven aerial inspection and predictive maintenance for electrical-grid infrastructure. Collaboration with the University of Utah (U-Smart), UVU ECE, and PacifiCorp — IEEE Access review and a joint USHE proposal in development.",
+      "AI-driven aerial inspection and predictive maintenance for electrical-grid infrastructure. Collaboration with the University of Utah (U-Smart), UVU ECE, and PacifiCorp, with an IEEE Access review and a joint USHE proposal in development.",
     icon: "pipeline",
   },
   {
     title: "Privacy-preserving synthetic data",
     tagline: "Safe data for research & policy",
     description:
-      "CTGAN / tabular-diffusion pipelines with differential privacy so researchers can study statewide health-claims patterns without using real patient records — a Herbert Institute collaboration with Utah DHHS.",
+      "CTGAN / tabular-diffusion pipelines with differential privacy so researchers can study statewide health-claims patterns without using real patient records. A Herbert Institute collaboration with Utah DHHS.",
     icon: "heart",
     requestAccess: true,
   },
@@ -101,14 +102,14 @@ const PROJECTS = [
     title: "AI Financial Assistant",
     tagline: "Bookkeeping & business finance",
     description:
-      "An AI assistant for bookkeeping workflows, organized records, and everyday finance questions — built for clarity. Not a substitute for licensed tax, legal, or investment professionals.",
+      "An AI assistant for bookkeeping workflows, organized records, and everyday finance questions, built for clarity. Not a substitute for licensed tax, legal, or investment professionals.",
     icon: "ledger",
   },
   {
     title: "Custom AI Solutions",
     tagline: "Built for your domain",
     description:
-      "Computer vision, forecasting, NLP for compliance, RAG over internal docs — if it needs AI, I design and ship it.",
+      "Computer vision, forecasting, NLP for compliance, RAG over internal docs. If it needs AI, I design and ship it.",
     icon: "spark",
   },
 ];
@@ -120,13 +121,13 @@ const UVU_COURSES = [
     tagline: "Build and Launch AI-Powered Businesses",
     term: "Fall 2026 · in-person",
     blurb:
-      "Students take AI from a real problem to a working business — end to end, in any industry they choose.",
+      "Students take AI from a real problem to a working business, end to end, in any industry they choose.",
   },
   {
     format: "Online · MS-AAI",
     title: "Machine Learning",
     term: "Fall 2026 · online (MS-AAI)",
-    blurb: "Graduate machine learning for UVU's applied-AI track — supervised and unsupervised methods, evaluation, and project work.",
+    blurb: "Graduate machine learning for UVU's applied-AI track: supervised and unsupervised methods, evaluation, and project work.",
   },
   {
     format: "Online",
@@ -162,7 +163,7 @@ const WORKSHOPS = [
     title: "Building Agentic AI Applications with LLMs",
     duration: "NVIDIA DLI · certified instructor",
     blurb:
-      "The workshop that led to my NVIDIA University Ambassador designation — multi-agent patterns, tool use, and GPU-accelerated labs. Delivered on campus for ~30 UVU students.",
+      "The workshop that led to my NVIDIA University Ambassador designation: multi-agent patterns, tool use, and GPU-accelerated labs. Delivered on campus for ~30 UVU students.",
   },
   {
     title: "Fundamentals of Deep Learning",
@@ -180,7 +181,7 @@ const WORKSHOPS = [
     title: "Generative AI",
     duration: "Foundations",
     blurb:
-      "Diffusion and generative fundamentals with practical exercises — aligned with industry demand.",
+      "Diffusion and generative fundamentals with practical exercises, aligned with industry demand.",
   },
 ];
 
@@ -214,7 +215,7 @@ const FOOTER_LINKS = [
 const GOVERNMENT_HIGHLIGHTS = [
   {
     title: "Utah Office of Data Privacy",
-    text: "AI applied to data governance and privacy management — improving compliance efficiency and strengthening transparency and public trust.",
+    text: "AI applied to data governance and privacy management, improving compliance efficiency and strengthening transparency and public trust.",
   },
   {
     title: "Utah Department of Health & Human Services",
@@ -226,7 +227,7 @@ const GOVERNMENT_HIGHLIGHTS = [
   },
   {
     title: "Expanding across departments",
-    text: "Building additional AI solutions for more Utah departments — intelligent automation and data-driven decision-making at scale.",
+    text: "Building additional AI solutions for more Utah departments: intelligent automation and data-driven decision-making at scale.",
   },
 ] as const;
 
@@ -234,31 +235,31 @@ const ROLES = [
   {
     org: "NVIDIA",
     title: "Ambassador & DLI Instructor",
-    period: "Nov 2025 — Present",
+    period: "Nov 2025 to Present",
     description:
-      "Delivers free hands-on workshops on agentic AI, GPU computing, and applied ML — open to students, faculty, and industry partners.",
+      "Delivers free hands-on workshops on agentic AI, GPU computing, and applied ML, open to students, faculty, and industry partners.",
     icon: "nvidia",
   },
   {
     org: "Utah Valley University",
     title: "Assistant Professor",
-    period: "Jul 2024 — Present",
+    period: "Jul 2024 to Present",
     description:
       "Teaches applied AI, machine learning, causal inference, and LLMs; designs new courses each term and mentors student teams on funded research.",
     icon: "uvu",
   },
   {
-    org: "University of Utah — One-U RAI",
+    org: "University of Utah One-U RAI",
     title: "AI Consultant, AI Policy SIG",
-    period: "Jan 2025 — Present",
+    period: "Jan 2025 to Present",
     description:
-      "Shapes responsible AI strategy across healthcare, education, government, and commercial sectors — bringing student perspectives into policy discussions.",
+      "Shapes responsible AI strategy across healthcare, education, government, and commercial sectors, bringing student perspectives into policy discussions.",
     icon: "uou",
   },
   {
     org: "Gary R. Herbert Institute for Public Policy",
     title: "Principal AI Architect",
-    period: "Nov 2024 — Present",
+    period: "Nov 2024 to Present",
     description:
       "Leads DataGovAI and privacy-preserving synthetic-data work with Utah agencies; students contribute on the same projects.",
     icon: "herbert",
@@ -268,7 +269,7 @@ const ROLES = [
     title: "Founder & Principal AI Architect",
     period: "Present",
     description:
-      "AI consulting and team training for organizations — advisory work, workshops, and in-house sessions. Implementation is available as a follow-on statement of work.",
+      "AI consulting and team training for organizations: advisory work, workshops, and in-house sessions. Implementation is available as a follow-on statement of work.",
     icon: "spark",
   },
 ] as const;
@@ -403,13 +404,13 @@ export function HomePageContent() {
               </span>
               <span className="mt-2 block text-base font-normal text-zinc-600 dark:text-zinc-400 sm:text-xl">
                 <span className="gradient-text font-semibold">AI Entrepreneurship</span> and
-                research that ships.
+                research that ships
               </span>
             </h1>
           </Reveal>
           <Reveal delay={200}>
             <p className="mx-auto mt-8 max-w-2xl text-lg leading-relaxed text-zinc-600 dark:text-zinc-400">
-              AI Scientist and Solution Architect working in applied AI and Gen AI — a Ph.D. in
+              AI Scientist and Solution Architect working in applied AI and Gen AI. PhD in
               Computer Science (SIU 2023) with generative-model thesis work. I consult and train
               teams across the United States, in person at your offices or online, from a home base
               in Utah. I teach AI Entrepreneurship at Utah Valley University. Active projects
@@ -520,7 +521,7 @@ export function HomePageContent() {
               About
             </p>
             <h2 className="mt-4 text-4xl font-semibold tracking-tight text-zinc-900 dark:text-zinc-50 sm:text-5xl">
-              Dr. Majid Memari
+              Majid Memari, PhD
             </h2>
             <p className="mt-4 text-sm text-zinc-600 dark:text-zinc-500">
               Academia · Industry · Community
@@ -538,7 +539,7 @@ export function HomePageContent() {
                 <div className="relative mx-auto h-40 w-40 md:mx-0">
                   <Image
                     src="/majid-memari.png"
-                    alt="Dr. Majid Memari"
+                    alt="Majid Memari"
                     fill
                     className="rounded-full object-cover object-top ring-1 ring-zinc-200 dark:ring-zinc-700"
                     sizes="160px"
@@ -551,7 +552,7 @@ export function HomePageContent() {
             <Reveal delay={160}>
               <div className="grid grid-cols-2 gap-3">
                 {[
-                  { big: "Ph.D.", sub: "Computer Science, SIU Carbondale" },
+                  { big: "PhD", sub: "Computer Science, SIU Carbondale" },
                   {
                     big: "NVIDIA",
                     sub: "University Ambassador & DLI Instructor",
@@ -669,7 +670,7 @@ export function HomePageContent() {
                 Agentic workflows
               </h3>
               <p className="mx-auto mt-4 max-w-2xl text-center text-zinc-600 dark:text-zinc-400">
-                Intelligent pipelines with n8n — tools, APIs, and models orchestrated to run around
+                Intelligent pipelines with n8n: tools, APIs, and models orchestrated to run around
                 the clock.
               </p>
             </Reveal>
@@ -679,7 +680,7 @@ export function HomePageContent() {
                 <div className="inline-block min-w-0 w-full max-w-full sm:inline-block">
                   <Image
                     src="/workflow.svg"
-                    alt="Agentic AI workflow automation diagram built with n8n — connected nodes for form handling, conditional logic, AI processing, and multi-step orchestration"
+                    alt="Agentic AI workflow automation diagram built with n8n: connected nodes for form handling, conditional logic, AI processing, and multi-step orchestration"
                     width={985}
                     height={700}
                     sizes="(max-width: 640px) 100vw, 985px"
@@ -696,7 +697,7 @@ export function HomePageContent() {
                     Visual workflow design
                   </h4>
                   <p className="mt-2 text-xs leading-relaxed text-zinc-600 dark:text-zinc-500">
-                    Drag-and-drop with n8n — branching, loops, error handling, and approvals.
+                    Drag-and-drop with n8n: branching, loops, error handling, and approvals.
                   </p>
                 </div>
               </Reveal>
@@ -730,10 +731,13 @@ export function HomePageContent() {
                 Try my AI
               </h3>
               <p className="mx-auto mt-4 max-w-2xl text-center text-zinc-600 dark:text-zinc-400">
-                Products I ship — an AI financial assistant and a course-grounded teaching assistant.
+                Products I ship. The first one is running on this page: ask it a real question.
               </p>
             </Reveal>
-            <div className="mt-10">
+            <div className="mt-10 min-w-0">
+              <InlineAssistantDemo />
+            </div>
+            <div className="mt-6 min-w-0">
               <AiChatbotShowcase />
             </div>
           </div>
@@ -790,7 +794,7 @@ export function HomePageContent() {
               >
                 NVIDIA Deep Learning Institute
               </a>{" "}
-              workshops as a University Ambassador — listed in the{" "}
+              workshops as a University Ambassador, listed in the{" "}
               <a
                 href={MAJID.nvidiaInstructorDirectory}
                 className="text-sky-600 dark:text-sky-400 hover:underline"
@@ -928,8 +932,8 @@ export function HomePageContent() {
               </h3>
               <p className="mx-auto mt-4 max-w-3xl text-center text-zinc-600 dark:text-zinc-500">
                 As Principal AI Architect at the Gary R. Herbert Institute for Public Policy
-                (Nov 2024 — Present), I lead state-level collaborations with Utah agencies. Students
-                work alongside me on these initiatives — gaining hands-on public-sector AI
+                (Nov 2024 to Present), I lead state-level collaborations with Utah agencies. Students
+                work alongside me on these initiatives, gaining hands-on public-sector AI
                 experience.
               </p>
             </Reveal>
@@ -979,8 +983,8 @@ export function HomePageContent() {
             </h2>
             <p className="mt-4 text-zinc-600 dark:text-zinc-400">
               I mentor 10+ undergraduate researchers each year (20+ since Fall 2024) on funded
-              projects — DataGovAI, AI-STER, AI-ClassSims, synthetic data, and inspection AI — from
-              architecture to deployment, at no cost to students.
+              projects: DataGovAI, AI-STER, AI-ClassSims, synthetic data, and inspection AI. The work
+              runs from architecture to deployment, at no cost to students.
             </p>
           </Reveal>
           <Reveal delay={100}>
@@ -993,8 +997,8 @@ export function HomePageContent() {
                 If you want{" "}
                 <strong className="text-zinc-800 dark:text-zinc-200">
                   real-world AI engineering experience
-                </strong>{" "}
-                — not only coursework — reach out. You&apos;ll work alongside me and the team on
+                </strong>
+                , not only coursework, reach out. You&apos;ll work alongside me and the team on
                 production-minded tasks: LLMs and RAG, agentic workflows, cloud integrations, and
                 domain projects that ship.
               </p>
@@ -1011,7 +1015,7 @@ export function HomePageContent() {
                   <p className="font-medium text-zinc-700 dark:text-zinc-300">What I look for</p>
                   <ul className="mt-2 list-disc space-y-1 pl-5">
                     <li>Curiosity and follow-through; Python and interest in LLMs/APIs are a plus</li>
-                    <li>Willingness to learn — I pair you with concrete tasks and feedback</li>
+                    <li>Willingness to learn: I pair you with concrete tasks and feedback</li>
                   </ul>
                 </div>
               </div>
@@ -1030,7 +1034,7 @@ export function HomePageContent() {
                 </a>
               </div>
               <p className="mt-6 text-xs text-zinc-600">
-                Not sure if you&apos;re a fit? I still want to hear from you —{" "}
+                Not sure if you&apos;re a fit? I still want to hear from you:{" "}
                 <a href="#contact" className="text-sky-600 dark:text-sky-400 hover:underline">
                   get in touch
                 </a>
@@ -1045,16 +1049,17 @@ export function HomePageContent() {
                 href="https://siliconslopes.com/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="relative block h-24 w-24 shrink-0 overflow-hidden rounded-xl border border-zinc-700 bg-zinc-900 shadow-sm dark:border-zinc-200 dark:bg-white sm:h-32 sm:w-32"
+                className="relative block h-24 w-24 shrink-0 overflow-hidden rounded-xl border border-zinc-200 bg-white shadow-sm dark:border-zinc-800 dark:bg-zinc-900 sm:h-32 sm:w-32"
               >
                 <span className="absolute inset-2 block">
                   <span className="relative block h-full w-full">
+                    {/* The mark is dark ink on transparency, so the light theme needs a light plate, not the black one it used to sit on. */}
                     <Image
                       src="/logos/siliconslopes.png"
-                      alt="Silicon Slopes — Utah tech community"
+                      alt="Silicon Slopes, the Utah tech community"
                       fill
                       sizes="(max-width: 640px) 96px, 128px"
-                      className="object-contain object-center"
+                      className="object-contain object-center brightness-0 opacity-75 dark:brightness-0 dark:invert dark:opacity-80"
                     />
                   </span>
                 </span>
@@ -1073,7 +1078,7 @@ export function HomePageContent() {
                   >
                     AI Utah
                   </a>
-                  {" "}— Utah&apos;s AI user group and community hub for practitioners, events, and
+                  , Utah&apos;s AI user group and community hub for practitioners, events, and
                   collaboration. I am a{" "}
                   <a
                     href="https://www.aiutah.org/ai-utah-100/"
@@ -1095,7 +1100,7 @@ export function HomePageContent() {
                   >
                     Silicon Slopes
                   </a>
-                  , the nonprofit helping Utah founders grow — connecting learners with founders,
+                  , the nonprofit helping Utah founders grow. It connects learners with founders,
                   hiring managers, and collaborators across the broader tech ecosystem.
                 </p>
               </div>
@@ -1118,8 +1123,8 @@ export function HomePageContent() {
               Let&apos;s work together
             </h2>
             <p className="mt-4 max-w-lg text-zinc-600 dark:text-zinc-400">
-              AI consulting, workshops, team training, student mentorship, or a research
-              collaboration — send a message. I work with teams across the United States, on site
+              For AI consulting, workshops, team training, student mentorship, or a research
+              collaboration, send a message. I work with teams across the United States, on site
               or online. UVU students can also{" "}
               <a
                 href={SITE.bookingUrl}

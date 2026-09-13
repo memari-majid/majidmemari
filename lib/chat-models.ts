@@ -19,7 +19,11 @@ export type ChatModel = {
   outputPerM: number;
   /** Whether the route marks the system prompt for provider prompt caching. */
   promptCache: boolean;
-  /** One line for the picker tooltip and the how-it-works page. */
+  /**
+   * One line for the picker tooltip and the how-it-works page. Where a model
+   * has a measured problem on this site, it says so here: the picker must not
+   * read as though every entry behaves the same.
+   */
   note: string;
 };
 
@@ -61,7 +65,19 @@ export const CHAT_MODELS: readonly ChatModel[] = [
     inputPerM: 0.75,
     outputPerM: 3.75,
     promptCache: false,
-    note: "Cheapest and fastest. Good for a quick second opinion.",
+    /**
+     * Kept on the allowlist, and the measurement behind that is worth keeping
+     * straight. 2026-09-13, this site's prompt with NO tools attached, which is
+     * how `evals/bakeoff.ts` calls a model: the second turn ended in a provider
+     * error every attempt, through the compatible endpoint and through
+     * `streamText` alike, which is why it has no row in the published table.
+     * The same second turn through `/api/chat`, where the ten tools ARE
+     * attached, answered normally three times out of three. So this is a fact
+     * about the harness, not a verdict on the model in the product. It stays on
+     * the picker, it judges rows of the published table, and the empty-turn
+     * recovery in the route covers it if the failure ever does reach a visitor.
+     */
+    note: "Cheapest and fastest. It has no row in the published bake-off: that harness calls it with no tools attached, and the second turn errors there. In the chat, where the tools are attached, it answers.",
   },
 ] as const;
 

@@ -17,7 +17,7 @@ export const metadata: Metadata = {
   keywords: [
     "Majid Memari",
     "Majid MJ Memari",
-    "Dr. Majid Memari",
+    "Majid Memari, PhD",
     "Utah Valley University",
     "AI Scientist",
     "Solution Architect",
@@ -62,6 +62,17 @@ export const metadata: Metadata = {
   },
 };
 
+/**
+ * `interactiveWidget` is deliberately left at the browser default
+ * (`resizes-visual`). `resizes-content` would shrink the layout viewport when
+ * the on-screen keyboard opens, and every `dvh` length on the site resolves
+ * against it: `INLINE_DEMO_BODY_HEIGHT` in `app/components/chat/chat-ui.ts`
+ * and the `sm:h-[min(640px,calc(100dvh-2rem))]` panel in `ChatWidget.tsx`.
+ * Focusing the contact form would then re-lay-out the whole page behind the
+ * keyboard, which is a worse trade than the pan the default does. The chat
+ * sheet already clears the keyboard by other means: it is a flex column with
+ * one scroller, so the composer is pinned inside whatever height it is given.
+ */
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,

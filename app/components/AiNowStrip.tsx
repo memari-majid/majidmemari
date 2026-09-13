@@ -45,7 +45,7 @@ export function AiNowStrip() {
       </h3>
       <p className="mx-auto mt-4 max-w-2xl text-center text-sm text-zinc-600 dark:text-zinc-400">
         Headlines from public feeds (arXiv cs.AI and Hugging Face). Titles are not written here.
-        Market quotes below are indicative only — not investment advice.
+        Market quotes below are indicative only, not investment advice.
       </p>
 
       {loading && !data && (
