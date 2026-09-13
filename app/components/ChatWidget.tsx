@@ -107,7 +107,7 @@ export function ChatWidget() {
               <div className="min-w-0">
                 <div className="flex flex-wrap items-center gap-2">
                   <h2 id="chat-title" className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">
-                    Site Assistant
+                    Dr. MJ
                   </h2>
                   <span className="inline-flex items-center rounded-full border border-sky-200 bg-sky-50 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-sky-700 dark:border-sky-900/50 dark:bg-sky-950/40 dark:text-sky-400">
                     AI
@@ -142,7 +142,7 @@ export function ChatWidget() {
               {messages.length === 0 && (
                 <div className="space-y-3">
                   <p className="text-sm text-zinc-600 dark:text-zinc-500">
-                    Hi — tell me what you&apos;re working on and where you want to go with AI. I&apos;ll give you straight guidance, and point you to consulting or team training if it fits.
+                    Hi, I&apos;m Dr. MJ, the AI assistant on Majid&apos;s site (an AI, not Majid himself). Tell me what you&apos;re working on and where you want to go with AI, and I&apos;ll give you straight guidance.
                   </p>
                   <div className="flex flex-wrap gap-2">
                     {QUICK_PROMPTS.map((q) => (
