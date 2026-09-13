@@ -1,33 +1,7 @@
 "use client";
 
 import { useState } from "react";
-
-const FAQS = [
-  {
-    q: "What do you do for clients?",
-    a: "My active client work is AI consulting and team training. That includes advisory sessions on what to adopt and when not to use AI, instructor-led workshops, and hands-on training for your team. Commercial engagements go through Nexus AI Solutions. When a team needs a system built, that is a separate, scoped statement of work.",
-  },
-  {
-    q: "How are workshops and team training structured?",
-    a: "I deliver instructor-led workshops and in-house team training — typically a half-day or full-day session, or a short series. NVIDIA Deep Learning Institute workshops use GPU-accelerated labs and DLI-style certificates of completion. Campus student sessions are offered at no charge to students at participating universities. Organizational training is scoped to your team's tools and goals.",
-  },
-  {
-    q: "How do I apply for the AI Engineer Intern role?",
-    a: "Email me with a short note about your background and what you'd like to learn — Python and curiosity are a plus, formal experience is not required. Internships are fully online, on a rolling intake, and there's no cost to students.",
-  },
-  {
-    q: "Can you work with our existing tech stack?",
-    a: "Yes, when the stack is in service of an AI system. Typical work includes Python, PyTorch, LangChain / LangGraph, RAG over private data, evaluation and guardrails, and NVIDIA DLI-style GPU labs.",
-  },
-  {
-    q: "What does a typical engagement look like?",
-    a: "We start with a discovery conversation to understand your goals and constraints. From there I propose a phased plan — usually a focused proof-of-concept first, then iteration toward production deployment with ongoing support.",
-  },
-  {
-    q: "How do you handle data privacy and compliance?",
-    a: "Security and privacy are core to every engagement. I build with encryption at rest and in transit, role-based access, audit logging, and alignment with frameworks like HIPAA, FERPA, and state data-privacy regulations — especially relevant in my Utah public-sector work.",
-  },
-];
+import { FAQS } from "@/lib/faq";
 
 export function FaqAccordion() {
   const [openIdx, setOpenIdx] = useState<number | null>(null);

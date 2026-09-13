@@ -4,19 +4,9 @@ import { ChatWidget } from "@/app/components/ChatWidget";
 import { JsonLd } from "@/app/components/JsonLd";
 import { NavBar } from "@/app/components/NavBar";
 import { MAJID } from "@/lib/majid";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Publications",
-  description:
-    "Selected publications by Dr. Majid Memari, including 2026 IETC and SITE papers and the Capability Ladder preprint. Full list on Google Scholar.",
-  alternates: { canonical: "/publications" },
-  openGraph: {
-    title: "Majid Memari — Publications",
-    description:
-      "Selected papers and preprints. Complete record on Google Scholar.",
-    url: "/publications",
-  },
-};
+export const metadata: Metadata = pageMetadata("publications", "/publications");
 
 const KIND_LABEL = {
   journal: "Journal",
@@ -32,10 +22,14 @@ export default function PublicationsPage() {
       <main className="mx-auto max-w-3xl px-4 pb-24 pt-[calc(6rem+env(safe-area-inset-top))] sm:px-6">
         <p className="text-xs font-medium uppercase tracking-[0.2em] text-zinc-500">Scholarship</p>
         <h1 className="mt-3 text-4xl font-semibold tracking-tight text-zinc-900 dark:text-zinc-50">
-          Majid Memari — Publications
+          Research &amp; publications
         </h1>
         <p className="mt-3 text-lg text-zinc-600 dark:text-zinc-400">
-          {MAJID.scholarListedWorks}+ works on{" "}
+          Applied AI and Gen AI research — {MAJID.scholarCitations} Google Scholar citations
+          (snapshot {MAJID.scholarCitationsAsOf}). Ph.D. in Computer Science (SIU 2023) with
+          generative-model thesis work. Wind-turbine UAV inspection, GridEye aerial grid
+          inspection, DataGovAI public-sector work, and the Capability Ladder. {MAJID.scholarListedWorks}+
+          works on{" "}
           <a
             className="text-sky-600 underline dark:text-sky-400"
             href={MAJID.scholar}

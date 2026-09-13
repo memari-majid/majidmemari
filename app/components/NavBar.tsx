@@ -11,7 +11,7 @@ const NAV_ITEMS = [
   { label: "Teaching", href: "/teaching" },
   { label: "Publications", href: "/publications" },
   { label: "Mentorship", href: "/#mentorship" },
-  { label: "Contact", href: "/#contact" },
+  { label: "Contact", href: "/contact" },
 ];
 
 export function NavBar() {
@@ -57,8 +57,8 @@ export function NavBar() {
           ))}
           <ThemeToggle />
           <Link
-            href="/#contact"
-            className="whitespace-nowrap rounded-lg bg-sky-600 px-4 py-2.5 text-sm font-medium text-white transition hover:bg-sky-500"
+            href="/contact"
+            className="btn-primary btn-compact"
           >
             Get in Touch
           </Link>
@@ -97,9 +97,9 @@ export function NavBar() {
             </Link>
           ))}
           <Link
-            href="/#contact"
+            href="/contact"
             onClick={() => setMenuOpen(false)}
-            className="block rounded-lg bg-sky-600 px-4 py-3 text-center text-sm font-medium text-white transition hover:bg-sky-500"
+            className="btn-primary w-full"
           >
             Get in Touch
           </Link>

@@ -1,6 +1,6 @@
 # Plan — majidmemari.com
 
-**Last updated:** 2026-08-26  
+**Last updated:** 2026-08-28  
 **Repo:** https://github.com/memari-majid/majidmemari  
 **This is the only living plan.** Do not add competing plan files.
 
@@ -10,9 +10,11 @@ Restore and keep the personal site live after the Vercel project was deleted. Ke
 |---|---|---|
 | **Vercel project** | Recreated | `majidmemari` on team `memari-majids-projects`, GitHub `memari-majid/majidmemari` |
 | **Domain** | Re-attach | `majidmemari.com` (Vercel registrar) + `www` |
-| **Copy** | Synced 2026-08-26 | Public bio is Academia · Industry · Community. Homepage leads with **active flagship projects and named collaborators**, not Scholar counts (list stays on `/publications`). Hero stats: 6 flagship projects, courses & DLI workshops, student researchers, Fall 2026 UVU courses. Partners strip (`#partners`): State (Herbert Institute, Utah Office of Data Privacy, DHHS) · Universities (UVU home + School of Education / AI-ClassSims; One-U RAI public/policy; GridEye collaboration) · Silicon Slopes (community) · Industry (Clarion AI Partners consulting on LLM/agent workflows). No invented client counts. **Selected for the 2026 AI Utah 100**. |
+| **Copy** | Synced 2026-08-27 | Public bio is Academia · Industry · Community. Homepage leads with **active flagship projects and named collaborators**, not Scholar counts (list stays on `/publications`). Hero stats: see **Hero stats** track (`lib/majid.ts` `heroStats`). Partners strip (`#partners`): State (Herbert Institute, Utah Office of Data Privacy, DHHS) · Universities (UVU home + School of Education / AI-ClassSims; One-U RAI public/policy; GridEye collaboration) · Silicon Slopes (community) · Industry (Clarion AI Partners consulting on LLM/agent workflows; **NVIDIA Certified Instructor Directory** listing — instructional certification, not a client). No invented client counts. **2026 AI Utah 100 honoree** (no category). NVIDIA DLI listing: `https://www.nvidia.com/en-eu/training/instructor-directory/bio/?instructorId=003Vv00000J9hZLIAZ`. **Never put catalog numbers on public pages.** Featured teaching: **AI Entrepreneurship: Build and Launch AI-Powered Businesses** (title + tagline). Students discover a real problem, build no-code AI, and launch a working AI-powered business — any industry they choose. Mentors / Demo Day with [Baugh Entrepreneurship Institute](https://www.uvu.edu/entrepreneurship/). Do not invent partner names, enrollment, or a launched Nexus entrepreneurship SKU. AI-ClassSims / AI-STER stay research projects, not the course theme. |
+| **Hero stats** | Done 2026-08-28 | `#top` H1: **Majid Memari** / **AI Scientist & Solution Architect** / Applied AI at UVU / AI Entrepreneurship and research that ships. Grid: **11** Years applied AI & CS; **PhD** in Gen AI (diploma is CS, SIU 2023 — public label only); **374** Scholar citations; **AI Utah 100** Honoree, 2026 (links to [aiutah.org/ai-utah-100](https://www.aiutah.org/ai-utah-100/)). No winner / #1 / category. **Faculty / UVU dropped** as cell 4. Same `heroStats` on `nexus-website`. |
+| **Design** | Sleek pass 2026-08-27 | Quiet zinc system: matching partner marks (no lone Silicon Slopes PNG), pill CTAs (`btn-primary` / `btn-secondary`), static gradient text, cards without lift/glow. |
 | **Env / AI** | Restore | Public URLs, Resend, AI Gateway models — no secrets in git |
-| **SEO / Google** | Live 2026-08-25 | `/about`, `/teaching`, `/publications`, Person JSON-LD, sitemap. GitHub profile website + profile README point here. Ranking still depends on backlinks from Scholar / UVU / LinkedIn / ORCID / ResearchGate |
+| **SEO / Google** | Keywords pass 2026-08-28 | Titles/JSON-LD match **Majid Memari**, **AI Scientist**, **AI Solution Architect**, **PhD in Gen AI**, **Applied AI**, **AI Entrepreneurship**, **AI Utah 100 honoree**. UVU is supporting. Canonical **www**. Sitemap/robots kept. **Majid must still** verify Search Console + submit sitemap and add Scholar/ORCID/ResearchGate/LinkedIn/UVU directory → majidmemari.com. |
 | **Publications** | Synced 2026-08-25 | Counts and selected list from [Google Scholar](https://scholar.google.com/citations?user=LQI4T24AAAAJ&hl=en) (20+ unique works). Do not invent citation counts. New 2026 item: Capability Ladder (arXiv:2608.07779) |
 | **Phone / voice AI** | On Nexus, not here | Public `(801) 810-9152` is Google Voice. AI engine is `nexus-website` `/api/voice` (GV → hidden Twilio → Vercel). |
 
@@ -25,7 +27,7 @@ Restore and keep the personal site live after the Vercel project was deleted. Ke
 - Courses this term: `Teaching/uvu_courses/template/course_config.py` (`CURRENT_SEMESTER`)
 - Site constants: `lib/site.ts`
 
-Integrity rules from the instructor profile: do not invent degrees, grants, employers, or metrics. Stanford / Johns Hopkins are Penn collaborations, not employers. Silicon Slopes is community, not a job. NVIDIA DLI is instructional certification. Public bio stays in **Academia / Industry / Community**. AI Utah 100 (2026): say **selected for**; do not invent a winner category.
+Integrity rules from the instructor profile: do not invent degrees, grants, employers, or metrics. Stanford / Johns Hopkins are Penn collaborations, not employers. Silicon Slopes is community, not a job. NVIDIA DLI is instructional certification. Public bio stays in **Academia / Industry / Community**. AI Utah 100 (2026): say **honoree**; do not invent a winner, rank, or category.
 
 Industry client work (consulting, workshops, team training) stays in the Industry paragraph — do not mix Herbert / DHHS / AI Utah 100 into Industry, or Clarion / Nexus / Potentia into Academia.
 
@@ -33,35 +35,52 @@ Industry client work (consulting, workshops, team training) stays in the Industr
 
 ## Fall 2026 teaching (public site)
 
-List only offerings where `instructor: majid` and `teaching_this_term: True`:
+**Never mention catalog numbers on public pages.** People do not know those codes. Internal TypeScript keys (`cs4720r`, `fall2026Courses`) may stay.
 
-- CS-1400 X03 — Fundamentals of Programming (online)
-- CS-2700 X01 — Causal Inference (online)
-- CS 6470 X01 / X02 — Machine Learning (online, MS-AAI)
-- CS 4720R 601 — AI Business and Tech Solutions (in-person)
+Public display names only (offerings where `instructor: majid` and `teaching_this_term: True`):
 
-Do **not** list CS 6530 / CS 6620 (instructor TBD) or canceled CS 4390R Fall 2026.
+- Fundamentals of Programming (online)
+- Causal Inference (online)
+- Machine Learning (online, MS-AAI)
+- **AI Entrepreneurship: Build and Launch AI-Powered Businesses** (in-person). Featured as title + tagline. Students discover a real problem, build no-code AI, and launch a working AI-powered business — end to end, any industry they choose. Capabilities first, then Lean Startup; mentors / Demo Day with UVU’s Baugh Entrepreneurship Institute. Do not invent partner names or enrollment. Do not frame the course as EdTech / K-12.
+
+Do **not** list instructor-TBD graduate shells or the canceled special-topics offering.
+
+### LinkedIn (paste; this machine cannot edit the profile)
+
+**About / UVU experience bullet:** Designed and teach AI Entrepreneurship: Build and Launch AI-Powered Businesses at UVU. Students discover a real problem, build no-code AI, and launch a working AI-powered business — end to end, in any industry they choose.
+
+**Optional post:** At UVU I designed and teach AI Entrepreneurship: Build and Launch AI-Powered Businesses. Students discover a real problem, build no-code AI, and launch a working business — any industry they choose. Mentors and Demo Day with UVU’s Baugh Entrepreneurship Institute. Fall 2026, in person. More: https://www.majidmemari.com/teaching
 
 ---
 
-## Google “Majid Memari” (what actually moves the needle)
+## SEO (organic search)
 
-The SERP is already owned by Google Scholar, UVU directory, LinkedIn, ResearchGate, ORCID, and GitHub. A new personal site will not outrank those until they **link to** `https://www.majidmemari.com`.
+**Intent this site owns:** branded **Majid Memari**; **AI Scientist** / **AI Solution Architect**; **PhD in Gen AI** (diploma is CS, SIU 2023 — public label only); **Applied AI**; **AI Entrepreneurship / Build and Launch AI-Powered Businesses**; **2026 AI Utah 100 honoree** (no category). UVU is supporting, not the lead keyword. Nexus is the *company* result — do not clone its consulting pitch here.
 
-**Done from this machine**
+**SEO keywords (on-page + metadata, no stuffing):** Majid Memari · AI Scientist · AI Solution Architect · PhD in Gen AI / generative AI · Applied AI · AI Entrepreneurship · Utah Valley University (supporting) · AI Utah 100 honoree 2026 · 11 years applied AI · 374 Scholar citations (sourced snapshot only).
 
-- GitHub profile website/bio → `https://www.majidmemari.com`
-- Site schema `sameAs` those ranking profiles (including ORCID `0000-0001-5654-4996`)
-- Indexable `/about` and `/teaching` (hash `#about` is not a Google URL)
+**Shipped (2026-08-27)**
 
-**You must add the website on the profiles that already rank (10 minutes)**
+- Unique title/description per URL (`/`, `/about`, `/teaching`, `/publications`, `/contact`)
+- Person + WebSite JSON-LD (no fake SearchAction). Course JSON-LD for AI Entrepreneurship **without catalog codes**. FAQPage from on-page FAQs. ScholarlyArticle list on `/publications`
+- `sitemap.xml` covers all indexable pages; `robots.txt` allows `/`, disallows `/api/`, `host` = `https://www.majidmemari.com`
+- Apex `majidmemari.com` already 308s to **www** (keep `NEXT_PUBLIC_SITE_URL=https://www.majidmemari.com`)
+- Homepage links to `/teaching`, `/publications`, `/about`; headings use “AI Entrepreneurship” / “applied AI”
+- LinkedIn paste (above) stays the off-site teaching copy — no course codes
 
-1. **Google Scholar** → profile edit → Homepage → `https://www.majidmemari.com`
-2. **LinkedIn** → Contact info / Website → `https://www.majidmemari.com` (and Featured)
-3. **ORCID** → Websites → `https://www.majidmemari.com`
-4. **ResearchGate** → Website → `https://www.majidmemari.com`
-5. **UVU directory** — the current link (`tinyurl.com/473xe4wu`) is Book With Me, not the personal site. Add `https://www.majidmemari.com` as the website
-6. **Google Search Console** — verify `www.majidmemari.com` and Request Indexing for `/`, `/about`, `/teaching`
+**Planned — Majid must click (this machine cannot finish)**
+
+1. [Google Search Console](https://search.google.com/search-console) → add URL-prefix property `https://www.majidmemari.com` → verify (HTML file or DNS) → Sitemaps → submit `https://www.majidmemari.com/sitemap.xml` → URL Inspection → Request indexing for `/`, `/about`, `/teaching`, `/publications`, `/contact`
+2. **Google Scholar** → profile edit → Homepage → `https://www.majidmemari.com`
+3. **LinkedIn** → Contact info / Website → `https://www.majidmemari.com` (and Featured). Paste the About / experience bullet above
+4. **ORCID** → Websites → `https://www.majidmemari.com`
+5. **ResearchGate** → Website → `https://www.majidmemari.com`
+6. **UVU directory** — replace or add website (today it is Book With Me / tinyurl). Use `https://www.majidmemari.com`
+7. **NVIDIA instructor directory** — if the listing is editable, add the personal site
+8. **GitHub** profile website — already pointed here; keep it
+
+Do **not** buy links, spam directories, or invent reviews. Do not create a fake Google Business Profile for a personal faculty site. No Knowledge Panel request until those profile links exist.
 
 Do not expect same-day ranking. After those links exist, recrawl usually takes days to a few weeks.
 

@@ -30,7 +30,7 @@ export function NewsletterForm() {
       />
       <button
         type="submit"
-        className="min-h-[44px] shrink-0 rounded-lg bg-sky-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-sky-500 sm:min-h-0 sm:px-3 sm:text-xs"
+        className="btn-primary btn-compact min-h-[44px] shrink-0 sm:min-h-0 sm:text-xs"
       >
         Join
       </button>

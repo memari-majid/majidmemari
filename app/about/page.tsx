@@ -5,21 +5,10 @@ import { ChatWidget } from "@/app/components/ChatWidget";
 import { JsonLd } from "@/app/components/JsonLd";
 import { NavBar } from "@/app/components/NavBar";
 import { MAJID } from "@/lib/majid";
+import { pageMetadata } from "@/lib/seo";
 import { SITE } from "@/lib/site";
 
-export const metadata: Metadata = {
-  title: "About Majid Memari, Ph.D.",
-  description:
-    "About Dr. Majid Memari — Academia, industry, and community. Assistant Professor of Computer Science at UVU; AI consulting and team training; Gary R. Herbert Institute and the 2026 AI Utah 100.",
-  alternates: { canonical: "/about" },
-  openGraph: {
-    title: "About Majid Memari, Ph.D. — UVU Computer Science",
-    description:
-      "Academia, industry, and community work in applied AI. Assistant Professor at UVU. AI consulting and team training.",
-    url: "/about",
-    type: "profile",
-  },
-};
+export const metadata: Metadata = pageMetadata("about", "/about", "profile");
 
 export default function AboutPage() {
   return (
@@ -31,7 +20,22 @@ export default function AboutPage() {
         <h1 className="mt-3 text-4xl font-semibold tracking-tight text-zinc-900 dark:text-zinc-50">
           Dr. Majid Memari
         </h1>
-        <p className="mt-3 text-lg text-zinc-600 dark:text-zinc-400">{MAJID.shortBio}</p>
+        <p className="mt-2 text-lg font-medium text-zinc-800 dark:text-zinc-200">
+          {MAJID.headlineRole}
+        </p>
+        <p className="mt-3 text-lg text-zinc-600 dark:text-zinc-400">
+          {MAJID.shortBio} Ph.D. in Computer Science (SIU 2023) with gen-AI thesis work.{" "}
+          {MAJID.cs4720r.title}: {MAJID.cs4720r.tagline}. He is a{" "}
+          <a
+            className="text-sky-600 underline dark:text-sky-400"
+            href={MAJID.aiUtah100.url}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {MAJID.aiUtah100.label}
+          </a>
+          .
+        </p>
 
         <article className="mt-10">
           <BioCategories />
@@ -79,6 +83,16 @@ export default function AboutPage() {
           <li>
             <a className="text-sky-600 underline dark:text-sky-400" href={MAJID.researchGate} rel="me">
               ResearchGate
+            </a>
+          </li>
+          <li>
+            <a
+              className="text-sky-600 underline dark:text-sky-400"
+              href={MAJID.nvidiaInstructorDirectory}
+              rel="me"
+              target="_blank"
+            >
+              NVIDIA Certified Instructor Directory
             </a>
           </li>
           <li>

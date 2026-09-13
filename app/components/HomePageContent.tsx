@@ -3,7 +3,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { AiNowStrip } from "@/app/components/AiNowStrip";
 import { AiChatbotShowcase } from "@/app/components/AiChatbotShowcase";
-import { AnimatedCounter } from "@/app/components/AnimatedCounter";
 import { ContactForm } from "@/app/components/ContactForm";
 import { FaqAccordion } from "@/app/components/FaqAccordion";
 import { Reveal } from "@/app/components/Reveal";
@@ -13,6 +12,7 @@ import { LogoStrip } from "@/app/components/LogoStrip";
 import { NewsletterForm } from "@/app/components/NewsletterForm";
 import { BioCategories } from "@/app/components/BioCategories";
 import { PartnersStrip } from "@/app/components/PartnersStrip";
+import { StartConversationButton } from "@/app/components/StartConversationButton";
 import { SITE } from "@/lib/site";
 import { MAJID } from "@/lib/majid";
 
@@ -20,11 +20,22 @@ import { MAJID } from "@/lib/majid";
 /*  Data                                                               */
 /* ------------------------------------------------------------------ */
 
-const STATS = [
-  { value: 6, suffix: "", label: "Active flagship projects" },
-  { value: 8, suffix: "+", label: "AI courses & DLI workshops" },
-  { value: 20, suffix: "+", label: "Student researchers mentored" },
-  { value: 4, suffix: "", label: "Fall 2026 UVU courses" },
+const STATS = MAJID.heroStats;
+
+/** Consulting is the lead offer on this site; training and building follow. */
+const SERVICES = [
+  {
+    title: "Consult",
+    text: "We scope where AI actually helps, and where it does not, then shape a plan you can act on.",
+  },
+  {
+    title: "Train",
+    text: "Hands-on AI training for your team, including NVIDIA DLI workshops I deliver in person as a Certified Instructor.",
+  },
+  {
+    title: "Build",
+    text: "When you need it built, I design and ship it — LLMs, RAG, agents, and automation.",
+  },
 ];
 
 const PROJECTS = [
@@ -104,25 +115,27 @@ const PROJECTS = [
 
 const UVU_COURSES = [
   {
-    code: "CS 4720R",
-    title: "AI Business and Tech Solutions",
+    format: "In-person",
+    title: "AI Entrepreneurship",
+    tagline: "Build and Launch AI-Powered Businesses",
     term: "Fall 2026 · in-person",
-    blurb: "Real client projects for students with little or no prior AI experience — applied tools, portfolio deliverables, and industry-facing work.",
+    blurb:
+      "Students take AI from a real problem to a working business — end to end, in any industry they choose.",
   },
   {
-    code: "CS 6470",
+    format: "Online · MS-AAI",
     title: "Machine Learning",
     term: "Fall 2026 · online (MS-AAI)",
     blurb: "Graduate machine learning for UVU's applied-AI track — supervised and unsupervised methods, evaluation, and project work.",
   },
   {
-    code: "CS-2700",
+    format: "Online",
     title: "Causal Inference",
     term: "Fall 2026 · online",
     blurb: "Applied causal reasoning and data-science practice, redesigned around hands-on analysis rather than theory alone.",
   },
   {
-    code: "CS-1400",
+    format: "Online",
     title: "Fundamentals of Programming",
     term: "Fall 2026 · online",
     blurb: "Introductory programming with current applied-AI tooling and hands-on labs in a coordinated multi-section course.",
@@ -188,13 +201,14 @@ const TECH_LOGOS = [
 ];
 
 const FOOTER_LINKS = [
+  { label: "Consulting & training", href: "/#services" },
   { label: "About", href: "/about" },
   { label: "Work", href: "/#work" },
   { label: "Partners", href: "/#partners" },
   { label: "Teaching", href: "/teaching" },
   { label: "Publications", href: "/publications" },
   { label: "Mentorship", href: "/#mentorship" },
-  { label: "Contact", href: "/#contact" },
+  { label: "Contact", href: "/contact" },
 ];
 
 const GOVERNMENT_HIGHLIGHTS = [
@@ -259,7 +273,6 @@ const ROLES = [
   },
 ] as const;
 
-const NVIDIA_TRAINING_URL = "https://www.nvidia.com/en-us/training/";
 
 /* ------------------------------------------------------------------ */
 /*  Icons                                                              */
@@ -383,47 +396,105 @@ export function HomePageContent() {
             <h1 className="text-4xl font-semibold tracking-tight text-zinc-900 dark:text-zinc-50 sm:text-6xl sm:leading-[1.05]">
               Majid Memari
               <span className="mt-3 block text-3xl font-semibold sm:mt-4 sm:text-5xl">
-                Building <span className="gradient-text">AI that ships</span>
+                {MAJID.headlineRole}
               </span>
-              <span className="block text-zinc-700 dark:text-zinc-300 sm:mt-2 sm:text-4xl">
-                — and teaching what comes next.
+              <span className="mt-3 block text-lg font-medium text-zinc-700 dark:text-zinc-300 sm:mt-4 sm:text-2xl">
+                Applied AI at Utah Valley University
+              </span>
+              <span className="mt-2 block text-base font-normal text-zinc-600 dark:text-zinc-400 sm:text-xl">
+                <span className="gradient-text font-semibold">AI Entrepreneurship</span> and
+                research that ships.
               </span>
             </h1>
           </Reveal>
           <Reveal delay={200}>
             <p className="mx-auto mt-8 max-w-2xl text-lg leading-relaxed text-zinc-600 dark:text-zinc-400">
-              Active projects include DataGovAI, AI-STER, AI-ClassSims, privacy-preserving synthetic
-              data, wind-turbine RGB/thermal inspection, and GridEye. I work with Utah agencies,
-              UVU, the University of Utah, and consult with {MAJID.clarion} on LLM and agent
-              workflows.
+              AI Scientist and Solution Architect working in applied AI and Gen AI — a Ph.D. in
+              Computer Science (SIU 2023) with generative-model thesis work. I teach AI
+              Entrepreneurship at Utah Valley University. Active projects include DataGovAI,
+              AI-STER, AI-ClassSims, privacy-preserving synthetic data, wind-turbine RGB/thermal
+              inspection, and GridEye. I work with Utah agencies, UVU, the University of Utah, and
+              consult with {MAJID.clarion} on LLM and agent workflows.
             </p>
           </Reveal>
           <Reveal delay={280}>
             <div className="mt-10 flex flex-wrap justify-center gap-3">
-              <a
-                href="#contact"
-                className="rounded-full bg-zinc-900 px-8 py-3.5 text-sm font-medium text-white transition hover:bg-zinc-800 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-white"
-              >
-                Get in touch
-              </a>
-              <a
-                href="#work"
-                className="rounded-full border border-zinc-300 bg-white/60 px-8 py-3.5 text-sm font-medium text-zinc-800 backdrop-blur transition hover:border-zinc-400 hover:bg-white dark:border-zinc-700 dark:bg-zinc-900/50 dark:text-zinc-100 dark:hover:border-zinc-500"
-              >
-                See my work
-              </a>
+              <StartConversationButton>Start a conversation</StartConversationButton>
+              <Link href="/#services" className="btn-secondary">
+                Consulting &amp; training
+              </Link>
+              <Link href="/about" className="btn-secondary">
+                About
+              </Link>
             </div>
           </Reveal>
           <Reveal delay={360}>
             <div className="mx-auto mt-16 grid max-w-3xl grid-cols-2 gap-x-4 gap-y-8 border-t border-zinc-200/80 pt-12 dark:border-zinc-800/60 sm:mt-20 sm:grid-cols-4 sm:gap-6 sm:pt-16">
-              {STATS.map((s) => (
-                <div key={s.label} className="text-center">
-                  <p className="text-3xl font-semibold tabular-nums text-zinc-900 dark:text-zinc-50 sm:text-4xl">
-                    <AnimatedCounter end={s.value} suffix={s.suffix} />
+              {STATS.map((s) => {
+                const body = (
+                  <>
+                    <p className="text-3xl font-semibold leading-tight text-zinc-900 dark:text-zinc-50 sm:text-4xl">
+                      {s.display}
+                    </p>
+                    <p className="mt-2 text-xs font-medium leading-snug text-zinc-500 dark:text-zinc-500">
+                      {s.label}
+                    </p>
+                  </>
+                );
+                return "href" in s && s.href ? (
+                  <a
+                    key={s.label}
+                    href={s.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-center transition hover:text-sky-700 dark:hover:text-sky-300"
+                  >
+                    {body}
+                  </a>
+                ) : (
+                  <div key={s.label} className="text-center">
+                    {body}
+                  </div>
+                );
+              })}
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* ============== SERVICES (lead offer) ============== */}
+      <section
+        id="services"
+        className="scroll-mt-20 border-t border-zinc-200/80 bg-white px-4 py-24 dark:border-zinc-800/40 dark:bg-zinc-950 sm:px-6"
+      >
+        <div className="mx-auto max-w-5xl text-center">
+          <Reveal>
+            <p className="text-xs font-medium uppercase tracking-[0.2em] text-zinc-500 dark:text-zinc-400">
+              Work with me
+            </p>
+            <h2 className="mt-4 text-4xl font-semibold tracking-tight text-zinc-900 dark:text-zinc-50 sm:text-5xl">
+              AI consulting and training
+            </h2>
+            <p className="mx-auto mt-4 max-w-2xl text-lg text-zinc-600 dark:text-zinc-400">
+              Start with a conversation. I give you straight AI guidance, then help your team
+              learn it or build it. Client work runs through Nexus AI Solutions.
+            </p>
+          </Reveal>
+          <div className="mt-14 grid gap-6 text-left sm:grid-cols-3">
+            {SERVICES.map((s, i) => (
+              <Reveal key={s.title} delay={100 + i * 60}>
+                <div className="card h-full p-6">
+                  <p className="text-xs font-semibold uppercase tracking-[0.16em] text-sky-600 dark:text-sky-400">
+                    {s.title}
                   </p>
-                  <p className="mt-2 text-xs font-medium text-zinc-500 dark:text-zinc-500">{s.label}</p>
+                  <p className="mt-3 text-base text-zinc-600 dark:text-zinc-400">{s.text}</p>
                 </div>
-              ))}
+              </Reveal>
+            ))}
+          </div>
+          <Reveal delay={280}>
+            <div className="mt-12 flex justify-center">
+              <StartConversationButton>Start a conversation</StartConversationButton>
             </div>
           </Reveal>
         </div>
@@ -447,6 +518,11 @@ export function HomePageContent() {
             <p className="mt-4 text-sm text-zinc-600 dark:text-zinc-500">
               Academia · Industry · Community
             </p>
+            <p className="mt-3 text-sm">
+              <Link className="text-sky-600 underline dark:text-sky-400" href="/about">
+                Full about page
+              </Link>
+            </p>
           </Reveal>
 
           <div className="mt-16 grid gap-16 md:grid-cols-2 md:items-start">
@@ -460,10 +536,6 @@ export function HomePageContent() {
                     className="rounded-full object-cover object-top ring-1 ring-zinc-200 dark:ring-zinc-700"
                     sizes="160px"
                   />
-                  <div
-                    className="pointer-events-none absolute -inset-2 animate-[pulse-glow_6s_ease-in-out_infinite] rounded-full border border-zinc-300/20 dark:border-zinc-600/20"
-                    aria-hidden
-                  />
                 </div>
                 <BioCategories />
               </div>
@@ -473,19 +545,40 @@ export function HomePageContent() {
               <div className="grid grid-cols-2 gap-3">
                 {[
                   { big: "Ph.D.", sub: "Computer Science, SIU Carbondale" },
-                  { big: "NVIDIA", sub: "University Ambassador & DLI Instructor" },
-                  { big: "2026", sub: "Selected for the 2026 AI Utah 100" },
+                  {
+                    big: "NVIDIA",
+                    sub: "University Ambassador & DLI Instructor",
+                    href: MAJID.nvidiaInstructorDirectory,
+                  },
+                  { big: "2026", sub: "2026 AI Utah 100 honoree", href: MAJID.aiUtah100.url },
                   { big: "UVU", sub: "Assistant Professor of Computer Science" },
-                ].map((card) => (
-                  <div key={card.big} className="card p-4">
-                    <p className="text-xl font-semibold tabular-nums text-zinc-900 dark:text-zinc-50">
-                      {card.big}
-                    </p>
-                    <p className="mt-1 text-[11px] leading-snug text-zinc-600 dark:text-zinc-500">
-                      {card.sub}
-                    </p>
-                  </div>
-                ))}
+                ].map((card) => {
+                  const inner = (
+                    <>
+                      <p className="text-xl font-semibold tabular-nums text-zinc-900 dark:text-zinc-50">
+                        {card.big}
+                      </p>
+                      <p className="mt-1 text-[11px] leading-snug text-zinc-600 dark:text-zinc-500">
+                        {card.sub}
+                      </p>
+                    </>
+                  );
+                  return card.href ? (
+                    <a
+                      key={card.big}
+                      href={card.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="card p-4"
+                    >
+                      {inner}
+                    </a>
+                  ) : (
+                    <div key={card.big} className="card p-4">
+                      {inner}
+                    </div>
+                  );
+                })}
               </div>
 
               <div className="mt-6 grid gap-3">
@@ -522,11 +615,15 @@ export function HomePageContent() {
               Portfolio
             </p>
             <h2 className="mt-4 text-center text-4xl font-semibold tracking-tight text-zinc-900 dark:text-zinc-50 sm:text-5xl">
-              Selected work
+              Applied AI research
             </h2>
             <p className="mx-auto mt-6 max-w-2xl text-center text-lg text-zinc-600 dark:text-zinc-400">
               Flagship work: DataGovAI, AI-STER, AI-ClassSims, privacy-preserving synthetic data,
-              wind-turbine RGB/thermal inspection, and GridEye.
+              wind-turbine RGB/thermal inspection, and GridEye.{" "}
+              <Link className="text-sky-600 underline dark:text-sky-400" href="/publications">
+                Publications
+              </Link>
+              .
             </p>
           </Reveal>
           <div className="mt-20 grid auto-rows-fr gap-5 sm:grid-cols-2">
@@ -674,32 +771,64 @@ export function HomePageContent() {
               Utah Valley University · NVIDIA DLI
             </p>
             <h2 className="mt-4 text-center text-4xl font-semibold tracking-tight text-zinc-900 dark:text-zinc-50 sm:text-5xl">
-              Courses &amp; workshops
+              AI Entrepreneurship and UVU teaching
             </h2>
             <p className="mx-auto mt-4 max-w-3xl text-center text-zinc-600 dark:text-zinc-500">
               I refresh applied-AI course content every term and deliver{" "}
-              <Link
-                href={NVIDIA_TRAINING_URL}
+              <a
+                href={MAJID.nvidiaInstructorDirectory}
                 className="text-sky-600 dark:text-sky-400 hover:underline"
                 target="_blank"
-                rel="noopener noreferrer"
+                rel="me noopener noreferrer"
               >
                 NVIDIA Deep Learning Institute
-              </Link>{" "}
-              workshops as a University Ambassador — GPU-accelerated labs, free for students at
-              participating universities, with DLI-style certificates where available.
+              </a>{" "}
+              workshops as a University Ambassador — listed in the{" "}
+              <a
+                href={MAJID.nvidiaInstructorDirectory}
+                className="text-sky-600 dark:text-sky-400 hover:underline"
+                target="_blank"
+                rel="me noopener noreferrer"
+              >
+                NVIDIA Certified Instructor Directory
+              </a>
+              . GPU-accelerated labs, free for students at participating universities, with
+              DLI-style certificates where available.
             </p>
+          </Reveal>
+          <Reveal delay={80}>
+            <div className="card mx-auto mt-14 max-w-3xl p-6 sm:p-8">
+              <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-zinc-500 dark:text-zinc-400">
+                Featured course · designed &amp; taught
+              </p>
+              <h3 className="mt-3 text-xl font-semibold tracking-tight text-zinc-900 dark:text-zinc-50">
+                {MAJID.cs4720r.title}: {MAJID.cs4720r.tagline}
+              </h3>
+              <p className="mt-1 text-xs text-zinc-500 dark:text-zinc-500">{MAJID.cs4720r.term}</p>
+              <p className="mt-4 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
+                {MAJID.cs4720r.summary} {MAJID.cs4720r.catalog}{" "}
+                <Link className="text-sky-600 underline dark:text-sky-400" href="/teaching">
+                  Teaching page
+                </Link>
+                .
+              </p>
+            </div>
           </Reveal>
           <div className="mt-16 grid gap-4 sm:grid-cols-2">
             {UVU_COURSES.map((c, i) => (
-              <Reveal key={c.code} delay={i * 50}>
+              <Reveal key={c.title} delay={i * 50}>
                 <div className="card h-full p-5">
                   <p className="text-xs font-medium uppercase tracking-wider text-sky-600 dark:text-sky-400">
-                    {c.code}
+                    {c.format}
                   </p>
                   <h3 className="mt-1 text-sm font-semibold text-zinc-900 dark:text-zinc-100">
                     {c.title}
                   </h3>
+                  {"tagline" in c && c.tagline ? (
+                    <p className="mt-0.5 text-xs font-medium text-zinc-700 dark:text-zinc-300">
+                      {c.tagline}
+                    </p>
+                  ) : null}
                   <p className="mt-1 text-xs text-zinc-500 dark:text-zinc-500">{c.term}</p>
                   <p className="mt-2 text-xs leading-relaxed text-zinc-600 dark:text-zinc-500">
                     {c.blurb}
@@ -741,7 +870,7 @@ export function HomePageContent() {
             <div className="mt-8 flex flex-col items-center gap-2">
               <a
                 href="#contact"
-                className="rounded-full bg-zinc-900 px-6 py-3 text-sm font-medium text-white transition hover:bg-zinc-800 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-white"
+                className="btn-primary"
               >
                 Invite me to your campus
               </a>
@@ -753,24 +882,20 @@ export function HomePageContent() {
           </Reveal>
 
           <Reveal delay={280}>
-            <div className="mt-16 rounded-2xl border border-sky-200/80 bg-sky-50/80 px-4 sm:px-6 py-8 dark:border-sky-900/40 dark:bg-sky-950/20">
-              <p className="text-xs font-semibold uppercase tracking-wider text-sky-700 dark:text-sky-400">
-                Bridging academia &amp; industry
+            <div className="card mt-16 p-6 sm:p-8">
+              <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-zinc-500 dark:text-zinc-400">
+                Training direction
               </p>
-              <h3 className="mt-2 text-lg font-semibold text-zinc-900 dark:text-zinc-100">
-                EdTech innovation &amp; entrepreneurship course
+              <h3 className="mt-2 text-lg font-semibold tracking-tight text-zinc-900 dark:text-zinc-50">
+                Build your own AI-powered business
               </h3>
-              <p className="mt-3 text-sm leading-relaxed text-zinc-700 dark:text-zinc-400">
-                I design new AI courses to close the gap between what universities teach and what
-                industry needs. One example: an innovation and entrepreneurship course focused on
-                Education Technology. Students discover real problems in K-12 and higher education,
-                propose AI-powered solutions, build working prototypes using no-code tools
-                (cloud-hosted n8n), and pitch their EdTech startup to mentors and judges. No
-                programming experience required — co-taught by a computer scientist and an
-                education expert, with mentoring and guest lectures from{" "}
+              <p className="mt-3 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
+                The course is the model for how I train people: discover a real problem, build
+                no-code AI, validate the idea, and launch. Not locked to one industry. Mentoring
+                and pitch coaching draw on{" "}
                 <a
                   href="https://www.uvu.edu/entrepreneurship/"
-                  className="text-sky-600 underline decoration-sky-600/30 hover:decoration-sky-600 dark:text-sky-400"
+                  className="text-link"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
@@ -779,10 +904,7 @@ export function HomePageContent() {
                 .
               </p>
               <div className="mt-6">
-                <a
-                  href="#contact"
-                  className="inline-flex rounded-xl bg-sky-600 px-5 py-2.5 text-sm font-semibold text-white shadow-lg shadow-sky-900/20 transition hover:bg-sky-500 dark:shadow-sky-900/30"
-                >
+                <a href="#contact" className="btn-primary">
                   Contact me about courses &amp; collaboration
                 </a>
               </div>
@@ -875,7 +997,7 @@ export function HomePageContent() {
                   <ul className="mt-2 list-disc space-y-1 pl-5">
                     <li>Contribute to LLM-powered apps, evaluation, and tooling</li>
                     <li>Help build agentic systems and integrations with cloud data services</li>
-                    <li>Support EdTech, simulation, and public-sector initiatives with mentorship</li>
+                    <li>Support AI-ClassSims, AI-STER, and public-sector initiatives with mentorship</li>
                   </ul>
                 </div>
                 <div>
@@ -889,7 +1011,7 @@ export function HomePageContent() {
               <div className="mt-8 flex flex-wrap gap-3">
                 <a
                   href={`mailto:${SITE.email}?subject=AI%20Engineer%20Intern%20Inquiry`}
-                  className="rounded-full bg-zinc-900 px-6 py-2.5 text-sm font-medium text-white transition hover:bg-zinc-800 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-white"
+                  className="btn-primary"
                 >
                   Email me
                 </a>
@@ -945,14 +1067,14 @@ export function HomePageContent() {
                     AI Utah
                   </a>
                   {" "}— Utah&apos;s AI user group and community hub for practitioners, events, and
-                  collaboration. I was{" "}
+                  collaboration. I am a{" "}
                   <a
                     href="https://www.aiutah.org/ai-utah-100/"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="font-medium text-sky-600 underline decoration-sky-600/30 hover:decoration-sky-600 dark:text-sky-400"
                   >
-                    selected for the 2026 AI Utah 100
+                    2026 AI Utah 100 honoree
                   </a>
                   . I show up, bring students, and help them plug into that network.
                 </p>

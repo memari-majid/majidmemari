@@ -1,7 +1,6 @@
 import { MAJID } from "@/lib/majid";
 
-const linkClass =
-  "text-zinc-900 underline decoration-zinc-300 underline-offset-4 hover:decoration-zinc-500 dark:text-zinc-100 dark:decoration-zinc-600";
+const linkClass = "text-link";
 
 const headingClass = "text-sm font-semibold tracking-tight text-zinc-900 dark:text-zinc-100";
 
@@ -35,8 +34,17 @@ export function BioCategories({ className = "" }: { className?: string }) {
           <a href={MAJID.nexusSite} className={linkClass}>
             Nexus AI Solutions
           </a>{" "}
-          he provides {MAJID.clientOffer.label}: {MAJID.clientOffer.summary} He is a Certified Instructor
-          for the NVIDIA Deep Learning Institute, and earlier did data-science work at {MAJID.potentia}.
+          he provides {MAJID.clientOffer.label}: {MAJID.clientOffer.summary} He is listed in the{" "}
+          <a
+            href={MAJID.nvidiaInstructorDirectory}
+            target="_blank"
+            rel="me noopener noreferrer"
+            className={linkClass}
+          >
+            NVIDIA Certified Instructor Directory
+          </a>{" "}
+          as a Deep Learning Institute Certified Instructor, and earlier did data-science work at{" "}
+          {MAJID.potentia}.
         </p>
       </div>
       <div>
@@ -45,9 +53,9 @@ export function BioCategories({ className = "" }: { className?: string }) {
           At the Gary R. Herbert Institute for Public Policy he collaborates with the Utah Office of
           Data Privacy and the Utah Department of Health and Human Services (DHHS) on AI for data
           governance and privacy, and contributes to One-U RAI public and policy conversations. He
-          was{" "}
+          is a{" "}
           <a href={MAJID.aiUtah100.url} target="_blank" rel="noopener noreferrer" className={linkClass}>
-            selected for the 2026 AI Utah 100
+            2026 AI Utah 100 honoree
           </a>
           .
         </p>

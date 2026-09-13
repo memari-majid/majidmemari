@@ -9,7 +9,7 @@ export const SITE = {
   displayName: "Majid (MJ) Memari",
   role: "Academia · Industry · Community",
   description:
-    "Personal site of Dr. Majid Memari. Academia: Assistant Professor of Computer Science at Utah Valley University. Industry: AI consulting and team training (Clarion AI Partners; Nexus AI Solutions; NVIDIA DLI instructor). Community: Gary R. Herbert Institute for Public Policy and the 2026 AI Utah 100.",
+    "Majid Memari, AI Scientist and Solution Architect. PhD in Gen AI (Computer Science, SIU 2023). Applied AI and AI Entrepreneurship at Utah Valley University. 11 years applied AI, 374 Scholar citations, 2026 AI Utah 100 honoree.",
   email: "memari.majid@hotmail.com",
   emailDisplay: "memari.majid@hotmail.com",
   uvuEmail: "mmemari@uvu.edu",

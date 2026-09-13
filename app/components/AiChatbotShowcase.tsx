@@ -40,9 +40,9 @@ export function AiChatbotShowcase() {
     },
     {
       title: "AI Teaching Assistant",
-      subtitle: "CS 4720R course",
+      subtitle: "AI Entrepreneurship course",
       description:
-        "Course-grounded Q&A for AI Business and Tech Solutions — Canvas-aligned context and a dedicated assistant, not a generic chat window.",
+        "Course-grounded Q&A for AI Entrepreneurship — Canvas-aligned context and a dedicated assistant, not a generic chat window.",
       url: taUrl,
       icon: (
         <svg className="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
@@ -83,7 +83,7 @@ export function AiChatbotShowcase() {
                   href={b.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 rounded-xl bg-sky-600 px-5 py-2.5 text-sm font-semibold text-white shadow-lg shadow-sky-900/20 transition hover:bg-sky-500 hover:scale-[1.02] dark:shadow-sky-900/30"
+                  className="btn-primary gap-2"
                 >
                   Open app
                   <ExternalIcon />
@@ -91,7 +91,7 @@ export function AiChatbotShowcase() {
               ) : (
                 <Link
                   href="#contact"
-                  className="inline-flex items-center gap-2 rounded-xl border border-zinc-300 bg-zinc-100/80 px-5 py-2.5 text-sm font-semibold text-zinc-800 transition hover:border-sky-400 hover:bg-white dark:border-zinc-700 dark:bg-zinc-900/50 dark:text-zinc-100 dark:hover:border-sky-600"
+                  className="btn-secondary"
                 >
                   Request access
                 </Link>

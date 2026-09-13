@@ -82,7 +82,7 @@ export function AiNowStrip() {
                 href={item.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="card block h-full p-5 transition hover:border-sky-300 dark:hover:border-sky-800"
+                className="card block h-full p-5"
               >
                 <p className="text-[11px] font-semibold uppercase tracking-wider text-sky-600 dark:text-sky-400">
                   {item.source}

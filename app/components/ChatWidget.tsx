@@ -5,10 +5,13 @@ import { DefaultChatTransport } from "ai";
 import { useEffect, useMemo, useRef, useState } from "react";
 
 const QUICK_PROMPTS = [
-  "What does Dr. Memari do at UVU?",
-  "Tell me about the AI Engineer intern program",
+  "What can AI do for my team?",
   "Do you offer AI consulting and team training?",
+  "Help me scope an AI project",
 ];
+
+/** Any CTA can open the chat by dispatching this event on window. */
+export const OPEN_CHAT_EVENT = "majid:open-chat";
 
 function textFromMessage(m: { parts: { type: string; text?: string }[] }) {
   return m.parts
@@ -60,6 +63,13 @@ export function ChatWidget() {
   useEffect(() => {
     endRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, open]);
+
+  // Any CTA (e.g. the hero "Start a conversation" button) can open the chat.
+  useEffect(() => {
+    const onOpen = () => setOpen(true);
+    window.addEventListener(OPEN_CHAT_EVENT, onOpen);
+    return () => window.removeEventListener(OPEN_CHAT_EVENT, onOpen);
+  }, []);
 
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -132,7 +142,7 @@ export function ChatWidget() {
               {messages.length === 0 && (
                 <div className="space-y-3">
                   <p className="text-sm text-zinc-600 dark:text-zinc-500">
-                    Hi — I can answer questions about Dr. Memari&apos;s AI consulting and team training, teaching at UVU, and AI Engineer internships. How can I help?
+                    Hi — tell me what you&apos;re working on and where you want to go with AI. I&apos;ll give you straight guidance, and point you to consulting or team training if it fits.
                   </p>
                   <div className="flex flex-wrap gap-2">
                     {QUICK_PROMPTS.map((q) => (
@@ -182,7 +192,7 @@ export function ChatWidget() {
                 <button
                   type="submit"
                   disabled={busy || !input.trim()}
-                  className="shrink-0 rounded-lg bg-sky-600 px-3 py-2 text-sm font-medium text-white hover:bg-sky-500 disabled:opacity-50"
+                  className="btn-primary btn-compact shrink-0 disabled:opacity-50"
                 >
                   Send
                 </button>

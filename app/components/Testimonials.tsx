@@ -31,8 +31,9 @@ const HIGHLIGHTS = [
     domain: "Education",
     body: (
       <>
-        Mentors 20+ undergraduate researchers at Utah Valley University and teaches Fall 2026 applied-AI
-        courses: CS-1400, CS-2700, CS 6470, and CS 4720R, plus NVIDIA DLI workshops.
+        Mentors 20+ undergraduate researchers at Utah Valley University and teaches Fall 2026
+        courses: Fundamentals of Programming, Causal Inference, Machine Learning, and AI
+        Entrepreneurship, plus NVIDIA DLI workshops.
       </>
     ),
     icon: (
