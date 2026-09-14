@@ -1,6 +1,11 @@
 /**
- * Visitor-selectable chat models, their public Vercel AI Gateway list prices,
- * and the cost math the route, the widget, and the evals all share.
+ * The chat model, its public Vercel AI Gateway list prices, and the cost math
+ * the route and the contact-form classifier share.
+ *
+ * One entry, on purpose (owner decision, 2026-09-13): the chat runs on Claude
+ * Haiku 4.5 and nothing else. The allowlist shape is kept so `AI_CHAT_MODEL`
+ * is still validated against it and a typo in the environment logs a warning
+ * instead of silently changing the model.
  *
  * Client-safe: no React, no `process.env` reads at import time, and only
  * structural types (the route passes the SDK's `LanguageModelUsage`, which is
@@ -8,99 +13,45 @@
  */
 
 export type ChatModel = {
-  /** Gateway slug, passed to `gateway(model.id)` as a plain string. */
+  /** Gateway slug, passed to `gateway(model.id)` as a plain string. The dot in `4.5` is the real slug. */
   id: string;
-  /** Short label for the picker and the per-reply stats row. */
+  /** Short human-readable name; the shape matches the company site's table. */
   label: string;
   vendor: "Anthropic" | "OpenAI" | "Google";
   /** USD per 1M input tokens (public gateway list price). */
   inputPerM: number;
   /** USD per 1M output tokens (public gateway list price). */
   outputPerM: number;
+  /** USD per 1M prompt-cache read tokens, at the vendor's own discount. */
+  cacheReadPerM: number;
+  /** USD per 1M prompt-cache write tokens, at the vendor's own premium. */
+  cacheWritePerM: number;
   /** Whether the route marks the system prompt for provider prompt caching. */
   promptCache: boolean;
-  /**
-   * One line for the picker tooltip and the how-it-works page. Where a model
-   * has a measured problem on this site, it says so here: the picker must not
-   * read as though every entry behaves the same.
-   */
-  note: string;
 };
 
-/** Prices read from the gateway model list on this date. */
-export const PRICES_AS_OF = "2026-09-12";
-
+/** Prices are the gateway's list prices as read on 2026-09-13. */
 export const CHAT_MODELS: readonly ChatModel[] = [
   {
-    id: "anthropic/claude-opus-5",
-    label: "Claude Opus 5",
+    id: "anthropic/claude-haiku-4.5",
+    label: "Claude Haiku 4.5",
     vendor: "Anthropic",
-    inputPerM: 5,
-    outputPerM: 25,
+    inputPerM: 1,
+    outputPerM: 5,
+    cacheReadPerM: 0.1,
+    cacheWritePerM: 1.25,
     promptCache: true,
-    note: "Default. Best judgement on open-ended consulting questions.",
-  },
-  {
-    id: "anthropic/claude-sonnet-5",
-    label: "Claude Sonnet 5",
-    vendor: "Anthropic",
-    inputPerM: 2,
-    outputPerM: 10,
-    promptCache: true,
-    note: "Budget fallback. Fast and close to Opus on most conversations.",
-  },
-  {
-    id: "openai/gpt-5.6-sol",
-    label: "GPT-5.6 Sol",
-    vendor: "OpenAI",
-    inputPerM: 2,
-    outputPerM: 10,
-    promptCache: false,
-    note: "OpenAI's current general model, for comparison.",
-  },
-  {
-    id: "google/gemini-3.8-flash",
-    label: "Gemini 3.8 Flash",
-    vendor: "Google",
-    inputPerM: 0.75,
-    outputPerM: 3.75,
-    promptCache: false,
-    /**
-     * Kept on the allowlist, and the measurement behind that is worth keeping
-     * straight. 2026-09-13, this site's prompt with NO tools attached, which is
-     * how `evals/bakeoff.ts` calls a model: the second turn ended in a provider
-     * error every attempt, through the compatible endpoint and through
-     * `streamText` alike, which is why it has no row in the published table.
-     * The same second turn through `/api/chat`, where the ten tools ARE
-     * attached, answered normally three times out of three. So this is a fact
-     * about the harness, not a verdict on the model in the product. It stays on
-     * the picker, it judges rows of the published table, and the empty-turn
-     * recovery in the route covers it if the failure ever does reach a visitor.
-     */
-    note: "Cheapest and fastest. It has no row in the published bake-off: that harness calls it with no tools attached, and the second turn errors there. In the chat, where the tools are attached, it answers.",
   },
 ] as const;
 
-export const DEFAULT_MODEL_ID = "anthropic/claude-opus-5";
-export const FALLBACK_MODEL_ID = "anthropic/claude-sonnet-5";
-
-/** Cached input tokens are billed at a tenth of the input price. */
-export const CACHE_READ_MULTIPLIER = 0.1;
-/** Writing a prompt cache entry costs a quarter more than a plain input token. */
-export const CACHE_WRITE_MULTIPLIER = 1.25;
+export const DEFAULT_MODEL_ID = "anthropic/claude-haiku-4.5";
+/** The same model: with one entry there is nothing cheaper to fall back to, and the route treats that as a no-op. */
+export const FALLBACK_MODEL_ID = "anthropic/claude-haiku-4.5";
 
 export function findModel(id: unknown): ChatModel | undefined {
   if (typeof id !== "string") return undefined;
   const wanted = id.trim();
   return CHAT_MODELS.find((m) => m.id === wanted);
-}
-
-/**
- * Picks the visitor's model when it is on the allowlist and falls back to the
- * given default otherwise. Never throws, never trusts the string as a slug.
- */
-export function resolveModel(id: unknown, fallback: ChatModel = defaultModel()): ChatModel {
-  return findModel(id) ?? fallback;
 }
 
 export function defaultModel(): ChatModel {
@@ -130,7 +81,7 @@ export function configuredDefaultModel(envValue: string | undefined): {
   };
 }
 
-/** Structural view of the SDK's `LanguageModelUsage`, so client code can pass plain objects. */
+/** Structural view of the SDK's `LanguageModelUsage`, so callers can pass plain objects. */
 export type UsageLike = {
   inputTokens?: number | undefined;
   outputTokens?: number | undefined;
@@ -156,7 +107,7 @@ export type TokenBreakdown = {
   cacheRead: number;
   cacheWrite: number;
   output: number;
-  /** Reasoning tokens are a subset of `output`, shown for information. */
+  /** Reasoning tokens are a subset of `output`, logged for information. */
   reasoning: number;
   total: number;
 };
@@ -185,13 +136,17 @@ export function tokenBreakdown(usage: UsageLike | undefined): TokenBreakdown {
   return { input, cacheRead, cacheWrite, output, reasoning, total };
 }
 
-/** Cost in USD for one breakdown on one model. */
+/**
+ * Cost in USD for one breakdown on one model, each bucket at that model's own
+ * price. The cache buckets read `cacheReadPerM` and `cacheWritePerM` rather
+ * than a multiplier on the input price (nexus-website keeps the same shape).
+ */
 export function costUsd(tokens: TokenBreakdown, model: ChatModel): number {
   const inputUsd =
-    (tokens.input +
-      tokens.cacheRead * CACHE_READ_MULTIPLIER +
-      tokens.cacheWrite * CACHE_WRITE_MULTIPLIER) *
-    (model.inputPerM / 1_000_000);
+    (tokens.input * model.inputPerM +
+      tokens.cacheRead * model.cacheReadPerM +
+      tokens.cacheWrite * model.cacheWritePerM) /
+    1_000_000;
   const outputUsd = tokens.output * (model.outputPerM / 1_000_000);
   return round6(inputUsd + outputUsd);
 }
@@ -202,12 +157,4 @@ export function usageCostUsd(usage: UsageLike | undefined, model: ChatModel): nu
 
 export function round6(v: number): number {
   return Math.round(v * 1_000_000) / 1_000_000;
-}
-
-/** "$0.0312" style, with enough digits that a cheap reply is not shown as $0.00. */
-export function formatUsd(v: number): string {
-  if (!Number.isFinite(v) || v <= 0) return "$0.00";
-  if (v < 0.01) return `$${v.toFixed(4)}`;
-  if (v < 1) return `$${v.toFixed(3)}`;
-  return `$${v.toFixed(2)}`;
 }

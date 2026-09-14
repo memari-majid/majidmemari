@@ -83,16 +83,29 @@ export const estimateInputSchema = z.object({
   team: z
     .enum(["none", "one-engineer", "small-team", "platform-team"])
     .describe("Who would actually build it, from what they said. none = nobody is assigned yet."),
+  /*
+   * Guidance sits on the array, never on the item. Measured 2026-09-13 on
+   * `anthropic/claude-opus-5`: with a `.describe` on each string item the
+   * model twice wrote this field as repeated unquoted keys
+   * (`"assumptions": The source material is ...`), the JSON failed to parse,
+   * and the visitor saw two failed estimate cards before the third call
+   * landed. The company site's `lib/estimate.ts` describes only the array and
+   * parsed first time in every call.
+   */
   assumptions: z
-    .array(z.string().max(300).describe("One assumption this estimate rests on, under 150 characters"))
+    .array(z.string().max(300))
     .min(1)
     .max(5)
-    .describe("The assumptions that would change the range most if they turn out to be wrong"),
+    .describe(
+      "One to five plain strings, each one assumption this estimate rests on, under 150 characters: the ones that would change the range most if they turn out to be wrong",
+    ),
   unknowns: z
-    .array(z.string().max(300).describe("One thing nobody knows yet, under 150 characters"))
+    .array(z.string().max(300))
     .min(1)
     .max(4)
-    .describe("What has to be answered before this range can narrow"),
+    .describe(
+      "One to four plain strings, each one thing nobody knows yet, under 150 characters: what has to be answered before this range can narrow",
+    ),
 });
 
 export type EstimateInput = z.infer<typeof estimateInputSchema>;

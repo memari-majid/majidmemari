@@ -37,7 +37,7 @@ export type Attachments = { brief: boolean; readiness: boolean };
  */
 const NOT_SENT_REASON: Record<SendFailure, string> = {
   "not-configured":
-    "Email is not switched on for this site yet, so your request was noted on the server but no email went out.",
+    `Email is not switched on for this site yet, so nothing went out and ${FOUNDER_CHAT_NAME} has not seen this.`,
   "invalid-email": "That email address did not look valid, so nothing was sent.",
   "invalid-input": "The approved message did not pass validation on the server, so nothing was sent.",
   quota: "This connection has used today's send allowance, so nothing was sent.",

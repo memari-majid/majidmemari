@@ -10,9 +10,7 @@
  */
 
 import type { DeepPartial, ToolUIPart, UIDataTypes, UIMessagePart } from "ai";
-import type { ChatModel } from "@/lib/chat-models";
-import { FOUNDER_CHAT_NAME } from "@/lib/chat-persona";
-import type { ChatToolName, ChatTools, ChatUIMessage } from "@/lib/chat-tools";
+import type { ChatTools, ChatUIMessage } from "@/lib/chat-tools";
 import type { ReadinessSnapshot } from "@/lib/readiness";
 
 export type ChatPart = UIMessagePart<UIDataTypes, ChatTools>;
@@ -49,55 +47,6 @@ export const APPROVAL_TOOL_NAMES: readonly string[] = [
   "emailMajidNote",
   "emailBriefToVisitor",
 ];
-
-/**
- * What the demo tells visitors the agent can do. Typed as a full record over
- * the tools the server actually exposes, so the list cannot over-claim: add a
- * tool and this file fails to compile until its line exists, remove one and
- * its line has to go with it.
- */
-export const TOOL_CAPABILITY_COPY: Record<ChatToolName, { title: string; line: string }> = {
-  lookupSiteFacts: {
-    title: "Answer from this site, with sources",
-    line: "Looks up what the site actually states and shows which module each fact came from. If nothing covers it, it says so instead of inventing an answer.",
-  },
-  recommendWorkshop: {
-    title: "Match training to your team",
-    line: "Picks from the real catalog, including the NVIDIA DLI workshops I teach, and never names a course that does not exist.",
-  },
-  estimateProject: {
-    title: "Size the work",
-    line: "Turns what you described into a range of calendar weeks with the phases behind it. Effort, never a price and never a quote.",
-  },
-  draftOutreachNote: {
-    title: "Write the note you have to send",
-    line: "Drafts the message to your manager, your team or a client in your own voice. It stays in the window: nothing goes to a third party.",
-  },
-  emailMajidNote: {
-    title: "Send a short note",
-    line: "For when you want to say something directly rather than file a full hand-off. You see the exact note first.",
-  },
-  emailBriefToVisitor: {
-    title: "Email you your own brief",
-    line: "Sends the brief to your address once you have approved the send on screen.",
-  },
-  draftConsultingBrief: {
-    title: "Draft a consulting brief",
-    line: "Turns the conversation into a structured brief: situation, goal, where AI helps, risks, first step. Copy it as text.",
-  },
-  assessReadiness: {
-    title: "Score your readiness",
-    line: "Rates goal, data, people, workflow and governance from what you actually said. Low scores are useful and expected.",
-  },
-  handOffToMajid: {
-    title: `Hand you to ${FOUNDER_CHAT_NAME}`,
-    line: "Shows the exact message first and sends nothing until you tap Send. The brief goes with it.",
-  },
-  offerOfficeHours: {
-    title: "Book office hours",
-    line: "For UVU students and academic contacts. Consulting goes through the hand-off instead.",
-  },
-};
 
 /**
  * A url out of a tool output is untrusted: outputs echo back from the client
@@ -186,11 +135,18 @@ export function segmentsOf(m: ChatUIMessage): Segment[] {
 }
 
 /**
- * The assistant may end a reply with `SUGGESTIONS: a | b | c`. The marker is
- * split off the last text segment so it never reaches the visitor, and the
- * pieces become tappable chips.
+ * The assistant may end a reply with `SUGGESTIONS: a | b`, or with
+ * `SUGGESTIONS: none` when it has just asked the visitor a question. The
+ * marker is split off the last text segment so it never reaches the visitor,
+ * and the pieces become tappable chips: at most two, and none for `none`.
  */
 export const SUGGESTION_MARKER = "SUGGESTIONS:";
+
+/** The prompt's explicit no-chips line, compared case-insensitively. */
+const NO_SUGGESTIONS = "none";
+
+/** Chips shown under one reply. The prompt asks for at most this many; the parser enforces it. */
+export const MAX_CHIPS = 2;
 
 export function splitSuggestions(raw: string): { body: string; suggestions: string[] } {
   const i = raw.lastIndexOf(SUGGESTION_MARKER);
@@ -200,7 +156,8 @@ export function splitSuggestions(raw: string): { body: string; suggestions: stri
     .slice(i + SUGGESTION_MARKER.length)
     .split("|")
     .map((s) => s.replace(/\s+/g, " ").trim())
-    .filter((s) => s.length > 1 && s.length <= 42);
+    .filter((s) => s.length > 1 && s.length <= 42 && s.toLowerCase() !== NO_SUGGESTIONS)
+    .slice(0, MAX_CHIPS);
   return { body, suggestions };
 }
 
@@ -208,7 +165,7 @@ function norm(s: string): string {
   return s.toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
 }
 
-/** Up to three chips the visitor has not already sent. */
+/** Up to `MAX_CHIPS` chips the visitor has not already sent. */
 export function sanitizeChips(chips: string[], used: string[]): string[] {
   const usedNorm = used.map(norm);
   const seen = new Set<string>();
@@ -218,7 +175,7 @@ export function sanitizeChips(chips: string[], used: string[]): string[] {
     if (!key || seen.has(key) || usedNorm.includes(key)) continue;
     seen.add(key);
     out.push(chip);
-    if (out.length === 3) break;
+    if (out.length === MAX_CHIPS) break;
   }
   return out;
 }
@@ -309,10 +266,6 @@ export function inputRows(input: unknown, skip: readonly string[] = []): { label
   return rows;
 }
 
-export function priceLabel(m: ChatModel): string {
-  return `${m.label} ($${m.inputPerM} in, $${m.outputPerM} out per 1M tokens)`;
-}
-
 export function formatChatConfigMessage(error: string): string {
   if (
     error.includes("OIDC") ||
@@ -350,21 +303,28 @@ export async function copyText(text: string): Promise<boolean> {
 }
 
 /**
- * Height of the inline demo body: fixed and predictable, so the section never
+ * Height of the inline chat body: fixed and predictable, so the section never
  * grows as the conversation does. The `max-h` is the part that matters on a
  * short laptop: it caps every breakpoint, not just the phone one, so the card
- * header, the tab strip and the composer all stay inside the viewport instead
- * of pushing the composer below the fold. The subtracted `18rem` covers the
- * header and tab strip above the body plus a margin above the card. The floor
- * keeps the box usable when `dvh` is tiny; the page scrolls there rather than
- * clipping, because the card itself sets no height.
+ * header and the composer both stay inside the viewport instead of pushing
+ * the composer below the fold. The subtracted `18rem` covers the card header
+ * above the body plus a margin above the card. The floor keeps the box usable
+ * when `dvh` is tiny; the page scrolls there rather than clipping, because
+ * the card itself sets no height.
+ *
+ * Below `sm` the subtraction is `20rem`, not `18rem`: measured 2026-09-13 at
+ * 360x640, when the header still carried a model picker and a tab strip, the
+ * two came to about 300 px and the composer sat 11 px below the fold. The
+ * header is shorter now and the blurb is still hidden there
+ * (`InlineAssistantDemo`), so the card fits under the nav with the composer
+ * on screen and room to spare.
  *
  * The company site caps the whole frame instead (`INLINE_DEMO_HEIGHT` in its
  * `lib/chat-ui.ts`), because its header sits inside the frame. Same rule, one
  * value each, so the two can be diffed by eye.
  */
 export const INLINE_DEMO_BODY_HEIGHT =
-  "h-[min(70dvh,520px)] min-h-[320px] max-h-[calc(100dvh-18rem)] sm:h-[580px] lg:h-[620px]";
+  "h-[min(70dvh,520px)] min-h-[320px] max-h-[calc(100dvh-20rem)] sm:h-[580px] sm:max-h-[calc(100dvh-18rem)] lg:h-[620px]";
 
 /** Visitors who asked for less motion get an instant scroll instead of the smooth one. */
 export function prefersReducedMotion(): boolean {

@@ -731,7 +731,8 @@ export function HomePageContent() {
                 Try my AI
               </h3>
               <p className="mx-auto mt-4 max-w-2xl text-center text-zinc-600 dark:text-zinc-400">
-                Products I ship. The first one is running on this page: ask it a real question.
+                Tell it about your team and what you want AI to do, and it will give you straight
+                guidance.
               </p>
             </Reveal>
             <div className="mt-10 min-w-0">

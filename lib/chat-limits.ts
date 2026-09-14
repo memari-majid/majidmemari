@@ -1,17 +1,12 @@
 /**
  * Every owner-tunable number that bounds what the chat may cost or accept.
- * Budgets are in USD so cached input (a tenth of the price) and cheaper
- * picker models count for what they actually cost, not a flat token figure.
+ * Budgets are in USD so cached input (a tenth of the price) counts for what it
+ * actually costs, not a flat token figure.
  *
  * Client-safe: constants and pure functions only.
  */
 
-import {
-  CACHE_READ_MULTIPLIER,
-  CHAT_MODELS,
-  findModel,
-  type ChatModel,
-} from "@/lib/chat-models";
+import type { ChatModel } from "@/lib/chat-models";
 
 /** Per-IP requests per rolling minute. */
 export const RATE_LIMIT_PER_MINUTE = 20;
@@ -52,6 +47,15 @@ export const MAX_CHARS_PER_TEXT_PART = 4_000;
 export const MAX_MESSAGES = 40;
 export const MAX_PARTS_PER_MESSAGE = 50;
 
+/**
+ * Bounds one reply AND the reasoning that precedes it on thinking models,
+ * which is why it is not set to the size of an answer. Measured 2026-09-13,
+ * when the allowlist still carried thinking models: at 2,000 one of them
+ * spent the whole budget reasoning on a second turn and returned an empty
+ * reply. 2,500 matches the company site.
+ */
+export const MAX_OUTPUT_TOKENS = 2_500;
+
 /** The SDK aborts first so `onAbort` runs and accounting completes before the function is killed. */
 export const STREAM_TIMEOUT_MS = 150_000;
 
@@ -69,6 +73,18 @@ export const MAX_DURATION_SECONDS = 180;
 /** Output tokens assumed when reserving budget before the model runs. */
 export const PRECHARGE_OUTPUT_TOKENS = 1_200;
 
+/**
+ * Input tokens one cold chat turn really sends: the rendered system prompt
+ * plus the ten tool schemas, measured as the prompt-cache write on the first
+ * Opus turn of a conversation, 10,835 tokens on 2026-09-13. The prompt alone
+ * is about 13.9k characters, which `CHARS_PER_TOKEN` reads as 3.5k tokens, so
+ * the character count under-reserved a cold turn by two thirds and nineteen
+ * parallel first turns from one address all slipped under the $1 per-IP cap.
+ * The precharge takes the larger of this and the character estimate, so the
+ * floor holds today and the estimate still grows if the prompt does.
+ */
+export const PROMPT_TOKENS_ESTIMATE = 11_000;
+
 /** Hand-off and other outbound emails started from chat, per IP per UTC day. */
 export const EMAIL_PER_IP_PER_DAY = 3;
 /** Outbound emails started from chat, site-wide per UTC day. */
@@ -79,9 +95,16 @@ export const CHARS_PER_TOKEN = 4;
 
 /**
  * What one request will probably cost, reserved before the model runs and
- * settled against actual usage afterwards. The system prompt is assumed to
- * be a cache read on models that support caching; conversation text is
- * charged at the full input price.
+ * settled against actual usage afterwards.
+ *
+ * Deliberately a cold turn, not a warm one: the system prompt is priced at
+ * the cache WRITE rate on models that cache it and at the full input price
+ * on the rest, and never at the cache-read rate, because the reservation is
+ * the only moment the per-IP cap can refuse. Priced as a read it held about
+ * $0.038 for an Opus turn that billed $0.073, and a burst of parallel first
+ * turns walked one address past $1 before any of them settled. A warm turn
+ * over-reserves and settles down, which costs nothing. Conversation text is
+ * charged at the full input price either way.
  */
 export function prechargeEstimateUsd(args: {
   model: ChatModel;
@@ -90,11 +113,10 @@ export function prechargeEstimateUsd(args: {
   outputTokens?: number;
 }): number {
   const { model } = args;
-  const systemTokens = Math.ceil(args.systemChars / CHARS_PER_TOKEN);
+  const systemTokens = Math.max(PROMPT_TOKENS_ESTIMATE, Math.ceil(args.systemChars / CHARS_PER_TOKEN));
   const conversationTokens = Math.ceil(args.conversationChars / CHARS_PER_TOKEN);
-  const systemRate = model.promptCache ? CACHE_READ_MULTIPLIER : 1;
-  const inputUsd =
-    (systemTokens * systemRate + conversationTokens) * (model.inputPerM / 1_000_000);
+  const systemPerM = model.promptCache ? model.cacheWritePerM : model.inputPerM;
+  const inputUsd = (systemTokens * systemPerM + conversationTokens * model.inputPerM) / 1_000_000;
   const outputUsd = (args.outputTokens ?? PRECHARGE_OUTPUT_TOKENS) * (model.outputPerM / 1_000_000);
   return Math.round((inputUsd + outputUsd) * 1_000_000) / 1_000_000;
 }
@@ -133,8 +155,9 @@ export type Rates = { inputPerM: number; outputPerM: number };
 /**
  * Rates assumed when nothing prices the slug in `CONTACT_CLASSIFY_MODEL`: it is
  * not on the chat allowlist, not in the table below, and no env override names
- * a price. They match the most expensive model on the allowlist, so an unknown
- * model over-reserves rather than under-reserving.
+ * a price. They are Claude Opus 5 list prices, kept deliberately high after the
+ * chat moved to Haiku 4.5, so an unknown model over-reserves rather than
+ * under-reserving.
  *
  * The last resort, for both halves of the accounting. Using them for a slug
  * that is priced was the hole this group of functions used to have. Settling a
@@ -150,29 +173,28 @@ export const UNPRICED_MODEL_RATES = { inputPerM: 5, outputPerM: 25 } as const;
 /**
  * USD per 1M tokens for the classifier models, keyed by gateway slug.
  *
- * They need their own table because `CHAT_MODELS` is the picker's allowlist,
- * not a price list: the classifier is deliberately a model no visitor can
- * select, so `findModel` returns nothing for it and there is no published
- * price to settle against.
+ * They need their own table because `CHAT_MODELS` is the chat allowlist, not
+ * a price list: the classifier is deliberately not a chat model, so
+ * `findModel` returns nothing for it and there is no published price to
+ * settle against.
  *
  * Where the numbers came from: the gateway's published list price for each
- * slug, recorded here on 2026-09-13, cross-checked against the bake-off
- * published on the company site. That bake-off
- * (`evals/results/bakeoff-latest.json` in nexus-website) prices GPT-OSS 20B at
- * $0.0004 for a two-turn conversation of roughly 10k input and 1k output
- * tokens, against $0.0758 for Opus on the same conversation. These rates put
- * that conversation at $0.0006, so the two readings differ by about half a
- * ten-thousandth of a dollar and the higher one is kept on purpose: a settle
- * that over-states costs the budget a rounding error, and a settle that
- * under-states is how a gateway bill outruns the books. Recheck them when the
- * gateway reprices; the env override exists so that is not a deploy.
+ * slug, recorded here on 2026-09-13. Where two readings disagreed the higher
+ * one was kept on purpose: a settle that over-states costs the budget a
+ * rounding error, and a settle that under-states is how a gateway bill
+ * outruns the books. Recheck them when the gateway reprices; the env override
+ * exists so that is not a deploy.
  *
- * A slug that neither this table nor the picker prices is both reserved and
- * settled at `UNPRICED_MODEL_RATES`. Correct it with `CONTACT_CLASSIFY_RATES`
+ * A slug that neither this table nor the chat allowlist prices is both
+ * reserved and settled at `UNPRICED_MODEL_RATES`. Correct it with `CONTACT_CLASSIFY_RATES`
  * in the environment rather than leaving it to that fallback.
  */
 export const CONTACT_CLASSIFY_RATES: Readonly<Record<string, Rates | undefined>> = {
+  /** The code default since 2026-09-13: gateway list price $0.10 in, $0.40 out. */
+  "openai/gpt-4.1-nano": { inputPerM: 0.1, outputPerM: 0.4 },
+  /** Still pinned by both `.env.local` files; never returned a valid object in 99 tries. */
   "openai/gpt-oss-20b": { inputPerM: 0.04, outputPerM: 0.16 },
+  /** The dash form of the chat model's slug; the gateway's real slug is `anthropic/claude-haiku-4.5`, priced in `CHAT_MODELS`. Kept priced in case an env still pins the dash. */
   "anthropic/claude-haiku-4-5": { inputPerM: 1, outputPerM: 5 },
 };
 
@@ -222,10 +244,10 @@ export function parseClassifyRates(raw: string | undefined): Rates | undefined {
  *
  * 1. `rates`, which only an explicit `CONTACT_CLASSIFY_RATES` override or the
  *    `CONTACT_CLASSIFY_RATES` table above ever sets. An operator who writes a
- *    price in the environment means that price, even for a slug the picker
- *    also prices, so this wins rather than being silently ignored.
+ *    price in the environment means that price, even for a slug the chat
+ *    allowlist also prices, so this wins rather than being silently ignored.
  * 2. The allowlisted model's own published price, when the classifier happens
- *    to be a model the picker offers.
+ *    to be the chat model.
  * 3. `UNPRICED_MODEL_RATES`, the answer for a slug nothing prices.
  */
 export function contactClassifyResolvedRates(args: {
@@ -303,109 +325,4 @@ export function contactClassifyCostUsd(args: {
   const rates = contactClassifyResolvedRates(args);
   const usd = (args.inputTokens * rates.inputPerM + args.outputTokens * rates.outputPerM) / 1_000_000;
   return Math.max(Math.round(usd * 1_000_000) / 1_000_000, 0);
-}
-
-/* ------------------------------------------------------------------------ */
-/* Live evaluation run                                                       */
-/* ------------------------------------------------------------------------ */
-
-/**
- * A live run is two contestant replies plus one judge call, started by a
- * visitor tapping a button. It is the most expensive thing on the site per
- * tap, so it gets its own allowance on top of, never instead of, the chat
- * budgets: every model call still passes through `reserveBudget`, which is
- * the only global hard cap there is.
- */
-
-/**
- * Live runs one client IP may start per UTC day. Enforced by a counter the
- * route reserves before anything is called (`reserveEvalRun`), not by the
- * replay cache: a run that fails or is abandoned still spent its models, so
- * the count is never given back.
- */
-export const EVAL_RUNS_PER_IP_PER_DAY = 2;
-
-/** Site-wide spend on live runs per UTC day, inside the global soft budget. */
-export const GLOBAL_EVAL_USD_PER_DAY = 1.0;
-
-/**
- * One prospect turn, not the two-turn conversation the published table
- * measured, and a short answer. The two measurements have different shapes
- * and are rendered in separate blocks; a live number never overwrites a
- * published cell.
- */
-export const EVAL_OUTPUT_TOKENS = 600;
-/**
- * The judge writes five scores, a winner and one line of verdict, which is
- * about 150 tokens of text. The cap sits far above that because a reasoning
- * model spends this same budget thinking first: measured on
- * `google/gemini-3.8-flash`, the default judge, one verdict took 619 reasoning
- * tokens and left 66 for the answer, so the object came back truncated and the
- * score was lost. The script and the live run both read this, so a cap set to
- * the size of the answer means a visitor's run reports no score nearly every
- * time. Raise it before lowering it, and remember it also sets the judge's
- * share of the eval precharge.
- */
-export const EVAL_JUDGE_OUTPUT_TOKENS = 1_500;
-
-/**
- * Two bounded legs. Contestants run in parallel and settle first, then the
- * judge, so the function can never reach `EVAL_MAX_DURATION_SECONDS` with
- * money reserved and unreconciled.
- */
-export const EVAL_CONTESTANT_TIMEOUT_MS = 40_000;
-export const EVAL_JUDGE_TIMEOUT_MS = 30_000;
-export const EVAL_MAX_DURATION_SECONDS = 120;
-
-/** How long a completed run is replayed from cache instead of being rerun. */
-export const EVAL_CACHE_TTL_SECONDS = 24 * 60 * 60;
-
-/**
- * Judge preference, cheapest first. A model never scores its own reply: the
- * first entry that is not in the set handed in does the scoring, and the panel
- * names it. With Gemini Flash ruled out the judge is Claude Sonnet 5.
- *
- * Both callers pass the models that must not judge, and they rule out
- * different sets. A live run has two contestants and one judge for the pair,
- * so it passes both. `evals/judge.ts` scores one reply at a time and passes
- * only the model that wrote that reply, so a bake-off of the whole allowlist
- * still has a judge for every row and different rows get different judges.
- */
-export const JUDGE_PREFERENCE: readonly string[] = [
-  "google/gemini-3.8-flash",
-  "anthropic/claude-sonnet-5",
-  "openai/gpt-5.6-sol",
-  "anthropic/claude-opus-5",
-];
-
-/** Picks a judge that is none of `contestantIds`, or undefined when they leave nothing. */
-export function pickJudgeModel(contestantIds: readonly string[]): ChatModel | undefined {
-  const running = new Set(contestantIds);
-  for (const id of JUDGE_PREFERENCE) {
-    if (running.has(id)) continue;
-    const model = findModel(id);
-    if (model) return model;
-  }
-  return CHAT_MODELS.find((m) => !running.has(m.id));
-}
-
-/** What one whole live run is charged before it starts; settled against usage afterwards. */
-export function evalPrechargeUsd(args: {
-  contestants: readonly ChatModel[];
-  judge: ChatModel;
-  promptChars: number;
-}): number {
-  const promptTokens = Math.ceil(args.promptChars / CHARS_PER_TOKEN);
-  let usd = 0;
-  for (const model of args.contestants) {
-    usd +=
-      (promptTokens * model.inputPerM + EVAL_OUTPUT_TOKENS * model.outputPerM) / 1_000_000;
-  }
-  // The judge reads both replies on top of the scenario.
-  const judgeInputTokens = promptTokens + args.contestants.length * EVAL_OUTPUT_TOKENS;
-  usd +=
-    (judgeInputTokens * args.judge.inputPerM +
-      EVAL_JUDGE_OUTPUT_TOKENS * args.judge.outputPerM) /
-    1_000_000;
-  return Math.max(Math.round(usd * 1_000_000) / 1_000_000, 0.0001);
 }

@@ -48,9 +48,22 @@ import { getRateLimiter, ipHash } from "@/lib/rate-limit";
 
 export const runtime = "nodejs";
 
-/** Smaller / cheaper model for classification (override with CONTACT_CLASSIFY_MODEL).
- *  Routed through Vercel AI Gateway; use a `provider/model` slug. */
-const CLASSIFY_MODEL = process.env.CONTACT_CLASSIFY_MODEL ?? "openai/gpt-oss-20b";
+/**
+ * Smaller / cheaper model for classification (override with
+ * CONTACT_CLASSIFY_MODEL). Routed through Vercel AI Gateway; use a
+ * `provider/model` slug.
+ *
+ * Why this default, measured 2026-09-13: `openai/gpt-oss-20b`, the old
+ * default here and the value both `.env.local` files still pin, never returned
+ * a schema-valid object (99 of 99 submissions failed, every one paid for), and
+ * `anthropic/claude-haiku-4-5`, the company site's code default, is not on this
+ * gateway at all. `openai/gpt-4.1-nano` returned a valid object first time in
+ * every probe, does not spend the 400-token cap on reasoning the way
+ * `gpt-5-nano` does, and costs $0.10 in, $0.40 out per 1M. The same default
+ * and the same rate belong in the company repo. Production carries its own
+ * `CONTACT_CLASSIFY_MODEL`; the owner sets it to this slug or removes it.
+ */
+const CLASSIFY_MODEL = process.env.CONTACT_CLASSIFY_MODEL?.trim() || "openai/gpt-4.1-nano";
 
 /**
  * What that model costs, in USD per 1M tokens, `"input,output"`.

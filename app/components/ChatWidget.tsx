@@ -26,11 +26,10 @@ import {
   useConversation,
 } from "@/app/components/chat/ConversationView";
 import {
-  hydrateModelFromStorage,
   OPEN_CHAT_EVENT,
   setPanelOpen,
+  useInlineDemoInView,
 } from "@/app/components/chat/chatStore";
-import { ModelPicker } from "@/app/components/chat/ModelPicker";
 import { ASSISTANT_BADGE, ASSISTANT_BLURB, ASSISTANT_NAME } from "@/lib/chat-persona";
 
 export { OPEN_CHAT_EVENT };
@@ -48,15 +47,6 @@ function focusableIn(root: HTMLElement | null): HTMLElement[] {
 
 /** Mirrors Tailwind's `sm`: below it the dialog is a full-screen sheet, above it a floating panel. */
 const SHEET_PANEL_QUERY = "(min-width: 40rem)";
-
-/**
- * Escape closes the dialog unless focus sits on a native select. There the key
- * closes the open option list first, and the dialog has to stay put, or picking
- * a model would throw the visitor out of the chat.
- */
-function escapeClosesDialog(targetTagName: string | undefined | null): boolean {
-  return (targetTagName ?? "").toUpperCase() !== "SELECT";
-}
 
 /**
  * Inline styles that freeze the page behind the full-screen sheet, including on
@@ -78,6 +68,8 @@ function lockedBodyStyle(scrollY: number): Record<string, string> {
 export function ChatWidget() {
   const chat = useConversation();
   const [open, setOpen] = useState(false);
+  // On a phone the launcher sat on the inline demo's Send button (`chatStore.ts`).
+  const demoInView = useInlineDemoInView();
   const [announcement, setAnnouncement] = useState<{ key: string; text: string } | undefined>(undefined);
   const prefix = useId();
   const launcherRef = useRef<HTMLButtonElement>(null);
@@ -94,12 +86,6 @@ export function ChatWidget() {
     const active = document.activeElement;
     openerRef.current = active instanceof HTMLElement && active !== document.body ? active : null;
     setOpen(true);
-  }, []);
-
-  // The saved model pick lands after mount, so the server and the first client
-  // render agree on the seeded one.
-  useEffect(() => {
-    hydrateModelFromStorage();
   }, []);
 
   // The inline demo keeps its live region mounted and silent while this panel
@@ -137,7 +123,6 @@ export function ChatWidget() {
     function onKeyDown(e: KeyboardEvent) {
       if (e.key === "Escape") {
         if (e.isComposing) return;
-        if (!escapeClosesDialog(e.target instanceof Element ? e.target.tagName : undefined)) return;
         e.preventDefault();
         setOpen(false);
         return;
@@ -219,7 +204,7 @@ export function ChatWidget() {
         ref={launcherRef}
         type="button"
         onClick={openDialog}
-        className={`fixed z-[60] flex h-14 w-14 min-h-[56px] min-w-[56px] items-center justify-center rounded-full bg-sky-600 text-white shadow-lg shadow-sky-900/40 transition hover:bg-sky-500 focus:outline-none focus:ring-2 focus:ring-sky-400 focus:ring-offset-2 focus:ring-offset-zinc-50 motion-reduce:transition-none dark:focus:ring-offset-zinc-950 ${open ? "hidden" : ""} bottom-[max(1.25rem,env(safe-area-inset-bottom))] right-[max(1.25rem,env(safe-area-inset-right))]`}
+        className={`fixed z-[60] flex h-14 w-14 min-h-[56px] min-w-[56px] items-center justify-center rounded-full bg-sky-600 text-white shadow-lg shadow-sky-900/40 transition hover:bg-sky-500 focus:outline-none focus:ring-2 focus:ring-sky-400 focus:ring-offset-2 focus:ring-offset-zinc-50 motion-reduce:transition-none dark:focus:ring-offset-zinc-950 ${open ? "hidden" : ""} ${demoInView ? "max-sm:hidden" : ""} bottom-[max(1.25rem,env(safe-area-inset-bottom))] right-[max(1.25rem,env(safe-area-inset-right))]`}
         aria-label={`Open the ${ASSISTANT_NAME}`}
         aria-haspopup="dialog"
       >
@@ -286,17 +271,11 @@ export function ChatWidget() {
               </div>
             </div>
 
-            {/* Toolbar row: the picker gets its own line so 360 px phones never overflow. */}
-            <div className="flex min-w-0 shrink-0 items-center gap-2 border-b border-zinc-200 px-4 py-2 dark:border-zinc-800">
-              <ModelPicker id={`${prefix}-model`} />
-            </div>
-
             {/*
-              This panel has no tabs, so its own copy of the region lives here,
-              beside the view rather than inside it. Same shape as the inline
-              demo: keyed by reply, so two replies that happen to use the same
-              words are two different elements and the second one is announced
-              too.
+              The panel's own live region lives here, beside the view rather
+              than inside it. Same shape as the inline chat: keyed by reply, so
+              two replies that happen to use the same words are two different
+              elements and the second one is announced too.
             */}
             <div role="status" aria-live="polite" aria-atomic="true" className="sr-only">
               {announcement && <p key={announcement.key}>{announcement.text}</p>}

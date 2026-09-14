@@ -1,4 +1,5 @@
 import {
+  InvalidToolApprovalSignatureError,
   convertToModelMessages,
   createUIMessageStream,
   createUIMessageStreamResponse,
@@ -11,6 +12,12 @@ import {
   type UIMessageStreamWriter,
 } from "ai";
 import { z } from "zod";
+import {
+  MAX_SIGNATURE_CHARS,
+  approvalSecret,
+  verifyApproval,
+  verifyDraft,
+} from "@/lib/approval-signature";
 import { chatSystemPrompt } from "@/lib/assistant";
 import {
   CHARS_PER_TOKEN,
@@ -18,25 +25,26 @@ import {
   MAX_CHARS_PER_TEXT_PART,
   MAX_CHARS_TOTAL,
   MAX_MESSAGES,
+  MAX_OUTPUT_TOKENS,
   MAX_PARTS_PER_MESSAGE,
   MAX_TOOL_CHARS_TOTAL,
   STREAM_TIMEOUT_MS,
   prechargeEstimateUsd,
 } from "@/lib/chat-limits";
-import type { ChatMessageMetadata } from "@/lib/chat-metadata";
 import {
   configuredDefaultModel,
   costUsd,
   fallbackModel,
-  findModel,
   round6,
   tokenBreakdown,
   type ChatModel,
   type TokenBreakdown,
 } from "@/lib/chat-models";
 import { ASSISTANT_NAME } from "@/lib/chat-persona";
-import { chatTools, type ChatUIMessage, type ToolContext } from "@/lib/chat-tools";
+import { holdToolInputs } from "@/lib/chat-stream";
+import { chatTools, type ChatToolName, type ChatUIMessage, type ToolContext } from "@/lib/chat-tools";
 import { isEmailConfigured } from "@/lib/email";
+import { gatewayProviderOptions } from "@/lib/gateway";
 import { getRateLimiter } from "@/lib/rate-limit";
 import { SITE } from "@/lib/site";
 
@@ -46,23 +54,20 @@ export const maxDuration = 180;
 
 /**
  * Model and budget controls. The money knobs (per-IP and site-wide budgets,
- * rate limit, body caps) live in `lib/chat-limits.ts`; the model allowlist
+ * rate limit, body caps) and `MAX_OUTPUT_TOKENS`, which bounds one reply AND
+ * the reasoning before it, live in `lib/chat-limits.ts`; the model allowlist
  * and prices in `lib/chat-models.ts`. What stays here is per-route:
  *
- * - MAX_OUTPUT_TOKENS bounds one reply AND the reasoning that precedes it on
- *   thinking models, which is why it is not set to the size of an answer.
- *   Measured 2026-09-13: at 2,000, `google/gemini-3.8-flash` spent the whole
- *   budget reasoning on the bake-off's second turn and returned an empty
- *   reply. 2,500 matches the company site and leaves that headroom. A visitor
- *   who picks a thinking model gets no answer at all when this is too low.
  * - MAX_STEPS: a lookup plus a brief plus an estimate plus the reply, with
  *   one spare step. Ten tools make a longer loop possible, not desirable.
  * - ASSISTANT_TEXT_CAP: an echoed assistant reply cannot be longer than one
  *   full output, so anything past it is trimmed rather than 400ing the whole
  *   conversation (the visitor's own turns keep the tighter per-part cap).
- * - The default model comes from `AI_CHAT_MODEL`, validated against the
- *   allowlist once at module load; an unknown slug logs a warning and falls
- *   back to Opus 5 rather than silently changing the experience.
+ * - The model comes from `AI_CHAT_MODEL`, validated against the allowlist
+ *   once at module load; an unknown slug logs a warning and falls back to the
+ *   allowlisted model rather than silently changing the experience. The
+ *   client sends no model and any `model` field it does send is ignored
+ *   (owner decision, 2026-09-13).
  *
  * One turn may be two model calls. A provider can end a stream after billing
  * real tokens and hand the route nothing to show, and a visitor must never be
@@ -70,7 +75,6 @@ export const maxDuration = 180;
  * recovered once on the fallback model. See "Empty turn recovery" below for
  * the rules, the wording and the accounting.
  */
-const MAX_OUTPUT_TOKENS = 2_500;
 const MAX_STEPS = 5;
 const ASSISTANT_TEXT_CAP = MAX_OUTPUT_TOKENS * CHARS_PER_TOKEN;
 
@@ -84,9 +88,8 @@ const FALLBACK_MODEL: ChatModel = fallbackModel();
  * shapes that actually reach the model are rebuilt by `sanitizeMessages`
  * below, so nothing echoed by the client is forwarded verbatim. Only user and
  * assistant turns are accepted, so a client cannot inject system messages.
- * `z.object` on the body strips the transport's `id`, `trigger`, and
- * `messageId`; `model` is validated by `findModel`, never by `z.enum`, so an
- * unknown slug falls back instead of 400ing.
+ * `z.object` on the body strips the transport's `id`, `trigger`, `messageId`
+ * and any `model` a client still sends: the route picks the model.
  */
 const partSchema = z.looseObject({
   type: z.string().max(64),
@@ -98,7 +101,6 @@ const messageSchema = z.looseObject({
 });
 const bodySchema = z.object({
   messages: z.array(messageSchema).min(1).max(MAX_MESSAGES),
-  model: z.string().max(64).optional(),
 });
 type EchoedPart = z.infer<typeof partSchema>;
 type EchoedMessage = z.infer<typeof messageSchema>;
@@ -126,6 +128,15 @@ function clientIp(req: Request): string {
 const NEW_CHAT_MESSAGE = "This conversation is getting long. Start a new chat with the New button.";
 const TOO_LONG_MESSAGE = "That message is too long. Please shorten it and send it again.";
 const INVALID_MESSAGE = "Invalid request body.";
+/**
+ * A transcript that ends with an assistant message and carries no approval
+ * to execute has nothing for the model to do. Sending it anyway asks the
+ * provider to continue its own last message, which Anthropic models refuse
+ * with a 400 for assistant prefill, and the turn would still be charged.
+ * Measured 2026-09-13 when the Retry button re-posted such a transcript.
+ */
+const NOTHING_TO_ANSWER_MESSAGE =
+  "There is nothing to send: the conversation is waiting on you. Type a message, or start a new chat with the New button.";
 /** The mailbox is a real inbox; the contact form only logs until Resend is configured, so it comes second. */
 const CONTACT_FALLBACK = `Please email ${SITE.email} or use the contact form instead.`;
 
@@ -155,13 +166,50 @@ const CONTACT_FALLBACK = `Please email ${SITE.email} or use the contact form ins
  * Left alone, the SDK emits a tool call with no result and every later
  * request in the conversation fails with MissingToolResultsError until the
  * visitor taps New.
+ *
+ * Two signature checks run here as well, because the transcript is the
+ * client's. An `approval-responded` part is only as trustworthy as the
+ * request it answers, and before this a part for a call the model never made,
+ * with a self-chosen id and input, executed the send tool (kept inert only by
+ * email being unconfigured). Now `streamText` signs every approval request it
+ * emits (`experimental_toolApprovalSecret`, HMAC over the approval id, the
+ * tool call id, the tool name and a digest of the input), the widget echoes
+ * the signature back, and an approved part whose signature is missing or
+ * wrong becomes `output-denied` with `FORGED_APPROVAL_REASON` before any
+ * budget is reserved. The draft tools sign their own input into their output
+ * (`lib/chat-tools.ts`), and a draft part whose output does not verify is
+ * dropped, so `findBrief` and `findReadiness` can only hand a send tool a
+ * draft this server saw the model write. Same module, same checks, on the
+ * company site (`lib/approval-signature.ts` in both repos).
  */
 const STALE_APPROVAL_REASON =
   "Not sent: this approval was not completed before the conversation moved on, so nothing went out. Offer the hand-off again only if the visitor still wants it.";
+/**
+ * Also handed to the SDK as the reason on a decline answered in the final
+ * step, where the SDK otherwise reports a bare "execution denied" and the
+ * model fills the gap itself (measured: "both requests sit in the server log"
+ * and a chip inviting a retry of the declined note).
+ */
 const DECLINED_APPROVAL_REASON =
-  "Not sent: the visitor declined this hand-off on screen, so nothing went out. Do not offer it again unless they ask.";
+  "Not sent: the visitor declined this send on screen, so nothing went out and nothing was recorded anywhere. Do not offer it again unless they ask, and do not suggest a chip that retries it.";
 const APPROVED_NOT_SENT_REASON =
   "Not sent: the visitor approved this hand-off, but the send did not run before the conversation moved on, so nothing went out. Offer to send it again if they still want it.";
+const FORGED_APPROVAL_REASON =
+  "Not sent: that approval could not be verified against a request this assistant made, so nothing went out. Do not call this tool again unless the visitor asks, and point them to the contact form at /contact.";
+
+/**
+ * The signing secret, resolved once per instance like the prompt. Always set:
+ * the environment, else a key derived from the Resend key, else a random
+ * per-instance key with one warning (`lib/approval-signature.ts`).
+ */
+const APPROVAL_SECRET = approvalSecret();
+
+/** Tools whose input a send tool re-reads from history; their output carries a signature over it. */
+const DRAFT_TOOL_NAMES: ReadonlySet<ChatToolName> = new Set<ChatToolName>([
+  "draftConsultingBrief",
+  "assessReadiness",
+  "draftOutreachNote",
+]);
 
 type CleanPart = { type: string } & Record<string, unknown>;
 type CleanMessage = { id: string; role: "user" | "assistant"; parts: CleanPart[] };
@@ -182,10 +230,25 @@ function jsonLength(v: unknown): number {
   }
 }
 
-function approvalOf(part: EchoedPart): { id: string; approved: unknown; reason?: string } | undefined {
+function approvalOf(
+  part: EchoedPart,
+): { id: string; approved: unknown; reason?: string; signature?: string } | undefined {
   const a = part.approval;
   if (!isRecord(a) || typeof a.id !== "string" || !a.id || a.id.length > 128) return undefined;
-  return { id: a.id, approved: a.approved, ...(typeof a.reason === "string" ? { reason: a.reason.slice(0, 300) } : {}) };
+  return {
+    id: a.id,
+    approved: a.approved,
+    ...(typeof a.reason === "string" ? { reason: a.reason.slice(0, 300) } : {}),
+    // The SDK's HMAC over the request it issued; verified before an approved call may run.
+    ...(typeof a.signature === "string" && a.signature.length <= MAX_SIGNATURE_CHARS
+      ? { signature: a.signature }
+      : {}),
+  };
+}
+
+/** The signature a draft tool wrote into its own output, if the echoed output still carries one. */
+function draftSignatureOf(output: unknown): unknown {
+  return isRecord(output) ? output.signature : undefined;
 }
 
 /**
@@ -207,6 +270,20 @@ function cleanToolPart(part: EchoedPart, finalStep: boolean): CleanPart | undefi
 
   switch (part.state) {
     case "output-available":
+      // A draft the send tools may re-read from history is kept only when the
+      // signature its tool wrote into the output still matches the input.
+      if (
+        DRAFT_TOOL_NAMES.has(toolName as ChatToolName) &&
+        !verifyDraft({
+          secret: APPROVAL_SECRET,
+          toolCallId,
+          toolName,
+          input: base.input,
+          signature: draftSignatureOf(part.output),
+        })
+      ) {
+        return undefined;
+      }
       return { ...base, state: "output-available", output: part.output };
     case "output-error":
       return {
@@ -230,10 +307,45 @@ function cleanToolPart(part: EchoedPart, finalStep: boolean): CleanPart | undefi
         // an approval nobody answered.
         return denied(approval.approved ? APPROVED_NOT_SENT_REASON : approval.reason || DECLINED_APPROVAL_REASON);
       }
+      if (!approval.approved) {
+        // A decline executes nothing, so it needs no signature; it does need a
+        // reason the model can act on, or the SDK reports a bare denial.
+        return {
+          ...base,
+          state: "approval-responded",
+          approval: { id: approval.id, approved: false, reason: approval.reason || DECLINED_APPROVAL_REASON },
+        };
+      }
+      // The only place a send can still run, so the only place a forged part
+      // could get one executed. Verified here, with a reason, rather than left
+      // to the SDK's throw, so a forged request costs one ordinary turn and
+      // never a stream error. It stays `approval-responded`, turned into a
+      // decline, rather than becoming `output-denied`: the SDK then runs its
+      // own denial path, which emits `tool-output-denied` to the client and
+      // moves the card off "Sending now", so a legitimate approval that could
+      // not be verified (a transcript from before this deploy, or a
+      // per-instance key on another instance) settles on screen instead of
+      // stalling with a Retry that would fail the same way.
+      if (
+        !verifyApproval({
+          secret: APPROVAL_SECRET,
+          approvalId: approval.id,
+          toolCallId,
+          toolName,
+          input: base.input,
+          signature: approval.signature,
+        })
+      ) {
+        return {
+          ...base,
+          state: "approval-responded",
+          approval: { id: approval.id, approved: false, reason: FORGED_APPROVAL_REASON },
+        };
+      }
       return {
         ...base,
         state: "approval-responded",
-        approval: { id: approval.id, approved: approval.approved, ...(approval.reason ? { reason: approval.reason } : {}) },
+        approval: { id: approval.id, approved: true, signature: approval.signature },
       };
     case "approval-requested":
       return denied(STALE_APPROVAL_REASON);
@@ -297,6 +409,19 @@ function sanitizeMessages(messages: EchoedMessage[]): Sanitized {
 }
 
 /**
+ * True when the transcript ends with an assistant message that carries no
+ * approval to execute, which is a request the model cannot answer: the
+ * approval continuation is the one legitimate shape that ends in an assistant
+ * turn, and it always carries an `approval-responded` part in its final step.
+ */
+function nothingToAnswer(messages: CleanMessage[]): boolean {
+  const last = messages[messages.length - 1];
+  if (!last || last.role !== "assistant") return false;
+  const lastStepStart = last.parts.map((p) => p.type).lastIndexOf("step-start");
+  return !last.parts.some((p, i) => i > lastStepStart && p.state === "approval-responded");
+}
+
+/**
  * Keeps echoed tool payloads inside `MAX_TOOL_CHARS_TOTAL`.
  *
  * Only visible text is measured against `MAX_CHARS_TOTAL`, so without this
@@ -345,10 +470,8 @@ function trimToolPayloads(messages: CleanMessage[], toolChars: number): number {
 /* ------------------------------------------------------------------------ */
 
 /**
- * The prompt lives in `lib/assistant.ts`, not here, because three callers
- * must render the same string: this route, the published bake-off, and the
- * live evaluation run. A result measured against a different prompt would be
- * a published lie.
+ * The prompt lives in `lib/assistant.ts`, not here, so it is data the route
+ * renders rather than a string buried in a handler.
  *
  * Rendered once per instance. `emailEnabled` reflects what this server can
  * actually do, so the assistant is never told it can send mail that cannot
@@ -391,22 +514,6 @@ const ZERO_TOKENS: TokenBreakdown = {
   total: 0,
 };
 
-/**
- * Tokens across both calls of a recovered turn. A turn that cost two calls
- * shows what both of them cost, or the stats line would report a cost the
- * token counts under it cannot explain.
- */
-function addTokens(a: TokenBreakdown, b: TokenBreakdown): TokenBreakdown {
-  return {
-    input: a.input + b.input,
-    cacheRead: a.cacheRead + b.cacheRead,
-    cacheWrite: a.cacheWrite + b.cacheWrite,
-    output: a.output + b.output,
-    reasoning: a.reasoning + b.reasoning,
-    total: a.total + b.total,
-  };
-}
-
 /* ------------------------------------------------------------------------ */
 /* Empty turn recovery                                                       */
 /* ------------------------------------------------------------------------ */
@@ -420,14 +527,11 @@ function addTokens(a: TokenBreakdown, b: TokenBreakdown): TokenBreakdown {
  * assistant turn in `messages` it finished with `finishReason: "error"` after
  * 422 output tokens, 358 of them reasoning, and handed over zero characters.
  * It was reproduced on every attempt, and the company site's prompt on the
- * same model and the same SDK answered normally, so it is this prompt on this
- * model. Bisecting this site's prompt puts it in the tools paragraph, but the
- * root cause is the provider's and the fix is not to reword a prompt whose
- * hash is published in `evals/results/bakeoff-latest.json`.
- *
- * So the fix is here: a turn that hands the visitor nothing is run once more
- * on the fallback model, and the visitor is told which model failed and which
- * one answered. The rules, in order:
+ * same model and the same SDK answered normally, so it was this prompt on
+ * that model. The root cause was the provider's, and the fix is here rather
+ * than in the prompt: a turn that hands the visitor nothing is run once more
+ * on the fallback model, and the visitor is told, without naming a model,
+ * that it was tried again. The rules, in order:
  *
  * - Delivered anything, retry nothing. Text, a tool card, an approval request
  *   or a data part all count. An approval request is the case that matters:
@@ -436,22 +540,21 @@ function addTokens(a: TokenBreakdown, b: TokenBreakdown): TokenBreakdown {
  * - One retry, on the fallback model, never on the model that just failed.
  *   When the model that failed IS the fallback, a second call would be the
  *   same model failing again on the visitor's money, so the turn ends in the
- *   plain sentence below instead.
+ *   plain sentence below instead. With one model on the allowlist that is
+ *   every case today; the retry path stays so a second model can be added
+ *   back without touching the route.
  * - Never an empty bubble. Every path writes a sentence.
  * - Both calls are charged. The first call really did spend the tokens the
- *   provider reported, so it tops up and is never settled downward, the same
- *   rule `/api/evals/run` follows for an abandoned run.
+ *   provider reported, so it tops up and is never settled downward.
  * - One `chat.usage` line per model call, so `outcome: "no-reply"` can be
  *   counted per model in the Vercel logs.
  */
-const EMPTY_TURN_NOTICE = (failed: ChatModel, answering: ChatModel): string =>
-  `${failed.label} returned an error on this turn, so ${answering.label} took over.\n\n`;
+/* Visitor-facing sentences. None of them names a model: which model ran is the server log's business. */
+const EMPTY_TURN_NOTICE = "The first attempt at this reply returned an error, so it was tried once more.\n\n";
 
-const RETRY_ALSO_EMPTY = (answering: ChatModel): string =>
-  `${answering.label} did not return anything either. ${CONTACT_FALLBACK}`;
+const RETRY_ALSO_EMPTY = `The second attempt did not return anything either. ${CONTACT_FALLBACK}`;
 
-const NOTHING_TO_RETRY_ON = (failed: ChatModel): string =>
-  `${failed.label} returned an error on this turn, and it is the model this site falls back to, so there was nothing to retry on. Pick another model in the picker and send that again. ${CONTACT_FALLBACK}`;
+const NOTHING_TO_RETRY_ON = `Sorry, this reply ran into an error and nothing came back. Send it once more. If it happens again, ${CONTACT_FALLBACK}`;
 
 /** Every call streams into one message: the route writes `start` and `finish` itself. */
 const CALL_STREAM = { sendReasoning: false, sendStart: false, sendFinish: false } as const;
@@ -489,9 +592,11 @@ export async function POST(req: Request) {
   const clean = sanitizeMessages(parsed.data.messages);
   if (!clean.ok) return json(clean.status, { error: clean.error });
   if (clean.textChars > MAX_CHARS_TOTAL) return json(413, { error: NEW_CHAT_MESSAGE });
+  // Nothing is reserved and nothing is called for a transcript the model
+  // cannot continue; the widget shows this sentence in place of a reply.
+  if (nothingToAnswer(clean.messages)) return json(400, { error: NOTHING_TO_ANSWER_MESSAGE });
 
-  const requested = findModel(parsed.data.model);
-  let model: ChatModel = requested ?? DEFAULT_MODEL;
+  let model: ChatModel = DEFAULT_MODEL;
 
   let modelMessages: Awaited<ReturnType<typeof convertToModelMessages>>;
   try {
@@ -543,25 +648,16 @@ export async function POST(req: Request) {
   }
 
   const turns = clean.messages.length;
-  // Which limiter backend served the request stays in the server log only.
-  const startMetadata: ChatMessageMetadata = {
-    model: model.id,
-    modelLabel: model.label,
-    ...(requested && requested.id !== model.id ? { requestedModel: requested.id } : {}),
-    ...(budgetFallback ? { budgetFallback: true } : {}),
-  };
 
   /**
-   * Request-level stats. A recovered turn is two model calls but one reply, so
-   * the line under it describes the request the visitor made rather than
-   * whichever call happened to answer.
+   * Request-level figures, for the server log only. A recovered turn is two
+   * model calls but one reply, so time to first token describes the request
+   * the visitor made rather than whichever call happened to answer.
    */
   let firstTokenAt: number | undefined;
   let stepCount = 0;
   let toolCallCount = 0;
   let charged = 0;
-  /** Tokens from a call that delivered nothing, carried into the finish metadata. */
-  let carriedTokens = ZERO_TOKENS;
   /**
    * What earlier calls in this request already hold against the reservation.
    * Zero on the first call, so its accounting is exactly what it always was;
@@ -598,7 +694,8 @@ export async function POST(req: Request) {
         site: "majidmemari",
         requestId,
         model: callModel.id,
-        requestedModel: requested?.id ?? null,
+        // The client can no longer ask for a model; the key stays so the line's shape does not change.
+        requestedModel: null,
         budgetFallback,
         limiter: reservation.backend,
         turns,
@@ -618,6 +715,12 @@ export async function POST(req: Request) {
     visibleParts: number;
     /** The visitor stopped the turn, or the stream timed out. `onAbort` has reconciled it. */
     aborted: boolean;
+    /**
+     * The SDK refused an approved send whose signature did not verify. The
+     * sanitizer denies those first, so this only fires if the two checks ever
+     * disagree; either way the same transcript would fail again, so no retry.
+     */
+    rejectedApproval: boolean;
     finishReason: FinishReason;
     tokens: TokenBreakdown;
     /** What this call alone cost, at the prices in `lib/chat-models.ts`. */
@@ -643,6 +746,7 @@ export async function POST(req: Request) {
   /** Anything at all on screen. An approval request counts: it is a turn with no text on purpose. */
   const delivered = (call: Call): boolean => call.chars > 0 || call.visibleParts > 0;
 
+
   const usageFields = (call: Call, requestUsd: number) => ({
     steps: call.steps,
     toolCalls: call.toolCalls,
@@ -660,27 +764,11 @@ export async function POST(req: Request) {
   });
 
   /**
-   * The one `finish` chunk of the turn. `model` is whoever actually answered
-   * and, on a recovered turn, `requestedModel` is the model that failed, so
-   * the stats line can say which was which without a second channel.
+   * The one `finish` chunk of the turn. It carries no metadata: the model,
+   * timing, tokens and cost of a reply stay in the `chat.usage` log line and
+   * never reach the client.
    */
-  const finishChunk = (answering: ChatModel, call: Call, errorFallback: boolean) => {
-    const tokens = addTokens(carriedTokens, call.tokens);
-    const metadata: ChatMessageMetadata = {
-      ...startMetadata,
-      model: answering.id,
-      modelLabel: answering.label,
-      ...(errorFallback ? { requestedModel: model.id, errorFallback: true } : {}),
-      ...(firstTokenAt != null ? { ttftMs: firstTokenAt - startedAt } : {}),
-      totalMs: Date.now() - startedAt,
-      tokens,
-      costUsd: charged > 0 ? charged : costUsd(tokens, answering),
-      steps: stepCount,
-      toolCalls: toolCallCount,
-      finishReason: call.finishReason,
-    };
-    return { type: "finish" as const, finishReason: call.finishReason, messageMetadata: metadata };
-  };
+  const finishChunk = (call: Call) => ({ type: "finish" as const, finishReason: call.finishReason });
 
   /** One plain sentence in the reply itself, so no path can end in an empty bubble. */
   let noticeCount = 0;
@@ -714,6 +802,7 @@ export async function POST(req: Request) {
       chars: 0,
       visibleParts: 0,
       aborted: false,
+      rejectedApproval: false,
       // Nothing reported yet. A call whose `onFinish` never ran did not finish cleanly.
       finishReason: "error",
       tokens: ZERO_TOKENS,
@@ -732,12 +821,17 @@ export async function POST(req: Request) {
       stopWhen: stepCountIs(MAX_STEPS),
       maxOutputTokens: MAX_OUTPUT_TOKENS,
       timeout: { totalMs: STREAM_TIMEOUT_MS },
+      // The visitor's Stop, or the tab closing, ends the gateway call as well
+      // as the response. Without this the call ran to completion after the
+      // visitor left and the whole reply was charged (measured: 2,049 output
+      // tokens billed for a turn stopped at 208 characters), and `onAbort`
+      // below only ever fired on the 150 s timeout.
+      abortSignal: req.signal,
       experimental_context: context,
-      providerOptions: {
-        gateway: {
-          tags: ["site:majidmemari", "feature:chat", `env:${process.env.VERCEL_ENV ?? "dev"}`],
-        },
-      },
+      // Signs every approval request this call emits; the sanitizer above and
+      // the SDK both verify the signature when the approval comes back.
+      experimental_toolApprovalSecret: APPROVAL_SECRET,
+      providerOptions: gatewayProviderOptions("chat", callModel),
       // Time to first token means the first visible text. Reasoning deltas,
       // tool-input deltas, and the pre-executed approval's tool result all
       // arrive earlier and would make the stat mean something else. It is not
@@ -787,11 +881,45 @@ export async function POST(req: Request) {
       },
     });
 
+    // Each call is its own `streamText`, and each numbers its text and
+    // reasoning parts from zero. On a retry that means the second call
+    // reopens `id: "0"`, the same part the failed call already opened in
+    // this message, and the client merges two different calls into one part.
+    // Attempt two therefore gets its own id namespace. Tool parts are keyed
+    // by `toolCallId`, which the provider makes unique, and are left alone:
+    // an approval round trip sends that id back and it has to match.
+    //
+    // A tool input is held until it has parsed (`lib/chat-stream.ts`): the
+    // visitor sees the call that landed, never the model's own failed
+    // attempts at the JSON, which the SDK already feeds back for a retry.
+    const outbound = holdToolInputs<ChatUIMessage>(
+      (chunk) => {
+        if (chunk.type === "text-delta") call.chars += chunk.delta.length;
+        else if (chunk.type.startsWith("tool-") || chunk.type.startsWith("data-")) {
+          call.visibleParts += 1;
+        }
+        writer.write(attempt === 1 ? chunk : withAttemptId(chunk, attempt));
+      },
+      (dropped) => {
+        console.warn("[chat] tool input did not parse; the model retries and the visitor sees only the call that parsed:", {
+          requestId,
+          model: callModel.id,
+          toolName: dropped.toolName,
+          errorText: dropped.errorText.slice(0, 200),
+        });
+      },
+    );
+
     for await (const chunk of result.toUIMessageStream<ChatUIMessage>({
       ...CALL_STREAM,
       // Never stream provider error text to visitors; log it and hold a plain
       // sentence in its place until the orchestration decides what to do.
       onError: (error) => {
+        if (InvalidToolApprovalSignatureError.isInstance(error)) {
+          call.rejectedApproval = true;
+          console.warn("[chat] approval signature rejected by the SDK:", { requestId, model: callModel.id, attempt, message: error.message });
+          return "That approval could not be verified as one this server issued, so nothing was sent. Start a new chat if you still want to send it.";
+        }
         console.error("[chat] stream error:", { requestId, model: callModel.id, attempt, error });
         return `The ${ASSISTANT_NAME} is unavailable right now. ${CONTACT_FALLBACK}`;
       },
@@ -800,19 +928,9 @@ export async function POST(req: Request) {
         call.errors.push(chunk.errorText);
         continue;
       }
-      if (chunk.type === "text-delta") call.chars += chunk.delta.length;
-      else if (chunk.type.startsWith("tool-") || chunk.type.startsWith("data-")) {
-        call.visibleParts += 1;
-      }
-      // Each call is its own `streamText`, and each numbers its text and
-      // reasoning parts from zero. On a retry that means the second call
-      // reopens `id: "0"`, the same part the failed call already opened in
-      // this message, and the client merges two different calls into one part.
-      // Attempt two therefore gets its own id namespace. Tool parts are keyed
-      // by `toolCallId`, which the provider makes unique, and are left alone:
-      // an approval round trip sends that id back and it has to match.
-      writer.write(attempt === 1 ? chunk : withAttemptId(chunk, attempt));
+      outbound.push(chunk);
     }
+    outbound.flush();
     // Resolves once the stream is done, which is where `onFinish` has run and
     // the numbers above are final. It rejects when the call threw rather than
     // ending in an error chunk, and the error is already logged above.
@@ -825,6 +943,15 @@ export async function POST(req: Request) {
   };
 
   const stream = createUIMessageStream<ChatUIMessage>({
+    // The echoed transcript, so the SDK stamps the reply with the id of the
+    // assistant message it continues. On an approval continuation the client
+    // reuses its last assistant message as the streaming state; a reply that
+    // arrived under a fresh id was appended as a second copy of that message,
+    // with the original card left in `approval-responded` and offering Retry
+    // (measured 2026-09-13). With the id matched the card moves to its
+    // outcome in place. A transcript ending in a user turn has no id to reuse
+    // and streams exactly as before.
+    originalMessages: clean.messages as unknown as ChatUIMessage[],
     // Anything thrown out of `execute`. The visitor gets a sentence, never a stack.
     onError: (error) => {
       console.error("[chat] turn failed:", { requestId, error });
@@ -832,7 +959,7 @@ export async function POST(req: Request) {
     },
     execute: async ({ writer }) => {
       try {
-        writer.write({ type: "start", messageMetadata: startMetadata });
+        writer.write({ type: "start" });
 
         const first = await runCall(writer, model, 1);
         // The visitor's own stop: `onAbort` has reconciled and logged it, and
@@ -845,7 +972,7 @@ export async function POST(req: Request) {
           await reservation.settle(first.actualUsd);
           logUsage(model, { outcome: "finished", attempt: 1, ...usageFields(first, priorUsd) });
           flushErrors(writer, first);
-          writer.write(finishChunk(model, first, false));
+          writer.write(finishChunk(first));
           return;
         }
 
@@ -854,22 +981,31 @@ export async function POST(req: Request) {
         callsReconciled += 1;
         await reservation.topUp(first.actualUsd);
         priorUsd = Math.max(estimateUsd, first.actualUsd);
-        const retryModel = model.id === FALLBACK_MODEL.id ? undefined : FALLBACK_MODEL;
+        // A rejected approval fails the same way on any model: no retry.
+        const retryModel =
+          model.id === FALLBACK_MODEL.id || first.rejectedApproval ? undefined : FALLBACK_MODEL;
         logUsage(model, {
           outcome: "no-reply",
           attempt: 1,
           retryModel: retryModel?.id ?? null,
+          ...(first.rejectedApproval ? { reason: "rejected-approval" } : {}),
           ...usageFields(first, priorUsd),
         });
 
-        if (!retryModel) {
-          writeNotice(writer, NOTHING_TO_RETRY_ON(model));
-          writer.write(finishChunk(model, first, false));
+        if (first.rejectedApproval) {
+          // The sentence the SDK's error was replaced with is the whole answer.
+          flushErrors(writer, first);
+          writer.write(finishChunk(first));
           return;
         }
 
-        carriedTokens = addTokens(carriedTokens, first.tokens);
-        writeNotice(writer, EMPTY_TURN_NOTICE(model, retryModel));
+        if (!retryModel) {
+          writeNotice(writer, NOTHING_TO_RETRY_ON);
+          writer.write(finishChunk(first));
+          return;
+        }
+
+        writeNotice(writer, EMPTY_TURN_NOTICE);
 
         const second = await runCall(writer, retryModel, 2);
         if (second.aborted) return;
@@ -889,9 +1025,9 @@ export async function POST(req: Request) {
             retryModel: null,
             ...usageFields(second, priorUsd),
           });
-          writeNotice(writer, RETRY_ALSO_EMPTY(retryModel));
+          writeNotice(writer, RETRY_ALSO_EMPTY);
         }
-        writer.write(finishChunk(retryModel, second, true));
+        writer.write(finishChunk(second));
       } finally {
         // A throw anywhere above must not leave a call nobody reconciled. Every
         // call that started had its prompt handed to the gateway, so each one

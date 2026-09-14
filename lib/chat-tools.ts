@@ -28,6 +28,13 @@
  * - Email quotas are only spent when email can actually go out. Production
  *   has no provider configured, and a not-configured attempt must never burn
  *   the visitor's daily allowance.
+ * - A draft the send tools re-read from history is signed. `findBrief` and
+ *   `findReadiness` recover a brief and a snapshot from the echoed transcript,
+ *   which the client controls, so `draftConsultingBrief`, `assessReadiness`
+ *   and `draftOutreachNote` sign their own input into their output
+ *   (`signDraft`) and the route's sanitizer keeps such a part only when that
+ *   signature verifies. An approval itself is signed by the SDK
+ *   (`experimental_toolApprovalSecret` on the route) and verified there too.
  *
  * Server-only (imports the `ai` runtime, Resend, and the rate limiter).
  * Client components may import types from here (`import type`), nothing else.
@@ -42,8 +49,8 @@ import {
   type UIMessage,
 } from "ai";
 import { z } from "zod";
+import { approvalSecret, signDraft } from "@/lib/approval-signature";
 import { briefEmail } from "@/lib/brief-email";
-import type { ChatMessageMetadata } from "@/lib/chat-metadata";
 import { FOUNDER_CHAT_NAME } from "@/lib/chat-persona";
 import {
   briefSummaryLine,
@@ -112,7 +119,33 @@ function field(raw: unknown, key: string, max: number): string {
 }
 
 /** The mailbox is a real inbox; the contact form only logs until email is configured, so it comes second. */
-const CONTACT_FALLBACK = `${SITE.email} (the contact form at /contact records the message on the server but does not email yet)`;
+const CONTACT_FALLBACK = `${SITE.email} (the contact form at /contact goes through the same email path, so today it only logs on the server too)`;
+
+/**
+ * The part of the hint every not-configured send shares. The server log is
+ * not a durable record: a Vercel runtime line expires within hours unless a
+ * log drain is attached, so a visitor told their request was "recorded and
+ * will be reviewed" may skip the contact form and never be reached. The
+ * prompt still calls the log a record (`lib/assistant.ts`, an owner
+ * decision); this hint is what the model reads right after the send and it
+ * must not let that turn into a promise.
+ */
+const NOT_CONFIGURED_HINT = `Email is not configured on this server, so nothing went out and nothing reached ${FOUNDER_CHAT_NAME}. The request appears in the server log only, which is not a durable record, so do not promise that ${FOUNDER_CHAT_NAME} will review it or reach out. Say plainly that it was NOT emailed and that the sure way to reach him is ${CONTACT_FALLBACK}. Never say an email went out.`;
+
+/**
+ * Signs a draft tool's input into its output, so the send tools can only ever
+ * attach a draft this server saw the model write. The signature is over the
+ * parsed input, which is also what the SDK streams to the client and what the
+ * client echoes back, so the sanitizer verifies exactly what was signed.
+ */
+function draftSignature(toolName: string, options: ToolCallOptions, input: unknown): string {
+  return signDraft({
+    secret: approvalSecret(),
+    toolCallId: typeof options.toolCallId === "string" ? options.toolCallId : "",
+    toolName,
+    input,
+  });
+}
 
 /**
  * Recovers the latest readiness input from the transcript and recomputes the
@@ -193,7 +226,7 @@ const FACT_TEXT_CAP = 420;
 
 const lookupSiteFacts = tool({
   description:
-    "Look up grounded facts from this site before answering anything about Majid Memari's background, research, teaching, courses, training, consulting, internships, location, contact routes, or how this assistant itself is built and evaluated. Returns short facts with the module each came from. Call it instead of answering from memory; if it returns nothing, say you do not know.",
+    "Look up grounded facts from this site before answering anything about Majid Memari's background, research, teaching, courses, training, consulting, internships, location, or contact routes. Returns short facts with the module each came from. Call it instead of answering from memory; if it returns nothing, say you do not know.",
   inputSchema: z.object({
     topic: z
       .enum(FACT_TOPICS)
@@ -256,11 +289,12 @@ const draftConsultingBrief = tool({
   description:
     "Draft the structured consulting brief for this visitor and show it to them as a card. Call it once you understand what they do, what they want from AI, and where they are stuck (usually after two or three exchanges), or as soon as they ask for a summary, a plan, or a brief. Never in your first reply. The card is rendered from your input, so do not repeat the brief in text afterwards; say what stands out in one or two sentences and ask whether anything is off.",
   inputSchema: consultingBriefSchema,
-  execute: async (brief) => ({
+  execute: async (brief, options: ToolCallOptions) => ({
     ok: true as const,
     title: brief.title,
     opportunities: brief.opportunities.length,
     engagement: brief.engagement,
+    signature: draftSignature("draftConsultingBrief", options, brief),
   }),
   toModelOutput: ({ input, output }) =>
     safeText("A consulting brief was shown to the visitor as a card.", () => {
@@ -276,7 +310,10 @@ const assessReadiness = tool({
   description:
     "Score the visitor's readiness for the AI use case you have been discussing on five dimensions (goal, data, people, workflow, governance) and show a snapshot card. Score only from what they actually said; low scores are useful and expected. Call it when they ask whether they are ready, or after a brief when it helps decide the first step. Never in your first reply.",
   inputSchema: readinessInputSchema,
-  execute: async (input) => scoreReadiness(input),
+  execute: async (input, options: ToolCallOptions) => ({
+    ...scoreReadiness(input),
+    signature: draftSignature("assessReadiness", options, input),
+  }),
   toModelOutput: ({ output }) =>
     safeText("A readiness snapshot was shown to the visitor as a card.", () => {
       if (!output || typeof output.overall !== "number" || !Array.isArray(output.dimensions)) return undefined;
@@ -313,11 +350,12 @@ const draftOutreachNote = tool({
   description:
     "Draft a short note the visitor can send to someone else: their manager, an executive, their team, a client, or a peer. Call it when they have to convince somebody, or ask for something to paste into an email or a ticket. Write it in their voice, from this conversation only. The card shows the draft, so do not repeat it in text. This never sends anything to a third party.",
   inputSchema: outreachNoteSchema,
-  execute: async (note) => ({
+  execute: async (note, options: ToolCallOptions) => ({
     ok: true as const,
     audience: note.audience,
     subject: note.subject,
     asks: note.asks.length,
+    signature: draftSignature("draftOutreachNote", options, note),
   }),
   toModelOutput: ({ input, output }) =>
     safeText("A note was drafted and shown to the visitor as a card.", () => {
@@ -458,7 +496,7 @@ const handOffToMajid = tool({
           case "quota":
             return `Not sent: this connection has reached today's send limit. Say so plainly and point the visitor to ${CONTACT_FALLBACK}.`;
           case "not-configured":
-            return `Not sent: email is not configured on this server, so nothing went out. The request was noted in the server log only. Say plainly that it was NOT emailed and that the fastest way to reach ${FOUNDER_CHAT_NAME} is ${CONTACT_FALLBACK}. Never say an email went out.`;
+            return `Not sent: ${NOT_CONFIGURED_HINT}`;
           default:
             return `Not sent: the email provider failed on this send, so nothing went out. This is a fault on our side, not anything the visitor did wrong, and it is not a setup gap. Say plainly that it was NOT emailed, say briefly that you are sorry, and give them ${CONTACT_FALLBACK} as the sure way to reach ${FOUNDER_CHAT_NAME}. Never say an email went out.`;
         }
@@ -566,7 +604,7 @@ const emailMajidNote = tool({
           case "quota":
             return `Not sent: this connection has reached today's send limit. Say so plainly and give them ${CONTACT_FALLBACK}.`;
           case "not-configured":
-            return `Not sent: email is not configured on this server, so nothing left the server. The note was recorded in the server log only. Say plainly that it was NOT emailed and give them ${CONTACT_FALLBACK}.`;
+            return `Not sent: ${NOT_CONFIGURED_HINT}`;
           default:
             return `Not sent: the email provider failed, so nothing went out. Say plainly that it was NOT emailed, apologise briefly, and give them ${CONTACT_FALLBACK}.`;
         }
@@ -705,8 +743,12 @@ export const chatTools = {
 export type ChatTools = InferUITools<typeof chatTools>;
 export type ChatToolName = keyof typeof chatTools;
 
-/** The UI message shape shared by the route and the widget (metadata + typed tool parts). */
-export type ChatUIMessage = UIMessage<ChatMessageMetadata, UIDataTypes, ChatTools>;
+/**
+ * The UI message shape shared by the route and the widget: typed tool parts
+ * and no metadata. Per-reply model, token and cost figures stay in the server
+ * log and are never streamed to the client (owner decision, 2026-09-13).
+ */
+export type ChatUIMessage = UIMessage<never, UIDataTypes, ChatTools>;
 
 /** Tools that end the turn with an approval card. */
 export const APPROVAL_TOOLS: readonly ChatToolName[] = [

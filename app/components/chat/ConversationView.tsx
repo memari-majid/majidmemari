@@ -27,7 +27,6 @@ import {
   textFromMessage,
 } from "@/app/components/chat/chat-ui";
 import { getChat } from "@/app/components/chat/chatStore";
-import { StatLine } from "@/app/components/chat/StatLine";
 import { ToolPartView } from "@/app/components/chat/ToolPartView";
 import type { Attachments } from "@/app/components/chat/DeliveryCard";
 import { ASSISTANT_DISCLAIMER, ASSISTANT_INTRO, ASSISTANT_NAME } from "@/lib/chat-persona";
@@ -315,7 +314,6 @@ export function ConversationView({
                   </div>
                 );
               })}
-              <StatLine meta={m.metadata} />
             </div>
           );
         })}

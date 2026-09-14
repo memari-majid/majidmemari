@@ -1,7 +1,7 @@
 # AGENTS: how to update majidmemari.com
 
 Instructions for AI assistants working in this repo. **Read this before editing copy, names, the
-chat prompt, the assistant surface, or anything under `evals/`.**
+chat prompt, or the assistant surface.**
 
 | | |
 |---|---|
@@ -23,9 +23,8 @@ and **do not commit, push, or deploy** unless the owner asks.
 The assistant is the **"AI Consultant"**.
 
 Inside the chat surface only (the system prompt in `lib/assistant.ts`, tool descriptions and hints,
-card copy, the emails the agent sends, and the inline demo "What it does" tab where it describes the
-agent) the founder is called **"Dr. Memari"**. This is deliberate. It is not a typo, and it is not a
-leftover to be normalized away.
+card copy, and the emails the agent sends) the founder is called **"Dr. Memari"**. This is
+deliberate. It is not a typo, and it is not a leftover to be normalized away.
 
 Everywhere else, in website copy, metadata, JSON-LD, headings and alt text, he is
 **"Majid Memari, PhD"** (`SITE.fullName`, `FOUNDER_SITE_NAME`).
@@ -49,10 +48,8 @@ Same rule, company side: `../nexus-website/AGENTS.md` 9.1.
 
 ### 2. Parity with the company site (owner rule, 2026-09-13)
 
-This site runs the same agent, the same component split, the same inline demo and an evaluations
-panel built from the same three scripts as nexusaisolution.net, **worded in the first person** and
-never leading with the company. The panels are not the same panel: the artifacts behind them have
-different shapes on purpose, see the bullet below.
+This site runs the same agent, the same component split and the same inline chat as
+nexusaisolution.net, **worded in the first person** and never leading with the company.
 
 - `lib/chat-persona.ts` exports the **same names in the same order** in both repos, so the two
   files diff by eye. The block marked SHARED NAMES is the contract; only values differ (the badge,
@@ -62,78 +59,91 @@ different shapes on purpose, see the bullet below.
 - Limiter contracts are **not** ported by eye. `lib/rate-limit.ts` here and there must agree on
   behaviour, not on wording: a reservation is taken before the model runs, settled against actual
   usage, and a cancelled or abandoned run **settles upward only**. It is never refunded below the
-  reserved estimate, because a refund on abandon is how real gateway spend escapes both the eval
-  sub-budget and the hard cap.
+  reserved estimate, because a refund on abandon is how real gateway spend escapes the hard cap.
 - Known, sanctioned differences in the tool set: `emailWorkshopInfo` is NVIDIA-catalog specific
   and exists only on the company site; `offerOfficeHours` is UVU specific and exists only here.
   Ten tools each, nine of them shared.
-- This site has **no `/how-it-works` route**. The public teardown lives in the inline demo's
-  "What it does" tab, which is this site's sanctioned teardown surface. If that route is ever
-  ported from `../nexus-website/app/how-it-works/page.tsx`, add it to `INDEXABLE_PATHS` in
-  `lib/seo.ts` in append-only position and link it from the widget toolbar and the demo header.
-- **Eval-run contract, both repos.** A refusal that happens *before* any model call gives the
-  visitor the run back; any run where a model was actually called keeps both the run count and the
-  money. There is no refund path for a run that already spent.
-- **Published eval artifacts have different shapes, on purpose.** The company site writes judge
-  scores back into `evals/results/bakeoff-latest.json`; this site keeps `bakeoff-latest.json` and
-  `judge-latest.json` separate and joins them at read time. Both are fed by the same three scripts,
-  and converging the two shapes is a scheduled job, not a bug to fix in passing.
-- **One reply, one judge, both repos (owner decision, 2026-09-13).** `evals/judge.ts` picks the
-  judge **per row**, ruling out only the model that wrote that reply, so every reply is scored by a
-  model that did not write it and a bake-off may race every model on the allowlist. Picking one
-  judge for the whole table is the bug this replaced: it needed a model nobody had entered, so a
-  four-model bake-off of four allowlisted models could not be scored at all. Because different rows
-  now carry different judges, the pairing is published per row (here `judgeModel` and `judgeLabel`
-  on each verdict in `judge-latest.json`, which is `schemaVersion` 2 and has **no top-level judge
-  field**; on the company site the `judgeLine` note that names every pairing), the panel names the
-  judge in the row rather than one judge under the table, and the reader drops any verdict whose
-  judge is the model that wrote the reply. Do not reintroduce a single top-level judge name in
-  either repo: a summary that can disagree with the rows is how "no model scored its own reply"
-  stops being checkable.
+- This site has **no `/how-it-works` route** and, since 2026-09-13, no teardown surface of any
+  kind: the inline chat's "What it does" and "Evaluations" tabs went with the evaluation work
+  (rule 7). Do not port the company site's page here, and do not add a tab, a link or a line of
+  copy that explains how the assistant is built, unless the owner asks for it.
 - **A turn that delivers nothing is recovered, not left empty (owner decision, 2026-09-13, both
-  repos).** Measured on this site that day: `google/gemini-3.8-flash` cannot answer a **second** turn
-  against this site's system prompt. Through the OpenAI-compatible endpoint the bake-off uses it ended
-  with `finish_reason: "error"` after 763 to 1,284 completion tokens, all of them reasoning, and zero
-  characters of text, HTTP 200 throughout. Through the production path (`streamText` with one prior
-  assistant turn in `messages`) it ended with `finishReason: "error"` after 422 output tokens, 358 of
-  them reasoning and 64 text tokens that were never delivered, and zero characters received. Every
-  attempt, at least eight. The first turn always works, and the same model, SDK and conversation
-  against the company site's prompt returned a normal reply, so it is this prompt on this model.
-  Bisecting puts it in the "YOUR TOOLS AND WHEN TO USE THEM" paragraph, where both halves and the
-  `draftConsultingBrief` line each fail on their own, so it is not one phrase. **The root cause is
-  the provider's and the fix is ours.** Two decisions follow, and they bind both repos.
-  1. **`/api/chat` recovers the turn.** A turn that hands the visitor nothing at all, whether the
-     stream ends in an error or ends clean with zero characters, is run once more on the fallback
-     model. At most once; never when anything already reached the visitor (text, a tool card, an
-     approval request or a data part, because an approval legitimately ends a turn with no text and
-     retrying it would ask for the same send twice); and never on the model that just failed, so a
-     failing fallback model ends in a sentence rather than a second call on the same model. The
-     visitor is told, in one plain sentence inside the reply, which model returned an error and which
-     model answered instead, and the metadata carries `errorFallback` beside the existing
-     `budgetFallback` with `requestedModel` naming the model that failed. A retry that also delivers
-     nothing ends in a plain apology and the contact line: **no path ends in an empty bubble.**
-     **Both calls are charged.** The failed call really did burn tokens, so it tops up and is never
-     settled downward, and the second call's cost is added on top of what the first already holds:
-     the same rule `/api/evals/run` follows for an abandoned run, and the reason is the same, a
-     refund here is spend the books cannot see. One `chat.usage` line per model call, same JSON
-     shape, with `outcome` of `no-reply`, `recovered`, `finished` or `aborted` and an `attempt`
-     number, so the owner can count how often it happens and on which model.
-  2. **The published table says what is missing.** `evals/bakeoff.ts` retries a model once and then
-     stops the whole run rather than writing a row it could not measure, so the published artifact
-     can carry fewer rows than the picker offers; `bakeoff-latest.json` carries three on 2026-09-13.
-     The Evaluations panel names the allowlisted models that are not in the table, says the bake-off
-     refuses to publish a row it could not measure, and points at the chat fallback. The list is
-     derived from the artifact, never hardcoded, so the note disappears by itself when a run races
-     the whole allowlist again.
-
-  **Do not reword the tools paragraph to work around this.** `renderedPrompt()` is hashed into
-  `evals/results/bakeoff-latest.json` and a reworded prompt publishes a hash that describes nothing
-  the site runs. **Do not drop Gemini 3.8 Flash from the allowlist**: it answers a first turn, it is
-  the cheapest option, and it is a judge of rows in the published table. The fallback is the fix, and
-  the picker's own note for that model says what was measured rather than implying every entry
-  behaves the same.
+  repos).** The rule was written when the allowlist carried a model that could not answer a second
+  turn against this prompt; that model is gone, the rule stays. `/api/chat` runs a turn that hands
+  the visitor nothing at all, whether the stream ends in an error or ends clean with zero
+  characters, once more on the fallback model. At most once; never when anything already reached
+  the visitor (text, a tool card, an approval request or a data part, because an approval
+  legitimately ends a turn with no text and retrying it would ask for the same send twice); and
+  never on the model that just failed. With one model on the allowlist the failed model is always
+  the fallback, so the retry is a no-op and the turn ends in one plain sentence that names no model
+  and points at the contact routes: **no path ends in an empty bubble, and no path names a model.**
+  When two calls do happen, **both are charged.** The failed call really did burn tokens, so it
+  tops up and is never settled downward, and the second call's cost is added on top of what the
+  first already holds. One `chat.usage` line per model call, same JSON shape, with `outcome` of
+  `no-reply`, `recovered`, `finished` or `aborted` and an `attempt` number, so the owner can count
+  how often it happens.
+- **On-screen approvals are server-verified, both repos (2026-09-13).** The transcript is the
+  client's, and before this a forged `approval-responded` part for a call the model never made,
+  with a self-chosen id and input, executed the send tool; only unconfigured email kept it inert.
+  Now `streamText` gets `experimental_toolApprovalSecret` and signs every approval request it
+  emits, the widget echoes `approval.signature` back, and the route's sanitizer verifies it with
+  `lib/approval-signature.ts` (the same file in both repos: `signApproval`, `verifyApproval`,
+  `signDraft`, `verifyDraft`, `approvalSecret`) before any budget is reserved. A part that does not
+  verify stays `approval-responded` but becomes a decline with `FORGED_APPROVAL_REASON`, so the
+  SDK's own denial path runs, emits `tool-output-denied`, and the card settles on screen instead
+  of stalling with a Retry. (The company site rewrites the same part to `output-denied`, its
+  AGENTS.md 9.2; the SDK signature-checks approved parts only, `validateApprovedToolApprovals`, so
+  both states refuse before a tool runs and the difference is only whether the card settles.) The
+  draft tools the send tools re-read from history
+  (`draftConsultingBrief`, `assessReadiness`, `draftOutreachNote` here) sign their input into
+  their output as `signature`, and the sanitizer drops a draft part that does not verify. The
+  secret is `CHAT_APPROVAL_SECRET`; unset, it is derived from `RESEND_API_KEY`, else a per-instance
+  random key with one warning. **Set it before or with the Resend pair.**
+- **A declined send carries its reason (this repo).** An `approval-responded` part with
+  `approved: false` in the final step is handed to the SDK with `DECLINED_APPROVAL_REASON` when the
+  client sent none, so the model is told nothing was recorded and not to offer a retry chip,
+  rather than left to guess ("both requests sit in the server log", measured). The company site
+  passes the client's reason through and adds none; the finding was measured here only.
+- **The reservation is a cold turn, both repos.** `prechargeEstimateUsd` prices the system prompt
+  at the cache-write rate (never cache-read) and floors the prompt at `PROMPT_TOKENS_ESTIMATE`
+  (11,000, measured as the 10,835-token cache write on a first turn). A burst of parallel first
+  turns from one address is refused at the $1 cap instead of settling past it.
+- **Stop ends the gateway call, both repos.** `streamText` gets `abortSignal: req.signal`, so a
+  visitor's Stop or a closed tab runs the existing `onAbort` accounting (one `chat.usage` line with
+  `outcome: "aborted"`) instead of the model running to completion on nobody's screen.
+- **Anthropic calls are pinned to Anthropic first (`lib/gateway.ts`, both repos).** Every
+  gateway call builds its `providerOptions` with `gatewayProviderOptions(feature, model)`, which
+  adds `order: ["anthropic"]` for Anthropic models. Measured here: the gateway's default route,
+  `vertexAnthropic`, wrote the prompt cache on three sequential calls five seconds apart and never
+  read it; pinned, calls two and three read it. Fallback providers stay available. Prompt caching
+  stays on: the route marks the system prompt `cacheControl: ephemeral` for every model with
+  `promptCache: true`, which is the one model there is.
+- **Prices are per model, both repos.** `ChatModel` carries `cacheReadPerM` and `cacheWritePerM`
+  and `costUsd` reads them, so a future non-Anthropic entry is billed at its vendor's own cache
+  prices rather than through a global multiplier.
+- **The contact classifier defaults to `openai/gpt-4.1-nano`, both repos.** `openai/gpt-oss-20b`
+  never returned a schema-valid object (99 of 99, measured). `classifyInquiry` asks for structured
+  output and, when the SDK cannot validate it, reads the text once more with `parseInquiryText`
+  (wrapper markup stripped, first JSON object, `acknowledgment` accepted for `autoReply`); the
+  acknowledgment is passed through `siteNameOnly` so it never says "Dr. Memari" outside the chat.
+  Production still carries its own `CONTACT_CLASSIFY_MODEL`; the owner sets it to this slug or
+  removes it. Note the slug shapes: the gateway serves `anthropic/claude-haiku-4.5` with a dot (the
+  chat model); the dash form `anthropic/claude-haiku-4-5` does not exist there and is priced in
+  `CONTACT_CLASSIFY_RATES` only so an env that still pins it is not settled at nothing.
+- **Open owner decision (F14).** `lib/assistant.ts` tells the agent that a not-configured send "is
+  recorded in the server log and Dr. Memari reads it". A Vercel runtime log line is not a durable
+  record. The tool hints and the card now say the request was NOT emailed and has not reached him,
+  and tell the model not to promise a review. Either persist not-configured hand-offs somewhere
+  durable (the Upstash store, a log drain) or soften that prompt sentence; it is the owner's call
+  and not done here.
 - **Mobile keyboard.** Both chat shells handle the on-screen keyboard with the flex-column,
   one-scroller layout, and deliberately not with `interactiveWidget`. Do not add that viewport flag.
+- **Fixed buttons never sit on the inline chat, both repos.** The inline card reports
+  `setInlineDemoInView` from an IntersectionObserver; the launcher and `ScrollToTop` add
+  `max-sm:hidden` while it is true, because on phones both covered the card's Send button and its
+  chips (measured at 390x844 and 360x640). The company site's `chatStore.ts` has no hook exports,
+  so its store is `setDemoInView` with `subscribeDemoInView` / `readDemoInView` /
+  `serverDemoInView` read through `useSyncExternalStore` at the call sites: one store either way.
 - **Transcript scroller keyboard access, both repos.** `app/components/chat/ConversationView.tsx`
   in each repo gives the transcript scroller `tabIndex={0}`, `role="log"`, `aria-live="off"`, an
   `aria-label` built from `ASSISTANT_NAME`, and an inset focus ring, so a keyboard-only or
@@ -145,11 +155,11 @@ different shapes on purpose, see the bullet below.
   become a tab stop.
 - **Classifier pricing, one resolver, both repos (closed 2026-09-13).** The contact-form classifier
   resolves its rates once: explicit `CONTACT_CLASSIFY_RATES` from the environment, then the
-  `CONTACT_CLASSIFY_RATES` table in `lib/chat-limits.ts`, then the picker's published price if the
-  slug happens to be on the chat allowlist, then `UNPRICED_MODEL_RATES`. The reservation, the
-  failure floor and the settle all read that one pair. Every exit path settles, and **three of them
-  settle at the floor**: a failure, because a visitor who controls the message can choose to make
-  the call fail, and a success whose usage comes back zero or unparsable, because `tokenBreakdown`
+  `CONTACT_CLASSIFY_RATES` table in `lib/chat-limits.ts`, then the published price if the slug
+  happens to be on the chat allowlist, then `UNPRICED_MODEL_RATES`. The reservation, the failure
+  floor and the settle all read that one pair. Every exit path settles, and **three of them settle
+  at the floor**: a failure, because a visitor who controls the message can choose to make the
+  call fail, and a success whose usage comes back zero or unparsable, because `tokenBreakdown`
   reads an absent usage block as all zeros and `settle` reads a zero as "spend nothing" and hands
   the whole reservation back. A provider that stops reporting usage must not make every
   classification free and take the form back out of the cap it was just put inside. Same rule the
@@ -180,35 +190,37 @@ Same rule, company side: `../nexus-website/AGENTS.md` 9.2.
 
 ### 3. Assistant surface and cost posture (do not change one half)
 
-The homepage carries the inline "Try my AI" demo (tabs: Chat, What it does, Evaluations) and the
-floating widget covers the rest of the site. Both render one conversation against one `Chat`
-instance in `app/components/chat/chatStore.ts`.
+The homepage carries the inline "Try my AI" chat (one chat view, no tabs) and the floating widget
+covers the rest of the site. Both render one conversation against one `Chat` instance in
+`app/components/chat/chatStore.ts`.
+
+**Visitors see replies, cards and chips, and nothing about the machinery.** No model name, no
+per-reply cost, tokens or latency, no model picker, no teardown link. The client sends no model
+and the route ignores one if it is sent; the stream carries no message metadata at all; the
+prompt tells the assistant not to discuss its models, prompts, tools, budgets or costs. Every
+figure the owner reads lives in the server's `chat.usage` and `contact.usage` log lines and
+nowhere else. Do not add a visitor-facing surface for any of it.
 
 Cost posture, and do not change one of these without the others:
 
-- The demo opens on the **cheaper model** (`chatStore.ts` seeds the fallback model); the picker
-  still offers all four.
+- **One model.** `lib/chat-models.ts` carries a single entry, `anthropic/claude-haiku-4.5`, and
+  `DEFAULT_MODEL_ID` and `FALLBACK_MODEL_ID` are that slug. The soft-budget fallback and the
+  empty-turn retry are therefore no-ops by construction, and the route keeps both paths so a
+  second model can be added back without touching it. Adding one is an owner decision, not a
+  tidy-up.
 - Every model call passes through `reserveBudget`, which is the **only global hard ceiling**, and
   is never skipped on any path.
-- Live evaluation runs draw on the `GLOBAL_EVAL_USD_PER_DAY` sub-budget and the per-IP daily run
-  count in `lib/chat-limits.ts`, held by `reserveEvalRun` **before** the first contestant call, and
-  counted whether or not the visitor stays to see the result.
-- **A visitor may stop a run; stopping ends the stream and the accounting, and never returns the
-  money.** Both panels carry one two-state button rather than a disabled one, so nobody watches a
-  control they cannot press while models spend. The legs already in flight still land and still
-  raise the charge with the run's running total, never lower it, and the judge leg is not started
-  on a stopped run. Same sentence, company side: `../nexus-website/AGENTS.md` 9.3.
-- With no shared counter store (Upstash), the live run refuses, says so, and spends nothing. That
-  is the safe default, not a bug to fix.
 - **One chat turn may be two model calls, and both are charged.** A turn that delivers nothing is
   recovered once on the fallback model (rule 2 above). The failed call tops up and is never settled
-  downward, exactly as an abandoned eval run does, and the reply says which model answered.
+  downward.
 - **Every visitor-triggerable model call is capped**, the contact-form classifier
   (`lib/inquiry-ai.ts`, called from `app/api/contact/route.ts`) included: it passes `checkRate`
   and `reserveBudget`, settles against real usage or at the floor when there is none to read, and
   logs one `contact.usage` line. Either gate refusing skips the classifier and spends nothing; it
   never refuses the submission, which is delivered unclassified (rule 2 above). If you add a new
   model call anywhere, it goes through the limiter too. There is no "it is only cheap" exemption.
+- Prompt caching stays on (rule 2, Anthropic pinned first). It is the difference between a warm
+  turn and a cold one on every reply, and it is invisible to visitors by design.
 
 Same rule, company side: `../nexus-website/AGENTS.md` 9.3.
 
@@ -238,6 +250,11 @@ Same rule, company side: `../nexus-website/AGENTS.md` 10.
 - **Never imply NVIDIA endorsement.** DLI Certified Instructor is a credential, not a partnership.
 - Do not invent grants, awards, citation counts, partners, or a $1M USHE award. GridEye is a
   proposal in development.
+- **Chips.** The prompt asks for at most two follow-up chips per reply, each five words or fewer,
+  each naming something concrete from that reply or the visitor's last message, and an explicit
+  `SUGGESTIONS: none` line when the reply ends by asking the visitor about their situation.
+  `splitSuggestions` and `sanitizeChips` in `app/components/chat/chat-ui.ts` enforce the cap
+  (`MAX_CHIPS`) and drop the `none` line, so a model that writes three still shows two.
 
 ### 6. UVU, and what only this site may say
 
@@ -246,27 +263,23 @@ detail belongs**: the faculty role, the Fall 2026 courses, the office-hours book
 `offerOfficeHours`, and the academic contact path. Do not copy it back to nexusaisolution.net, and
 do not publish UVU catalog numbers or course codes here.
 
-### 7. Evaluations
+### 7. The decision of 2026-09-13: chat only
 
-`evals/` holds the scripts and the checked-in artifacts the Evaluations tab renders.
-
-- **A score exists only if someone measured it.** Never hand-edit a number, a rubric score, a
-  `promptHash`, or a `gitSha` into `evals/results/*.json`. Regenerate with the script.
-- A field nobody measured is `null`, and the page says so rather than showing a number.
-- **No model scores its own reply, and the judge is picked per reply** (rule 2 above). A row nobody
-  could score renders as "not scored" in both the Score and the Scored by column; if nothing at all
-  was scored, `evals/judge.ts` writes no file and exits non-zero.
-- The bake-off renders the prompt with `emailEnabled: false` to match production, or the published
-  `promptHash` describes a prompt the site never sends. Republish after any prompt change.
-- **The published table may carry fewer rows than the picker offers.** `evals/bakeoff.ts` retries a
-  model once and then stops the whole run rather than writing a row it could not measure, and a row
-  of zeros priced and timed like any other is worse than no row. When a run is published without a
-  model, the panel names it and says why (rule 2 above). Do not fill the gap from an older run.
-- A published row and a live run are different measurements (two turns at 2,000 output tokens
-  versus one turn at 600). They render in separate blocks, with their shapes labelled, and a live
-  number never overwrites a published cell.
-- Running a script costs real money. Do not run `evals/bakeoff.ts`, `evals/judge.ts` or
-  `evals/tool-smoke.ts` unless the owner asks for that run.
+The owner's words that evening: "Scratch the idea demo and evaluation, just provide a good chatbot.
+It is not worth it. It is getting too complicated and expensive. Don't share much information about
+how the chatbot works or cost. Use a cheaper model for the chatbot like haiku 4.5." Asked what to
+keep, he chose chat only: the inline chat section and the floating panel stay, and the Evaluations
+tab, the Run it live button and the bake-off table go. So on 2026-09-13 this repo lost the
+Evaluations and "What it does" tabs and the tab strip, `EvalPanel`, `StatLine`, `ModelPicker`,
+`lib/evals.ts`, `lib/chat-metadata.ts`, the `/api/evals/run` route, the `evals/` directory with its
+scripts and published results, the eval sub-budget and run counters in `lib/rate-limit.ts` and
+`lib/chat-limits.ts`, the assistant and evaluation facts in `lib/site-facts.ts`, and the prompt's
+"how this assistant is built" paragraph. The chat now runs on Claude Haiku 4.5 alone, shows
+visitors no model, cost, token or latency figure, and, asked how it works, says it is a custom AI
+assistant Dr. Memari built for this site and offers to put the visitor in touch with him. The
+budgets, rate limits, approval gates and signatures, empty-turn recovery and contact-form metering
+are unchanged; they just stopped being visible. Do not bring any of the removed surfaces back
+without the owner asking, and keep the company site in the same shape.
 
 ---
 
@@ -274,18 +287,18 @@ do not publish UVU catalog numbers or course codes here.
 
 | If you need to change... | Edit this file first | Then check |
 |---|---|---|
-| Assistant and founder names | `lib/chat-persona.ts` | Widget, inline demo, prompt, emails, and the same module in `../nexus-website` |
-| Chat personality, facts, geography | `lib/assistant.ts` | `lib/chat-tools.ts` hints, `lib/site-facts.ts` |
-| Agent tools (ten) | `lib/chat-tools.ts` | Cards in `app/components/chat/`, `chat-ui.ts` copy, `evals/tool-smoke.ts` |
-| Grounded facts the lookup tool may cite | `lib/site-facts.ts` | Only re-export facts that already live in a data module or a published artifact |
+| Assistant and founder names | `lib/chat-persona.ts` | Widget, inline chat, prompt, emails, and the same module in `../nexus-website` |
+| Chat personality, facts, geography, chip rules | `lib/assistant.ts` | `lib/chat-tools.ts` hints, `lib/site-facts.ts`, `MAX_CHIPS` in `app/components/chat/chat-ui.ts` |
+| Agent tools (ten) | `lib/chat-tools.ts` | Cards in `app/components/chat/`, `TOOL_STEP_COPY` in `chat-ui.ts` |
+| Grounded facts the lookup tool may cite | `lib/site-facts.ts` | Only re-export facts that already live in a data module; nothing about the assistant itself |
 | Bio, credentials, courses, links | `lib/majid.ts` | `lib/seo.ts`, About and Teaching pages |
 | Site name, address, service area, inboxes | `lib/site.ts` | Footer, contact, JSON-LD |
 | Metadata and structured data | `lib/seo.ts` | `INDEXABLE_PATHS` is append-only; sitemap and canonical URLs follow it |
-| Rate limits, budgets, eval caps | `lib/chat-limits.ts` | `lib/rate-limit.ts` (server only, never imported by a client component), `/api/chat`, `/api/evals/run`, `vercel.json` |
-| Model list, prices, default model | `lib/chat-models.ts` | Picker, per-reply cost, `evals/bakeoff.ts` |
-| Inline demo default model | `app/components/chat/chatStore.ts` | Section copy on the homepage, rule 3 above |
-| Chat UI | `app/components/ChatWidget.tsx` (floating), `app/components/chat/` (shared shell, cards, demo) | Both shells share one store; sanitize model output, never leak tool or channel tokens |
-| Published eval results | `evals/results/*.json` | Regenerate with the script, never by hand; `lib/evals.ts` parses, `EvalPanel` renders |
+| Rate limits, budgets | `lib/chat-limits.ts` | `lib/rate-limit.ts` (server only, never imported by a client component), `/api/chat`, `vercel.json` |
+| The chat model and its prices | `lib/chat-models.ts` | `AI_CHAT_MODEL` in production and `.env.example`, `README.md`, rule 3 above |
+| Gateway tags and provider order | `lib/gateway.ts` | Every `providerOptions` in `/api/chat` and `lib/inquiry-ai.ts` |
+| Approval and draft signatures | `lib/approval-signature.ts` | The sanitizer in `/api/chat`, the draft tools in `lib/chat-tools.ts`, `CHAT_APPROVAL_SECRET` |
+| Chat UI | `app/components/ChatWidget.tsx` (floating), `app/components/chat/` (shared shell, cards, inline card) | Both shells share one store; sanitize model output, never leak tool or channel tokens, never show a model, a price or a token count |
 | Email templates | `lib/email.ts`, `lib/brief-email.ts`, `lib/handoff-email.ts`, `lib/note-email.ts` | Fixed templates only, scrubbed fields, `CONTACT_TO_EMAIL` as reply-to |
 | Prompt punctuation | `lib/plain-punctuation.ts` | Every rendered prompt passes through it |
 
