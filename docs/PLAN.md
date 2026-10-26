@@ -1,6 +1,6 @@
 # Plan — majidmemari.com
 
-**Last updated:** 2026-08-26  
+**Last updated:** 2026-10-01  
 **Repo:** https://github.com/memari-majid/majidmemari  
 **This is the only living plan.** Do not add competing plan files.
 
@@ -12,6 +12,7 @@ Restore and keep the personal site live after the Vercel project was deleted. Ke
 | **Domain** | Re-attach | `majidmemari.com` (Vercel registrar) + `www` |
 | **Copy** | Synced 2026-08-26 | Public bio is Academia · Industry · Community. Homepage leads with **active flagship projects and named collaborators**, not Scholar counts (list stays on `/publications`). Hero stats: 6 flagship projects, courses & DLI workshops, student researchers, Fall 2026 UVU courses. Partners strip (`#partners`): State (Herbert Institute, Utah Office of Data Privacy, DHHS) · Universities (UVU home + School of Education / AI-ClassSims; One-U RAI public/policy; GridEye collaboration) · Silicon Slopes (community) · Industry (Clarion AI Partners consulting on LLM/agent workflows). No invented client counts. **Selected for the 2026 AI Utah 100**. |
 | **Env / AI** | Restore | Public URLs, Resend, AI Gateway models — no secrets in git |
+| **Workshop TA** | Added 2026-10-01 | `/teaching/agentic-llm` for C-FX-25 (Building Agentic AI Applications with LLMs). Grounded in NVIDIA-LLM Workshop notebooks. Assessment hints only. |
 | **SEO / Google** | Live 2026-08-25 | `/about`, `/teaching`, `/publications`, Person JSON-LD, sitemap. GitHub profile website + profile README point here. Ranking still depends on backlinks from Scholar / UVU / LinkedIn / ORCID / ResearchGate |
 | **Publications** | Synced 2026-08-25 | Counts and selected list from [Google Scholar](https://scholar.google.com/citations?user=LQI4T24AAAAJ&hl=en) (20+ unique works). Do not invent citation counts. New 2026 item: Capability Ladder (arXiv:2608.07779) |
 | **Phone / voice AI** | On Nexus, not here | Public `(801) 810-9152` is Google Voice. AI engine is `nexus-website` `/api/voice` (GV → hidden Twilio → Vercel). |

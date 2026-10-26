@@ -44,6 +44,8 @@ Open [http://localhost:3000](http://localhost:3000).
 | `NEXT_PUBLIC_AI_CPA_URL` | Optional. Public URL for the AI Financial Assistant app (Try My AI section). |
 | `NEXT_PUBLIC_AI_TA_URL` | Optional. Public URL for the CS 4720R AI teaching assistant. |
 | `AI_CHAT_MODEL` | Optional. Model slug for the floating site chatbot (`/api/chat`) via Vercel AI Gateway. Default: `openai/gpt-oss-20b` |
+| `WORKSHOP_TA_MODEL` | Optional. Model slug for the workshop teaching assistant (`/api/workshop-chat`) via Vercel AI Gateway. Default: `anthropic/claude-haiku-4.5` |
+| `WORKSHOP_TA_CODE` | Optional room code. Required in production so the lab helper is not a public chatbot. Unset locally allows chat. |
 | `CONTACT_CLASSIFY_MODEL` | Optional. Model slug for contact-form inquiry classification + a personalized auto-reply via AI Gateway. Default: `openai/gpt-oss-20b` |
 | `AI_GATEWAY_API_KEY` | Optional fallback for non-Vercel environments. On Vercel, OIDC auth is automatic after enabling AI Gateway in project settings. |
 | `RESEND_API_KEY` | Optional. If set, contact form sends email via [Resend](https://resend.com). |
@@ -52,7 +54,7 @@ Open [http://localhost:3000](http://localhost:3000).
 
 Without `RESEND_API_KEY`, contact submissions are logged on the server only — configure Resend for production email delivery.
 
-**AI Gateway setup:** enable AI Gateway in the Vercel dashboard (**Project → AI Gateway**). For local dev, run `vercel link` then `vercel env pull .env.local` — this provisions a short-lived `VERCEL_OIDC_TOKEN` (~24 h). The floating chatbot (`app/components/ChatWidget.tsx`) and contact-form classifier both route through the gateway.
+**AI Gateway setup:** enable AI Gateway in the Vercel dashboard (**Project → AI Gateway**). For local dev, run `vercel link` then `vercel env pull .env.local` — this provisions a short-lived `VERCEL_OIDC_TOKEN` (~24 h). The floating chatbot (`app/components/ChatWidget.tsx`), the workshop teaching assistant (`/api/workshop-chat`), and the contact-form classifier all route through the gateway. Set `WORKSHOP_TA_CODE` in production so the lab helper is not a public chatbot; leave it unset locally to allow chat.
 
 ## Deploy (Vercel)
 

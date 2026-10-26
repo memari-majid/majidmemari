@@ -44,6 +44,13 @@ export default function TeachingPage() {
           {MAJID.roles.nvidia}. Workshops include Building Agentic AI Applications with LLMs. Campus
           student sessions are offered at no charge to students at participating universities.
         </p>
+        <p className="mt-4 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
+          <Link className="text-sky-600 underline dark:text-sky-400" href="/teaching/agentic-llm">
+            Workshop teaching assistant
+          </Link>
+          {" — "}
+          the in-workshop assistant for Building Agentic AI Applications with LLMs.
+        </p>
         <p className="mt-6 text-sm">
           <Link className="text-sky-600 underline dark:text-sky-400" href="/publications">
             Publications
