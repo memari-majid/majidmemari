@@ -1,0 +1,71 @@
+# Building AI Solutions — project record
+
+Course by Majid Memari
+Learner/team:
+Context and version date:
+
+## 1. Problem and feasible scope
+
+[ ] User, buyer/sponsor, and current process are explicit.
+[ ] Discovery log includes a contrary observation and accurate source labels.
+[ ] Baseline table has units, denominators, and interpretation.
+[ ] Three alternatives, bounded charter, and exclusions are present.
+[ ] The next test and quality boundary are stated; feedback status is clear.
+
+Evidence links:
+Decision:
+Assumptions and limitations:
+Changes since last snapshot:
+
+## 2. First usable solution
+
+[ ] Actual usable files and current source version are available.
+[ ] AI and human roles, review, exception, and fallback are visible.
+[ ] Three varied bench cases record expected and actual behavior.
+[ ] Reviewer access/use and assistance are recorded without invented events.
+[ ] A meaningful revision and retest are linked to the defect.
+
+Evidence links:
+Decision:
+Assumptions and limitations:
+Changes since last snapshot:
+
+## 3. Pilot and learning
+
+[ ] Predeclared pilot card and permission/readiness status are included.
+[ ] Actual task, access, assistance, completion, and quality are traceable.
+[ ] Full-process effort and comparison are reported honestly.
+[ ] A meaningful revision and actual retest are documented.
+[ ] Recommendation, evidence limits, and individual explanation are prepared.
+
+Evidence links:
+Decision:
+Assumptions and limitations:
+Changes since last snapshot:
+
+## 4. Viability and route to users
+
+[ ] Cost/value and capacity table separates observations and assumptions.
+[ ] Base, unfavorable scenario, and named decision threshold agree.
+[ ] Offer promise, exclusions, price/resources, and acceptance are concrete.
+[ ] Channel and funnel identify denominator, period, and acquisition effort.
+[ ] Conversation, objection, next step, and onboarding are documented accurately.
+
+Evidence links:
+Decision:
+Assumptions and limitations:
+Changes since last snapshot:
+
+## 5. Demonstration and handoff
+
+[ ] Usable artifact and actual task/test/retest records are accessible.
+[ ] Recommendation, economics, figure, uncertainty, and next request agree.
+[ ] Operating pack names owner, support boundary, maintenance, and closeout.
+[ ] Each learner is ready to explain a calculation, decision, contribution, and limitation.
+[ ] Final files accurately distinguish classroom, supplied, observed, and hypothetical evidence.
+
+Evidence links:
+Decision:
+Assumptions and limitations:
+Changes since last snapshot:
+

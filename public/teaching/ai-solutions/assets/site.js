@@ -1,68 +1,32 @@
-(()=>{
-  'use strict';
-  const key='building-ai-solutions-v1',legacyKey='cs4720r-business-ai-v1',W=window.CourseWorkbook;
-  let state=W.normalize({}),storageAvailable=true;
-  try{
-    const current=localStorage.getItem(key),legacy=current===null?localStorage.getItem(legacyKey):null;
-    state=W.normalize(JSON.parse(current||legacy||'{}'));
-    if(current===null&&legacy!==null)localStorage.setItem(key,JSON.stringify(state));
-  }catch{storageAvailable=false}
-  const escape=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-  const storageNotice=()=>document.querySelectorAll('[data-storage-warning]').forEach(el=>{el.hidden=storageAvailable});
-  function save(){try{localStorage.setItem(key,JSON.stringify(state));storageAvailable=true}catch{storageAvailable=false}storageNotice();return storageAvailable}
-  function update(){
-    const count=state.completed.filter(n=>n<16).length;
-    document.querySelectorAll('[data-progress-label]').forEach(el=>el.textContent=`${count} of 16 core modules completed`);
-    document.querySelectorAll('[data-progress-fill]').forEach(el=>el.style.width=`${count/16*100}%`);
-    document.querySelectorAll('[data-progress-meter]').forEach(el=>el.setAttribute('aria-valuenow',String(count)));
-    document.querySelectorAll('[data-module]').forEach(el=>{const done=state.completed.includes(Number(el.dataset.module));el.classList.toggle('is-complete',done);const dot=el.querySelector('.completed-dot');if(dot){dot.textContent=done?'✓':'';dot.setAttribute('aria-label',done?'Completed':'Not completed')}});
-    document.querySelectorAll('[data-complete]').forEach(el=>{const done=state.completed.includes(Number(el.dataset.complete));el.setAttribute('aria-pressed',String(done));el.textContent=done?'✓ Module completed · mark incomplete':'Mark module complete'});
-    document.querySelectorAll('[data-resume]').forEach(el=>{const next=Array.from({length:16},(_,i)=>i).find(n=>!state.completed.includes(n));el.href=next===undefined?'module-16.html':`module-${String(next).padStart(2,'0')}.html`;el.textContent=next===undefined?'Continue to the optional reflection →':count?`Continue with module ${String(next).padStart(2,'0')} →`:'Start with module 00 →'});
-  }
-  function restoreFields(){document.querySelectorAll('[data-note]').forEach(el=>{el.value=state.notes[el.dataset.note]||''});document.querySelectorAll('[data-check]').forEach(el=>{el.checked=!!state.checks[el.dataset.check]})}
-  update();restoreFields();storageNotice();
-  document.querySelectorAll('[data-complete]').forEach(btn=>btn.addEventListener('click',()=>{const n=Number(btn.dataset.complete);state.completed=state.completed.includes(n)?state.completed.filter(x=>x!==n):[...state.completed,n];save();update()}));
-  document.querySelectorAll('[data-print]').forEach(btn=>btn.addEventListener('click',()=>window.print()));
-  let printDisclosures=null;
-  window.addEventListener('beforeprint',()=>{if(printDisclosures!==null)return;printDisclosures=[...document.querySelectorAll('.worked-answer:not([open]),.template-preview:not([open]),.business-lenses:not([open]),#venture-model-notes:not([open])')];printDisclosures.forEach(d=>d.open=true)});
-  window.addEventListener('afterprint',()=>{printDisclosures?.forEach(d=>d.open=false);printDisclosures=null});
-  function download(name,text,type='text/plain'){
-    const url=URL.createObjectURL(new Blob([text],{type}));const a=document.createElement('a');a.href=url;a.download=name;a.hidden=true;document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),2000);
-  }
-  document.querySelectorAll('[data-note]').forEach(el=>el.addEventListener('input',()=>{
-    state.notes[el.dataset.note]=el.value;const ok=save();const status=el.closest('.notes').querySelector('.save-status');if(status)status.textContent=ok?'Saved on this device':'Storage unavailable. Export or save a backup before leaving.';
-  }));
-  document.querySelectorAll('[data-export-notes]').forEach(btn=>btn.addEventListener('click',()=>download('building-ai-solutions-my-workbook.md',W.markdown(state,window.COURSE_LABELS||{}),'text/markdown')));
-  document.querySelectorAll('[data-backup]').forEach(btn=>btn.addEventListener('click',()=>download('building-ai-solutions-workbook-backup.json',JSON.stringify(W.pack(state),null,2),'application/json')));
-  document.querySelectorAll('[data-import]').forEach(input=>input.addEventListener('change',async()=>{
-    const status=input.closest('[data-import-panel]').querySelector('[data-import-status]');
-    try{
-      const file=input.files?.[0];if(!file)return;if(file.size>2_000_000)throw new Error('Choose a course workbook backup smaller than 2 MB.');
-      const imported=W.unpack(await file.text()),merged=W.merge(state,imported);state=merged.state;const saved=save();update();restoreFields();
-      status.textContent=`Restored ${merged.added} new note${merged.added===1?'':'s'} and merged completion markers and checklists. ${merged.conflicts?`${merged.conflicts} differing note${merged.conflicts===1?' was':'s were'} appended below your existing text for review. `:''}${saved?'Your existing notes were preserved.':'Browser storage is unavailable; save a backup before leaving.'}`;
-    }catch(err){status.textContent=err.message+' Your current notes remain unchanged.'}
-    finally{input.value=''}
-  }));
-  document.querySelectorAll('[data-check]').forEach(el=>el.addEventListener('change',()=>{state.checks[el.dataset.check]=el.checked;save()}));
-  document.querySelectorAll('[data-quiz]').forEach(form=>form.addEventListener('submit',e=>{
-    e.preventDefault();const input=form.querySelector('input:checked'),fb=form.querySelector('.feedback');fb.hidden=false;
-    if(!input){fb.innerHTML='<strong>Choose an answer first.</strong> Then compare your reasoning with the explanation.';form.querySelector('input')?.focus();return}
-    const ok=input.value===form.dataset.answer;fb.innerHTML=`<strong>${ok?'That is the strongest choice.':'Reconsider the evidence.'}</strong> ${escape(form.dataset.explanation)}`;
-  }));
-  const search=document.querySelector('[data-search]');
-  if(search){const out=document.querySelector('[data-search-results]');let timer;
-    search.addEventListener('input',()=>{clearTimeout(timer);timer=setTimeout(()=>{
-      const q=search.value.trim().toLowerCase();if(!q){out.innerHTML='';return}
-      const terms=q.split(/\s+/),all=(window.COURSE_SEARCH||[]).map(x=>({x,score:terms.reduce((a,t)=>a+(x.title.toLowerCase().includes(t)?3:0),0)})).filter(({x})=>terms.every(t=>(x.title+' '+x.text).toLowerCase().includes(t))).sort((a,b)=>b.score-a.score),hits=all.slice(0,25);
-      out.innerHTML=hits.length?`<p class="help">${all.length>25?'Showing the first 25 of '+all.length:all.length} matching lessons and resources</p>`+hits.map(({x})=>`<a class="search-result" href="${escape(x.url)}"><strong>${escape(x.title)}</strong><small>${escape(x.summary)}</small></a>`).join(''):'<p class="empty">No matching lessons. Try “customer”, “risk”, “value”, or “product”.</p>';
-    },140)});
-  }
-  document.querySelectorAll('[data-reset-progress]').forEach(btn=>btn.addEventListener('click',()=>{if(window.confirm('Reset completed-module markers? Your written notes and assessment checklists will remain.')){state.completed=[];save();update()}}));
-  document.querySelectorAll('[data-copy-template]').forEach(btn=>btn.addEventListener('click',async()=>{
-    const content=document.getElementById(btn.dataset.copyTemplate),status=btn.parentElement.querySelector('[data-copy-status]');
-    try{await navigator.clipboard.writeText(content.textContent);status.textContent='Template copied. Paste into your document.'}
-    catch{status.textContent='Use the text download, or select and copy the template below.';const details=content.closest('details');if(details)details.open=true;content.focus()}
-  }));
-  document.querySelectorAll('.lesson-sidebar details').forEach(d=>{if(window.innerWidth<=760)d.open=false});
-  window.addEventListener('storage',e=>{if(e.key===key&&e.newValue){try{const next=W.normalize(JSON.parse(e.newValue));document.querySelectorAll('[data-note]').forEach(el=>{if(el!==document.activeElement)el.value=next.notes[el.dataset.note]||''});state=next;update();document.querySelectorAll('[data-check]').forEach(el=>{el.checked=!!state.checks[el.dataset.check]})}catch{}}});
+(function(){'use strict';
+ const W=window.CourseWorkbook,KEY='building-ai-solutions-v2';let state=W.normalize({}),storage=true,workbookWarning='';
+ const notice=()=>{const e=document.querySelector('.storage-notice');if(e){e.hidden=storage&&!workbookWarning;e.textContent=workbookWarning||'Browser storage is unavailable. Keep this page open and export readable notes before leaving.';}};
+ try{const raw=localStorage.getItem(KEY);if(raw)state=W.normalize(JSON.parse(raw));}catch{storage=false;}
+ const save=()=>{try{W.assertSavable(state);localStorage.setItem(KEY,JSON.stringify(state));storage=true;}catch(error){storage=false;if(error instanceof Error&&/workbook|note|preparation/i.test(error.message))workbookWarning=error.message;}notice();};
+ const download=(name,text,type)=>{const url=URL.createObjectURL(new Blob([text],{type}));const a=document.createElement('a');a.href=url;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);};
+ function update(){document.querySelectorAll('[data-progress]').forEach(el=>el.textContent=state.completed.length+' of 12 units complete');document.querySelectorAll('[data-progress-bar]').forEach(el=>el.value=state.completed.length);document.querySelectorAll('[data-unit-link]').forEach(el=>{const done=state.completed.includes(Number(el.dataset.unitLink));el.querySelector('.unit-state').textContent=done?'✓':'→';el.querySelector('.unit-state').setAttribute('aria-label',done?'Marked complete':'Not yet marked complete');});const next=state.completed.length===12?0:(!state.completed.includes(state.lastUnit)?state.lastUnit:Array.from({length:12},(_,i)=>i+1).find(n=>!state.completed.includes(n)));document.querySelectorAll('[data-resume]').forEach(el=>{el.href=next?'unit-'+String(next).padStart(2,'0')+'.html':'finish.html';el.textContent=next?(state.completed.length||Object.keys(state.steps).length?'Continue with Unit '+next+' →':'Start with Unit 1 →'):'Review your final handoff →';});}
+ function restore(){document.querySelectorAll('[data-note]').forEach(el=>el.value=state.notes[el.dataset.note]||'');document.querySelectorAll('[data-check]').forEach(el=>el.checked=!!state.checks[el.dataset.check]);}
+ update();restore();notice();
+ const readableState=()=>{const copy=W.normalize(state);document.querySelectorAll('[data-note]').forEach(el=>copy.notes[el.dataset.note]=el.value);return copy;};
+ const reportWorkbookError=error=>{workbookWarning=error instanceof Error?error.message:'The workbook could not be changed. Your saved work has not changed.';notice();};
+ document.querySelectorAll('[data-note]').forEach(el=>{el.maxLength=W.LIMITS.noteCharacters;el.addEventListener('input',()=>{const status=el.closest('.notes')?.querySelector('[data-saved]');try{const next=W.updateNote(state,el.dataset.note,el.value);state=next;workbookWarning='';save();if(status)status.textContent=storage?'Saved in this browser':'Not saved — export readable notes before leaving';}catch(error){reportWorkbookError(error);if(status)status.textContent='This edit is not saved. Export readable notes or shorten it before leaving.';}});});
+ document.querySelectorAll('[data-check]').forEach(el=>el.addEventListener('change',()=>{state.checks[el.dataset.check]=el.checked;document.querySelectorAll('[data-check]').forEach(other=>{if(other.dataset.check===el.dataset.check)other.checked=el.checked;});save();}));
+ document.querySelectorAll('[data-export]').forEach(el=>el.addEventListener('click',()=>download('ai-solutions-project.txt',W.markdown(readableState()),'text/plain')));
+ document.querySelectorAll('[data-backup]').forEach(el=>el.addEventListener('click',()=>{try{const text=JSON.stringify(W.pack(readableState()),null,2);download('ai-solutions-workbook.json',text,'application/json');workbookWarning='';notice();}catch(error){reportWorkbookError(error);}}));
+ const importStatus=document.querySelector('[data-import-status]');
+ function mergeIncomingList(incoming){let candidate=state,added=0,conflicts=0;for(const item of incoming){const result=W.merge(candidate,item);candidate=result.state;added+=result.added;conflicts+=result.conflicts;}state=candidate;workbookWarning='';save();restore();update();if(importStatus)importStatus.textContent=`Preserved ${added} new notes; kept ${conflicts} differing notes separately. Export readable notes to review them. ${storage?'Saved in this browser.':'Export a backup before leaving.'}`;}
+ document.querySelector('[data-import]')?.addEventListener('change',async e=>{const f=e.target.files?.[0];if(!f)return;try{if(f.size>W.LIMITS.bytes)throw new Error('Choose a backup no larger than 2 MB. Your work has not changed.');mergeIncomingList([W.unpack(await f.text())]);}catch(error){if(importStatus)importStatus.textContent=error.message;reportWorkbookError(error);}e.target.value='';});
+ document.querySelector('[data-import-legacy]')?.addEventListener('click',()=>{try{const incoming=[];for(const key of ['building-ai-solutions-v1','cs4720r-business-ai-v1']){const raw=localStorage.getItem(key);if(raw)incoming.push(W.legacy(JSON.parse(raw)));}if(incoming.length)mergeIncomingList(incoming);else if(importStatus)importStatus.textContent='No earlier-edition workbook was found in this browser. You can restore an exported backup instead.';}catch(error){if(importStatus)importStatus.textContent=error.message||'Earlier notes could not be read. Your current workbook is unchanged.';reportWorkbookError(error);}});
+ document.querySelectorAll('.knowledge-check').forEach(form=>form.addEventListener('submit',e=>{e.preventDefault();const value=new FormData(form).get(form.querySelector('input[type=radio]').name),feedback=form.querySelector('.feedback');feedback.hidden=false;if(value===null){feedback.textContent='Choose an answer first, then compare your reasoning.';return;}const correct=Number(value)===Number(form.dataset.answer);feedback.dataset.correct=String(correct);feedback.textContent=(correct?'Yes. ':'Reconsider this choice. ')+form.dataset.explanation;}));
+ const unit=Number(document.body.dataset.unit),stages=[...document.querySelectorAll('[data-step]')],buttons=[...document.querySelectorAll('[data-step-button]')];let step=unit?state.steps[unit]??0:0;
+ function showStep(index,focus=false){step=Math.max(0,Math.min(3,index));stages.forEach((el,i)=>el.hidden=i!==step);buttons.forEach((el,i)=>{if(i===step)el.setAttribute('aria-current','step');else el.removeAttribute('aria-current');});const prev=document.querySelector('[data-course-prev]'),next=document.querySelector('[data-course-next]');if(prev)prev.hidden=step===0;if(next)next.textContent=step===3?(unit===12?'Mark complete & finish →':'Mark complete & continue →'):'Continue to '+['Learn','Try','Build','Finish'][step+1]+' →';if(unit){state.steps[unit]=step;state.lastUnit=unit;save();}if(focus){stages[step].querySelector('.stage-label')?.focus({preventScroll:true});document.querySelector('.step-nav').scrollIntoView({block:'start'});}}
+ function revealHash(){if(!location.hash)return;let id;try{id=decodeURIComponent(location.hash.slice(1));}catch{return;}const target=document.getElementById(id);if(!target)return;const stage=target.closest('[data-step]');if(stage)showStep(Number(stage.dataset.step));let ancestor=target.parentElement;while(ancestor){if(ancestor.tagName==='DETAILS')ancestor.open=true;ancestor=ancestor.parentElement;}requestAnimationFrame(()=>target.scrollIntoView({block:'start'}));}
+ if(stages.length){document.querySelector('.step-actions').hidden=false;showStep(step);buttons.forEach(b=>b.addEventListener('click',()=>showStep(Number(b.dataset.stepButton),true)));document.querySelector('[data-course-prev]').addEventListener('click',()=>showStep(step-1,true));document.querySelector('[data-course-next]').addEventListener('click',()=>{if(step<3)showStep(step+1,true);else{if(!state.completed.includes(unit))state.completed.push(unit);state.lastUnit=Math.min(12,unit+1);save();location.href=unit===12?'finish.html':'unit-'+String(unit+1).padStart(2,'0')+'.html';}});revealHash();window.addEventListener('hashchange',revealHash);}
+ let printDetails=[];window.addEventListener('beforeprint',()=>{printDetails=[...document.querySelectorAll('details')].map(e=>[e,e.open]);printDetails.forEach(([e])=>e.open=true);});window.addEventListener('afterprint',()=>printDetails.forEach(([e,open])=>e.open=open));
+ const panel=document.querySelector('.ta-panel'),shade=document.querySelector('.ta-shade'),frame=panel?.querySelector('iframe');let opener;
+ const background=[document.querySelector('.site-header'),document.querySelector('main'),document.querySelector('.site-footer')];
+ function closeTA(){if(!panel||panel.hidden)return;panel.hidden=true;shade.hidden=true;background.forEach(e=>e.inert=false);document.body.style.overflow='';opener?.focus();}
+ document.querySelectorAll('[data-open-ta]').forEach(b=>b.addEventListener('click',()=>{opener=b;if(!frame.src){const url=new URL(frame.dataset.src,location.href);url.searchParams.set('lesson',location.pathname.split('/').pop()||'index.html');panel.querySelector('.ta-fallback a').href=url.href;url.searchParams.set('embed','1');frame.src=url.href;}panel.hidden=false;shade.hidden=false;background.forEach(e=>e.inert=true);document.body.style.overflow='hidden';panel.querySelector('[data-close-ta]').focus();}));
+ document.querySelectorAll('[data-close-ta]').forEach(b=>b.addEventListener('click',closeTA));document.addEventListener('keydown',e=>{if(!panel||panel.hidden)return;if(e.key==='Escape')closeTA();if(e.key==='Tab'){const first=panel.querySelector('button'),last=panel.querySelector('.ta-fallback a');if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus();}else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus();}}});
+ window.addEventListener('message',e=>{if(frame?.src&&e.source===frame.contentWindow&&e.origin===new URL(frame.src).origin&&e.data?.type==='course-ta-close')closeTA();});
 })();

@@ -1,85 +1,24 @@
+import { readCourseRequest, CourseRequestError } from "@/lib/course-kb/validation";
 import { NextResponse } from "next/server";
 import { Resend } from "resend";
-import { SITE } from "@/lib/site";
-import { classifyInquiry, fallbackInquiryResponse, type InquiryCategory } from "@/lib/inquiry-ai";
-
-const resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KEY) : null;
-
-/** Smaller / cheaper model for classification (override with CONTACT_CLASSIFY_MODEL).
- *  Routed through Vercel AI Gateway — use a `provider/model` slug. */
-const CLASSIFY_MODEL = process.env.CONTACT_CLASSIFY_MODEL ?? "openai/gpt-oss-20b";
-
+import { createCourseAccess } from "@/lib/course-kb/access";
+import { courseClientKey } from "@/lib/course-kb/access";
+const access = createCourseAccess();
+const ready = () => Boolean(process.env.RESEND_API_KEY && process.env.CONTACT_TO_EMAIL && process.env.RESEND_FROM_EMAIL);
+export async function GET() { return NextResponse.json({ available: ready() }, { headers: { "Cache-Control": "no-store" } }); }
 export async function POST(request: Request) {
+  if(request.headers.get("origin") && request.headers.get("origin") !== new URL(request.url).origin) return NextResponse.json({error:"Send your inquiry from this website."},{status:403});
+  if(!ready()) return NextResponse.json({error:"Inquiry delivery is unavailable. Your message has not been sent. Please try again later."},{status:503});
+  const release = access.acquire(courseClientKey(request));
+  if(!release) return NextResponse.json({error:"Please wait before sending another inquiry."},{status:429});
   try {
-    const body = await request.json();
-    const name = typeof body.name === "string" ? body.name.trim() : "";
-    const email = typeof body.email === "string" ? body.email.trim() : "";
-    const message = typeof body.message === "string" ? body.message.trim() : "";
-    const source = typeof body.source === "string" ? body.source : "contact-form";
-
-    if (!name || !email || !message) {
-      return NextResponse.json(
-        { error: "Name, email, and message are required." },
-        { status: 400 },
-      );
-    }
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      return NextResponse.json({ error: "Invalid email address." }, { status: 400 });
-    }
-
-    let category: InquiryCategory = "general";
-    let autoReply = fallbackInquiryResponse().autoReply;
-
-    try {
-      const classified = await classifyInquiry({
-        name,
-        message,
-        modelId: CLASSIFY_MODEL,
-      });
-      category = classified.category;
-      autoReply = classified.autoReply;
-    } catch (err) {
-      console.error("[contact] classifyInquiry:", err);
-      const fb = fallbackInquiryResponse();
-      category = fb.category;
-      autoReply = fb.autoReply;
-    }
-
-    const to = process.env.CONTACT_TO_EMAIL ?? SITE.email;
-    const subject = `[majidmemari.com] [${category}] Message from ${name}`;
-
-    if (resend) {
-      const { error } = await resend.emails.send({
-        from: process.env.RESEND_FROM_EMAIL ?? "Majid Memari <onboarding@resend.dev>",
-        to: [to],
-        replyTo: email,
-        subject,
-        text: `From: ${name} <${email}>\nSource: ${source}\nAI category: ${category}\n\n${message}`,
-      });
-      if (error) {
-        console.error("Resend error:", error);
-        return NextResponse.json(
-          { error: "Failed to send message. Please try again later." },
-          { status: 502 },
-        );
-      }
-    } else {
-      console.info("[contact] RESEND_API_KEY not set — message logged only:", {
-        name,
-        email,
-        source,
-        category,
-        messagePreview: message.slice(0, 200),
-      });
-    }
-
-    return NextResponse.json({
-      ok: true,
-      dev: !resend,
-      category,
-      autoReply,
-    });
-  } catch {
-    return NextResponse.json({ error: "Invalid request body." }, { status: 400 });
-  }
+    if(Number(request.headers.get("content-length") ?? 0)>20000) return NextResponse.json({error:"The inquiry is too long."},{status:413});
+    const body=await readCourseRequest(request) as {name?: unknown; email?: unknown; message?: unknown; website?: unknown};
+    if (!body || typeof body !== "object") return NextResponse.json({error:"Enter a valid inquiry."},{status:400}); const name=typeof body.name === "string" ? body.name.trim() : ""; const email=typeof body.email === "string" ? body.email.trim() : ""; const message=typeof body.message === "string" ? body.message.trim() : "";
+    if(body.website || !name || name.length>120 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || email.length>254 || message.length<10 || message.length>4000) return NextResponse.json({error:"Enter your name, a valid reply address, and a message of 10–4,000 characters."},{status:400});
+    const resend=new Resend(process.env.RESEND_API_KEY!);
+    const {error}=await resend.emails.send({from:process.env.RESEND_FROM_EMAIL!,to:[process.env.CONTACT_TO_EMAIL!],replyTo:email,subject:`[Website inquiry] ${name.replace(/[\r\n]/g," ")}`,text:`From: ${name} <${email}>\nSource: Website chatbot\n\n${message}`});
+    if(error) return NextResponse.json({error:"Your inquiry was not delivered. Please try again later."},{status:502});
+    return NextResponse.json({ok:true});
+  } catch (error) { return NextResponse.json({error:"Your inquiry could not be sent. Please try again later."},{status:error instanceof CourseRequestError ? error.status : 400}); } finally { release(); }
 }

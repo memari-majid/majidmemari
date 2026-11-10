@@ -86,13 +86,13 @@ AI calls use Vercel AI Gateway with server-side Vercel OIDC or `AI_GATEWAY_API_K
 | `AI_GATEWAY_API_KEY` | Server-only Gateway authentication when needed |
 | `RESEND_API_KEY` | Enables email delivery for contact submissions |
 | `RESEND_FROM_EMAIL` | Verified Resend sender |
-| `CONTACT_TO_EMAIL` | Contact inbox; defaults to the address in `lib/site.ts` |
+| `CONTACT_TO_EMAIL` | Private recipient inbox; required and never rendered publicly |
 
 The course model precedence is `COURSE_TA_MODEL` → `WORKSHOP_TA_MODEL` → `anthropic/claude-haiku-5.5`. The fallback was verified against the [Gateway catalog](https://ai-gateway.vercel.sh/v1/models) on November 10, 2026. The separate workshop endpoint currently defaults to `anthropic/claude-haiku-4.5`.
 
 Course requests are bounded to 16 messages, 4,000 characters per user message, 8,000 per assistant message, 20,000 total text characters and 48 KiB JSON. Generation is capped at 3,000 output tokens and 50 seconds while the teaching prompt requests concise answers. Native finish-reason metadata and interruption callbacks show a visible notice when an answer reaches its length limit or does not finish normally. Best-effort per-process controls allow eight requests per client hint per ten minutes, 120 total per ten minutes and four concurrent generations. **Cold starts and parallel instances have separate counters: these are not a distributed quota or hard spending ceiling.** Use Gateway/platform budget controls when deployment-wide limits are needed. A shared code is an optional gate, not individual authentication; the UI keeps it only in memory.
 
-Without `RESEND_API_KEY`, the contact endpoint logs a preview on the server and does not deliver email. Configure and verify delivery before relying on the form for production inquiries. Its AI acknowledgment is displayed on the website, not automatically emailed to the sender.
+The website chatbot contains the inquiry form. `GET /api/contact` reports delivery availability without exposing addresses. All three delivery variables are required. If unavailable, the form explicitly reports that inquiries cannot be sent; there is no log-only success or public email fallback. Only a provider-accepted response returns success. AI chat itself does not send an inquiry.
 
 ## Validation
 

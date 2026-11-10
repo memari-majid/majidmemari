@@ -29,7 +29,7 @@ async function inspect(directory) {
   }
 }
 await inspect(source);
-for (const required of ["index.html", "course.html", "assets/site.js", "labs/index.html", "downloads/course-site.zip"]) {
+for (const required of ["index.html", "unit-01.html", "unit-12.html", "milestone-5.html", "assets/site.js", "assets/practice.js", "assets/practice.css", "downloads/course-site.zip"]) {
   if (!files.includes(resolve(source, required))) throw new Error(`Missing course output: ${required}`);
 }
 if (!(await readFile(resolve(source, "index.html"), "utf8")).includes("Building AI Solutions")) {

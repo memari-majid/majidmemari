@@ -2,7 +2,9 @@
 
 import { useChat } from "@ai-sdk/react";
 import { DefaultChatTransport } from "ai";
-import Link from "next/link";
+import ReactMarkdown from "react-markdown";
+import { prepareCourseHistory } from "@/lib/course-kb/history";
+import { WebsiteInquiry } from "./WebsiteInquiry";
 import { useEffect, useMemo, useRef, useState } from "react";
 
 const QUICK_PROMPTS = [
@@ -41,8 +43,9 @@ export function ChatWidget() {
   const dialogRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
+  useEffect(() => { const activate = () => setOpen(true); if(new URLSearchParams(window.location.search).get("chat") === "open") activate(); window.addEventListener("open-website-chat",activate); return () => window.removeEventListener("open-website-chat",activate); }, []);
   const transport = useMemo(
-    () => new DefaultChatTransport({ api: "/api/chat", fetch: chatFetch }),
+    () => new DefaultChatTransport({ api: "/api/chat", fetch: chatFetch, prepareSendMessagesRequest: ({ messages }) => ({ body: { messages: prepareCourseHistory(messages) } }) }),
     [],
   );
   const { messages, sendMessage, status, stop, error } = useChat({ transport });
@@ -50,7 +53,7 @@ export function ChatWidget() {
   const busy = status === "streaming" || status === "submitted";
 
   useEffect(() => {
-    endRef.current?.scrollIntoView({ behavior: "smooth" });
+    endRef.current?.scrollIntoView({ behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
   }, [messages, open]);
 
   useEffect(() => {
@@ -67,11 +70,12 @@ export function ChatWidget() {
       }
       if (event.key !== "Tab") return;
       const elements = dialogRef.current?.querySelectorAll<HTMLElement>(
-        'button:not([disabled]), a[href], input:not([disabled]), [tabindex="0"]',
+        'button:not([disabled]), a[href], input:not([disabled]), textarea:not([disabled]), summary, [tabindex="0"]',
       );
-      if (!elements?.length) return;
-      const first = elements[0];
-      const last = elements[elements.length - 1];
+      const visible = [...(elements ?? [])].filter(element => element.getClientRects().length > 0);
+      if (!visible.length) return;
+      const first = visible[0];
+      const last = visible[visible.length - 1];
       if (event.shiftKey && document.activeElement === first) {
         event.preventDefault();
         last.focus();
@@ -102,8 +106,8 @@ export function ChatWidget() {
         ref={openButtonRef}
         type="button"
         onClick={() => setOpen(true)}
-        className={`fixed z-[60] flex h-14 w-14 min-h-[56px] min-w-[56px] items-center justify-center rounded-full bg-sky-600 text-white shadow-lg shadow-sky-900/40 transition hover:bg-sky-500 focus:outline-none focus:ring-2 focus:ring-sky-400 focus:ring-offset-2 focus:ring-offset-zinc-50 dark:focus:ring-offset-zinc-950 ${open ? "hidden" : ""} bottom-[max(1.25rem,env(safe-area-inset-bottom))] right-[max(1.25rem,env(safe-area-inset-right))]`}
-        aria-label="Open chat"
+        className={`fixed z-[60] flex h-14 w-14 min-h-[56px] min-w-[56px] items-center justify-center rounded-full bg-slate-950 text-white shadow-lg shadow-slate-900/15 transition hover:bg-slate-900 focus:outline-none focus:ring-2 focus:ring-sky-400 focus:ring-offset-2 focus:ring-offset-zinc-50 dark:focus:ring-offset-zinc-950 ${open ? "hidden" : ""} bottom-[max(1.25rem,env(safe-area-inset-bottom))] right-[max(1.25rem,env(safe-area-inset-right))]`}
+        aria-label="Open website chatbot"
         aria-expanded={open}
         aria-controls={open ? "site-assistant-dialog" : undefined}
       >
@@ -130,13 +134,13 @@ export function ChatWidget() {
               <div className="min-w-0">
                 <div className="flex flex-wrap items-center gap-2">
                   <h2 id="chat-title" className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">
-                    Site Assistant
+                    Website assistant
                   </h2>
                   <span className="inline-flex items-center rounded-full border border-sky-200 bg-sky-50 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-sky-700 dark:border-sky-900/50 dark:bg-sky-950/40 dark:text-sky-400">
                     AI
                   </span>
                 </div>
-                <p className="text-xs text-zinc-600 dark:text-zinc-500">Find courses, workshops, and mentorship information</p>
+                <p className="text-xs text-zinc-600 dark:text-zinc-500">Courses · Workshops · Mentorship · Inquiries</p>
               </div>
               <div className="flex gap-2">
                 {busy && (
@@ -192,18 +196,15 @@ export function ChatWidget() {
                       : "mr-4 border border-zinc-200 bg-zinc-100 text-zinc-800 dark:border-zinc-800/80 dark:bg-zinc-900/80 dark:text-zinc-300"
                   }`}
                 >
-                  {textFromMessage(m)}
+                  {m.role === "user" ? textFromMessage(m) : <ReactMarkdown components={{ a: ({href,children}) => href && /^(https:\/\/|\/)/.test(href) ? <a href={href} className="text-teal-800 underline underline-offset-4">{children}</a> : <span>{children}</span>, img: () => null }}>{textFromMessage(m)}</ReactMarkdown>}
                 </div>
               ))}
               {error && (
                 <p role="alert" className="text-xs text-amber-700 dark:text-amber-400">
-                  Chat is unavailable right now. Please try again or use the{" "}
-                  <Link href="/#contact" className="underline underline-offset-2" onClick={() => setOpen(false)}>
-                    contact details
-                  </Link>
-                  .
+                  The website assistant is temporarily unavailable. Please try again. The inquiry form below reports its delivery availability separately.
                 </p>
               )}
+              <WebsiteInquiry />
               <div ref={endRef} />
             </div>
 
@@ -221,7 +222,7 @@ export function ChatWidget() {
                 <button
                   type="submit"
                   disabled={busy || !input.trim()}
-                  className="shrink-0 rounded-lg bg-sky-600 px-3 py-2 text-sm font-medium text-white hover:bg-sky-500 disabled:opacity-50"
+                  className="shrink-0 rounded-lg bg-slate-950 px-3 py-2 text-sm font-medium text-white hover:bg-slate-900 disabled:opacity-50"
                 >
                   Send
                 </button>

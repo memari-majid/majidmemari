@@ -149,15 +149,15 @@ export function HomePageContent() {
             <h2 id="contact-heading" className="mt-3 text-3xl font-semibold tracking-tight">What would you like to learn or build?</h2>
             <p className="mt-4 max-w-2xl leading-relaxed text-slate-700">
               For a workshop, mentorship, or a business challenge for the course, share your
-              audience, goals, and a little context. I&apos;ll use that to understand the next step.
+              audience, goals, and a little context with the website chatbot.
             </p>
             <div className="mt-7 flex flex-wrap items-center gap-x-6 gap-y-4">
-              <a href={`mailto:${SITE.email}`} className="inline-flex min-h-12 items-center rounded-xl bg-slate-900 px-6 py-3 text-sm font-semibold text-white transition hover:bg-blue-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-800">
-                Email Majid
+              <a href="?chat=open" className="inline-flex min-h-12 items-center rounded-xl bg-slate-900 px-6 py-3 text-sm font-semibold text-white transition hover:bg-blue-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-800">
+                Chat with the website assistant
               </a>
               <a href={SITE.linkedin} rel="me" className={`text-sm ${linkClass}`}>Connect on LinkedIn</a>
             </div>
-            <p className="mt-4 break-words text-sm text-slate-600">{SITE.emailDisplay}</p>
+
           </div>
         </section>
       </main>

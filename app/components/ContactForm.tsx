@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { SITE } from "@/lib/site";
+
 
 const CATEGORY_LABEL: Record<string, string> = {
   consulting: "AI consulting",
@@ -53,7 +53,7 @@ export function ContactForm() {
       setMessage("");
     } catch {
       setStatus("error");
-      setErrorMsg("Network error. Please try again or email Majid directly.");
+      setErrorMsg("Network error. Please try again later.");
     }
   }
 
@@ -136,13 +136,7 @@ export function ContactForm() {
         )}
         {status === "error" && <p className="text-sm text-red-600 dark:text-red-400">{errorMsg}</p>}
       </div>
-      <p className="text-xs text-zinc-500 dark:text-zinc-600">
-        Prefer email? Reach me at{" "}
-        <a href={`mailto:${SITE.email}`} className="break-all text-sky-600 hover:underline dark:text-sky-400">
-          {SITE.emailDisplay}
-        </a>
-        .
-      </p>
+
     </form>
   );
 }

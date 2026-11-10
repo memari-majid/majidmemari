@@ -6,8 +6,8 @@ const PROJECT_STAGES = [
   "Find the need",
   "Build with AI",
   "Test & pilot",
-  "Deploy & pitch",
-  "Sell or adopt",
+  "Offer & adoption",
+  "Deliver & defend",
 ];
 
 export function BuildingAiSolutionsCard({
@@ -43,7 +43,7 @@ export function BuildingAiSolutionsCard({
         Turn a real business need into an AI solution people will use.
       </p>
       <p className="mt-4 max-w-2xl text-sm leading-relaxed text-slate-300">
-        Learn through interactive lessons, business simulations, and a capstone shaped by
+        Follow one path through twelve lessons, with simulations inside each relevant lesson and a capstone shaped by
         partner or client needs. Use AI tools and agents to build a product or service, evaluate
         the results, and make the case for a sale or adoption.
       </p>
@@ -71,20 +71,9 @@ export function BuildingAiSolutionsCard({
           href="/teaching/ai-solutions/"
           className="inline-flex min-h-11 items-center justify-center gap-2 rounded-xl bg-sky-300 px-5 py-3 text-sm font-semibold text-slate-950 transition hover:bg-sky-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-sky-300"
         >
-          Explore the course <span aria-hidden="true">→</span>
+          Start the learning path <span aria-hidden="true">→</span>
         </a>
-        <a
-          href="/teaching/ai-solutions/labs/index.html"
-          className="inline-flex min-h-11 items-center justify-center rounded-xl border border-slate-600 px-5 py-3 text-sm font-semibold text-white transition hover:border-slate-400 hover:bg-slate-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-sky-300"
-        >
-          Try the simulations
-        </a>
-        <a
-          href="/teaching/ai-solutions/assistant"
-          className="inline-flex min-h-11 items-center px-2 text-sm font-semibold text-sky-200 underline underline-offset-4 hover:text-white"
-        >
-          Ask the course TA
-        </a>
+
       </div>
     </article>
   );

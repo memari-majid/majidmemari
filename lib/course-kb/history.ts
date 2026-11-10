@@ -4,7 +4,7 @@ import { COURSE_LIMITS } from "./limits";
 /** Prepare a bounded text-only suffix for the next request, keeping full messages
  * and citations in the UI state. Failed, source-only assistant turns are omitted.
  * There are no server imports: this helper runs in the browser and in unit tests. */
-export function prepareCourseHistory(messages: readonly UIMessage[]): UIMessage[] {
+export function prepareCourseHistory(messages: readonly UIMessage[], requestContext: { lesson?: string } = {}): UIMessage[] {
   const textOnly: UIMessage[] = [];
   for (const message of messages) {
     if (message.role !== "user" && message.role !== "assistant") continue;
@@ -18,7 +18,7 @@ export function prepareCourseHistory(messages: readonly UIMessage[]): UIMessage[
     const message = textOnly[index];
     const length = message.parts.reduce((n, part) => n + (part.type === "text" ? part.text.length : 0), 0);
     const candidate = [message, ...selected];
-    if (candidate.length > COURSE_LIMITS.messages || characters + length > COURSE_LIMITS.totalCharacters || encoder.encode(JSON.stringify({ messages: candidate })).byteLength > COURSE_LIMITS.bodyBytes) break;
+    if (candidate.length > COURSE_LIMITS.messages || characters + length > COURSE_LIMITS.totalCharacters || encoder.encode(JSON.stringify({ ...requestContext, messages: candidate })).byteLength > COURSE_LIMITS.bodyBytes) break;
     selected = candidate; characters += length;
   }
   return selected;

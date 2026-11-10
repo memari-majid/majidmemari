@@ -38,7 +38,6 @@ export function personJsonLd() {
     image: `${SITE_URL}/majid-memari.png`,
     jobTitle: MAJID.jobTitle,
     description: SITE.description,
-    email: SITE.email,
     sameAs: [...PERSON_SAME_AS],
     affiliation: [
       {

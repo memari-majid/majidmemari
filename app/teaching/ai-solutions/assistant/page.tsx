@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import { NavBar } from "@/app/components/NavBar";
+
+import { normalizeCoursePage } from "@/lib/course-kb/context";
 import { CourseAssistant } from "./CourseAssistant";
 
 export const metadata: Metadata = {
@@ -9,11 +10,9 @@ export const metadata: Metadata = {
   robots: { index: false, follow: true },
 };
 
-export default function CourseAssistantPage() {
-  return (
-    <div className="min-h-dvh bg-zinc-50 text-zinc-900">
-      <NavBar />
-      <CourseAssistant />
-    </div>
-  );
+export default async function CourseAssistantPage({ searchParams }: { searchParams: Promise<{ embed?: string; lesson?: string }> }) {
+  const query = await searchParams;
+  const embedded = query.embed === "1";
+  const lesson = normalizeCoursePage(query.lesson);
+  return <div className="min-h-dvh bg-zinc-50 text-zinc-900"><CourseAssistant embedded={embedded} lesson={lesson} /></div>;
 }

@@ -1,4 +1,7 @@
-import { convertToModelMessages, gateway, streamText, type UIMessage } from "ai";
+import { gateway, streamText } from "ai";
+import { createCourseAccess, courseClientKey } from "@/lib/course-kb/access";
+import { readCourseRequest, validateCourseMessages, CourseRequestError } from "@/lib/course-kb/validation";
+const websiteAccess = createCourseAccess();
 import { MAJID } from "@/lib/majid";
 import { SITE } from "@/lib/site";
 
@@ -10,9 +13,9 @@ const SYSTEM = `You are a brief, professional website assistant for ${SITE.fullN
 Teaching and learning:
 - Building AI Solutions is an independent course owned and taught by Majid Memari. It is for business learners across finance, marketing, MBA, MIS, and other disciplines, with no student programming required. Students work from a real partner or client need through discovery, AI solution building, testing, a controlled pilot, deployment, pitching, selling or organizational adoption, and handoff. Projects depend on the partner need and available resources. The course uses interactive lessons, simulations, statistics, tables, and figures. Open it at ${MAJID.personalSite}/teaching/ai-solutions/. Do not attach a university name or course number to this independent course.
 - Teaching overview: ${MAJID.personalSite}/teaching.
-- The Building AI Solutions teaching assistant answers questions using the published course material at ${MAJID.personalSite}/teaching/ai-solutions/assistant.
+- The Building AI Solutions teaching assistant is available through “Ask course TA” inside every lesson. It answers using the current published course material. Direct learners to ${MAJID.personalSite}/teaching/ai-solutions/ to continue the learning path.
 - NVIDIA Deep Learning Institute workshops include Building Agentic AI Applications with LLMs. Its workshop assistant is at ${MAJID.personalSite}/teaching/agentic-llm. This is a separate workshop with its own prerequisites, not the no-code business course.
-- Mentorship: direct inquiries about learning or projects to ${MAJID.personalSite}/#mentorship or email ${SITE.email}. Do not claim that internships, positions, or a specific mentoring arrangement are currently available.
+- Mentorship: direct inquiries about learning or projects to ${MAJID.personalSite}/#mentorship through the inquiry form inside this website chatbot. Do not claim that internships, positions, or a specific mentoring arrangement are currently available.
 - Workshops and team training: ${MAJID.clientOffer.summary} For fit and availability, contact Majid directly.
 
 Background, when asked:
@@ -21,40 +24,34 @@ ${MAJID.bio.industry}
 ${MAJID.bio.community}
 - Publications: ${MAJID.personalSite}/publications and Scholar ${MAJID.scholar}.
 - Profiles: GitHub ${MAJID.github}, LinkedIn ${MAJID.linkedin}.
-- Contact: email ${SITE.email} or ${MAJID.personalSite}/#contact.
+- Contact: use the “Send an inquiry to Majid” form inside this website chatbot. LinkedIn remains a professional profile link: ${MAJID.linkedin}. Never provide an email address.
 
 Response rules:
 - Be concise (2-4 sentences), professional, and warm. No emojis.
-- Use the links above to direct visitors to the relevant learning experience. This chat is a site guide, not the course teaching assistant.
-- Do not invent partners, papers, schedules, prices, enrollment details, credentials, results, openings, or commitments. If information is absent, say so and direct the visitor to Majid by email.
+- Use the links above to direct visitors to the relevant learning experience. This chatbot is the website guide and inquiry entry point. The separate course TA is embedded inside the lessons and uses course data.
+- Do not invent partners, papers, schedules, prices, enrollment details, credentials, results, openings, or commitments. If information is absent, say so and suggest the inquiry form inside this chatbot.
 - Do not supply specific university affiliations or historical institutional course numbers. They are not part of this site's teaching or biography information.
-- Do not claim to submit inquiries, enroll learners, book meetings, or send messages. This assistant cannot take those actions.
+- Your AI responses cannot send messages, enroll learners, or book meetings. The visitor can explicitly send a separate inquiry using the form in this chatbot; only its success receipt confirms delivery. Do not claim that a chat message itself reaches Majid. Do not invent delivery availability.
 - For unrelated topics, politely redirect to the courses, workshops, mentorship information, or contact details.`;
 
 export async function POST(req: Request) {
-  const body = await req.json();
-  const uiMessages = body.messages as UIMessage[];
-  const modelMessages = await convertToModelMessages(uiMessages);
-  const modelId = process.env.AI_CHAT_MODEL ?? "openai/gpt-oss-20b";
-
+  const origin = req.headers.get("origin");
+  if (origin && origin !== new URL(req.url).origin) return Response.json({ error: "Open the website assistant on this website." }, { status: 403 });
+  const release = websiteAccess.acquire(courseClientKey(req));
+  if (!release) return Response.json({ error: "Please wait a few minutes before sending another question." }, { status: 429 });
   try {
+    const messages = validateCourseMessages(await readCourseRequest(req));
+    const signal = AbortSignal.any([req.signal, AbortSignal.timeout(50000)]);
+    signal.addEventListener("abort", release, { once: true });
     const result = streamText({
-      model: gateway(modelId),
-      system: SYSTEM,
-      messages: modelMessages,
-      providerOptions: {
-        gateway: {
-          tags: ["site:majidmemari", "feature:chat", `env:${process.env.VERCEL_ENV ?? "dev"}`],
-        },
-      },
+      model: gateway(process.env.AI_CHAT_MODEL ?? "openai/gpt-oss-20b"),
+      system: SYSTEM, messages, maxOutputTokens: 800, maxRetries: 0, abortSignal: signal,
+      onFinish: release, onAbort: release, onError: release,
+      providerOptions: { gateway: { tags: ["site:majidmemari", "feature:chat", `env:${process.env.VERCEL_ENV ?? "dev"}`] } },
     });
-
-    return result.toUIMessageStreamResponse();
-  } catch (err) {
-    const message = err instanceof Error ? err.message : "Chat request failed.";
-    return new Response(JSON.stringify({ error: message }), {
-      status: 503,
-      headers: { "Content-Type": "application/json" },
-    });
+    return result.toUIMessageStreamResponse({ sendReasoning: false, onError: () => "The website assistant is temporarily unavailable. Please try again later.", headers: { "Cache-Control": "no-store" } });
+  } catch (error) {
+    release();
+    return Response.json({ error: error instanceof CourseRequestError ? error.message : "The website assistant is temporarily unavailable. Please try again later." }, { status: error instanceof CourseRequestError ? error.status : 503 });
   }
 }
