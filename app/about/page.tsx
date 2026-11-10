@@ -48,6 +48,7 @@ export default function AboutPage() {
             <li>{MAJID.education.phd}</li>
             <li>{MAJID.education.ms}</li>
             <li>{MAJID.education.mba}</li>
+            <li>{MAJID.education.basc}</li>
           </ul>
           <p className="mt-5 text-sm leading-relaxed text-slate-600">
             NVIDIA Deep Learning Institute Certified Instructor. Explore my <Link className={linkClass} href="/publications">research and publications</Link> for the scholarly work behind my applied AI interests.
