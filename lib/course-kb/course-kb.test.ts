@@ -323,3 +323,13 @@ test("API passes the open unit as context and emits sources from that unit", asy
   assert(system.includes('CURRENT COURSE PAGE'));
   assert(!system.includes('Internal Module 00 is learner-facing'));
 });
+
+
+test("visual lesson explanations remain retrievable without executing charts", () => {
+  const queue = retrieveCourseChunks("Unit 11 five working day review queue 30 requests 24 reviewed capacity");
+  assert(queue.some(c => c.page === "unit-11.html" && /150[\s\S]*120[\s\S]*30/.test(c.body)), "The TA needs the full queue reconciliation");
+  const scale = retrieveCourseChunks("Unit 12 chart axis starting at 80 visible bar lengths 75% reduction 12.5%");
+  assert(scale.some(c => c.page === "unit-12.html" && /12.5%/.test(c.body) && /75%/.test(c.body)), "The TA must distinguish the visual and actual reductions");
+  const repair = retrieveCourseChunks("Unit 5 repair fourth case 24-hour boundary 3/4 credit");
+  assert(repair.some(c => c.page === "unit-05.html" && /3\/4/.test(c.body)), "Changed test denominators must be available as text");
+});
