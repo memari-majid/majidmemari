@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { BuildingAiSolutionsCard } from "@/app/components/BuildingAiSolutionsCard";
 import { SITE } from "@/lib/site";
-import { PrototypeShowcase } from "@/app/components/PrototypeShowcase";
+import { ProjectShowcase } from "@/app/components/ProjectShowcase";
 
 const linkClass =
   "font-medium text-teal-800 underline decoration-teal-800/30 underline-offset-4 transition hover:decoration-teal-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-teal-700";
@@ -66,7 +66,7 @@ export function HomePageContent() {
           <BuildingAiSolutionsCard headingLevel={3} />
         </section>
 
-        <PrototypeShowcase />
+        <ProjectShowcase />
 
         <section id="workshops" aria-labelledby="workshops-heading" className="mx-auto max-w-6xl scroll-mt-28 px-5 py-16 sm:px-8 sm:py-20">
           <p className="text-xs font-semibold uppercase tracking-[0.18em] text-teal-800">Learn together</p>
@@ -89,7 +89,7 @@ export function HomePageContent() {
             </article>
             <article className="rounded-2xl border border-teal-900/15 bg-teal-900/[0.04] p-6 sm:p-8">
               <p className="text-xs font-semibold uppercase tracking-wider text-teal-800">For teams &amp; business learners</p>
-              <h3 className="mt-3 text-xl font-semibold">AI opportunities, prototypes, and decisions</h3>
+              <h3 className="mt-3 text-xl font-semibold">AI opportunities, projects, and decisions</h3>
               <p className="mt-3 text-sm leading-relaxed text-slate-600">
                 Frame a useful problem, explore an AI workflow, and assess its value and limits.
                 Discuss a session shaped around your team&apos;s experience and goals.
@@ -168,7 +168,7 @@ export function HomePageContent() {
         <div className="mx-auto flex max-w-6xl flex-col justify-between gap-4 px-5 py-7 text-sm text-slate-600 sm:flex-row sm:px-8">
           <p>© {new Date().getFullYear()} Majid Memari</p>
           <nav aria-label="Footer" className="flex flex-wrap gap-x-5 gap-y-3">
-            <Link href="/prototypes" className="hover:text-teal-800">AI prototypes</Link>
+            <Link href="/projects" className="hover:text-teal-800">Projects</Link>
             <Link href="/teaching" className="hover:text-teal-800">Teaching</Link>
             <Link href="/about" className="hover:text-teal-800">About</Link>
             <Link href="/publications" className="hover:text-teal-800">Publications</Link>

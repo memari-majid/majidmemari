@@ -1,7 +1,9 @@
-export type Prototype = {
+export type Project = {
   slug: string;
   name: string;
   category: string;
+  kind: string;
+  group: "applications" | "learning" | "research";
   summary: string;
   purpose: string;
   capabilities: readonly string[];
@@ -14,9 +16,11 @@ export type Prototype = {
 };
 
 /** Public portfolio copy only. Account access and live AI availability vary by app. */
-export const PROTOTYPES: readonly Prototype[] = [
+export const PROJECTS: readonly Project[] = [
   {
     slug: "building-ai-solutions",
+    kind: "Interactive course",
+    group: "learning",
     name: "Building AI Solutions",
     category: "Learning & business",
     summary: "An interactive course that turns business problems into practical AI solutions.",
@@ -30,6 +34,8 @@ export const PROTOTYPES: readonly Prototype[] = [
   },
   {
     slug: "datagovai",
+    kind: "Records-retention assistant",
+    group: "applications",
     name: "DataGovAI",
     category: "Data governance",
     summary: "A knowledge assistant for questions about Utah government records retention.",
@@ -43,6 +49,8 @@ export const PROTOTYPES: readonly Prototype[] = [
   },
   {
     slug: "ai-classsims",
+    kind: "Classroom simulation",
+    group: "learning",
     name: "AI-ClassSims",
     category: "Teacher preparation",
     summary: "Practice classroom interactions with AI student personas.",
@@ -56,12 +64,14 @@ export const PROTOTYPES: readonly Prototype[] = [
   },
   {
     slug: "carewise",
+    kind: "Parent education assistant",
+    group: "applications",
     name: "CareWise",
     category: "Parent education",
     summary: "Source-grounded autism information for parents and caregivers.",
     purpose: "Help parents understand information, prepare questions for a child's care team, and navigate a curated library of trusted sources.",
     capabilities: ["A public parent guide and source library.", "Conversational educational answers with source citations.", "A focused workflow for understanding autism-related information."],
-    limit: "An educational prototype, not a diagnostic, therapy, or crisis service. Review health decisions with a qualified professional.",
+    limit: "An educational information tool, not a diagnostic, therapy, or crisis service. Review health decisions with a qualified professional.",
     url: "https://carewise.space",
     launchLabel: "Explore CareWise",
     access: "Guide public · chat sign-in",
@@ -69,12 +79,14 @@ export const PROTOTYPES: readonly Prototype[] = [
   },
   {
     slug: "willow",
+    kind: "Reflection & skills companion",
+    group: "applications",
     name: "Willow",
     category: "Reflection & skills",
     summary: "A conversational companion for everyday reflection and cognitive behavioral skills practice.",
     purpose: "Explore structured reflection, thought records, and practical exercises in a calm conversational experience.",
     capabilities: ["A public conversation demo.", "Guided reflection and cognitive behavioral skill exercises.", "A topic library and explanations of the sources behind the experience."],
-    limit: "A skills-practice prototype, not a therapist, doctor, or crisis service. The public demo conversation clears when refreshed.",
+    limit: "A skills-practice companion, not a therapist, doctor, or crisis service. The public demo conversation clears when refreshed.",
     url: "https://www.willowspace.dev/demo",
     launchLabel: "Try the Willow demo",
     access: "Public demo",
@@ -82,6 +94,8 @@ export const PROTOTYPES: readonly Prototype[] = [
   },
   {
     slug: "ai-cpa",
+    kind: "Bookkeeping workspace",
+    group: "applications",
     name: "AI-CPA · AI Bookkeeping",
     category: "Accounting & finance",
     summary: "An AI-assisted bookkeeping workspace with a conversational assistant named Saul.",
@@ -95,6 +109,8 @@ export const PROTOTYPES: readonly Prototype[] = [
   },
   {
     slug: "finhub",
+    kind: "Finance dashboard",
+    group: "applications",
     name: "FinHub",
     category: "Personal finance",
     summary: "A finance dashboard that brings balances, spending, and debt information into one workspace.",
@@ -104,10 +120,12 @@ export const PROTOTYPES: readonly Prototype[] = [
     url: "https://finhub-eight.vercel.app",
     launchLabel: "Open the sign-in page",
     access: "Sign-in required",
-    accessNote: "An administrator-provisioned account is required. Contact me to discuss the prototype without sharing personal financial records.",
+    accessNote: "An administrator-provisioned account is required. Contact me to discuss the application without sharing personal financial records.",
   },
   {
     slug: "ai-ster",
+    kind: "Teaching evaluation application",
+    group: "applications",
     name: "AI-STER",
     category: "Teacher evaluation",
     summary: "AI-assisted student-teaching evaluation aligned with USBE rubrics.",
@@ -121,6 +139,8 @@ export const PROTOTYPES: readonly Prototype[] = [
   },
   {
     slug: "course-chatbot",
+    kind: "Course teaching assistant",
+    group: "learning",
     name: "Course AI Teaching Assistant",
     category: "Course support",
     summary: "An archived-course AI demo that helps learners explore saved Summer 2026 materials.",
@@ -134,12 +154,14 @@ export const PROTOTYPES: readonly Prototype[] = [
   },
   {
     slug: "nvidia-workshop-ta",
+    kind: "Workshop teaching assistant",
+    group: "learning",
     name: "NVIDIA Workshop Teaching Assistant",
     category: "Workshop support",
     summary: "A workshop question-and-answer assistant for an authorized learning community.",
     purpose: "Give workshop participants a focused place to ask questions about course material while they work through technical learning activities.",
     capabilities: ["A workshop-specific question-and-answer experience.", "Access through the workshop's Slack sign-in.", "AI support alongside instructor-led learning."],
-    limit: "Built as an independent teaching-support prototype. AI responses need checking against the workshop materials and instructor guidance.",
+    limit: "An independent teaching-support application. AI responses need checking against the workshop materials and instructor guidance.",
     url: "https://nvidia-teaching-assistant.vercel.app",
     launchLabel: "Open workshop sign-in",
     access: "Workshop Slack sign-in",
@@ -147,22 +169,30 @@ export const PROTOTYPES: readonly Prototype[] = [
   },
   {
     slug: "grideye",
+    kind: "Historical research concept",
+    group: "research",
     name: "GridEye",
     category: "Infrastructure research",
-    summary: "A historical research prototype exploring aerial AI and power-quality information for grid inspection.",
+    summary: "An earlier research concept exploring aerial AI and power-quality information for grid inspection.",
     purpose: "Show an earlier concept for combining drone imagery, thermal sensing, and electrical context in an infrastructure inspection workflow.",
-    capabilities: ["Public explanations of the inspection concept.", "High-level summaries of sensing and AI research ideas.", "An example of communicating a technical research prototype on the web."],
+    capabilities: ["Public explanations of the inspection concept.", "High-level summaries of sensing and AI research ideas.", "An example of communicating a technical research concept on the web."],
     limit: "Historical portfolio material. The project pages may describe earlier plans and do not establish a current active program, funding award, or deployed inspection service.",
     url: "https://grideye-nine.vercel.app",
-    launchLabel: "View the historical prototype",
-    access: "Historical prototype",
+    launchLabel: "View the research concept",
+    access: "Historical research concept",
     accessNote: "The public site remains available as a record of the earlier concept.",
     historical: true,
   },
 ];
 
-export const FEATURED_PROTOTYPE_SLUGS = ["datagovai", "ai-classsims", "carewise"];
+export const FEATURED_PROJECT_SLUGS = ["datagovai", "ai-classsims", "carewise"];
 
-export function getPrototype(slug: string) {
-  return PROTOTYPES.find((prototype) => prototype.slug === slug);
+export function getProject(slug: string) {
+  return PROJECTS.find((project) => project.slug === slug);
 }
+
+export const PROJECT_GROUPS = [
+  { id: "applications", title: "AI applications & tools", description: "Assistants and workspaces for specialized information, reflection, finance, and evaluation." },
+  { id: "learning", title: "Courses & learning experiences", description: "A guided course, classroom simulation, and teaching assistants for learners and instructors." },
+  { id: "research", title: "Research concepts", description: "Earlier research ideas presented with their historical context and scope." },
+] as const;
