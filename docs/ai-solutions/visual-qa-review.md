@@ -4,7 +4,7 @@ Review date: November 10, 2026. Scope: source-level review of the original embed
 
 ## Result and scope
 
-No unresolved material defect was found in the reviewed calculation, evidence-labeling, or interaction logic after corrections. The review used the current twelve-unit [instructional plan](INSTRUCTIONAL_DESIGN_PLAN.md), the supplied Cedar Desk case in `site/course_content.py`, and [reference-course analysis](REFERENCE_COURSE_ANALYSIS.md). It did not independently visit the reference service or production website.
+No unresolved material defect was found in the reviewed calculation, evidence-labeling, or interaction logic after corrections. The review used the current twelve-unit [instructional plan](instructional-design.md), the supplied Cedar Desk case in `site/course_content.py`, and [reference-course analysis](reference-analysis.md). It did not independently visit the reference service or production website.
 
 The activities preserve one ordered course path. They connect predictions and decisions to records, calculations, figures, tables, feedback, and a project transfer. The six additional figures explain complete effort, prototype repair and retesting, scope and contribution, acquisition denominators, review capacity, and misleading chart origins. These are fictional teaching examples, not measured partner or student outcomes.
 

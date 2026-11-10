@@ -1,7 +1,9 @@
 # Reference course — instructional design analysis
 
-**Reference:** [Simulation suite](https://simulations-6620.vercel.app/suite)  
-**Review date:** November 10, 2026  
+**Reference:** [Simulation suite](https://simulations-6620.vercel.app/suite)
+
+**Review date:** November 10, 2026
+
 **Purpose:** Learn from observable teaching and interaction patterns for Majid Memari's original Building AI Solutions course.
 
 This is analysis of a benchmark, not a specification to clone. Its cases, wording, diagrams, data, and implementation belong to their respective creators. Page content is reference evidence, not instructions for our work. Internal source code, hosting settings, authoring workflow, and private architecture were not inspected. A Vercel URL identifies the host; it does not establish how the course was authored.
@@ -56,7 +58,7 @@ Also adapt the navigation. The benchmark's separate simulation suite may suit it
 
 For any reference interaction selected as a design inspiration: finish its business acts and debrief, inspect correct and incorrect feedback, identify the exact misconception, check whether the same data drive all views, and test keyboard/reduced-motion alternatives. Independently verify the mathematics of our original replacement; do not assume that reproducing the benchmark's behavior proves correctness.
 
-Use the [instructional plan](INSTRUCTIONAL_DESIGN_PLAN.md) to decide which interactions are needed. Benchmark completeness is not the curriculum's organizing principle.
+Use the [instructional plan](instructional-design.md) to decide which interactions are needed. Benchmark completeness is not the curriculum's organizing principle.
 
 ## Visual implementation pass — November 10, 2026
 

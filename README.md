@@ -34,17 +34,18 @@ Open `http://localhost:3000`. Public pages and the static course work without AI
 
 ## Course source and synchronization
 
-Building AI Solutions is owned, created and taught by Majid Memari. Learners work from a partner or classroom-client need through discovery, a usable AI-assisted solution, a controlled pilot, evaluation, pitching, sales or internal adoption, and handoff. No student programming is required. Lessons use business cases, numerical tables, figures, interactive concept studios and decision simulations.
+Building AI Solutions is owned, created and taught by Majid Memari. Learners work from a partner or classroom-client need through discovery, a usable AI-assisted solution, a controlled pilot, evaluation, pitching, sales or internal adoption, and handoff. No student programming is required. Twelve units follow Learn → Try → Build → Finish, with one capstone and five milestones. Business cases, numerical tables, figures, and decision simulations are integrated into the lessons.
 
-The curriculum is maintained in the sibling course repository. This site tracks only its **public built output** in `public/teaching/ai-solutions/`. It does not deploy private instructor guides, partner records or learning-platform administration files.
+The curriculum is maintained in the sibling course repository. Start with the [course source and review guide](docs/ai-solutions/README.md) to locate the active source, design plan, review brief, and live pages. This site tracks only the course’s **public built output** in `public/teaching/ai-solutions/`. It does not deploy private instructor guides, partner records or learning-platform administration files.
 
 ```sh
 # First build and check in the maintained course site's directory:
 python3 build_site.py
 python3 check_site.py
+node --test test_workbook.cjs test_practice.cjs test_lesson_figures.cjs
 
-# Then run from this personal-site repository:
-node scripts/sync-ai-course.mjs ../uvu_courses/courses/cs4720R/site/dist
+# Then run from a clean, current personal-site checkout or isolated worktree:
+node scripts/sync-ai-course.mjs /absolute/path/to/uvu_courses/courses/cs4720R/site/dist
 node --test scripts/test-course-kb.mjs
 npm run build
 ```
@@ -53,22 +54,22 @@ The historical source directory is repository organization, not public branding.
 
 Commit the synchronized public output, checksum manifest and generated knowledge base together. Make lasting curriculum changes in the maintained course source, then synchronize again.
 
-The short course and labs addresses redirect to their explicit `index.html` documents, preserving relative assets under Next.js. Keep `assets/`, `labs/` and `downloads/` together. This site serves the complete course directly; it does not depend on a separate course deployment.
+The short course address resolves to its directory or explicit `index.html`, preserving relative assets under Next.js. The retired labs entry and old module/assessment routes are compatibility redirects into the current path. Keep the generated snapshot intact. This site serves the complete course directly; it does not depend on a separate course deployment.
 
-Core lessons, simulations, printable readers and worksheets have no account, backend or paid-service dependency. Learner notes and progress stay in browser storage; they are not grades or submissions. Notes do not transfer automatically between hostnames: use the course workbook backup/restore controls. The ZIP remains portable; the online assistant is an optional service, not a running backend included in the archive.
+Core lessons, worked examples, lesson printing, and project templates have no account, backend or paid-service dependency. Interactive controls require JavaScript. Learner notes and progress stay in browser storage; they are not grades or submissions. Notes do not transfer automatically between hostnames: use the course workbook backup/restore controls. Guided practice has its own saved state and export, separate from the workbook. The ZIP remains portable; the online assistant is an optional service, not a running backend included in the archive.
 
 ## Course AI teaching assistant
 
 The course TA follows the workshop TA's architecture: **local public chunks → deterministic retrieval → server teaching prompt → AI Gateway stream**.
 
-- `scripts/build-course-kb.mjs` extracts public lesson content, rubrics, table rows and source anchors. Simulation strings, controls and formulas are parsed as literal data without executing the app.
+- `scripts/build-course-kb.mjs` extracts 24 allowlisted public HTML pages, including lesson content, rubrics, table rows, source anchors, and static worked explanations for visual activities. It hashes `practice.js` and `lesson-figures.js` for freshness without executing or parsing their models into chunks.
 - `lib/course-kb/retrieve.ts` selects relevant excerpts using lexical matching and recent conversational context. Unrelated questions receive an evidence-gap response without calling a model.
-- `/api/course-chat` streams an answer plus server-selected course source links using AI SDK 6 UI-message events.
-- The browser keeps displayed sources attached to answers. A bounded text-only suffix is sent for follow-ups; empty assistant turns from failed streams are omitted. Markdown tables use GFM support.
+- `/api/course-chat` accepts messages and optional allowlisted current-page context in `lesson`, then streams an answer plus server-selected course source links using AI SDK 6 UI-message events.
+- The browser keeps displayed sources attached to answers and restores a bounded conversation from session storage. A bounded text-only suffix is sent for follow-ups; empty assistant turns from failed streams are omitted. Markdown tables use GFM support.
 
 There is no vector database, embedding service, browsing or external-action tool. The TA cannot access private instructor material, student records or local workbooks. It coaches learners through their own work and is instructed not to fabricate interviews, demand, tests, grades, deployments or complete assessed capstones. Learners should verify important explanations and calculations against the linked lessons.
 
-The page does not persist conversations; reloading clears them. Questions, recent conversation and relevant excerpts are sent to an AI service, whose processing and logs may still apply. Do not enter confidential partner information or student records. See the [TA implementation and maintenance notes](lib/course-kb/README.md) for source boundaries, limits and the API contract.
+The course TA conversation can survive a same-tab reload through `sessionStorage`; **New conversation** clears it. This is separate from the course workbook and does not synchronize across devices. Questions, recent conversation, the current lesson and relevant excerpts are sent to an AI service, whose processing and logs may still apply. Do not enter confidential partner information or student records. See the [TA implementation and maintenance notes](lib/course-kb/README.md) for source boundaries, limits and the API contract.
 
 ## Environment configuration
 
@@ -104,9 +105,9 @@ npx tsc --noEmit --incremental false
 npm run build
 ```
 
-Course tests cover source completeness, table/rubric extraction, anchors, non-executing simulation parsing, retrieval relevance, follow-ups, request/history bounds, access controls and prompt boundaries. Actual AI SDK stream formatting is tested with mocked providers, including source events and sanitized failures, without paid generation. These tests do not verify live model access or guarantee answer quality.
+Course tests cover source completeness, table/rubric extraction, anchors, static visual explanations, retrieval relevance, current-lesson context, follow-ups, session restoration, request/history bounds, access controls and prompt boundaries. Actual AI SDK stream formatting is tested with mocked providers, including source events and sanitized failures, without paid generation. These tests do not verify live model access or guarantee answer quality.
 
-Before release, check course redirects, a deep lesson, JavaScript-module responses, simulations, worksheet/ZIP downloads, workbook backup/restore, and the assistant on desktop/mobile. Run a live question and follow-up; inspect source links and error behavior. Check shared homepage, teaching, biography, publication and contact navigation.
+Before release, check course redirects, a deep lesson, interactive figures and their matching tables, project-template/ZIP downloads, workbook backup/restore, and the assistant on desktop/mobile. Run a live question and follow-up; inspect current-lesson context, source links, reload restoration, New conversation, and error behavior. Check shared homepage, teaching, biography, publication and contact navigation.
 
 ## Deployment
 

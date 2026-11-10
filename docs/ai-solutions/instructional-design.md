@@ -1,10 +1,12 @@
 # Building AI Solutions — instructional design plan
 
-**Owner and sole instructor:** Majid Memari  
-**Date:** November 10, 2026  
-**Status:** Instructional blueprint completed and development authorized by the owner on November 10, 2026. Implementation and technical validation are in progress; learner testing is still required.
+**Owner and sole instructor:** Majid Memari
 
-This is the current planning document. It takes precedence over the proposed learning sequence and interface direction in the earlier `COURSE_PLAN.md` and `COURSE_DESIGN_AND_DEVELOPMENT.md`. It does not change a live offering's grades, deadlines, enrollment, or submission arrangements. The existing website and the unfinished local implementation are evidence to evaluate, not requirements the new design must preserve.
+**Date:** November 10, 2026
+
+**Status:** The owner authorized development on November 10, 2026. The twelve-unit course and visual-learning upgrade have been implemented and released. Technical evidence is recorded in [DEVELOPMENT_AND_VALIDATION.md](development-and-validation.md); representative-learner testing is still required.
+
+This is the current planning document. It takes precedence over the proposed learning sequence and interface direction in the earlier `COURSE_PLAN.md` and `COURSE_DESIGN_AND_DEVELOPMENT.md`. It does not change a live offering's grades, deadlines, enrollment, or submission arrangements. The actual website and local implementation are evidence to evaluate against this blueprint. Archived implementations do not define current requirements.
 
 ## 1. The central design decision
 
@@ -12,7 +14,8 @@ This is the current planning document. It takes precedence over the proposed lea
 
 The course should help a business learner take a worthwhile problem through a usable AI-assisted solution, an honest test, a business case, delivery, and a credible pitch. It should feel like guided progress on that project. Learners should not have to choose between a course, pathways, a simulation suite, a venture studio, and a partner challenge.
 
-**Working title:** Building AI Solutions  
+**Working title:** Building AI Solutions
+
 **Promise:** Find a real need. Build a useful solution. Test it. Bring it to users.
 
 Business ownership and internal organizational improvement use the same method. A solo business supported by AI agents is a motivating scenario, not a prediction that every learner must become an entrepreneur. The core includes finding users, making an offer, selling or securing adoption, delivering, and operating responsibly.
@@ -246,7 +249,7 @@ Use short assigned readings to support the next decision. Do not make several te
 - **Business development:** selected parts of *Disciplined Entrepreneurship*, adapted to both external customers and internal sponsors. The [author's edition page](https://www.d-eship.com/books/) supplies edition information and sample chapters. Do not require all 24 steps as extra milestones.
 - **Quantitative support:** brief linked sections from [OpenStax Introductory Business Statistics 2e](https://openstax.org/books/introductory-business-statistics-2e/pages/preface). The core emphasis is interpretation; derivations are optional. Direct links avoid assuming unrestricted commercial republication rights.
 
-The detailed earlier [textbook selection memo](TEXTBOOK_SELECTION.md) remains useful research. Final page/chapter assignments depend on inspected copies and the completed unit storyboards. No book purchase or exam-copy request is made in this planning phase.
+The detailed earlier [textbook selection memo](textbook-selection.md) remains useful research. Final page/chapter assignments depend on inspected copies and the completed unit storyboards. No book purchase or exam-copy request is made in this planning phase.
 
 ## 13. Workload and facilitation by one instructor
 
@@ -288,14 +291,14 @@ All formative work must replace or prepare project work. It should not silently 
 
 ## 15. Design-to-development plan and acceptance gates
 
-The current deliverable is this analysis and proposed blueprint. **Do not resume implementation or deploy unfinished changes during this planning phase.**
+The initial planning phase ended when the owner authorized development. The core and its visual upgrade are now released. The sequence below records the design method and remaining validation work; it is not an instruction to stop authorized maintenance. The original plan proposed learner piloting before broad expansion. The core was subsequently developed under owner authorization, and that learner pilot remains outstanding.
 
 1. **Settle the instructional blueprint.** Review the audience, outcomes, twelve-unit sequence, five milestones, scope, and estimated workload. Decide the offering-specific details separately.
 2. **Create the assessment package before screens.** One project brief; five milestone specifications; analytic rubric descriptors; an evidence log; and one complete example with a flawed comparison. Trace every outcome to assessed evidence.
 3. **Storyboard the units.** For every required activity, specify the decision, misconception, worked example, learner action, feedback, capstone contribution, accessibility alternative, and time budget. No unspecified “add an interactive figure” items.
 4. **Complete one representative lesson prototype after planning.** Use the Unit 6 storyboard or equivalent. Include its figure/table, feedback, project task, and course TA in the shared theme. Do not build the entire interaction library first.
 5. **Pilot and revise.** Observe 3–5 representative learners, including different business backgrounds and quantitative confidence. This small pilot diagnoses usability and obvious learning problems; it does not establish efficacy.
-6. **Expand only after the pilot.** Build the remaining required lessons from the proven pattern, then select optional depth. Reconcile old content against the new outcome map.
+6. **Revise from the pilot before adding optional depth.** Use learner evidence to improve the existing twelve units. Reconcile any additions against the outcome map and replace redundant work.
 7. **Release verification.** Check actual learning flow, source/citation accuracy, numerical results, accessibility, no-TA behavior, progress/resume, final handoff, privacy disclosures, and instructor workload before deployment.
 
 Proposed review gates:
@@ -323,4 +326,4 @@ For the design itself, the next review should focus on whether the proposed outc
 
 The owner authorized development after the plan was made clear. The twelve-unit independent core now replaces the earlier public course sequence. Historical offering data, institutional grades, dates, and enrollment remain separate.
 
-Implementation follows this blueprint: one capstone, five milestone snapshots, Learn → Try → Build → Finish, three embedded practice families, a course-specific TA, and a separate website assistant. The previous 24-concept studio draft is not part of the required course. Technical test results and release status belong in `development-and-validation.md`; learner timing and learning outcomes must not be called validated before a real pilot.
+Implementation follows this blueprint: one capstone, five milestone snapshots, Learn → Try → Build → Finish, three embedded practice families, a course-specific TA, and a separate website assistant. The previous 24-concept studio draft is not part of the required course. Technical test results and release status belong in `DEVELOPMENT_AND_VALIDATION.md`; learner timing and learning outcomes must not be called validated before a real pilot.

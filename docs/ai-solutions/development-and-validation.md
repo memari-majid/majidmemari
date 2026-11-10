@@ -74,27 +74,14 @@ Before each taught offering, settle calendar, team size, partner or classroom cl
 - Final merged build passed. Live homepage, Unit6 HTML, and interactive-practice JavaScript matched the release hashes.
 - Production course TA correctly changed the reviewed total from84 to90 minutes with six added minutes of rework, calculated6.25% reduction against96, and cited the current Unit6 section.
 - Production website chatbot also returned correct business-audience guidance and the canonical course URL, independently of the course TA.
-- Saved visual evidence: `course-release.png` beside this document.
+- Saved visual evidence: `docs/evidence/course-release.png` beside this document.
 - Inquiry settings were requested from the owner. No inquiry was sent.
 
 Technical release verification does not replace the learner pilot described above.
 
-## Inquiry configuration follow-up — November 10, 2026
+## Website operations boundary
 
-- Vercel environment-variable connector still returns403. Read-only dashboard inspection found the existing private production recipient, but no Resend key or sender setting. No private recipient value was revealed.
-- Added Resend sending domain `mail.majidmemari.com` (domain ID `a7064711-a80f-4023-a6ce-c8938a398f8c`). Added exactly its supplied DKIM TXT and two sending CNAME records in Vercel DNS; existing web/DNS records were preserved. Resend shows Verified with all three supplied records verified. Receiving is disabled.
-- Saved production `RESEND_FROM_EMAIL` as the website-notification sender on that domain. Existing `CONTACT_TO_EMAIL` remains in place.
-- After explicit action-time approval, created `majidmemari website production` with sending-only permission restricted to `mail.majidmemari.com` (key metadata ID `448429f0-33b8-472f-bf63-bcbf13c16667`). Stored it as the Vercel Production Secret `RESEND_API_KEY`. No credential value is printed, stored in source, or recorded in this document. The temporary transfer variable and clipboard were cleared.
-- User clarified to focus on current personal-site needs; no old keys or domains were deleted by this task.
-- Verification screenshot: `resend-domain-verified.png`; prepared scope screenshot: `resend-key-scope.png`.
-
-A production redeployment of the current website commit `333cc66c763cd7120f84b490a912212ec9a6d714` was started after saving the key (deployment `dpl_EqLcq4J9vHvkypkXFmRjaS5Ea5Sf`). The newer portfolio changes were preserved.
-
-### Completed production inquiry configuration
-
-Production deployment `dpl_EqLcq4J9vHvkypkXFmRjaS5Ea5Sf` reached READY and was assigned to `www.majidmemari.com`. On the public domain, GET `/api/contact` returned HTTP200 with `available:true`. A same-origin POST with an empty object returned the expected HTTP400 validation response before any Resend send call. The live website chatbot displays the name, reply-address, and inquiry fields with the Send inquiry control enabled. No inquiry or test email was sent; provider acceptance and inbox receipt have not been tested.
-
-`RESEND_API_KEY` is a production-only Secret; `RESEND_FROM_EMAIL` is production server configuration. The existing private production recipient remains in place. No secret values or private recipient address were exposed in site content or documentation. Final configuration evidence: `resend-vercel-configured.png`.
+The website inquiry service is separate from the course. Its account-configuration record and screenshots are retained in ignored `private/operations-evidence/`; they are not included in course review inputs. No actual email delivery was tested by the course release.
 
 ## Visual-learning upgrade — November 10, 2026
 
@@ -113,3 +100,23 @@ These results cover calculations, source logic, and generated markup. They do no
 Browser checks exercised all six compact figures and the five guided-practice visuals. Confirmed: changing the longest wait from31 to47 changes the total to88 and mean to11 while median stays6; the emergency workflow can show the explicit unchecked bypass; switching the cohort denominator changes4/12 to4/6 without changing people; six extra rework minutes produce90 total and6.25% improvement;75% adoption produces$120 net capacity value while cash remains−$240, and increasing tools to$300 changes net value to$0 and recurring cash change to−$360. The truncated-axis exercise rejects a75%effort claim and retains the actual12.5%reduction. Keyboard activation, reduced-motion playback suppression, saved practice state, and390px layouts were checked. Wide tables scroll inside the lesson; the page remains within the viewport. No browser console errors or warnings were observed in the checked local pages. This was not a screen-reader audit.
 
 The personal-site sync contains70 verified course files. Its TA corpus contains24 current pages and145 chunks, including static explanations for all six new inline figures.28 course-TA tests and6 retained workshop-TA tests passed, including retrieval of the queue, changed test denominator, and axis interpretation without executing visual JavaScript. The existing separate website assistant and inquiry setup are unchanged.
+
+### Visual upgrade release
+
+- Published commit `1dbee0c6c988d412999d83a95d6ebbfea27ccc68` from the isolated `course/visual-learning` branch after incorporating the latest personal-site changes through `04b0a2f`. The shared checkout was not reset.
+- Exact-commit Vercel preview `dpl_3aLe4MxCFHm9KhXYuRpLnCp1NfAq` reached READY. Its Unit11 figure produced150 arrivals,120 reviewed and30 waiting. The embedded course TA correctly explained those counts and the difference between an internal queue and deferred demand.
+- Production `dpl_7dqm4Z3RqCvtEyJ1VXisvc94bp8Y` reached READY and is aliased to `www.majidmemari.com`. Final merged Next.js build and TypeScript checks passed.52 course/workbook checks plus34 TA/workshop checks passed.
+- Fixed the portable archive’s existing self-download link to point to the hosted archive; no recursive ZIP copy is required.
+- Browser autoplay advanced through all six workflow steps with normal motion; reduced-motion mode disabled autoplay.
+
+The instructional structure and assessments remain unchanged. The new visual examples use original cases and implementation inspired by observed teaching patterns in the reference. This release does not claim validated learner outcomes.
+
+Final public-domain checks returnedHTTP200 and byte-identical release content for the homepage, Unit6, Unit11, practice.js, lesson-figures.js and lesson-figures.css. The live Unit12 exercise retained12.5% actual reduction while showing75% visible-length reduction after truncating the origin. The production course TA correctly calculated both percentages, retained12/12 acceptable replies, and cited the current Unit12 material. The published Unit6 visual and linked case matrix were exercised with no console errors or warnings observed. Saved visual evidence: `docs/evidence/course-visual-learning-release.png`.
+
+## Reviewer orientation and repository organization
+
+On November 10, 2026, the independent review brief was rewritten for the current course, and README, scoped AGENTS guidance, a repository/online map, and the site maintenance guide were aligned with actual source ownership. Historical plans and unused website components were grouped into labeled archives. Existing offerings and unrelated course work were preserved. Generated `site/dist/` is ignored in the source repository; the hosting repository continues to track its public snapshot and TA corpus. Account-configuration evidence was separated into ignored `private/`; public course screenshots are in `docs/evidence/`.
+
+After organization, the course built successfully, all 60 generated HTML pages passed link/alignment checks, and all 52 workbook/practice/figure tests passed. All 69 non-ZIP generated files matched the published snapshot after the documented deployment-relative TA URL rewrite; ZIP container timestamps were not compared. Current documentation links were checked. No course behavior was changed by this organization pass. Independent review found no blocking orientation issue; its recommendations to allow evidence-backed simplification, preserve live-first review order, and clarify supporting-page authorship were incorporated.
+
+The repository contains pre-existing offering edits and other work outside this pass. They are not silently staged, reset, deleted, or represented as a clean working tree.
