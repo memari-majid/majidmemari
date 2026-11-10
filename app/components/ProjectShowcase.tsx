@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { DEMO_GUIDES } from "@/lib/demo-guides";
 import { FEATURED_PROJECT_SLUGS, PROJECTS, type Project } from "@/lib/projects";
 
 export function ProjectCard({ project, index }: { project: Project; index: number }) {
@@ -13,6 +14,7 @@ export function ProjectCard({ project, index }: { project: Project; index: numbe
       </h3>
       <p className="mt-2 text-xs text-slate-500">{project.category}</p>
       <p className="mt-3 text-sm leading-relaxed text-slate-600">{project.summary}</p>
+      {DEMO_GUIDES[project.slug] && <p className="mt-4 border-l-2 border-teal-700/40 pl-3 text-sm leading-relaxed text-slate-600"><strong className="font-semibold text-slate-900">Try this:</strong> {DEMO_GUIDES[project.slug].preview}</p>}
       <div className="mt-auto pt-6">
         <p className="inline-flex rounded-full border border-slate-200 bg-[#f7f6f2] px-3 py-1 text-xs font-medium text-slate-600">{project.access}</p>
         <a href={project.url} target="_blank" rel="noopener noreferrer" referrerPolicy="no-referrer" aria-label={`${project.publicDemo ? "Try public demo" : project.launchLabel}: ${project.name}`} className="mt-5 inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-xl bg-slate-900 px-4 py-3 text-center text-sm font-semibold text-white transition hover:bg-blue-900">

@@ -30,11 +30,16 @@ export default function ProjectsPage() {
         <p className="text-xs font-semibold uppercase tracking-[0.2em] text-teal-800">Built by Majid Memari</p>
         <h1 className="mt-4 max-w-3xl text-4xl font-semibold tracking-tight sm:text-6xl">Applications, courses &amp; research.</h1>
         <p className="mt-6 max-w-2xl text-lg leading-relaxed text-slate-600">I create applications, learning experiences, and research projects. These {PROJECTS.length} projects are grouped by what they do, with details about their purpose, audience, and access.</p>
-        <div className="mt-8 flex flex-wrap gap-x-8 gap-y-3 border-y border-slate-200 py-5 text-sm text-slate-600">
-          <p><strong className="font-semibold text-slate-900">Explore the idea.</strong> Understand the problem and approach.</p>
-          <p><strong className="font-semibold text-slate-900">Try the experience.</strong> Open a public example without signing in.</p>
-        </div>
-        <p className="mt-6 rounded-xl border border-teal-900/15 bg-white p-5 text-sm leading-relaxed text-slate-600">The interactive demos use fictional examples or public learning material. No account is required. Choose the supplied samples; personal records, documents, and uploads are not part of these demos.</p>
+        <section aria-labelledby="start-demo" className="mt-8 rounded-2xl border border-teal-900/15 bg-white p-6 sm:p-8">
+          <p className="text-xs font-semibold uppercase tracking-[0.15em] text-teal-800">New here?</p>
+          <h2 id="start-demo" className="mt-3 text-2xl font-semibold">See how a project works.</h2>
+          <ol className="mt-5 grid gap-5 text-sm leading-relaxed text-slate-600 sm:grid-cols-3">
+            <li><strong className="block text-slate-900">1. Start with a sample</strong>Open a demo and follow its recommended example.</li>
+            <li><strong className="block text-slate-900">2. Try the action</strong>Generate an explanation, compare a scenario, or make a sample choice.</li>
+            <li><strong className="block text-slate-900">3. Read the result</strong>Use the takeaway, feedback, or before-and-after figures to understand what changed.</li>
+          </ol>
+          <div className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-3"><a href="https://datagovai-web.vercel.app" target="_blank" rel="noopener noreferrer" referrerPolicy="no-referrer" className="inline-flex min-h-12 items-center rounded-xl bg-slate-900 px-5 py-3 text-sm font-semibold text-white hover:bg-blue-900">Start with DataGovAI ↗<span className="sr-only"> (opens in a new tab)</span></a><p className="text-xs text-slate-600">No sign-in. Public or fictional samples only.</p></div>
+        </section>
         <nav aria-label="Project categories" className="mt-8 flex flex-wrap gap-3">
           {PROJECT_GROUPS.map((group) => <a key={group.id} href={`#${group.id}`} className="inline-flex min-h-11 items-center rounded-full border border-slate-200 bg-white px-4 text-sm font-medium text-teal-800 hover:border-teal-700">{group.title}</a>)}
         </nav>
