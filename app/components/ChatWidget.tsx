@@ -166,6 +166,7 @@ export function ChatWidget() {
             </div>
 
             <div className="flex-1 space-y-3 overflow-y-auto px-4 py-3">
+              <p className="rounded-lg bg-zinc-50 p-3 text-xs leading-relaxed text-zinc-600">This chat uses an external AI service. Keep questions general and do not include private records or sensitive personal information. Use the separate inquiry form when you choose to contact Majid.</p>
               {messages.length === 0 && (
                 <div className="space-y-3">
                   <p className="text-sm text-zinc-600 dark:text-zinc-500">
