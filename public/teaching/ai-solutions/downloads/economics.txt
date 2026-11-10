@@ -1,0 +1,42 @@
+BUSINESS VALUE WORKSHEET
+
+Time period (for example, per month):
+Business outcome:
+
+TIME AND CAPACITY
+Number of tasks in the period:
+Baseline minutes per task:
+Minutes per task after AI assistance, including review and corrections:
+Minutes saved per task = baseline minus assisted time:
+Hours of capacity released = tasks × minutes saved ÷ 60:
+Illustrative hourly value:
+Estimated capacity value = released hours × hourly value:
+
+A capacity estimate is not automatically cash savings. Explain how the business
+would use the released time, and whether any spending would actually fall.
+
+OTHER BENEFITS
+Revenue or quality benefit (avoid counting the same benefit twice):
+Evidence or clearly labeled assumption:
+
+FULL COSTS
+One-time setup and training:
+Recurring tool or service fees:
+Ongoing review/support cost not already included above:
+Other costs:
+
+COMPARISON
+Estimated recurring benefit:
+Recurring cost:
+Estimated net value = recurring benefit minus recurring cost:
+If recurring net value is positive, simple payback = setup cost ÷ net value:
+If it is zero or negative, do not claim a positive payback period.
+
+SENSITIVITY — BASE / LESS FAVORABLE / MORE FAVORABLE
+Task volume:
+Review effort:
+Adoption:
+Resulting net value:
+Assumption that matters most:
+
+Recommendation and what must be verified before spending money:

@@ -1,0 +1,43 @@
+AI ROLE AND HANDOFF PLAN
+
+You can practice these roles manually in a ready-made AI assistant or with
+supplied outputs. Agent software, coding, and autonomous execution are optional.
+
+Business process and responsible human:
+
+For each AI-assisted role, fill in:
+ROLE NAME:
+ONE BOUNDED TASK:
+APPROVED INPUTS AND SOURCES:
+EXPECTED OUTPUT AND FORMAT:
+WHAT IT MAY DO:
+WHAT IT MAY NOT DO:
+EVIDENCE THE NEXT PERSON OR ROLE NEEDS:
+QUALITY CHECK AND ACCEPTANCE THRESHOLD:
+WHEN IT MUST STOP OR ASK A PERSON:
+HUMAN APPROVER AND NEXT HANDOFF:
+
+Example: a drafting assistant may propose product copy using supplied facts.
+It may not invent specifications, publish content, promise results, or charge
+a customer. A person checks every claim and approves the deliverable.
+
+HANDOFF RECORD
+Input version:
+Draft version:
+Claims checked against sources:
+Missing information and unresolved exceptions:
+Human corrections:
+Approval decision:
+Delivery record or classroom simulation label:
+
+FAILURE PLAN
+What happens when the AI is unavailable or the output fails review?
+Can the process be completed manually?
+What permissions can be revoked, and who can stop the process?
+
+MEASURES
+Total process time, including review and rework:
+Accepted outputs / total outputs reviewed:
+Important errors and their consequences:
+Cost per accepted deliverable:
+Do these measures support more automation, less automation, or redesign?

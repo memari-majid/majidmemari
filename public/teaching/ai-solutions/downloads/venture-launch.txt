@@ -1,0 +1,63 @@
+FROM PROBLEM TO FIRST CUSTOMER
+
+Implement a usable artifact or repeatable service, deliver it in a controlled
+pilot, evaluate its use, and practice a sales or adoption pitch. A public launch,
+real outreach, payment, or paid tool is optional. Label classroom evidence,
+role-play, and assumptions clearly.
+
+1. DEMAND
+Specific customer and recurring problem:
+Current workaround and its cost:
+Evidence you actually have:
+Assumption that needs a customer test:
+Question you can ask without selling the answer:
+
+2. OFFER
+For [customer] who struggles with [problem], we deliver [specific outcome].
+Included deliverables, turnaround, boundaries, and exclusions:
+Why choose this over the current workaround?
+
+3. SOLUTION AND SAMPLE
+Show the implemented output, product kit, or repeatable service:
+Controlled delivery and user test:
+A storyboard may explain the experience, but is not the only final artifact:
+Required input and source facts:
+What AI assists with:
+What a person checks and approves:
+Acceptance criteria and exception route:
+
+4. ECONOMICS
+Price per order:
+Direct cash cost per order:
+Owner time per order and explicit hourly assumption:
+Contribution before monthly fixed costs and acquisition effort:
+Monthly fixed costs:
+Capacity at the promised service level:
+Less favorable case and what would change your decision:
+
+5. FIND CUSTOMERS
+One appropriate channel and why this audience uses it:
+Useful message or sample that earns attention:
+Prospects -> responses -> qualified conversations -> paid orders:
+Count, denominator, and assumed conversion for each stage:
+Time and cash needed for the acquisition activity:
+Do not describe a forecast funnel as observed demand.
+
+6. SELL A BOUNDED OFFER
+Opening question about the existing problem:
+Short explanation of the deliverable and boundaries:
+Clear price and next step:
+Likely objection and an honest response:
+No invented testimonials, guaranteed outcomes, or unsupported claims.
+
+7. ONBOARD, DELIVER, AND RETAIN
+Minimum client inputs and permissions:
+Human approvals before promises, sending, or payments:
+Draft -> fact check -> quality review -> delivery -> feedback:
+How errors, revisions, complaints, and refunds are handled:
+Repeat-use measure and follow-up question:
+
+8. DECIDE
+Smallest next test:
+Success measure, stop condition, owner, and review date:
+Proceed, revise, or stop—and what evidence supports that choice?

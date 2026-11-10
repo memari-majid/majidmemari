@@ -1,0 +1,34 @@
+EXECUTIVE PRESENTATION OUTLINE
+
+Audience and decision needed:
+
+1. RECOMMENDATION
+What should the business do, and what approval or next step are you requesting?
+
+2. PROBLEM AND USER
+Who is affected, and what evidence shows the problem matters?
+
+3. CONCEPT IN USE
+Show the implemented artifact or service and the controlled pilot result.
+Use a storyboard to explain the experience, not as the only final deliverable.
+Explain the customer's or employee's experience in plain language.
+
+4. ALTERNATIVES AND EVIDENCE
+What alternatives did you compare?
+What feedback or test supports the choice?
+What is still an assumption?
+
+5. ECONOMICS AND RISKS
+Show the key benefit and cost assumptions.
+Explain one less favorable scenario.
+Name the human review responsibility and the most important risk control.
+
+6. NEXT STEP
+Propose a bounded pilot or validation step with an owner, measure, and stop condition.
+
+PREPARE FOR Q&A
+Which claim is weakest?
+What evidence would change your recommendation?
+What will you say if asked for a fact you have not verified?
+
+Use the assessment's required format and length. Keep supporting detail in an appendix.

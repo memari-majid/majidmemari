@@ -1,0 +1,45 @@
+BUSINESS PARTNER PROBLEM BRIEF
+
+Partner or fictional case:
+Student/team and instructor:
+Responsible partner contact (for an actual project):
+
+1. THE PROBLEM
+Who encounters this problem, and what happens today?
+What does it cost in time, money, confusion, delay, or quality?
+How is it handled now?
+What evidence is available, and what is only an assumption?
+
+2. THE DESIRED OUTCOME
+Who will use the solution?
+What should they be able to do better?
+Baseline measure and definition:
+One success measure and one quality boundary:
+
+3. SCOPE AND ACCESS
+In scope:
+Out of scope:
+Approved information the class can use:
+Sensitive information that must be excluded or replaced:
+Who may view the work and approve a pilot?
+What tools and sharing methods are approved?
+No new spending, account access, or external action is assumed.
+
+4. PROPOSED DELIVERABLE
+Usable document/content kit, service workflow, or no-code experience:
+How AI assists and how a person checks the result:
+Non-AI alternative:
+What will actually be implemented or delivered?
+
+5. ACCEPTANCE AND HANDOFF
+Tasks a user will try:
+Evidence of usefulness and quality to record:
+Review contact and feedback method:
+Delivery format and accessible share location:
+Owner after the course and maintenance expectations:
+Stop conditions and unresolved questions:
+
+Classroom fallback: use supplied fictional data and a peer as the user.
+Label this as a classroom pilot using fictional data. Report actual observed
+peer feedback accurately, without claiming real partner adoption or customer
+demand. Use the same rubric and quality criteria.

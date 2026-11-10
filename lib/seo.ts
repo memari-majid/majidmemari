@@ -1,7 +1,13 @@
 import { MAJID } from "@/lib/majid";
 import { SITE, SITE_URL } from "@/lib/site";
 
-export const INDEXABLE_PATHS = ["/", "/about", "/teaching", "/publications"] as const;
+export const INDEXABLE_PATHS = [
+  "/",
+  "/about",
+  "/teaching",
+  "/publications",
+  "/teaching/ai-solutions/index.html",
+] as const;
 
 export function absoluteUrl(path = "/"): string {
   if (path === "/") return SITE_URL;

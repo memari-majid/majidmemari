@@ -1,0 +1,53 @@
+TABLE AND CHART INTERPRETATION
+
+Business question and decision-maker:
+Table or chart title:
+Source and date:
+Are these observed facts, supplied fictional data, estimates, or assumptions?
+
+1. WHAT WAS COUNTED?
+Unit of observation (customer, task, order, business, or other):
+Time period and population of interest:
+Sample size and how the cases were selected:
+Missing values, excluded cases, or mixed groups:
+
+2. COUNTS AND RATES
+Outcome count:
+Denominator (eligible cases or opportunities):
+Rate = outcome count / denominator:
+Does the comparison use the same definition and time period?
+
+3. A TYPICAL CASE AND THE FULL WORKLOAD
+Mean (total / number of cases):
+Median (middle value after sorting):
+Extreme values that affect the mean:
+Which summary answers this business question, and why?
+What could an average hide about delays, failures, or affected people?
+
+4. DESCRIBE CHANGE PRECISELY
+Before rate and after rate:
+Percentage-point change = after percentage minus before percentage:
+Relative percentage change = (after - before) / before x 100:
+State the baseline. Relative change is undefined when the baseline is zero.
+Could differences in case mix, timing, selection, or other changes explain the result?
+
+5. READ THE FIGURE
+Horizontal and vertical axis labels, units, and ranges:
+Does the axis start at zero? If not, does the display exaggerate a difference?
+Do the chart and table tell the same numerical story?
+What uncertainty or important group is missing from the picture?
+
+6. INTERPRET UNCERTAINTY
+How well does the sample represent the people or tasks in the decision?
+What plausible values or alternative assumptions could change the conclusion?
+If an interval is supplied, what estimate and population does it describe?
+Do not treat a sample result or an interval as proof of causation.
+
+7. RECOMMEND AND CHECK
+One sentence describing the result with numbers and units:
+What the numbers support:
+What they do not establish:
+Recommended next step and the evidence that could change it:
+
+Use ordinary arithmetic, a calculator, or the business statistics studio.
+Interpretation matters more than formula memorization.

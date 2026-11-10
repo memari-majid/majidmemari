@@ -13,6 +13,7 @@ import { LogoStrip } from "@/app/components/LogoStrip";
 import { NewsletterForm } from "@/app/components/NewsletterForm";
 import { BioCategories } from "@/app/components/BioCategories";
 import { PartnersStrip } from "@/app/components/PartnersStrip";
+import { BuildingAiSolutionsCard } from "@/app/components/BuildingAiSolutionsCard";
 import { SITE } from "@/lib/site";
 import { MAJID } from "@/lib/majid";
 
@@ -671,7 +672,7 @@ export function HomePageContent() {
         <div className="mx-auto max-w-6xl">
           <Reveal>
             <p className="text-center text-xs font-medium uppercase tracking-[0.2em] text-zinc-500 dark:text-zinc-400">
-              Utah Valley University · NVIDIA DLI
+              Independent courses · University teaching · NVIDIA DLI
             </p>
             <h2 className="mt-4 text-center text-4xl font-semibold tracking-tight text-zinc-900 dark:text-zinc-50 sm:text-5xl">
               Courses &amp; workshops
@@ -753,39 +754,8 @@ export function HomePageContent() {
           </Reveal>
 
           <Reveal delay={280}>
-            <div className="mt-16 rounded-2xl border border-sky-200/80 bg-sky-50/80 px-4 sm:px-6 py-8 dark:border-sky-900/40 dark:bg-sky-950/20">
-              <p className="text-xs font-semibold uppercase tracking-wider text-sky-700 dark:text-sky-400">
-                Bridging academia &amp; industry
-              </p>
-              <h3 className="mt-2 text-lg font-semibold text-zinc-900 dark:text-zinc-100">
-                EdTech innovation &amp; entrepreneurship course
-              </h3>
-              <p className="mt-3 text-sm leading-relaxed text-zinc-700 dark:text-zinc-400">
-                I design new AI courses to close the gap between what universities teach and what
-                industry needs. One example: an innovation and entrepreneurship course focused on
-                Education Technology. Students discover real problems in K-12 and higher education,
-                propose AI-powered solutions, build working prototypes using no-code tools
-                (cloud-hosted n8n), and pitch their EdTech startup to mentors and judges. No
-                programming experience required — co-taught by a computer scientist and an
-                education expert, with mentoring and guest lectures from{" "}
-                <a
-                  href="https://www.uvu.edu/entrepreneurship/"
-                  className="text-sky-600 underline decoration-sky-600/30 hover:decoration-sky-600 dark:text-sky-400"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  UVU&apos;s Baugh Entrepreneurship Institute
-                </a>
-                .
-              </p>
-              <div className="mt-6">
-                <a
-                  href="#contact"
-                  className="inline-flex rounded-xl bg-sky-600 px-5 py-2.5 text-sm font-semibold text-white shadow-lg shadow-sky-900/20 transition hover:bg-sky-500 dark:shadow-sky-900/30"
-                >
-                  Contact me about courses &amp; collaboration
-                </a>
-              </div>
+            <div className="mt-16">
+              <BuildingAiSolutionsCard headingLevel={3} />
             </div>
           </Reveal>
 
