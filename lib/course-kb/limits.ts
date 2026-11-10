@@ -5,5 +5,5 @@ export const COURSE_LIMITS = {
   assistantCharacters: 8000,
   totalCharacters: 20000,
   bodyBytes: 48 * 1024,
-  outputTokens: 1400,
+  outputTokens: 3000,
 } as const;

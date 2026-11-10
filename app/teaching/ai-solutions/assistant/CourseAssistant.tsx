@@ -5,6 +5,8 @@ import { DefaultChatTransport } from "ai";
 import { useMemo, useRef, useState } from "react";
 import ReactMarkdown, { type Components } from "react-markdown";
 import { prepareCourseHistory } from "@/lib/course-kb/history";
+import { courseCompletionNotice } from "@/lib/course-kb/completion";
+import type { CourseChatMessage } from "@/lib/course-kb/types";
 import remarkGfm from "remark-gfm";
 
 const QUESTIONS = [
@@ -38,9 +40,10 @@ const markdownComponents: Components = {
 export function CourseAssistant() {
   const [input, setInput] = useState("");
   const [code, setCode] = useState("");
+  const [interruptedMessages, setInterruptedMessages] = useState<Set<string>>(() => new Set());
   const codeRef = useRef("");
   const questionRef = useRef<HTMLTextAreaElement>(null);
-  const transport = useMemo(() => new DefaultChatTransport({
+  const transport = useMemo(() => new DefaultChatTransport<CourseChatMessage>({
     api: "/api/course-chat",
     prepareSendMessagesRequest: ({ messages }) => ({ body: { messages: prepareCourseHistory(messages) } }),
     fetch: async (url, init) => {
@@ -58,7 +61,17 @@ export function CourseAssistant() {
       return response;
     },
   }), []);
-  const { messages, sendMessage, status, stop, error, regenerate, setMessages, clearError } = useChat({ transport });
+  const { messages, sendMessage, status, stop, error, regenerate, setMessages, clearError } = useChat<CourseChatMessage>({
+    transport,
+    onFinish: ({ message, isAbort, isDisconnect, isError }) => {
+      setInterruptedMessages(current => {
+        const next = new Set(current);
+        if (isAbort || isDisconnect || isError) next.add(message.id);
+        else next.delete(message.id);
+        return next;
+      });
+    },
+  });
   const busy = status === "submitted" || status === "streaming";
 
   async function ask(text: string) {
@@ -98,19 +111,21 @@ export function CourseAssistant() {
         <section aria-label="Conversation with the course teaching assistant" className="min-w-0">
           <div className="flex items-center justify-between gap-3 border-b border-zinc-200 pb-3">
             <h2 className="text-xl">Your conversation</h2>
-            <button disabled={busy || messages.length === 0} onClick={() => { setMessages([]); clearError(); setInput(""); questionRef.current?.focus(); }} className="min-h-11 rounded-md px-3 text-sm text-zinc-600 underline underline-offset-4 disabled:opacity-40">New conversation</button>
+            <button disabled={busy || messages.length === 0} onClick={() => { setMessages([]); setInterruptedMessages(new Set()); clearError(); setInput(""); questionRef.current?.focus(); }} className="min-h-11 rounded-md px-3 text-sm text-zinc-600 underline underline-offset-4 disabled:opacity-40">New conversation</button>
           </div>
           <div className="min-h-52 space-y-5 py-6" aria-label="Messages">
             {messages.length === 0 && <div className="rounded-xl border border-zinc-200 bg-white p-6"><p className="text-lg font-medium">Bring a question. Leave with a next step.</p><p className="mt-3 leading-relaxed text-zinc-600">Try “Help me choose a useful outcome measure for a customer-support pilot.” You can follow up, ask for a simpler explanation, or compare an idea with the course rubric.</p></div>}
             {messages.map(message => {
               const text = message.parts.filter(part => part.type === "text").map(part => part.type === "text" ? part.text : "").join("");
               const sources = message.parts.filter(part => part.type === "source-url");
+              const completionNotice = message.role === "assistant" ? courseCompletionNotice(message.metadata, interruptedMessages.has(message.id)) : null;
               const seen = new Set<string>();
               return <article key={message.id} aria-label={message.role === "user" ? "Your question" : "Assistant response"} className={message.role === "user" ? "ml-6 rounded-xl bg-slate-950 p-5 text-white" : "rounded-xl border border-zinc-200 bg-white p-5 sm:p-6"}>
                 <p className={`mb-3 text-xs font-semibold uppercase tracking-wider ${message.role === "user" ? "text-sky-200" : "text-teal-600"}`}>{message.role === "user" ? "You" : "Course teaching assistant"}</p>
                 <div className="min-w-0 break-words text-sm leading-7 [&_a]:text-sky-700 [&_a]:underline [&_blockquote]:border-l-2 [&_blockquote]:border-teal-600 [&_blockquote]:pl-3 [&_h1]:my-3 [&_h1]:text-xl [&_h2]:my-3 [&_h2]:text-lg [&_h3]:my-3 [&_h3]:font-semibold [&_ol]:my-3 [&_ol]:list-decimal [&_ol]:pl-5 [&_p]:my-2 [&_pre]:overflow-auto [&_ul]:my-3 [&_ul]:list-disc [&_ul]:pl-5">
                   {message.role === "user" ? <p className="whitespace-pre-wrap">{text}</p> : <ReactMarkdown remarkPlugins={[remarkGfm]} components={markdownComponents}>{text}</ReactMarkdown>}
                 </div>
+                {completionNotice && <p role="status" className="mt-4 rounded-lg border border-amber-300 bg-amber-50 p-3 text-sm leading-relaxed text-amber-950">{completionNotice}</p>}
                 {sources.length > 0 && <div className="mt-5 border-t border-zinc-200 pt-4"><p className="text-xs font-semibold uppercase tracking-wider text-zinc-600">Course material consulted</p><ul className="mt-2 space-y-2">{sources.map(source => {
                   if (source.type !== "source-url") return null;
                   const href = courseLink(source.url);

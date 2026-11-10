@@ -3,6 +3,7 @@ import { courseAccess, courseClientKey, isCourseCodeAccepted } from "./access";
 import { buildCourseSystemPrompt } from "./prompt";
 import { courseRetrievalQuery, courseSources, retrieveCourseChunks } from "./retrieve";
 import { COURSE_LIMITS, CourseRequestError, readCourseRequest, validateCourseMessages } from "./validation";
+import type { CourseChatMessage } from "./types";
 
 const UNAVAILABLE = "The teaching assistant is temporarily unavailable. Your course lessons and workbook remain available; please try again later.";
 const errorResponse = (status: number, error: string) => Response.json({ error }, { status, headers: { "Cache-Control": "no-store", ...(status === 429 ? { "Retry-After": "600" } : {}) } });
@@ -41,7 +42,7 @@ export function createCourseChatHandler(options: {
       // Vercel OIDC on the server, never a browser credential.
       const signal = AbortSignal.any([req.signal, AbortSignal.timeout(50000)]);
       signal.addEventListener("abort", release, { once: true });
-      const stream = createUIMessageStream({
+      const stream = createUIMessageStream<CourseChatMessage>({
         onError: () => { release(); return UNAVAILABLE; },
         onFinish: release,
         execute({ writer }) {
@@ -53,7 +54,10 @@ export function createCourseChatHandler(options: {
             onFinish: release, onAbort: release, onError: () => { release(); },
             providerOptions: { gateway: { tags: ["site:majidmemari", "feature:course-ta", `env:${settings.environment ?? "dev"}`] } },
           });
-          writer.merge(result.toUIMessageStream({ sendStart: false, sendReasoning: false, sendSources: false, onError: () => UNAVAILABLE }));
+          writer.merge(result.toUIMessageStream<CourseChatMessage>({
+            sendStart: false, sendReasoning: false, sendSources: false, onError: () => UNAVAILABLE,
+            messageMetadata: ({ part }) => part.type === "finish" ? { finishReason: part.finishReason } : undefined,
+          }));
         },
       });
       return createUIMessageStreamResponse({ stream, headers: { "Cache-Control": "no-store" } });

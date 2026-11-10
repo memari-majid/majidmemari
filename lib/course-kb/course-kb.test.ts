@@ -9,9 +9,11 @@ import { createCourseAccess, isCourseCodeAccepted } from "./access";
 import { COURSE_LIMITS, CourseRequestError, readCourseRequest, validateCourseMessages } from "./validation";
 import { extractLabs, extractSections } from "../../scripts/build-course-kb.mjs";
 import { MockLanguageModelV3 } from "ai/test";
-import { simulateReadableStream, type UIMessage } from "ai";
+import { readUIMessageStream, simulateReadableStream, type UIMessage } from "ai";
 import { createCourseChatHandler } from "./chat";
 import { prepareCourseHistory } from "./history";
+import { courseCompletionNotice } from "./completion";
+import type { CourseChatMessage } from "./types";
 
 const text = (role: string, content: string) => ({ role, parts: [{ type: "text", text: content }] });
 const uiText = (role: "user" | "assistant", content: string, id = "test"): UIMessage => ({ id, role, parts: [{ type: "text", text: content }] });
@@ -174,7 +176,31 @@ test("API streams actual SDK text with only server-selected persistent source pa
   assert.equal(model.doStreamCalls[0].maxOutputTokens, COURSE_LIMITS.outputTokens);
   assert.equal(model.doStreamCalls[0].prompt[0].role, "system");
   assert(JSON.stringify(model.doStreamCalls[0].prompt[0]).includes("No student programming"));
+  assert.equal(events.find(event => event.type === "finish").messageMetadata.finishReason, "stop");
   assert(access.acquire("next-client"), "concurrency slot must be released after the stream");
+});
+
+test("length-limited responses persist native finish metadata that displays an incomplete-answer notice", async () => {
+  const model = new MockLanguageModelV3({ doStream: async () => ({ stream: simulateReadableStream({ initialDelayInMs: null, chunkDelayInMs: null, chunks: [
+    { type: "text-start", id: "partial-table" }, { type: "text-delta", id: "partial-table", delta: "| Known recurring cash change | −$300 | −" }, { type: "text-end", id: "partial-table" },
+    { type: "finish", finishReason: { unified: "length", raw: "max_tokens" }, usage: { inputTokens: { total: 100, noCache: 100, cacheRead: undefined, cacheWrite: undefined }, outputTokens: { total: 3000, text: 1000, reasoning: 2000 } } },
+  ] }) }) });
+  const handler = createCourseChatHandler({ model: () => model, access: createCourseAccess(), config: () => ({}) });
+  const response = await handler(request([text("user", "Compare time saved versus recurring cash savings in a table")]));
+  const events = (await response.text()).split("\n").filter(line => line.startsWith("data: ") && !line.includes("[DONE]")).map(line => JSON.parse(line.slice(6)));
+  assert.equal(events.find(event => event.type === "finish").messageMetadata.finishReason, "length");
+  let message: CourseChatMessage | undefined;
+  for await (const update of readUIMessageStream<CourseChatMessage>({ stream: simulateReadableStream({ initialDelayInMs: null, chunkDelayInMs: null, chunks: events }) })) message = update;
+  assert.equal(message?.metadata?.finishReason, "length", "metadata must survive the actual SDK UI-message reconstruction");
+  assert.match(courseCompletionNotice(message?.metadata) ?? "", /length limit.*incomplete/);
+  assert.equal(model.doStreamCalls[0].maxOutputTokens, 3000);
+});
+
+test("interrupted and abnormal completions are visibly distinguished from normal stop", () => {
+  assert.equal(courseCompletionNotice({ finishReason: "stop" }), null);
+  assert.equal(courseCompletionNotice(undefined), null);
+  assert.match(courseCompletionNotice(undefined, true) ?? "", /did not finish normally/);
+  for (const finishReason of ["error", "content-filter", "other", "tool-calls"] as const) assert.match(courseCompletionNotice({ finishReason }) ?? "", /may be incomplete/);
 });
 
 test("API rejects invalid/code/cross-origin requests and skips model calls for absent evidence", async () => {

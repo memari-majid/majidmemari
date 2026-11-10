@@ -14,3 +14,8 @@ export type CourseSource = {
 };
 
 export type CourseTurn = { role: "user" | "assistant"; content: string };
+import type { FinishReason, UIMessage } from "ai";
+
+
+export type CourseMessageMetadata = { finishReason?: FinishReason };
+export type CourseChatMessage = UIMessage<CourseMessageMetadata>;
