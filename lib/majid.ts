@@ -31,6 +31,13 @@ export const MAJID = {
     mba: "M.B.A. (2015)",
     basc: "BASc in Industrial Engineering (2010)",
   },
+  certifications: {
+    aiForBusiness: {
+      title: "AI For Business Specialization",
+      issuer: "University of Pennsylvania",
+      url: "https://www.coursera.org/account/accomplishments/specialization/H2NX0NYKLLO6",
+    },
+  },
   siliconSlopes: "https://www.siliconslopes.com/",
   clarion: "Clarion AI Partners",
   potentia: "Potentia Analytics",

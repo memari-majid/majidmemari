@@ -55,9 +55,19 @@ export default function AboutPage() {
               </ul>
             </div>
             <div className="border-t border-slate-200 pt-6 sm:border-l sm:border-t-0 sm:pl-8 sm:pt-0">
-              <h3 className="text-sm font-medium">Teaching certification</h3>
-              <p className="mt-3 text-sm leading-relaxed text-slate-600">NVIDIA Deep Learning Institute</p>
-              <p className="text-sm leading-relaxed text-slate-600">Certified Instructor</p>
+              <h3 className="text-sm font-medium">Certifications</h3>
+              <ul className="mt-3 space-y-4 text-sm leading-relaxed">
+                <li>
+                  <p>Certified Instructor</p>
+                  <p className="text-slate-600">NVIDIA Deep Learning Institute</p>
+                </li>
+                <li>
+                  <a href={MAJID.certifications.aiForBusiness.url} target="_blank" rel="noopener noreferrer" referrerPolicy="no-referrer" className="text-teal-800 underline decoration-teal-800/30 underline-offset-4 hover:decoration-teal-800">
+                    {MAJID.certifications.aiForBusiness.title}<span aria-hidden="true"> ↗</span><span className="sr-only"> (opens in a new tab)</span>
+                  </a>
+                  <p className="text-slate-600">{MAJID.certifications.aiForBusiness.issuer}</p>
+                </li>
+              </ul>
               <h3 className="mt-6 text-sm font-medium">Research</h3>
               <Link className={`mt-1 inline-flex min-h-11 items-center text-sm ${linkClass}`} href="/publications">Research &amp; publications →</Link>
             </div>
