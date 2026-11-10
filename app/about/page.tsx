@@ -44,15 +44,24 @@ export default function AboutPage() {
         </div>
         <section aria-labelledby="background-heading" className="mt-10 rounded-2xl border border-slate-200 bg-white p-6">
           <h2 id="background-heading" className="text-xl font-semibold">Background</h2>
-          <ul className="mt-4 space-y-2 text-sm leading-relaxed text-slate-600">
-            <li>{MAJID.education.phd}</li>
-            <li>{MAJID.education.ms}</li>
-            <li>{MAJID.education.mba}</li>
-            <li>{MAJID.education.basc}</li>
-          </ul>
-          <p className="mt-5 text-sm leading-relaxed text-slate-600">
-            NVIDIA Deep Learning Institute Certified Instructor. Explore my <Link className={linkClass} href="/publications">research and publications</Link> for the scholarly work behind my applied AI interests.
-          </p>
+          <div className="mt-6 grid gap-6 sm:grid-cols-[1.2fr_1fr] sm:gap-8">
+            <div>
+              <h3 className="text-sm font-medium">Education</h3>
+              <ul className="mt-3 space-y-3 text-sm leading-relaxed text-slate-600">
+                <li>{MAJID.education.phd}</li>
+                <li>{MAJID.education.ms}</li>
+                <li>{MAJID.education.mba}</li>
+                <li>{MAJID.education.basc}</li>
+              </ul>
+            </div>
+            <div className="border-t border-slate-200 pt-6 sm:border-l sm:border-t-0 sm:pl-8 sm:pt-0">
+              <h3 className="text-sm font-medium">Teaching certification</h3>
+              <p className="mt-3 text-sm leading-relaxed text-slate-600">NVIDIA Deep Learning Institute</p>
+              <p className="text-sm leading-relaxed text-slate-600">Certified Instructor</p>
+              <h3 className="mt-6 text-sm font-medium">Research</h3>
+              <Link className={`mt-1 inline-flex min-h-11 items-center text-sm ${linkClass}`} href="/publications">Research &amp; publications →</Link>
+            </div>
+          </div>
         </section>
         <section aria-labelledby="connect-heading" className="mt-10">
           <h2 id="connect-heading" className="text-xl font-semibold">Connect &amp; explore</h2>
