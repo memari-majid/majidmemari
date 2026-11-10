@@ -8,7 +8,7 @@ import { SITE_URL } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "Projects",
-  description: "Public applications, learning experiences, and research concepts by Majid Memari. No account required for the linked demonstrations.",
+  description: "Public applications, learning experiences, and research case studies by Majid Memari. No account required for the linked demonstrations.",
   alternates: { canonical: "/projects" },
   openGraph: { title: "Projects — Majid Memari", description: "Practical AI ideas, working experiences, and clear explanations of their scope and access.", url: "/projects" },
 };

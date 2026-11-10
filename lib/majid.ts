@@ -29,7 +29,7 @@ export const MAJID = {
     phd: "Ph.D. in Computer Science (2023)",
     ms: "M.S. in Computer Science (2017)",
     mba: "M.B.A. (2015)",
-    basc: "BASc in Industrial Engineering (2010)",
+    basc: "B.S. in Industrial Engineering (2010)",
   },
   certifications: {
     aiForBusiness: {

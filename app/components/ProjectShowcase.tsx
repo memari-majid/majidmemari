@@ -34,17 +34,17 @@ export function ProjectShowcase() {
     <section id="projects" aria-labelledby="projects-heading" className="mx-auto max-w-6xl scroll-mt-28 px-5 py-10 sm:px-8">
       <div className="border-t border-slate-200 pt-8">
         <div className="flex flex-wrap items-center justify-between gap-3">
-          <h2 id="projects-heading" className="text-2xl font-normal">Selected projects</h2>
-          <Link href="/projects" className="inline-flex min-h-11 items-center text-sm font-normal text-teal-800 underline decoration-teal-800/30 underline-offset-4 hover:decoration-teal-800">All {PROJECTS.length} projects →</Link>
+          <h2 id="projects-heading" className="text-2xl font-semibold tracking-tight">Selected projects</h2>
+          <Link href="/projects" className="inline-flex min-h-11 items-center text-sm font-medium text-teal-800 underline decoration-teal-800/30 underline-offset-4 hover:decoration-teal-800">All {PROJECTS.length} projects →</Link>
         </div>
         <p className="mt-3 text-sm leading-relaxed text-slate-600">Try a guided demo with fictional or public samples. No sign-in required.</p>
         <div className="mt-5 divide-y divide-slate-200">{featured.map((project) => (
           <article key={project.slug} className="flex flex-col gap-3 py-5 first:pt-0 sm:flex-row sm:items-center sm:justify-between sm:gap-8">
             <div className="max-w-2xl">
-              <h3 className="text-lg font-normal"><Link href={`/projects/${project.slug}`} className="underline-offset-4 hover:text-teal-800 hover:underline">{project.name}</Link></h3>
+              <h3 className="text-lg font-semibold"><Link href={`/projects/${project.slug}`} className="underline-offset-4 hover:text-teal-800 hover:underline">{project.name}</Link></h3>
               <p className="mt-1 text-sm leading-relaxed text-slate-600">{project.summary}</p>
             </div>
-            <a href={project.url} target="_blank" rel="noopener noreferrer" referrerPolicy="no-referrer" aria-label={`Try public demo: ${project.name}`} className="inline-flex min-h-11 shrink-0 items-center text-sm font-normal text-teal-800 underline decoration-teal-800/30 underline-offset-4 hover:decoration-teal-800">Try demo ↗<span className="sr-only"> (opens in a new tab)</span></a>
+            <a href={project.url} target="_blank" rel="noopener noreferrer" referrerPolicy="no-referrer" aria-label={`Try public demo: ${project.name}`} className="inline-flex min-h-11 shrink-0 items-center text-sm font-medium text-teal-800 underline decoration-teal-800/30 underline-offset-4 hover:decoration-teal-800">Try demo ↗<span className="sr-only"> (opens in a new tab)</span></a>
           </article>
         ))}</div>
       </div>

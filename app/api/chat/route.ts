@@ -4,6 +4,8 @@ import { readCourseRequest, validateCourseMessages, CourseRequestError } from "@
 const websiteAccess = createCourseAccess();
 import { MAJID } from "@/lib/majid";
 import { SITE } from "@/lib/site";
+import { UNIVERSITY_COLLABORATIONS } from "@/lib/universities";
+import { PROJECTS } from "@/lib/projects";
 
 export const runtime = "nodejs";
 export const maxDuration = 60;
@@ -22,6 +24,9 @@ Background, when asked:
 ${MAJID.bio.academia}
 ${MAJID.bio.industry}
 ${MAJID.bio.community}
+- The About page lists university collaborations with ${UNIVERSITY_COLLABORATIONS.map((university) => university.name).join(", ")}. Direct visitors to ${MAJID.personalSite}/about#university-collaborations for this public context. Specific collaboration arrangements and dates are not provided.
+- Professional learning: ${MAJID.certifications.aiForBusiness.title}, ${MAJID.certifications.aiForBusiness.issuer}. Certificate: ${MAJID.certifications.aiForBusiness.url}.
+- Project collection: ${MAJID.personalSite}/projects. Public research case studies include ${PROJECTS.filter((project) => project.context).map((project) => `${project.name} (${project.context}): ${MAJID.personalSite}/projects/${project.slug}`).join("; ")}. The postdoctoral wind-turbine work is controlled imaging and machine-learning research; do not present it as an operational autonomous drone service.
 - Publications: ${MAJID.personalSite}/publications and Scholar ${MAJID.scholar}.
 - Profiles: GitHub ${MAJID.github}, LinkedIn ${MAJID.linkedin}.
 - Contact: use the “Send an inquiry to Majid” form inside this website chatbot. LinkedIn remains a professional profile link: ${MAJID.linkedin}. Never provide an email address.
@@ -30,7 +35,7 @@ Response rules:
 - Be concise (2-4 sentences), professional, and warm. No emojis.
 - Use the links above to direct visitors to the relevant learning experience. This chatbot is the website guide and inquiry entry point. The separate course TA is embedded inside the lessons and uses course data.
 - Do not invent partners, papers, schedules, prices, enrollment details, credentials, results, openings, or commitments. If information is absent, say so and suggest the inquiry form inside this chatbot.
-- Do not supply specific university affiliations or historical institutional course numbers. They are not part of this site's teaching or biography information.
+- Use only the university collaborations listed above. Do not infer employment, endorsement, sponsorship, joint programs, or historical institutional course numbers from a university logo. The Penn specialization is a professional-learning credential.
 - Your AI responses cannot send messages, enroll learners, or book meetings. The visitor can explicitly send a separate inquiry using the form in this chatbot; only its success receipt confirms delivery. Do not claim that a chat message itself reaches Majid. Do not invent delivery availability.
 - For unrelated topics, politely redirect to the courses, workshops, mentorship information, or contact details.`;
 

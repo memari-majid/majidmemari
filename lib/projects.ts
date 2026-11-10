@@ -14,6 +14,8 @@ export type Project = {
   accessNote: string;
   historical?: boolean;
   publicDemo?: boolean;
+  context?: string;
+  sources?: readonly { title: string; url: string }[];
 };
 
 /** Public experiences use sample or public material; private account capabilities are not demo features. */
@@ -178,6 +180,60 @@ export const PROJECTS: readonly Project[] = [
     accessNote: "No account or Slack sign-in required. Select a public-topic question; private workshop sessions are separate.",
   },
   {
+    slug: "wind-turbine-inspection",
+    kind: "Postdoctoral research",
+    group: "research",
+    name: "Wind-turbine inspection",
+    category: "Computer vision & renewable energy",
+    summary: "RGB and thermal computer vision for identifying defects in wind-turbine blades.",
+    context: "Postdoctoral research at Utah Valley University · August 2023–June 2024",
+    purpose: "Develop imaging and machine-learning methods for blade inspection. The work combined RGB and thermal analysis, data fusion, and controlled experiments toward future drone-based inspection workflows.",
+    capabilities: ["Combine RGB and thermal imagery for small-blade analysis.", "Compare deep-learning classifiers, data-fusion methods, and ensemble approaches.", "Investigate thermal defect detection and localization, with contributions to methodology, software, analysis, and research writing."],
+    limit: "The cited studies report controlled small-blade experiments. Autonomous operational drone inspection remains future work in those studies.",
+    url: "https://www.mdpi.com/1996-1073/17/3/673",
+    launchLabel: "Read the research",
+    access: "Open research",
+    accessNote: "Explore the published methods and findings. Both research articles are publicly available without an account.",
+    sources: [
+      { title: "RGB–thermal fusion and ensemble learning · Energies, 2024", url: "https://www.mdpi.com/1996-1073/17/3/673" },
+      { title: "Infrared thermography for blade testing · Machines, 2025", url: "https://www.mdpi.com/2075-1702/13/2/108" },
+    ],
+  },
+  {
+    slug: "synthetic-image-evaluation",
+    kind: "Doctoral research",
+    group: "research",
+    name: "Synthetic image evaluation for OCR",
+    category: "Generative AI & computer vision",
+    summary: "Evaluate generated images and use synthetic data in handwritten-digit recognition.",
+    context: "Doctoral research at Southern Illinois University Carbondale · Dissertation, 2023",
+    purpose: "Investigate synthetic-image quality and data augmentation for Arabic handwritten-digit optical character recognition (OCR), connecting generative-model evaluation with recognition experiments.",
+    capabilities: ["Compare conditional variational autoencoders and conditional generative adversarial networks.", "Develop the Synthetic Image Evaluation Procedure for assessing generated images.", "Study feature extraction and synthetic-image augmentation in OCR experiments."],
+    limit: "This dissertation focuses on Arabic handwritten digits. Its findings do not establish performance across every OCR task or image domain.",
+    url: "https://opensiuc.lib.siu.edu/dissertations/2181/",
+    launchLabel: "Read the dissertation",
+    access: "Open dissertation",
+    accessNote: "Read the university’s public dissertation record and abstract.",
+    historical: true,
+  },
+  {
+    slug: "news-sentiment-market-prediction",
+    kind: "Master’s research",
+    group: "research",
+    name: "News sentiment & market prediction",
+    category: "NLP & predictive analytics",
+    summary: "Explore relationships between news signals and historical stock-market movements.",
+    context: "Master’s research at Southern Illinois University Carbondale · Study data, 2015–2017",
+    purpose: "Compare machine-learning classifiers and ensemble methods using news and event signals from GDELT alongside daily Dow Jones Industrial Average prices.",
+    capabilities: ["Build predictive features from public news and event data.", "Compare individual classifiers with ensemble methods.", "Evaluate predictions using the historical data collected for the study."],
+    limit: "Historical thesis research using March 2015–October 2017 data. It is not a live trading system or evidence of future market performance.",
+    url: "https://opensiuc.lib.siu.edu/theses/2442/",
+    launchLabel: "Read the thesis",
+    access: "Open thesis",
+    accessNote: "Read the university’s public thesis record and abstract.",
+    historical: true,
+  },
+  {
     slug: "grideye",
     kind: "Historical research concept",
     group: "research",
@@ -204,5 +260,5 @@ export function getProject(slug: string) {
 export const PROJECT_GROUPS = [
   { id: "applications", title: "AI applications & tools", description: "Assistants and workspaces for specialized information, reflection, finance, and evaluation." },
   { id: "learning", title: "Courses & learning experiences", description: "A guided course, classroom simulation, and teaching assistants for learners and instructors." },
-  { id: "research", title: "Research concepts", description: "Earlier research ideas presented with their historical context and scope." },
+  { id: "research", title: "Research & case studies", description: "Published studies, research contributions, and earlier concepts, with their methods, sources, and scope." },
 ] as const;
