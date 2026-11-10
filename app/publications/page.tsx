@@ -35,7 +35,7 @@ export default function PublicationsPage() {
           Majid Memari — Publications
         </h1>
         <p className="mt-3 text-lg text-zinc-600 dark:text-zinc-400">
-          {MAJID.scholarListedWorks}+ works on{" "}
+          Explore my work on{" "}
           <a
             className="text-sky-600 underline dark:text-sky-400"
             href={MAJID.scholar}

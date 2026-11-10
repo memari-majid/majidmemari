@@ -2,12 +2,13 @@
 
 import { useChat } from "@ai-sdk/react";
 import { DefaultChatTransport } from "ai";
+import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
 
 const QUICK_PROMPTS = [
-  "What does Dr. Memari do at UVU?",
-  "Tell me about the AI Engineer intern program",
-  "Do you offer AI consulting and team training?",
+  "Who is Building AI Solutions for?",
+  "Tell me about the AI workshops",
+  "How can I ask about mentorship?",
 ];
 
 function textFromMessage(m: { parts: { type: string; text?: string }[] }) {
@@ -15,18 +16,6 @@ function textFromMessage(m: { parts: { type: string; text?: string }[] }) {
     .filter((p): p is { type: "text"; text: string } => p.type === "text" && typeof p.text === "string")
     .map((p) => p.text)
     .join("");
-}
-
-function formatChatConfigMessage(error: string) {
-  if (
-    error.includes("OIDC") ||
-    error.includes("AI_GATEWAY_API_KEY") ||
-    error.includes("AI Gateway") ||
-    error.toLowerCase().includes("unauthorized")
-  ) {
-    return "Chat isn’t configured: enable AI Gateway in Vercel → Project → AI Gateway, then redeploy. You can still reach me via the contact form below.";
-  }
-  return error;
 }
 
 async function chatFetch(input: RequestInfo | URL, init?: RequestInit): Promise<Response> {
@@ -48,6 +37,9 @@ export function ChatWidget() {
   const [open, setOpen] = useState(false);
   const [input, setInput] = useState("");
   const endRef = useRef<HTMLDivElement>(null);
+  const openButtonRef = useRef<HTMLButtonElement>(null);
+  const dialogRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const transport = useMemo(
     () => new DefaultChatTransport({ api: "/api/chat", fetch: chatFetch }),
@@ -61,6 +53,42 @@ export function ChatWidget() {
     endRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, open]);
 
+  useEffect(() => {
+    if (!open) return;
+    const returnFocusTarget = openButtonRef.current;
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    inputRef.current?.focus();
+
+    function onKeyDown(event: KeyboardEvent) {
+      if (event.key === "Escape") {
+        setOpen(false);
+        return;
+      }
+      if (event.key !== "Tab") return;
+      const elements = dialogRef.current?.querySelectorAll<HTMLElement>(
+        'button:not([disabled]), a[href], input:not([disabled]), [tabindex="0"]',
+      );
+      if (!elements?.length) return;
+      const first = elements[0];
+      const last = elements[elements.length - 1];
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    }
+
+    document.addEventListener("keydown", onKeyDown);
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      document.removeEventListener("keydown", onKeyDown);
+      returnFocusTarget?.focus();
+    };
+  }, [open]);
+
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
     if (!input.trim() || busy) return;
@@ -71,10 +99,13 @@ export function ChatWidget() {
   return (
     <>
       <button
+        ref={openButtonRef}
         type="button"
         onClick={() => setOpen(true)}
         className={`fixed z-[60] flex h-14 w-14 min-h-[56px] min-w-[56px] items-center justify-center rounded-full bg-sky-600 text-white shadow-lg shadow-sky-900/40 transition hover:bg-sky-500 focus:outline-none focus:ring-2 focus:ring-sky-400 focus:ring-offset-2 focus:ring-offset-zinc-50 dark:focus:ring-offset-zinc-950 ${open ? "hidden" : ""} bottom-[max(1.25rem,env(safe-area-inset-bottom))] right-[max(1.25rem,env(safe-area-inset-right))]`}
         aria-label="Open chat"
+        aria-expanded={open}
+        aria-controls={open ? "site-assistant-dialog" : undefined}
       >
         <svg className="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
           <path
@@ -87,6 +118,8 @@ export function ChatWidget() {
 
       {open && (
         <div
+          ref={dialogRef}
+          id="site-assistant-dialog"
           className="fixed inset-0 z-[70] flex items-stretch justify-end bg-black/50 p-0 pt-[env(safe-area-inset-top)] sm:items-end sm:p-4 md:p-6"
           role="dialog"
           aria-modal="true"
@@ -103,7 +136,7 @@ export function ChatWidget() {
                     AI
                   </span>
                 </div>
-                <p className="text-xs text-zinc-600 dark:text-zinc-500">Ask about consulting, team training, teaching, or internships</p>
+                <p className="text-xs text-zinc-600 dark:text-zinc-500">Find courses, workshops, and mentorship information</p>
               </div>
               <div className="flex gap-2">
                 {busy && (
@@ -118,7 +151,7 @@ export function ChatWidget() {
                 <button
                   type="button"
                   onClick={() => setOpen(false)}
-                  className="rounded-md p-1 text-zinc-500 hover:bg-zinc-100 hover:text-zinc-900 dark:text-zinc-400 dark:hover:bg-zinc-800 dark:hover:text-zinc-100"
+                  className="flex min-h-11 min-w-11 items-center justify-center rounded-md p-1 text-zinc-500 hover:bg-zinc-100 hover:text-zinc-900 dark:text-zinc-400 dark:hover:bg-zinc-800 dark:hover:text-zinc-100"
                   aria-label="Close chat"
                 >
                   <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -132,7 +165,8 @@ export function ChatWidget() {
               {messages.length === 0 && (
                 <div className="space-y-3">
                   <p className="text-sm text-zinc-600 dark:text-zinc-500">
-                    Hi — I can answer questions about Dr. Memari&apos;s AI consulting and team training, teaching at UVU, and AI Engineer internships. How can I help?
+                    Hi — I can help you explore Majid Memari&apos;s AI courses, workshops, and
+                    mentorship information. Where would you like to start?
                   </p>
                   <div className="flex flex-wrap gap-2">
                     {QUICK_PROMPTS.map((q) => (
@@ -162,9 +196,12 @@ export function ChatWidget() {
                 </div>
               ))}
               {error && (
-                <p className="text-xs text-amber-700 dark:text-amber-400">
-                  {formatChatConfigMessage(error.message) ||
-                    "Something went wrong. Try again or use the contact form."}
+                <p role="alert" className="text-xs text-amber-700 dark:text-amber-400">
+                  Chat is unavailable right now. Please try again or use the{" "}
+                  <Link href="/#contact" className="underline underline-offset-2" onClick={() => setOpen(false)}>
+                    contact details
+                  </Link>
+                  .
                 </p>
               )}
               <div ref={endRef} />
@@ -173,6 +210,8 @@ export function ChatWidget() {
             <div className="border-t border-zinc-200 p-3 dark:border-zinc-800">
               <form onSubmit={onSubmit} className="flex gap-2">
                 <input
+                  ref={inputRef}
+                  aria-label="Message to the site assistant"
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
                   placeholder="Type a message…"

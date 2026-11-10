@@ -6,7 +6,7 @@ import { SITE, SITE_URL } from "@/lib/site";
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: "Majid Memari — Assistant Professor of Computer Science, UVU & NVIDIA Ambassador",
+    default: "Majid Memari — AI Teaching, Workshops & Mentorship",
     template: "%s | Majid Memari",
   },
   description: SITE.description,
@@ -17,19 +17,19 @@ export const metadata: Metadata = {
     "Majid Memari",
     "Majid MJ Memari",
     "Dr. Majid Memari",
-    "Utah Valley University",
-    "Assistant Professor Computer Science",
-    "NVIDIA Ambassador",
-    "Gary R. Herbert Institute",
-    "Nexus AI Solutions",
+    "Building AI Solutions",
+    "AI education",
+    "AI workshops",
+    "AI mentorship",
+    "AI for business",
+    "NVIDIA DLI",
   ],
   alternates: {
     canonical: "/",
   },
   openGraph: {
-    title: "Majid Memari — Assistant Professor of Computer Science at UVU",
-    description:
-      "Assistant Professor of Computer Science at Utah Valley University. AI consultant and trainer. NVIDIA University Ambassador.",
+    title: "Majid Memari — AI Teaching, Workshops & Mentorship",
+    description: SITE.description,
     url: SITE_URL,
     siteName: "Majid Memari",
     type: "profile",
@@ -45,9 +45,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Majid Memari — Assistant Professor & NVIDIA Ambassador",
-    description:
-      "Academia, industry, and community work in applied AI. Assistant Professor at UVU. AI consulting and team training. NVIDIA DLI instructor.",
+    title: "Majid Memari — AI Teaching, Workshops & Mentorship",
+    description: SITE.description,
     images: ["/majid-memari.png"],
   },
   robots: {

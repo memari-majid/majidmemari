@@ -20,8 +20,6 @@ export const PERSON_SAME_AS = [
   SITE.scholar,
   MAJID.orcid,
   MAJID.researchGate,
-  MAJID.nexusSite,
-  MAJID.uvuDirectory,
   MAJID.aiUtah100.url,
 ] as const;
 
@@ -40,34 +38,14 @@ export function personJsonLd() {
     image: `${SITE_URL}/majid-memari.png`,
     jobTitle: MAJID.jobTitle,
     description: SITE.description,
-    email: SITE.uvuEmail,
-    telephone: SITE.uvuPhone,
+    email: SITE.email,
     sameAs: [...PERSON_SAME_AS],
-    address: {
-      "@type": "PostalAddress",
-      addressLocality: SITE.addressLocality,
-      addressRegion: SITE.addressRegion,
-      addressCountry: SITE.addressCountry,
-    },
-    worksFor: {
-      "@type": "CollegeOrUniversity",
-      name: MAJID.university,
-      url: "https://www.uvu.edu/",
-    },
-    alumniOf: {
-      "@type": "CollegeOrUniversity",
-      name: "Southern Illinois University Carbondale",
-    },
     affiliation: [
-      { "@type": "CollegeOrUniversity", name: "Utah Valley University", url: "https://www.uvu.edu/" },
-      { "@type": "Organization", name: "Gary R. Herbert Institute for Public Policy" },
       {
         "@type": "Organization",
         name: "NVIDIA Deep Learning Institute",
         url: "https://www.nvidia.com/en-us/training/",
       },
-      { "@type": "Organization", name: "Nexus AI Solutions LLC", url: MAJID.nexusSite },
-      { "@type": "Organization", name: "University of Utah One-U Responsible AI Initiative", url: "https://rai.utah.edu/" },
     ],
     knowsAbout: [
       "Artificial Intelligence",
@@ -80,9 +58,9 @@ export function personJsonLd() {
       "Team training",
       "Workshops",
       "Public-Sector AI",
-      "EdTech",
+      "AI Education",
+      "Business AI Solutions",
       "Responsible AI",
-      "Utah Valley University",
     ],
   };
 }

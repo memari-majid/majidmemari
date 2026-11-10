@@ -79,6 +79,12 @@ export function BuildingAiSolutionsCard({
         >
           Try the simulations
         </a>
+        <a
+          href="/teaching/ai-solutions/assistant"
+          className="inline-flex min-h-11 items-center px-2 text-sm font-semibold text-sky-200 underline underline-offset-4 hover:text-white"
+        >
+          Ask the course TA
+        </a>
       </div>
     </article>
   );

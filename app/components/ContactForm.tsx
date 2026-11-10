@@ -6,7 +6,7 @@ import { SITE } from "@/lib/site";
 const CATEGORY_LABEL: Record<string, string> = {
   consulting: "AI consulting",
   workshop: "Workshops & training",
-  mentorship: "Mentorship & internships",
+  mentorship: "Project mentorship",
   collaboration: "Research & collaboration",
   general: "General inquiry",
 };
@@ -53,7 +53,7 @@ export function ContactForm() {
       setMessage("");
     } catch {
       setStatus("error");
-      setErrorMsg("Network error. Please try again or email us directly.");
+      setErrorMsg("Network error. Please try again or email Majid directly.");
     }
   }
 

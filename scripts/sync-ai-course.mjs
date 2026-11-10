@@ -2,6 +2,7 @@ import { createHash } from "node:crypto";
 import { readdir, readFile, mkdir, rm, cp, writeFile, realpath } from "node:fs/promises";
 import { dirname, resolve, relative, extname } from "node:path";
 import { fileURLToPath } from "node:url";
+import { execFileSync } from "node:child_process";
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const destination = resolve(root, "public/teaching/ai-solutions");
@@ -13,6 +14,8 @@ if (source === destination || source.startsWith(`${destination}/`)) {
 }
 
 const allowed = new Set([".html", ".css", ".js", ".mjs", ".svg", ".txt", ".zip"]);
+const assistantUrl = "https://www.majidmemari.com/teaching/ai-solutions/assistant";
+const assistantPath = "/teaching/ai-solutions/assistant";
 const files = [];
 async function inspect(directory) {
   for (const item of await readdir(directory, { withFileTypes: true })) {
@@ -34,8 +37,15 @@ if (!(await readFile(resolve(source, "index.html"), "utf8")).includes("Building 
 }
 
 const manifest = [];
+const hostedFiles = [];
 for (const full of files.sort()) {
-  const bytes = await readFile(full);
+  const original = await readFile(full);
+  // Keep the portable archive's absolute online link, but use this deployment
+  // for course pages so previews and production share the same assistant.
+  const bytes = extname(full) === ".html"
+    ? Buffer.from(original.toString("utf8").replaceAll(assistantUrl, assistantPath))
+    : original;
+  hostedFiles.push({ path: relative(source, full), bytes });
   manifest.push({ path: relative(source, full), bytes: bytes.length, sha256: createHash("sha256").update(bytes).digest("hex") });
 }
 
@@ -43,6 +53,7 @@ for (const full of files.sort()) {
 await mkdir(dirname(destination), { recursive: true });
 await rm(destination, { recursive: true, force: true });
 await cp(source, destination, { recursive: true });
+for (const file of hostedFiles) await writeFile(resolve(destination, file.path), file.bytes);
 await mkdir(resolve(root, "content"), { recursive: true });
 await writeFile(resolve(root, "content/ai-solutions-release.json"), JSON.stringify({
   title: "Building AI Solutions",
@@ -51,3 +62,4 @@ await writeFile(resolve(root, "content/ai-solutions-release.json"), JSON.stringi
   files: manifest,
 }, null, 2) + "\n");
 console.log(`Synced ${manifest.length} verified public course files to public/teaching/ai-solutions.`);
+execFileSync(process.execPath, [resolve(root, "scripts/build-course-kb.mjs")], { cwd: root, stdio: "inherit" });
