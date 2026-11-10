@@ -13,6 +13,7 @@ export type Project = {
   access: string;
   accessNote: string;
   historical?: boolean;
+  publicDemo?: boolean;
 };
 
 /** Public experiences use sample or public material; private account capabilities are not demo features. */
@@ -34,6 +35,7 @@ export const PROJECTS: readonly Project[] = [
   },
   {
     slug: "datagovai",
+    publicDemo: true,
     kind: "Records-retention assistant",
     group: "applications",
     name: "DataGovAI",
@@ -49,6 +51,7 @@ export const PROJECTS: readonly Project[] = [
   },
   {
     slug: "ai-classsims",
+    publicDemo: true,
     kind: "Classroom simulation",
     group: "learning",
     name: "AI-ClassSims",
@@ -64,6 +67,7 @@ export const PROJECTS: readonly Project[] = [
   },
   {
     slug: "carewise",
+    publicDemo: true,
     kind: "Parent education assistant",
     group: "applications",
     name: "CareWise",
@@ -79,6 +83,7 @@ export const PROJECTS: readonly Project[] = [
   },
   {
     slug: "willow",
+    publicDemo: true,
     kind: "Reflection & skills companion",
     group: "applications",
     name: "Willow",
@@ -94,6 +99,7 @@ export const PROJECTS: readonly Project[] = [
   },
   {
     slug: "ai-cpa",
+    publicDemo: true,
     kind: "Bookkeeping workspace",
     group: "applications",
     name: "AI-CPA · AI Bookkeeping",
@@ -109,6 +115,7 @@ export const PROJECTS: readonly Project[] = [
   },
   {
     slug: "finhub",
+    publicDemo: true,
     kind: "Finance dashboard",
     group: "applications",
     name: "FinHub",
@@ -124,6 +131,7 @@ export const PROJECTS: readonly Project[] = [
   },
   {
     slug: "ai-ster",
+    publicDemo: true,
     kind: "Teaching evaluation application",
     group: "applications",
     name: "AI-STER",
@@ -139,6 +147,7 @@ export const PROJECTS: readonly Project[] = [
   },
   {
     slug: "course-chatbot",
+    publicDemo: true,
     kind: "Course teaching assistant",
     group: "learning",
     name: "AI Course Assistant",
@@ -154,6 +163,7 @@ export const PROJECTS: readonly Project[] = [
   },
   {
     slug: "nvidia-workshop-ta",
+    publicDemo: true,
     kind: "Workshop teaching assistant",
     group: "learning",
     name: "NVIDIA Workshop Teaching Assistant",

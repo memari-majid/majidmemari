@@ -4,6 +4,8 @@ import { BuildingAiSolutionsCard } from "@/app/components/BuildingAiSolutionsCar
 import { ChatWidget } from "@/app/components/ChatWidget";
 import { JsonLd } from "@/app/components/JsonLd";
 import { NavBar } from "@/app/components/NavBar";
+import { ProjectCard } from "@/app/components/ProjectShowcase";
+import { FEATURED_PROJECT_SLUGS, PROJECTS } from "@/lib/projects";
 
 export const metadata: Metadata = {
   title: "AI Courses & Workshops",
@@ -45,9 +47,11 @@ export default function TeachingPage() {
                 A hands-on technical workshop taught by Majid Memari, a DLI Certified Instructor.
                 The workshop assistant supports learners working through the labs.
               </p>
-              <Link className="mt-5 inline-block text-sm font-semibold text-teal-800 underline underline-offset-4" href="/teaching/agentic-llm">
-                Open the workshop assistant
-              </Link>
+              <a className="mt-5 inline-flex min-h-11 items-center gap-2 text-sm font-semibold text-teal-800 underline underline-offset-4" href="https://nvidia-teaching-assistant.vercel.app" target="_blank" rel="noopener noreferrer" referrerPolicy="no-referrer">
+                Try the public workshop demo <span aria-hidden="true">↗</span>
+              </a>
+              <p className="mt-2 text-xs text-slate-600">Sample questions. No account or Slack sign-in required.</p>
+              <Link className="mt-3 inline-block text-sm text-teal-800 underline underline-offset-4" href="/teaching/agentic-llm">Workshop learning page</Link>
             </article>
             <article className="rounded-2xl border border-teal-900/15 bg-teal-900/[0.04] p-6">
               <p className="text-xs font-semibold uppercase tracking-wider text-teal-800">Business &amp; team learning</p>
@@ -61,6 +65,13 @@ export default function TeachingPage() {
               </Link>
             </article>
           </div>
+        </section>
+        <section id="public-demos" aria-labelledby="public-demos-heading" className="mt-16 scroll-mt-28">
+          <p className="text-xs font-semibold uppercase tracking-[0.18em] text-teal-800">Public demos</p>
+          <h2 id="public-demos-heading" className="mt-3 text-3xl font-semibold tracking-tight">See the projects in action.</h2>
+          <p className="mt-4 max-w-2xl leading-relaxed text-slate-600">Try interactive examples from my applications and learning tools. No account is required, and the demos use public or fictional sample data.</p>
+          <div className="mt-6 grid gap-5 md:grid-cols-2 lg:grid-cols-3">{PROJECTS.filter((project) => project.publicDemo && FEATURED_PROJECT_SLUGS.includes(project.slug)).map((project, index) => <ProjectCard key={project.slug} project={project} index={index} />)}</div>
+          <Link href="/projects" className="mt-5 inline-flex min-h-11 items-center font-semibold text-teal-800 underline underline-offset-4">Explore all projects and demos →</Link>
         </section>
         <p className="mt-12 border-t border-slate-200 pt-6 text-sm text-slate-600">
           Have a project in mind? <Link href="/#mentorship" className="font-medium text-teal-800 underline underline-offset-4">Explore mentorship</Link> or <Link href="/#contact" className="font-medium text-teal-800 underline underline-offset-4">contact Majid</Link>.

@@ -15,8 +15,11 @@ export function ProjectCard({ project, index }: { project: Project; index: numbe
       <p className="mt-3 text-sm leading-relaxed text-slate-600">{project.summary}</p>
       <div className="mt-auto pt-6">
         <p className="inline-flex rounded-full border border-slate-200 bg-[#f7f6f2] px-3 py-1 text-xs font-medium text-slate-600">{project.access}</p>
-        <Link href={`/projects/${project.slug}`} className="mt-5 flex min-h-11 items-center gap-2 text-sm font-semibold text-teal-800 underline decoration-teal-800/30 underline-offset-4 hover:decoration-teal-800">
-          View project <span aria-hidden="true">→</span>
+        <a href={project.url} target="_blank" rel="noopener noreferrer" referrerPolicy="no-referrer" aria-label={`${project.publicDemo ? "Try public demo" : project.launchLabel}: ${project.name}`} className="mt-5 inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-xl bg-slate-900 px-4 py-3 text-center text-sm font-semibold text-white transition hover:bg-blue-900">
+          {project.publicDemo ? "Try public demo" : project.launchLabel} <span aria-hidden="true">↗</span><span className="sr-only"> (opens in a new tab)</span>
+        </a>
+        <Link href={`/projects/${project.slug}`} className="mt-2 flex min-h-11 items-center gap-2 text-sm font-semibold text-teal-800 underline decoration-teal-800/30 underline-offset-4 hover:decoration-teal-800">
+          About this project <span aria-hidden="true">→</span>
         </Link>
       </div>
     </article>

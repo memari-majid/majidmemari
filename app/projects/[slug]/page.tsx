@@ -41,8 +41,8 @@ export default async function ProjectPage({ params }: Props) {
               <p className="text-xs font-semibold uppercase tracking-[0.15em] text-teal-800">Explore</p>
               <h2 className="mt-3 text-xl font-semibold">{project.access}</h2>
               <p className="mt-3 text-sm leading-relaxed text-slate-600">{project.accessNote}</p>
-              <a href={project.url} target="_blank" rel="noopener noreferrer" className="mt-6 inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-xl bg-slate-900 px-5 py-3 text-center text-sm font-semibold text-white transition hover:bg-blue-900">{project.launchLabel} <span aria-hidden="true">↗</span><span className="sr-only"> (opens in a new tab)</span></a>
-              <p className="mt-3 text-xs leading-relaxed text-slate-600">Opens the project&apos;s own website.</p>
+              <a href={project.url} target="_blank" rel="noopener noreferrer" className="mt-6 inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-xl bg-slate-900 px-5 py-3 text-center text-sm font-semibold text-white transition hover:bg-blue-900">{project.publicDemo ? "Launch public demo" : project.launchLabel} <span aria-hidden="true">↗</span><span className="sr-only"> (opens in a new tab)</span></a>
+              <p className="mt-3 text-xs leading-relaxed text-slate-600">{project.publicDemo ? "No account required. Uses public or fictional sample data." : "Opens the public project experience."}</p>
             </section>
             <section className="rounded-2xl border border-slate-200 bg-white p-6 sm:p-7">
               <h2 className="text-xl font-semibold">Scope &amp; limits</h2>
