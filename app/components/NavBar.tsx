@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from "react";
 
 const NAV_ITEMS = [
   { label: "Courses", href: "/teaching" },
+  { label: "Prototypes", href: "/prototypes" },
   { label: "Workshops", href: "/#workshops" },
   { label: "Mentorship", href: "/#mentorship" },
   { label: "About", href: "/about" },
@@ -33,7 +34,7 @@ export function NavBar() {
           <span aria-hidden="true" className="flex h-9 w-9 items-center justify-center rounded-xl bg-slate-900 text-xs font-semibold tracking-wider text-white">MM</span>
           <span className="text-lg">Majid Memari</span>
         </Link>
-        <div className="hidden items-center gap-7 md:flex">
+        <div className="hidden items-center gap-7 lg:flex">
           {NAV_ITEMS.map((item) => (
             <Link key={item.href} href={item.href} className="inline-flex min-h-11 items-center text-sm font-medium text-slate-600 transition hover:text-teal-800">
               {item.label}
@@ -44,7 +45,7 @@ export function NavBar() {
         <button
           ref={menuButton}
           type="button"
-          className="flex min-h-11 min-w-11 items-center justify-center rounded-xl border border-slate-300 text-slate-800 md:hidden"
+          className="flex min-h-11 min-w-11 items-center justify-center rounded-xl border border-slate-300 text-slate-800 lg:hidden"
           onClick={() => setMenuOpen((open) => !open)}
           aria-expanded={menuOpen}
           aria-controls="mobile-navigation"
@@ -56,7 +57,7 @@ export function NavBar() {
         </button>
       </nav>
       {menuOpen ? (
-        <nav id="mobile-navigation" aria-label="Mobile navigation" className="max-h-[70dvh] overflow-y-auto border-t border-slate-200 bg-[#f7f6f2] px-5 pb-[max(1rem,env(safe-area-inset-bottom))] pt-2 md:hidden">
+        <nav id="mobile-navigation" aria-label="Mobile navigation" className="max-h-[70dvh] overflow-y-auto border-t border-slate-200 bg-[#f7f6f2] px-5 pb-[max(1rem,env(safe-area-inset-bottom))] pt-2 lg:hidden">
           {NAV_ITEMS.map((item) => (
             <Link key={item.href} href={item.href} onClick={() => setMenuOpen(false)} className="flex min-h-12 items-center text-sm font-medium text-slate-700 hover:text-teal-800">
               {item.label}

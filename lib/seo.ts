@@ -1,11 +1,14 @@
 import { MAJID } from "@/lib/majid";
 import { SITE, SITE_URL } from "@/lib/site";
+import { PROTOTYPES } from "@/lib/prototypes";
 
 export const INDEXABLE_PATHS = [
   "/",
   "/about",
   "/teaching",
   "/publications",
+  "/prototypes",
+  ...PROTOTYPES.map(({ slug }) => `/prototypes/${slug}`),
   "/teaching/ai-solutions/index.html",
 ] as const;
 

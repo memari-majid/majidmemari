@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { BuildingAiSolutionsCard } from "@/app/components/BuildingAiSolutionsCard";
 import { SITE } from "@/lib/site";
+import { PrototypeShowcase } from "@/app/components/PrototypeShowcase";
 
 const linkClass =
   "font-medium text-teal-800 underline decoration-teal-800/30 underline-offset-4 transition hover:decoration-teal-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-teal-700";
@@ -64,6 +65,8 @@ export function HomePageContent() {
           </div>
           <BuildingAiSolutionsCard headingLevel={3} />
         </section>
+
+        <PrototypeShowcase />
 
         <section id="workshops" aria-labelledby="workshops-heading" className="mx-auto max-w-6xl scroll-mt-28 px-5 py-16 sm:px-8 sm:py-20">
           <p className="text-xs font-semibold uppercase tracking-[0.18em] text-teal-800">Learn together</p>
@@ -165,6 +168,7 @@ export function HomePageContent() {
         <div className="mx-auto flex max-w-6xl flex-col justify-between gap-4 px-5 py-7 text-sm text-slate-600 sm:flex-row sm:px-8">
           <p>© {new Date().getFullYear()} Majid Memari</p>
           <nav aria-label="Footer" className="flex flex-wrap gap-x-5 gap-y-3">
+            <Link href="/prototypes" className="hover:text-teal-800">AI prototypes</Link>
             <Link href="/teaching" className="hover:text-teal-800">Teaching</Link>
             <Link href="/about" className="hover:text-teal-800">About</Link>
             <Link href="/publications" className="hover:text-teal-800">Publications</Link>
