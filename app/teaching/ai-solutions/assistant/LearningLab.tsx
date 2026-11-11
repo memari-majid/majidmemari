@@ -18,7 +18,9 @@ export function LearningLab({ activity: a, canvasDelivery, renderCoach }: { acti
   const [storage, setStorage] = useState(true);
   const [showCoach, setShowCoach] = useState(false);
   const [notice, setNotice] = useState('');
+  const [exportText, setExportText] = useState<string | null>(null);
   const heading = useRef<HTMLHeadingElement>(null);
+  const exportRecord = useRef<HTMLTextAreaElement>(null);
   const key = `course-decision-lab:v1:${a.page}`;
   const phase = STEPS.findIndex(s => s.id === record.phase);
   const choice = a.choices.find(c => c.id === record.choice);
@@ -40,10 +42,27 @@ export function LearningLab({ activity: a, canvasDelivery, renderCoach }: { acti
     requestAnimationFrame(() => heading.current?.focus());
   }
   function download() {
-    const url = URL.createObjectURL(new Blob([learningSummary(a, record)], { type: 'text/plain;charset=utf-8' }));
-    const link = document.createElement('a'); link.href = url; link.download = `unit-${String(a.unit).padStart(2, '0')}-decision-lab.txt`; link.click();
-    setTimeout(() => URL.revokeObjectURL(url), 1000);
-    setNotice('Practice record exported. Add relevant reasoning to your existing project update.');
+    // Keep an exact, visible snapshot even if an embedded browser blocks downloads.
+    const snapshot = learningSummary(a, record);
+    setExportText(snapshot);
+    let url: string | undefined;
+    try {
+      url = URL.createObjectURL(new Blob([snapshot], { type: 'text/plain;charset=utf-8' }));
+      const link = document.createElement('a');
+      link.href = url; link.download = `unit-${String(a.unit).padStart(2, '0')}-decision-lab.txt`;
+      document.body.appendChild(link);
+      try { link.click(); } finally { link.remove(); }
+      setNotice('Download requested. If no file appears, use the reasoning record below to copy your work.');
+    } catch {
+      setNotice('A download could not be requested. Use the reasoning record below to copy your work.');
+    } finally {
+      if (url) { const requestedUrl = url; setTimeout(() => URL.revokeObjectURL(requestedUrl), 1000); }
+    }
+  }
+  function selectExport() {
+    exportRecord.current?.focus();
+    exportRecord.current?.select();
+    setNotice('Record selected. Use your device’s Copy command, then paste relevant reasoning into your existing project update.');
   }
   if (!ready) return <p role="status" className="p-5 text-sm text-slate-600">Opening your decision lab…</p>;
   return <section aria-label={`Unit ${a.unit} decision lab`} className="min-w-0 [overflow-wrap:anywhere]">
@@ -90,6 +109,12 @@ export function LearningLab({ activity: a, canvasDelivery, renderCoach }: { acti
         {record.complete && <div className="mt-5 rounded-xl border border-teal-300 bg-teal-50 p-4 text-sm leading-7"><p className="font-semibold text-teal-950">You have a decision to carry forward.</p><pre className="mt-3 whitespace-pre-wrap break-words font-sans text-sm text-slate-700">{learningSummary(a, record)}</pre><p className="mt-4">{canvasDelivery ? 'Return to the interactive lesson above and choose Build. Use relevant reasoning in your existing Canvas project update; submit it there.' : <a href={`/teaching/ai-solutions/${a.page}#step-2`} target="_top" className="font-semibold text-teal-900 underline underline-offset-4">Return to this unit’s Build step →</a>}</p></div>}
       </>}
       <div className="mt-5 flex flex-wrap gap-3 border-t border-slate-100 pt-4">{phase > 0 && <button type="button" onClick={() => go(STEPS[phase - 1].id)} className="min-h-11 px-2 text-sm text-slate-600 underline underline-offset-4">← Previous step</button>}<button type="button" onClick={download} className="min-h-11 px-2 text-sm text-teal-900 underline underline-offset-4">Export my reasoning</button></div>
+      {exportText !== null && <section className="mt-4 rounded-xl border border-teal-200 bg-teal-50 p-4" aria-label="Copy your reasoning record">
+        <label htmlFor="lab-export-record" className="block text-sm font-semibold text-teal-950">Reasoning record to copy</label>
+        <p id="lab-export-instructions" className="mt-2 text-xs leading-5 text-slate-700">This is the snapshot from your latest export request. If you change your responses, choose Export my reasoning again to refresh it. Select the record, use your device’s Copy command, and paste relevant reasoning into your existing project update. This does not submit work or require another upload.</p>
+        <textarea ref={exportRecord} id="lab-export-record" aria-describedby="lab-export-instructions" readOnly rows={12} value={exportText} className={field} />
+        <button type="button" onClick={selectExport} className="mt-3 min-h-11 rounded-lg border border-teal-800 bg-white px-4 py-2 text-sm font-semibold text-teal-950">Select record to copy</button>
+      </section>}
     </div>
     <div className="mt-4 rounded-xl border border-slate-200 bg-white p-4">
       <button type="button" aria-expanded={showCoach} onClick={() => setShowCoach(s => !s)} className="min-h-11 w-full text-left text-sm font-semibold text-teal-900">{showCoach ? '−' : '+'} Work with the AI coach on this step</button>
@@ -97,6 +122,6 @@ export function LearningLab({ activity: a, canvasDelivery, renderCoach }: { acti
       {showCoach && renderCoach({ phase: record.phase, choice: record.choice, attempt: record.attempt, revision: record.revision, transfer: record.transfer })}
     </div>
     <p role="status" aria-live="polite" className="mt-3 text-sm text-teal-900">{notice}</p>
-    <p className={`mt-2 text-xs leading-5 ${storage ? 'text-slate-500' : 'text-amber-900'}`}>{storage ? 'Lab responses stay in this browser tab. Export to keep them beyond this tab. They are separate from workbook backups and Canvas records.' : 'Browser storage is blocked. Keep this page open and export your reasoning before leaving.'}</p>
+    <p className={`mt-2 text-xs leading-5 ${storage ? 'text-slate-500' : 'text-amber-900'}`}>{storage ? 'Lab responses stay in this browser tab. Export or copy your reasoning to keep it beyond this tab. They are separate from workbook backups and Canvas records.' : 'Browser storage is blocked. Keep this page open and export or copy your reasoning before leaving.'}</p>
   </section>;
 }
