@@ -34,6 +34,7 @@ export default async function ProjectPage({ params }: Props) {
         <p className="mt-7 text-xs font-semibold uppercase tracking-[0.18em] text-teal-800">{project.kind} · {project.category}</p>
         <h1 className="mt-4 max-w-4xl text-4xl font-semibold tracking-tight sm:text-6xl">{project.name}</h1>
         <p className="mt-6 max-w-2xl text-lg leading-relaxed text-slate-600">{project.summary}</p>
+        <p aria-label="Scientific keywords" className="mt-3 text-sm text-teal-800">{project.keywords.join(" · ")}</p>
         {project.context && <p className="mt-4 max-w-3xl text-sm leading-relaxed text-slate-600">{project.context}</p>}
         <ComputationMethods methods={project.computationMethods} />
 

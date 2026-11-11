@@ -34,11 +34,11 @@ export default function ProjectsPage() {
     description: group.description,
     searchText: searchText([group.title, group.description, ...group.subtopics]),
     projects: group.projects.map((project) => ({
-      slug: project.slug, name: project.name, summary: project.summary,
+      slug: project.slug, name: project.name, summary: project.summary, keywords: project.keywords,
       unpublished: project.unpublished, historical: project.historical,
-      searchText: searchText([project.name, project.summary, project.kind, project.category, project.purpose, project.context, ...project.capabilities, ...(project.computationMethods ?? [])]),
+      searchText: searchText([project.name, project.summary, project.kind, project.category, project.purpose, project.context, ...project.keywords, ...project.capabilities, ...(project.computationMethods ?? [])]),
     })),
-    publications: group.publications.map((paper) => ({ ...paper, kindLabel: publicationKindLabel(paper), searchText: searchText([paper.title, paper.summary, paper.authors, paper.venue, paper.year, ...paper.topics.map((topic) => RESEARCH_FOCUSES.find((focus) => focus.id === topic)?.label), ...(paper.computationMethods ?? [])]) })),
+    publications: group.publications.map((paper) => ({ ...paper, kindLabel: publicationKindLabel(paper), searchText: searchText([paper.title, paper.summary, paper.authors, paper.venue, paper.year, ...paper.keywords, ...paper.topics.map((topic) => RESEARCH_FOCUSES.find((focus) => focus.id === topic)?.label), ...(paper.computationMethods ?? [])]) })),
   }));
   const items = WORK_GROUPS.flatMap((group) => [
     ...group.projects.map((project) => ({ name: project.name, url: `${SITE_URL}/projects/${project.slug}` })),

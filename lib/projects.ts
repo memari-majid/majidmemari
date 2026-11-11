@@ -5,6 +5,7 @@ export type Project = {
   kind: string;
   group: "applications" | "learning" | "research";
   summary: string;
+  keywords: readonly string[];
   purpose: string;
   capabilities: readonly string[];
   limit: string;
@@ -24,6 +25,7 @@ export type Project = {
 export const PROJECTS: readonly Project[] = [
   {
     slug: "chest-xray-classification",
+    keywords: ["Medical imaging", "Image classification", "COVID-19"],
     kind: "Unpublished doctoral research",
     group: "research",
     unpublished: true,
@@ -43,6 +45,7 @@ export const PROJECTS: readonly Project[] = [
   },
   {
     slug: "building-ai-solutions",
+    keywords: ["AI literacy", "Project-based learning", "AI evaluation"],
     kind: "Interactive course",
     group: "learning",
     name: "Building AI Solutions",
@@ -58,6 +61,7 @@ export const PROJECTS: readonly Project[] = [
   },
   {
     slug: "datagovai",
+    keywords: ["RAG", "Multi-agent systems", "Data governance"],
     publicDemo: true,
     kind: "Records-retention assistant",
     group: "applications",
@@ -74,6 +78,7 @@ export const PROJECTS: readonly Project[] = [
   },
   {
     slug: "ai-classsims",
+    keywords: ["LLMs", "Multi-agent systems", "Classroom simulation"],
     publicDemo: true,
     kind: "Classroom simulation",
     group: "learning",
@@ -90,6 +95,7 @@ export const PROJECTS: readonly Project[] = [
   },
   {
     slug: "carewise",
+    keywords: ["Conversational AI", "Source-grounded QA", "Autism education"],
     publicDemo: true,
     kind: "Parent education assistant",
     group: "applications",
@@ -106,6 +112,7 @@ export const PROJECTS: readonly Project[] = [
   },
   {
     slug: "willow",
+    keywords: ["Conversational AI", "Cognitive behavioral skills", "Human–AI interaction"],
     publicDemo: true,
     kind: "Reflection & skills companion",
     group: "applications",
@@ -122,6 +129,7 @@ export const PROJECTS: readonly Project[] = [
   },
   {
     slug: "ai-cpa",
+    keywords: ["Conversational AI", "Financial information systems", "Bookkeeping"],
     publicDemo: true,
     kind: "Bookkeeping workspace",
     group: "applications",
@@ -138,6 +146,7 @@ export const PROJECTS: readonly Project[] = [
   },
   {
     slug: "finhub",
+    keywords: ["Data analytics", "Decision support", "Financial visualization"],
     publicDemo: true,
     kind: "Finance dashboard",
     group: "applications",
@@ -154,6 +163,7 @@ export const PROJECTS: readonly Project[] = [
   },
   {
     slug: "ai-ster",
+    keywords: ["LLMs", "Human-in-the-loop AI", "Rubric-based assessment"],
     publicDemo: true,
     kind: "Teaching evaluation application",
     group: "applications",
@@ -170,6 +180,7 @@ export const PROJECTS: readonly Project[] = [
   },
   {
     slug: "course-chatbot",
+    keywords: ["Conversational AI", "AI literacy", "Question answering"],
     publicDemo: true,
     kind: "Course teaching assistant",
     group: "learning",
@@ -186,6 +197,7 @@ export const PROJECTS: readonly Project[] = [
   },
   {
     slug: "nvidia-workshop-ta",
+    keywords: ["Conversational AI", "Agentic AI", "Question answering"],
     publicDemo: true,
     kind: "Workshop teaching assistant",
     group: "learning",
@@ -202,6 +214,7 @@ export const PROJECTS: readonly Project[] = [
   },
   {
     slug: "wind-turbine-inspection",
+    keywords: ["Thermal imaging", "Data fusion", "Defect detection"],
     kind: "Postdoctoral research",
     group: "research",
     name: "Wind-turbine inspection",
@@ -222,6 +235,7 @@ export const PROJECTS: readonly Project[] = [
   },
   {
     slug: "synthetic-image-evaluation",
+    keywords: ["Generative modeling", "Synthetic data", "OCR"],
     kind: "Doctoral research",
     group: "research",
     name: "Synthetic image evaluation for OCR",
@@ -239,6 +253,7 @@ export const PROJECTS: readonly Project[] = [
   },
   {
     slug: "news-sentiment-market-prediction",
+    keywords: ["NLP", "Big Data", "HPC"],
     computationMethods: ["Big Data", "High-Performance Computing"],
     kind: "Master’s research",
     group: "research",
@@ -257,6 +272,7 @@ export const PROJECTS: readonly Project[] = [
   },
   {
     slug: "grideye",
+    keywords: ["Aerial imaging", "Sensor fusion", "Infrastructure inspection"],
     kind: "Historical research concept",
     group: "research",
     name: "GridEye",

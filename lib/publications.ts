@@ -23,6 +23,7 @@ export type Publication = {
   note?: string;
   topics: readonly ResearchFocusId[];
   summary: string;
+  keywords: readonly string[];
   computationMethods?: readonly string[];
   projectLinks?: readonly { slug: string; relationship: ResearchConnection }[];
   otherLinks?: readonly { label: string; href: string }[];
@@ -37,6 +38,7 @@ export function publicationKindLabel(publication: Publication) {
 export const PUBLICATIONS: readonly Publication[] = [
   {
     id: "capability-ladder-2026", year: 2026, kind: "journal", status: "accepted",
+    keywords: ["AI delegation", "Human supervision", "Computing education"],
     title: "The Capability Ladder: Aligning AI Delegation with Human Supervision in Computing Education",
     authors: "M. Memari, G. Rudolph, K. Ruggles",
     venue: "Frontiers in Education · Digital Education",
@@ -49,6 +51,7 @@ export const PUBLICATIONS: readonly Publication[] = [
   },
   {
     id: "ai-classsims-2026", year: 2026, kind: "conference",
+    keywords: ["Multi-agent systems", "Large language models", "Classroom simulation"],
     title: "AI-ClassSims: Multi-Agent LLM Classroom Simulation with Real-Time Feedback for Teacher Training",
     authors: "M. Memari, K. Ruggles", venue: "IETC 2026 · IEEE",
     href: "https://doi.org/10.1109/IETC69527.2026.11568604", topics: ["ai", "llm", "education"],
@@ -57,6 +60,7 @@ export const PUBLICATIONS: readonly Publication[] = [
   },
   {
     id: "datagovai-2026", year: 2026, kind: "conference",
+    keywords: ["Retrieval-augmented generation", "Multi-agent systems", "Privacy-preserving evaluation"],
     title: "DataGovAI: A Multi-Agent RAG System for Government Data Retention Compliance with Privacy-Preserving Evaluation",
     authors: "M. Memari, G. Rudolph, B. Burns, E. Howlett, C. Bramwell, G. Mcewan", venue: "IETC 2026 · IEEE",
     href: "https://doi.org/10.1109/IETC69527.2026.11568649", topics: ["ai", "llm", "governance"],
@@ -65,6 +69,7 @@ export const PUBLICATIONS: readonly Publication[] = [
   },
   {
     id: "teacher-preparation-feedback-2026", year: 2026, kind: "conference",
+    keywords: ["Human-in-the-loop AI", "Rubric-based assessment", "Teacher preparation"],
     title: "Accelerating Feedback, Preserving Expertise: AI-Assisted Evaluation in Teacher Preparation",
     authors: "K. Ruggles, M. Memari", venue: "SITE 2026 · AACE / LearnTechLib",
     href: "https://www.learntechlib.org/p/2129225/", topics: ["ai", "llm", "education"],
@@ -73,6 +78,7 @@ export const PUBLICATIONS: readonly Publication[] = [
   },
   {
     id: "elementary-stem-review-2025", year: 2025, kind: "preprint",
+    keywords: ["Systematic review", "Elementary STEM", "AI-assisted learning"],
     title: "Artificial Intelligence in Elementary STEM Education: A Systematic Review of Current Applications and Future Challenges",
     authors: "M. Memari, K. Ruggles", venue: "arXiv:2511.00105",
     href: "https://arxiv.org/abs/2511.00105", topics: ["ai", "education"],
@@ -81,6 +87,7 @@ export const PUBLICATIONS: readonly Publication[] = [
   },
   {
     id: "education-ai-trends-2025", year: 2025, kind: "conference",
+    keywords: ["Artificial intelligence", "Education", "Systematic review"],
     title: "The Role of AI in Transforming Education: A Systematic Review of Trends",
     authors: "Q. E. A. Ratul, E. Zaman, S. Das, M. Memari", venue: "IETC 2025 · IEEE, pp. 1–6",
     href: "https://doi.org/10.1109/IETC64455.2025.11039329", topics: ["ai", "education"],
@@ -88,6 +95,7 @@ export const PUBLICATIONS: readonly Publication[] = [
   },
   {
     id: "meal-planning-agent-2025", year: 2025, kind: "conference",
+    keywords: ["Large language models", "Autonomous agents", "Meal planning"],
     title: "Intelligent Meal Planning: A Generative LLM-Based Autonomous Agent Application",
     authors: "E. Howlett, J. Catlett, M. Memari", venue: "IETC 2025 · IEEE, pp. 1–5",
     href: "https://doi.org/10.1109/IETC64455.2025.11039478", topics: ["ai", "llm"],
@@ -95,6 +103,7 @@ export const PUBLICATIONS: readonly Publication[] = [
   },
   {
     id: "project-based-stem-learning-2025", year: 2025, kind: "conference",
+    keywords: ["Project-based learning", "Object detection", "Automated annotation"],
     title: "Enhancing STEM Education through Project-Based Learning: Leveraging AI Tools in Undergraduate Courses",
     authors: "M. Memari, H. Petit, N. Olson, F. Ahmadi", venue: "HUIC STEM/STEAM & Education 2025",
     href: "https://huichawaii.org/wp-content/uploads/2025/07/Memari-Majid-2025-HUIC-STEM.pdf", topics: ["ai", "vision", "education", "engineering"],
@@ -103,6 +112,7 @@ export const PUBLICATIONS: readonly Publication[] = [
   },
   {
     id: "infrared-blade-testing-2025", year: 2025, kind: "journal",
+    keywords: ["Infrared thermography", "Defect localization", "YOLO"],
     title: "Enhanced Non-Destructive Testing of Small Wind Turbine Blades Using Infrared Thermography",
     authors: "M. Memari, M. Shekaramiz, M. A. S. Masoum, A. C. Seibi", venue: "Machines, 13(2), 108",
     href: "https://doi.org/10.3390/machines13020108", topics: ["ai", "vision", "engineering"],
@@ -111,6 +121,7 @@ export const PUBLICATIONS: readonly Publication[] = [
   },
   {
     id: "pedestal-fan-inspection-2024", year: 2024, kind: "journal",
+    keywords: ["Drone imaging", "Defect detection", "Engineering education"],
     title: "Deep Learning for Indoor Pedestal Fan Blade Inspection: Utilizing Low-Cost Autonomous Drones in an Educational Setting",
     authors: "A. A. Rodriguez, M. Davis, J. Zander, E. Nazario Dejesus, M. Shekaramiz, M. Memari, M. A. S. Masoum", venue: "Drones, 8(7), 298",
     href: "https://doi.org/10.3390/drones8070298", topics: ["ai", "vision", "education", "engineering"],
@@ -119,6 +130,7 @@ export const PUBLICATIONS: readonly Publication[] = [
   },
   {
     id: "blade-inspection-review-2024", year: 2024, kind: "journal",
+    keywords: ["Drone inspection", "Deep learning", "Structural integrity"],
     title: "Review on the Advancements in Wind Turbine Blade Inspection: Integrating Drone and Deep Learning Technologies for Enhanced Defect Detection",
     authors: "M. Memari, P. Shakya, M. Shekaramiz, A. C. Seibi, M. A. S. Masoum", venue: "IEEE Access, 12, 33236–33282",
     href: "https://doi.org/10.1109/ACCESS.2024.3371493", topics: ["ai", "vision", "engineering"],
@@ -127,6 +139,7 @@ export const PUBLICATIONS: readonly Publication[] = [
   },
   {
     id: "rgb-thermal-fusion-2024", year: 2024, kind: "journal",
+    keywords: ["Multispectral data fusion", "Ensemble learning", "Anomaly detection"],
     title: "Data Fusion and Ensemble Learning for Advanced Anomaly Detection Using Multi-Spectral RGB and Thermal Imaging of Small Wind Turbine Blades",
     authors: "M. Memari, M. Shekaramiz, M. A. S. Masoum, A. C. Seibi", venue: "Energies, 17(3), 673",
     href: "https://doi.org/10.3390/en17030673", topics: ["ai", "vision", "engineering"],
@@ -135,6 +148,7 @@ export const PUBLICATIONS: readonly Publication[] = [
   },
   {
     id: "blade-fault-localization-2024", year: 2024, kind: "journal",
+    keywords: ["Object detection", "Instance segmentation", "Blade fault localization"],
     title: "Identification and Localization of Wind Turbine Blade Faults Using Deep Learning",
     authors: "M. Davis, E. Nazario Dejesus, M. Shekaramiz, J. Zander, M. Memari", venue: "Applied Sciences, 14(14), 6319",
     href: "https://doi.org/10.3390/app14146319", topics: ["ai", "vision", "engineering"],
@@ -143,6 +157,7 @@ export const PUBLICATIONS: readonly Publication[] = [
   },
   {
     id: "thermal-blade-detection-2024", year: 2024, kind: "conference",
+    keywords: ["Thermal imaging", "Deep learning", "Fault detection"],
     title: "Wind Turbine Blade Fault Detection via Thermal Imaging Using Deep Learning",
     authors: "B. Collier, M. Memari, M. Shekaramiz, M. A. S. Masoum, A. Seibi", venue: "IETC 2024 · IEEE, pp. 23–28",
     href: "https://doi.org/10.1109/IETC61393.2024.10564364", topics: ["ai", "vision", "engineering"],
@@ -151,6 +166,7 @@ export const PUBLICATIONS: readonly Publication[] = [
   },
   {
     id: "generative-evaluation-2024", year: 2024, kind: "preprint",
+    keywords: ["Generative model evaluation", "Synthetic images", "OCR"],
     title: "Advancing Generative Model Evaluation: A Novel Algorithm for Realistic Image Synthesis and Comparison in OCR System",
     authors: "M. Memari, K. R. Ahmed, S. Rahimi, N. A. Golilarz", venue: "arXiv:2402.17204",
     href: "https://arxiv.org/abs/2402.17204", topics: ["ai", "vision"],
@@ -159,6 +175,7 @@ export const PUBLICATIONS: readonly Publication[] = [
   },
   {
     id: "generative-ocr-2023", year: 2023, kind: "conference",
+    keywords: ["Generative data augmentation", "Handwritten digit recognition", "OCR"],
     title: "Generative Data Augmentation for Arabic Handwritten Digit Recognition Boosting Real-time OCR Capabilities",
     authors: "M. Memari, K. R. Ahmed, S. Rahimi", venue: "AIPR 2023 · ACM, pp. 312–323",
     href: "https://doi.org/10.1145/3641584.3641631", topics: ["ai", "vision"],
@@ -167,6 +184,7 @@ export const PUBLICATIONS: readonly Publication[] = [
   },
   {
     id: "computer-vision-review-2023", year: 2023, kind: "journal",
+    keywords: ["Computer vision", "Image processing", "Pattern recognition"],
     title: "Advances in Computer Vision and Image Processing for Pattern Recognition: A Comprehensive Review",
     authors: "M. Memari", venue: "International Journal of Engineering and Applied Sciences, 11(05), 2896–2901",
     href: "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=4577859", topics: ["ai", "vision"],
@@ -175,6 +193,7 @@ export const PUBLICATIONS: readonly Publication[] = [
   },
   {
     id: "synthetic-image-dissertation-2023", year: 2023, kind: "dissertation",
+    keywords: ["Variational autoencoders", "Generative adversarial networks", "Synthetic image evaluation"],
     title: "A New Approach to Synthetic Image Evaluation", authors: "M. Memari", venue: "Ph.D. dissertation · Southern Illinois University Carbondale",
     href: "https://opensiuc.lib.siu.edu/dissertations/2181/", topics: ["ai", "vision"],
     summary: "Investigates conditional VAE and GAN image generation for Arabic handwritten-digit recognition. It develops the Synthetic Image Evaluation Procedure to connect image quality, feature extraction, and OCR experiments.",
@@ -182,6 +201,7 @@ export const PUBLICATIONS: readonly Publication[] = [
   },
   {
     id: "argane-genome-2020", year: 2020, kind: "journal",
+    keywords: ["Genome assembly", "Genomics", "Computational biology"],
     computationMethods: ["Big Data", "High-Performance Computing"],
     title: "First draft genome assembly of the Argane tree (Argania spinosa)", authors: "S. Khayi et al.", venue: "F1000Research, 7, 1310 · Version 2",
     href: "https://doi.org/10.12688/f1000research.15719.2", topics: ["biology"],
@@ -190,6 +210,7 @@ export const PUBLICATIONS: readonly Publication[] = [
   },
   {
     id: "news-sentiment-thesis-2017", year: 2017, kind: "thesis",
+    keywords: ["Sentiment analysis", "Ensemble learning", "Market prediction"],
     computationMethods: ["Big Data", "High-Performance Computing"],
     title: "Predicting the Stock Market Using News Sentiment Analysis", authors: "M. Memari", venue: "M.S. thesis · Southern Illinois University Carbondale",
     href: "https://opensiuc.lib.siu.edu/theses/2442/", topics: ["ai"],

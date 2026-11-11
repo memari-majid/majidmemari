@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import type { Publication } from "@/lib/publications";
 
-type ProjectSummary = { slug: string; name: string; summary: string; unpublished?: boolean; historical?: boolean; searchText: string };
+type ProjectSummary = { slug: string; name: string; summary: string; keywords: readonly string[]; unpublished?: boolean; historical?: boolean; searchText: string };
 export type DirectoryPublication = Publication & { kindLabel: string; searchText: string };
 export type DirectoryGroup = { id: string; title: string; description: string; searchText: string; projects: ProjectSummary[]; publications: DirectoryPublication[] };
 type ProjectResult = { project: ProjectSummary; papers: DirectoryPublication[]; expand: boolean };
@@ -20,6 +20,7 @@ function Paper({ paper, projectSlug }: { paper: DirectoryPublication; projectSlu
     <article id={paper.id} data-publication-id={paper.id} tabIndex={-1} className="scroll-mt-28 py-4">
       <p className="text-xs text-slate-500">{paper.year} · {paper.kindLabel}{relationship ? ` · ${relationship === "direct" ? "Project publication" : "Related research"}` : ""}</p>
       <Heading className="mt-1 text-sm font-medium leading-relaxed text-slate-900"><a href={paper.href} target="_blank" rel="noopener noreferrer" referrerPolicy="no-referrer" className="underline-offset-4 hover:text-teal-800 hover:underline">{paper.title} <span aria-hidden="true">↗</span><span className="sr-only"> (opens the publication record in a new tab)</span></a></Heading>
+      <p aria-label="Scientific keywords" className="mt-2 text-xs leading-relaxed text-teal-800">{paper.keywords.join(" · ")}</p>
       <p className="mt-2 text-xs leading-relaxed text-slate-500">{paper.authors} · {paper.venue}</p>
       {paper.note && <p className="mt-1 text-xs leading-relaxed text-slate-500">{paper.note}</p>}
       <p className="mt-2 max-w-3xl text-sm leading-relaxed text-slate-600">{paper.summary}</p>
@@ -116,6 +117,7 @@ export function ResearchDirectory({ groups }: { groups: DirectoryGroup[] }) {
             <Link href={`/projects/${project.slug}`} className="inline-flex min-h-11 shrink-0 items-center text-sm text-teal-800 underline decoration-teal-800/30 underline-offset-4 hover:decoration-teal-800">About the project →</Link>
           </div>
           <p className="max-w-3xl text-sm leading-relaxed text-slate-600">{project.summary}</p>
+          <p aria-label="Scientific keywords" className="mt-2 text-xs leading-relaxed text-teal-800">{project.keywords.join(" · ")}</p>
           {papers.length > 0 && <Publications papers={papers} label="Related publications" expand={expand} revealKey={query} projectSlug={project.slug} />}
         </article>)}</div>
         {standalone.length > 0 && <div className="border-t border-slate-200 py-4"><Publications papers={standalone} label={projects.length ? "Other publications in this area" : "Publications"} expand={tokens.length > 0} revealKey={query} /></div>}
