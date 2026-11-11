@@ -14,7 +14,7 @@ import { createCourseChatHandler } from "./chat";
 import { prepareCourseHistory } from "./history";
 import { courseCompletionNotice } from "./completion";
 import type { CourseChatMessage, CourseChunk } from "./types";
-import { normalizeCoursePage, coursePageLabel, courseEvidenceLink, courseEvidenceNavigation } from "./context";
+import { CANVAS_ASYNC_LAYOUT, normalizeCoursePage, coursePageLabel, courseEvidenceLink, courseEvidenceNavigation } from "./context";
 import { parseCourseSession, serializeCourseSession, shouldPersistCourseSession } from "./session";
 
 const text = (role: string, content: string) => ({ role, parts: [{ type: "text", text: content }] });
@@ -329,6 +329,8 @@ test("API passes the open unit as context and emits sources from that unit", asy
   const canvasSystem = JSON.stringify(model.doStreamCalls[1].prompt[0]);
   assert(canvasSystem.includes("CANVAS DELIVERY:"));
   assert(canvasSystem.includes("Canvas Next after Finish"));
+  assert(canvasSystem.includes("PUBLIC ASYNCHRONOUS EDITION LAYOUT"));
+  assert(canvasSystem.includes("practice and check-in quiz"));
 });
 
 
@@ -373,4 +375,36 @@ test("Canvas TA context keeps check-ins and progression in the LMS", () => {
   assert.match(embedded, /never tell them to mark a website unit complete/);
   assert.match(standalone, /STANDALONE DELIVERY:/);
   assert(!standalone.includes("CANVAS DELIVERY:"));
+});
+
+test("public asynchronous layout preserves the approved grading allocation", () => {
+  const layout = CANVAS_ASYNC_LAYOUT;
+  assert.equal(layout.unitCount, 12);
+  assert.equal(layout.choiceQuestionsPerQuiz * layout.pointsPerChoice + layout.projectUpdatePoints, 3);
+  assert.equal(layout.formativeGroupWeight, 0, "recorded practice scores do not add a course percentage");
+  assert.deepEqual(layout.peerExchangeUnits, [3, 7, 12]);
+  assert.equal(layout.milestoneWeights.reduce<number>((total, weight) => total + weight, 0), 100);
+  const finalPoints = layout.finalSharedPoints + layout.individualExamPoints;
+  assert.equal(finalPoints, 100);
+  assert.equal(layout.finalSharedPoints / finalPoints * layout.milestoneWeights[4], 15);
+  assert.equal(layout.individualExamPoints / finalPoints * layout.milestoneWeights[4], 10);
+});
+
+test("Canvas policy precedence accompanies standalone rubric evidence without leaking an examiner key", () => {
+  const excerpts = retrieveCourseChunks("Milestone 5 individual mastery demonstration handoff rubric", 6, "milestone-5.html");
+  assert(excerpts.some(chunk => chunk.page === "milestone-5.html"), "Use the actual combined public rubric as the conflicting-context fixture");
+  const embedded = buildCourseSystemPrompt(excerpts, "milestone-5.html", true);
+  const standalone = buildCourseSystemPrompt(excerpts, "milestone-5.html", false);
+  assert(embedded.indexOf("POLICY PRECEDENCE:") < embedded.indexOf("COURSE EVIDENCE ("));
+  assert.match(embedded, /current Canvas Course Guide, assignment, rubric and published offering instructions determine the actual assessment arrangement/);
+  assert.match(embedded, /combined 100-point Milestone 5 rubric; do not present those as verified settings/);
+  assert.match(embedded, /written response needs instructor review and may show pending feedback/);
+  assert.match(embedded, /not a live read of Canvas/);
+  assert.match(embedded, /do not produce a complete assessed response for submission/);
+  assert.match(embedded, /do not have access to a private examiner marking key, Canvas submissions, scores, private feedback, or simulation state/);
+  assert(!standalone.includes("PUBLIC ASYNCHRONOUS EDITION LAYOUT"), "The asynchronous assessment layout must not become a standalone learner's policy");
+  for (const prompt of [embedded, standalone]) {
+    assert(!prompt.includes("Meadow Resource Library"), "Delivery metadata does not add exam packets or examiner marking guides to the course excerpts");
+    assert(!/courses\/\d+|assignments\/\d+/.test(prompt), "Delivery metadata must not hard-code an institution's private course routes");
+  }
 });

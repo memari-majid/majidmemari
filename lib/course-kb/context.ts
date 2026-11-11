@@ -9,6 +9,19 @@ const UNIT_TITLES = [
 const MILESTONE_TITLES = ["Problem and feasible scope", "First usable solution", "Pilot and learning", "Viability and route to users", "Demonstration and handoff"];
 const SUPPORT_TITLES: Record<string, string> = { "index.html": "Course overview", "resources.html": "Course resources", "project.html": "Your project record", "example.html": "Worked project example", "finish.html": "Course finish", "readings.html": "Course readings", "instructor.html": "Instructor information" };
 
+/** Public edition layout, not a read of an institution's settings or learner records. */
+export const CANVAS_ASYNC_LAYOUT = {
+  unitCount: UNIT_TITLES.length,
+  choiceQuestionsPerQuiz: 3,
+  pointsPerChoice: 1,
+  projectUpdatePoints: 0,
+  formativeGroupWeight: 0,
+  peerExchangeUnits: [3, 7, 12],
+  milestoneWeights: [15, 20, 25, 15, 25],
+  finalSharedPoints: 60,
+  individualExamPoints: 40,
+} as const;
+
 export function normalizeCoursePage(value: unknown): string {
   if (typeof value !== "string") return "";
   return /^(?:unit-(?:0[1-9]|1[0-2])|milestone-[1-5]|index|resources|project|example|finish|readings|instructor)\.html$/.test(value) ? value : "";
