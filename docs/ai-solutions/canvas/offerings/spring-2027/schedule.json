@@ -48,10 +48,10 @@
   "units": [
     {
       "number": 1,
-      "title": "AI and a useful business task",
+      "title": "AI capabilities and useful tasks",
       "startDate": "2027-01-11",
       "endDate": "2027-01-17",
-      "quizTitle": "Unit 01 practice and check-in: AI and a useful business task",
+      "quizTitle": "Unit 01 practice and check-in: AI capabilities and useful tasks",
       "quizModuleItemId": 16726625,
       "dueAt": {
         "local": "2027-01-17T23:59-07:00",
@@ -153,10 +153,10 @@
     },
     {
       "number": 8,
-      "title": "Calculate value and capacity",
+      "title": "Evaluate impact and resources",
       "startDate": "2027-03-08",
       "endDate": "2027-03-14",
-      "quizTitle": "Unit 08 practice and check-in: Calculate value and capacity",
+      "quizTitle": "Unit 08 practice and check-in: Evaluate impact and resources",
       "quizModuleItemId": 16726632,
       "dueAt": {
         "local": "2027-03-14T23:59-06:00",
@@ -168,10 +168,10 @@
     },
     {
       "number": 9,
-      "title": "Shape the offer",
+      "title": "Prepare the solution for use",
       "startDate": "2027-03-22",
       "endDate": "2027-03-28",
-      "quizTitle": "Unit 09 practice and check-in: Shape the offer",
+      "quizTitle": "Unit 09 practice and check-in: Prepare the solution for use",
       "quizModuleItemId": 16726633,
       "dueAt": {
         "local": "2027-03-28T23:59-06:00",
@@ -183,10 +183,10 @@
     },
     {
       "number": 10,
-      "title": "Find users and sell or secure adoption",
+      "title": "Bring the solution into use",
       "startDate": "2027-03-29",
       "endDate": "2027-04-04",
-      "quizTitle": "Unit 10 practice and check-in: Find users and sell or secure adoption",
+      "quizTitle": "Unit 10 practice and check-in: Bring the solution into use",
       "quizModuleItemId": 16726634,
       "dueAt": {
         "local": "2027-04-04T23:59-06:00",
@@ -281,7 +281,7 @@
     },
     {
       "number": 4,
-      "title": "Milestone 4: Viability and route to users",
+      "title": "Milestone 4: Impact and adoption plan",
       "afterUnit": 10,
       "assignmentId": 9370392,
       "points": 100,
@@ -294,7 +294,8 @@
       },
       "feedbackTargetDate": "2027-04-09",
       "availableFrom": null,
-      "lockAt": null
+      "lockAt": null,
+      "assignmentGroup": "Milestone 4 \u2014 Impact and adoption plan"
     },
     {
       "number": 5,

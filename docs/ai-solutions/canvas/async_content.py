@@ -36,13 +36,13 @@ UNIT_PRACTICE = {
             ], 2,
             "A useful draft distinguishes eligibility to consider a request from confirmation that the request has been fulfilled. Source conditions remain attached to the claim."),
         _question(
-            "A project uses AI to draft replies from approved sources. Only a coordinator is authorized to send replies or change bookings. Which instruction gives the AI a useful bounded role?",
+            "A community group needs dates and locations from permitted event notices in a table. Which AI capability best fits the first version?",
             [
-                ("Prepare a draft and source table; flag missing facts and exceptions for the coordinator, and do not send or change anything.", "Correct. The task, source boundary, output, reviewer, and stop condition are explicit."),
-                ("Do whatever creates the happiest customer, including booking changes.", "Customer satisfaction is not authority to act. This instruction removes the stated coordinator boundary and makes the task difficult to verify."),
-                ("Send the reply whenever the AI reports high confidence.", "The assistant's confidence is not the coordinator's approval or evidence that the action is authorized."),
-            ], 0,
-            "AI assistance can produce a useful draft without being given authority to make commitments. Define what the tool may prepare and what a person must decide."),
+                ("Generate attractive event images.", "Image generation creates a proposed visual; it does not perform the requested extraction of dates and locations into a checked table."),
+                ("Extract the stated fields, preserve missing values, and check against each notice.", "Correct. Extraction maps supplied information to the requested fields. Check every date and location against the original notice and leave missing values visible."),
+                ("Use an agent to publish events without review.", "Publishing is a separate action requiring appropriate authority. It does not replace extracting and checking the requested information."),
+            ], 1,
+            "Match the capability to the actual input and useful output. Extraction is a candidate for this task; a person must still check missing, misread, or invented details. A tool label is not evidence of a correct result.", "Finish"),
     ],
     2: [
         _question(
@@ -228,55 +228,55 @@ UNIT_PRACTICE = {
     ],
     9: [
         _question(
-            "A package is priced at $180. Delivery uses $108 of valued owner time and $12 cash expense, before acquisition and fixed costs. What does $60 represent?",
+            "A limited-use release has a $180 resource-value allowance. Preparing it uses $108 of valued effort and $12 cash expense. Other costs have not been included. What does $60 represent?",
             [
-                ("Contribution after valuing delivery time, before omitted acquisition and fixed costs.", "Correct. $180 − $108 − $12 = $60, with acquisition and fixed costs still excluded."),
-                ("Guaranteed cash profit from every new customer.", "This figure includes a time valuation and excludes other costs. It is neither complete profit nor a guaranteed result."),
-                ("The maximum price a buyer will pay.", "The cost calculation does not measure willingness to pay or a buyer's alternatives."),
+                ("Unallocated resource value after the stated effort valuation and cash expense, before omitted costs.", "Correct. $180 − $108 − $12 = $60 of the resource-value allowance is unallocated. This does not establish cash remaining or profit."),
+                ("Guaranteed cash profit from every new user.", "The allowance includes valued effort and does not establish revenue or cash saved. Omitted costs also remain unknown."),
+                ("Evidence that the release is useful and ready for everyone.", "A resource calculation does not demonstrate usefulness, accessibility, successful use, or readiness for a wider release."),
             ], 0,
-            "Name what is included in the margin and what remains excluded. Cash left before compensating owner time is a different quantity.", "Finish"),
+            "State the accounting boundary: this is a resource-value planning allowance, not a cash balance. Usability and acceptance need separate evidence.", "Finish"),
         _question(
-            "A provider has 15 delivery hours available per month. Each complete package takes 4.5 hours, with no additional delivery capacity. How many whole packages can be completed within that limit?",
+            "A project has 15 support hours available per month. Each complete setup, onboarding, and review package takes 4.5 hours, with no additional capacity. How many whole packages fit within that limit?",
             [
                 ("3.33 completed packages, because 15 ÷ 4.5 is approximately 3.33.", "The ratio is a capacity calculation, but the deliverable is a whole package. A fraction cannot be counted as a completed package under these terms."),
                 ("4 completed packages by rounding to the nearest whole number.", "Four packages require 18 hours, exceeding the available 15. Rounding up creates an unsupported delivery promise."),
                 ("3 complete packages, using 13.5 hours, with 1.5 hours remaining.", "Correct. Three × 4.5 = 13.5 hours; a fourth would exceed the limit."),
             ], 2,
-            "Respect the unit of delivery and the capacity boundary. More interest does not create additional hours."),
+            "Respect the unit of supported delivery and the capacity boundary. More interested users do not create additional hours."),
         _question(
-            "Your only performance evidence is a small reviewed classroom test. You can supply a source card, an intake/review kit, one training session, and one revision. Which offer is truthful?",
+            "Your only performance evidence is a small reviewed classroom test. You can supply a source card, an intake/review kit, one orientation, and one revision. Which release description is ready for a bounded usability check?",
             [
                 ("Guaranteed 75% labor-cost savings with unlimited automatic service.", "The supplied evidence does not establish guaranteed labor-cost savings, automatic authority, or unlimited delivery capacity."),
-                ("A bounded reviewed kit with the listed files, training and revision, an agreed test, exclusions, and a clearly stated resource request.", "Correct. This promise describes what can be delivered and how it will be reviewed, without turning a classroom result into a guarantee."),
-                ("A promise that every interested person will become a paying customer.", "Interest is not payment evidence. Such a promise is outside the supplied performance evidence and the provider's control."),
+                ("A versioned reviewed kit with accessible files, start instructions, an acceptance task, exclusions, a named support owner, and a stated resource limit.", "Correct. Another person can locate the current version, begin a defined task, and know its boundaries. The attempt still needs to happen and be observed."),
+                ("A promise that every interested person will use the kit successfully.", "Interest does not establish actual successful use. Observe another person's task attempt rather than guarantee the outcome."),
             ], 1,
-            "An offer should connect a useful task to scope, acceptance, resources, and limits. It should not outgrow the evidence or delivery capacity."),
+            "A usable release connects a task to access, instructions, acceptance, resources, and support. A prepared release is not evidence that a person has successfully used it."),
     ],
     10: [
         _question(
-            "A campaign costs $270 including valued time, produces 20 qualified conversations and 5 pilot agreements, but only 3 new paying customers. What is acquisition cost per new paying customer?",
+            "A bounded rollout uses $270 of resources including valued time. In the same cohort and period, 100 people are reached, 20 have a relevant conversation, 5 agree to a pilot, and 3 complete the first task successfully. What is resource cost per observed successful first-task completion?",
             [
-                ("$54, because every pilot agreement is a customer.", "$270 ÷ 5 = $54 is cost per pilot agreement. A pilot agreement is not necessarily a new paying customer."),
-                ("$90, using the 3 actual new paying customers.", "Correct. $270 ÷ 3 = $90 per new paying customer for the defined campaign and cost boundary."),
-                ("$13.50, using the 20 qualified conversations.", "$270 ÷ 20 = $13.50 is cost per qualified conversation, a different measure with a different denominator."),
+                ("$54, because every pilot agreement is successful use.", "$270 ÷ 5 = $54 is resource cost per agreement. Agreement is not an observed successful first-task completion."),
+                ("$90, using the 3 observed successful first-task completions.", "Correct. $270 ÷ 3 = $90 per observed successful first-task completion within this resource boundary, cohort, and period."),
+                ("$13.50, using the 20 relevant conversations.", "$270 ÷ 20 = $13.50 is resource cost per conversation, a different measure with a different denominator."),
             ], 1,
-            "Use the denominator named by the metric. Include the stated valued time consistently and do not relabel earlier funnel stages as customers.", "Finish"),
+            "Use the denominator named by the measure. The $270 includes valued time, so $90 is resource cost, not necessarily cash spent per person. A first completed task also does not establish continued use.", "Finish"),
         _question(
-            "In one campaign, 100 people are reached, 20 have a qualified conversation, and 5 agree to a pilot next step. Which pair of rates is correct?",
+            "In one bounded rollout, 100 people are reached, 20 have a relevant conversation, and 5 agree to a pilot next step. Which pair of rates is correct?",
             [
-                ("Pilot agreement is 5% of people reached and 25% of qualified conversations.", "Correct. 5 ÷ 100 = 5% and 5 ÷ 20 = 25%. Both describe the same five agreements with named denominators."),
-                ("Pilot agreement is 25% of all people reached and 5% of qualified conversations.", "The denominators are reversed. Divide by 100 for all reached and by 20 for qualified conversations."),
+                ("Pilot agreement is 5% of people reached and 25% of relevant conversations.", "Correct. 5 ÷ 100 = 5% and 5 ÷ 20 = 25%. Both describe the same five agreements with named denominators."),
+                ("Pilot agreement is 25% of all people reached and 5% of relevant conversations.", "The denominators are reversed. Divide by 100 for all reached and by 20 for relevant conversations."),
                 ("Pilot agreement is 20% because that is the conversation rate.", "20 ÷ 100 = 20% describes conversations, not pilot agreements. Keep funnel stages distinct."),
             ], 0,
-            "A conversion rate is incomplete without its stage, denominator, and observation period. An agreement is still not evidence of use or payment."),
+            "A transition rate is incomplete without its stage, denominator, and observation period. Agreement is not observed successful use or continued use."),
         _question(
-            "Five prospects want delivery this month, but your verified capacity is three whole packages. Which next step fits a truthful offer?",
+            "Five people want to begin this month, but your verified capacity is three complete supported onboarding packages. Which next step fits a responsible rollout?",
             [
                 ("Promise immediate delivery to all five and decide later how to cover the work.", "This exceeds known capacity and creates a commitment unsupported by the operating plan."),
-                ("Treat all five as completed sales and ignore delivery until the next report.", "Interest, agreement, delivery, and payment are different states. This records outcomes that have not happened."),
+                ("Record all five as successful users and ignore onboarding until the next report.", "Interest, agreement, a first task attempt, and successful use are different states. This records outcomes that have not happened."),
                 ("Explain the capacity limit, agree realistic start dates or narrower scope, and record the actual next commitment.", "Correct. The conversation connects demand to deliverable capacity and preserves honest status labels."),
             ], 2,
-            "A useful route to users includes delivery and onboarding, not just an attractive funnel count."),
+            "A useful route to users includes access, onboarding, support, and an observed task, not just a reach count."),
     ],
     11: [
         _question(
@@ -306,11 +306,11 @@ UNIT_PRACTICE = {
     ],
     12: [
         _question(
-            "Your classroom test succeeds, but demand and review cost remain uncertain. Which final recommendation best matches the evidence?",
+            "Your classroom test succeeds, but the need for wider use and review cost remain uncertain. Which final recommendation best matches the evidence?",
             [
-                ("Recommend a bounded next step, show the actual test and economics, and name the unresolved assumptions.", "Correct. This preserves what the test established while identifying the next evidence needed for a broader decision."),
-                ("Claim product-market fit because the task worked once.", "A task result does not establish demand, willingness to pay, repeat use, or sustainable delivery."),
-                ("Remove the unfavorable scenario to keep the pitch confident.", "Removing relevant uncertainty makes the recommendation less defensible. Show how a changed condition affects the decision."),
+                ("Recommend a bounded next step, show the actual test and resource analysis, and name the unresolved assumptions.", "Correct. This preserves what the test established while identifying the next evidence needed for a broader decision."),
+                ("Claim the solution is ready for everyone because the task worked once.", "One successful task does not establish that other people need it, can use it, will return, or can receive sustained support."),
+                ("Remove the unfavorable scenario to make the demonstration convincing.", "Removing relevant uncertainty makes the recommendation less defensible. Show how a changed condition affects the decision."),
             ], 0,
             "Need, performance, and adoption are separate evidence questions. A credible recommendation includes what remains unresolved.", "Finish"),
         _question(
@@ -334,18 +334,18 @@ UNIT_PRACTICE = {
 
 
 UNIT_EVIDENCE = {
-    1: "<p>In 3–5 sentences, name your user and bounded task. Identify one claim you corrected in a draft, its approved source, and what a person must check or authorize. State one uncertainty and your next step. Use Cedar Desk if you have no approved project yet.</p>",
+    1: "<p>In 3–5 sentences, name your user, bounded task, and a suitable AI capability. Identify the permitted input, expected useful output, and your no-code execution route: an available tool or a clearly labeled simulated AI step using supplied output. Name a likely error and human check. Identify one draft claim you corrected and its source, then state your next step. Use Cedar Desk if you have no approved project yet.</p>",
     2: "<p>Update the same project record with one neutral discovery question, one evidence item and its source, and a contrary observation. Explain a baseline using its count, units, denominator, and period where relevant. Label supplied case analysis, role-play, or an actual event accurately; leave an unobserved event pending. State the next question that could change the problem statement.</p>",
-    3: "<p>Summarize the current process, one simpler improvement, and one bounded AI candidate using the same comparison criteria. State your chosen user, task, output, quality boundary, and one exclusion. Identify the next test and any scope feedback still pending. Link the relevant charter section instead of rewriting background.</p>",
+    3: "<p>Summarize the current process, one simpler improvement, and one bounded AI candidate using the same comparison criteria. State your user, responsible decision owner, task, selected AI capability, permitted input, useful output, quality boundary, and one exclusion. Explain why the capability fits; do not choose an agent merely because it can take more actions. Identify the next test and any scope feedback still pending. Link the relevant charter section instead of rewriting background.</p>",
     4: "<p>Trace one input through source checking, drafting, human review, exception handling, and delivery. Name who can authorize a consequential action, and distinguish a prepared handoff from a completed decision. Identify a missing fact or failure condition and the manual fallback.</p>",
-    5: "<p>Identify the version and reviewer-accessible files for your usable kit, service, or no-code experience. Summarize an ordinary, incomplete, and exception bench case, one defect, its revision, and retest status. Record who actually tried the version and any assistance; label an unperformed attempt pending. You may link the existing test table rather than copy it.</p>",
+    5: "<p>Identify the version and reviewer-accessible files for your usable kit, service, or no-code experience. Trace the selected capability from permitted input to checked output; label the AI step as live tool use or supplied-output simulation. Summarize an ordinary, incomplete, and exception bench case, one defect, its revision, and retest status. Record who actually tried the version and any assistance; label an unperformed attempt pending. You may link the existing test table rather than copy it.</p>",
     6: "<p>State your pilot question, comparison, quality boundary, complete-process timing definition, and decision or stop rule before observing results. Explain one calculation with units and denominator. Identify a possible order, assistance, or case-selection effect and how you will record it. Use supplied figures only as labeled examples.</p>",
     7: "<p>Identify the actual user-task attempt, version, assistance, result, defect, revision, and retest, linking your observation table. Distinguish supplied benchmarks from your observations. Explain one rate with its cohort and time window, then recommend a proportionate next step. If another person has not attempted the task, record that as pending and request the arranged reviewer route.</p>",
     8: "<p>Link or summarize your cost/value and capacity table. State volume, adoption, complete effort, recurring expense, units, and period, labeling observations separately from assumptions. Distinguish cash change from assigned capacity value. Describe one less favorable scenario and the correctly named threshold that changes your decision.</p>",
-    9: "<p>Provide a concise offer or internal-adoption card: user and buyer/sponsor, useful promise, included work, exclusions, price or resource request, and acceptance check. Explain contribution and one delivery-capacity limit, identifying omitted costs. State which promise still needs evidence rather than presenting it as guaranteed.</p>",
-    10: "<p>Name one route to users and its next conversation or approval step. Report any funnel counts with named stages, denominators, and period; distinguish interest, agreement, actual use, and payment. Label a sales/adoption role-play honestly. Explain how your proposed commitment fits delivery capacity and onboarding, and identify the next evidence needed.</p>",
+    9: "<p>Provide a release card: intended user and responsible decision owner, version, accessible format and files, first-task instructions, expected output, acceptance check, exclusions, support owner, and resource limit. Explain the resource-value allowance separately from cash and one whole-package capacity limit, identifying omitted effort or cost. State what another person has actually accessed or tried and what remains pending.</p>",
+    10: "<p>Name one route to intended users and its bounded invitation or permission step. Report reach, conversation, agreement, observed successful first-task completion, and return counts only where available, with denominators and period. Distinguish a communication role-play from an actual use attempt. Explain resource cost per successful completion only when that completion count is observed. Record onboarding friction, your revision, support capacity, and the next evidence needed.</p>",
     11: "<p>Identify the current operating files, approved source version, owner, review/exception rules, support boundary, and update or stopping condition. Explain one queue, effort, or repeat-use measure with its period and limits. State what a new operator could do now and what still requires confirmation or repair.</p>",
-    12: "<p>Summarize your evidence-backed recommendation and next request. Link the usable artifact, actual test/retest record, economics, figure/table, and handoff section. Identify your own inspectable contribution, one calculation under a changed assumption, a consequential design choice, and an evidence limit. State what should continue, change, or stop without inventing demand or outcomes.</p>",
+    12: "<p>Summarize your evidence-backed recommendation and next request. Link the usable artifact, actual test/retest record, impact/resource analysis, figure/table, and handoff section. Identify your own inspectable contribution, one calculation under a changed assumption, a consequential design choice, and an evidence limit. State what should continue, change, or stop without inventing need, use, or outcomes.</p>",
 }
 
 # The exchange precedes the quiz in these units. One evidence field records
@@ -370,7 +370,7 @@ DISCUSSIONS = [
         "unit": 3,
         "title": "Project exchange: a need worth solving",
         "prompt_html": """<p><strong>Purpose:</strong> improve the same capstone's problem statement and scope. This exchange is formative and contributes 0% to the course grade.</p>
-<ol><li>Post a concise problem statement, user and buyer/sponsor, one supporting evidence item, one contrary observation, and the proposed bounded task. Label observations, supplied facts, role-play, and assumptions.</li><li>Reply to a peer with one specific evidence question and one practical scope improvement. Explain why each could change the decision.</li><li>If a peer is unavailable, critique the fictional sample below instead. End by stating one change you will make to your own charter or why the evidence supports keeping it.</li></ol>
+<ol><li>Post a concise problem statement, user and responsible decision owner, one supporting evidence item, one contrary observation, and the proposed bounded task and AI capability. Label observations, supplied facts, role-play, and assumptions.</li><li>Reply to a peer with one specific evidence question and one practical scope or capability improvement. Explain why each could change the decision.</li><li>If a peer is unavailable, critique the fictional sample below instead. End by stating one change you will make to your own charter or why the evidence supports keeping it.</li></ol>
 <h3>Fictional sample for an asynchronous critique</h3><p>“All workshop customers need automated refunds. Six of eight supplied Cedar Desk records describe repeated reply delays, and three of eight say they would try a pilot. We will let AI decide and process every cancellation automatically.” The packet also includes two records without repeated delay; one customer prefers a clear policy page. No purchase, permission to process refunds, or measurement of the refund task is supplied.</p>
 <p>When critiquing the sample, identify one claim the evidence does not support, ask one neutral discovery question, and propose one feasible task with a human authority boundary. Do not invent a new interview or authorization.</p>
 <p><strong>Effort:</strong> about 10–15 minutes, using the charter you are already preparing. No peer has to be online at the same time. Share only fictional or approved information. Private feedback and individual circumstances use Canvas Inbox.</p>""",
@@ -380,7 +380,7 @@ DISCUSSIONS = [
         "title": "Project exchange: what the pilot actually shows",
         "prompt_html": """<p><strong>Purpose:</strong> improve the interpretation, revision, and retest in the same project. This exchange is formative and contributes 0% to the course grade.</p>
 <ol><li>Post a small evidence table or concise summary identifying the tested version, actual task, assistance, quality, complete effort, one defect, revision/retest status, and one limitation. Keep supplied benchmarks separate from your observations; label unperformed events pending.</li><li>Give a peer one specific comparison or denominator check and one useful next-test suggestion.</li><li>If a peer is unavailable, critique the fictional sample below. State how the critique affects your own pilot claim or next test.</li></ol>
-<h3>Fictional sample for an asynchronous critique</h3><p>“In twelve supplied cases the manual process took 96 minutes; reviewed AI took 84 minutes. Therefore our version saves 12.5% on every future task. We have not asked another person to use our version. In the supplied 14-day cohort, six of twelve invitees completed a task and four of those six returned, so two-thirds of all invitees are retained customers.”</p>
+<h3>Fictional sample for an asynchronous critique</h3><p>“In twelve supplied cases the manual process took 96 minutes; reviewed AI took 84 minutes. Therefore our version saves 12.5% on every future task. We have not asked another person to use our version. In the supplied 14-day cohort, six of twelve invitees completed a task and four of those six returned, so two-thirds of all invitees are returning users.”</p>
 <p>Identify the supplied-versus-observed problem, correct the return claim using its denominator and observation window, and propose a bounded actual task/retest that would improve the evidence. A supplied critique is preparation, not a replacement for another person's required user-task attempt.</p>
 <p><strong>Effort:</strong> about 10–15 minutes, reusing your pilot table. Share only fictional or approved information. Request an arranged reviewer through Canvas if no other person is available for the required actual task.</p>""",
     },

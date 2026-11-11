@@ -4,6 +4,7 @@ from html.parser import HTMLParser
 import unittest
 
 import async_guide as guide
+import async_content as assessments
 
 
 class FragmentReader(HTMLParser):
@@ -88,6 +89,40 @@ class AsyncGuideTests(unittest.TestCase):
             self.assertFalse(set(parsed.tags) & {"script", "style", "form", "button", "input"})
             self.assertNotIn("/courses/644965", value)
             self.assertFalse(any(link.startswith("http") for link in parsed.links))
+
+    def test_capability_choice_has_a_checked_task_and_no_account_route(self):
+        text = " ".join(read(guide.GUIDE_HTML + guide.render_syllabus(123)).text)
+        for required in ("Extract or classify", "Transcribe, translate, or speak", "Analyze or predict", "supplied-output simulation", "human check"):
+            self.assertIn(required, text)
+        project = guide.TEMPLATE_DOWNLOADS["01-project-record.txt"]
+        for required in ("Chosen AI capability", "Permitted input", "likely failure", "specific human check"):
+            self.assertIn(required, project)
+        question = assessments.UNIT_PRACTICE[1][2]
+        self.assertIn("Extract the stated fields", question["choices"][question["correct_index"]]["text"])
+
+    def test_release_and_adoption_keep_effort_cash_agreement_and_use_distinct(self):
+        release = guide.TEMPLATE_DOWNLOADS["05-offer-and-adoption-plan.txt"]
+        for required in ("RELEASE AND ADOPTION PLAN", "acceptance test", "Agreement is not use", "Valued time is not necessarily cash", "Actual task attempt"):
+            self.assertIn(required, release)
+        allowance = assessments.UNIT_PRACTICE[9][0]
+        self.assertIn("Unallocated resource value", allowance["choices"][allowance["correct_index"]]["text"])
+        adoption = assessments.UNIT_PRACTICE[10][0]
+        correct = adoption["choices"][adoption["correct_index"]]["text"]
+        self.assertIn("$90", correct)
+        self.assertIn("observed successful first-task completions", correct)
+        self.assertNotIn("paying", correct)
+
+    def test_assessment_shape_remains_formative_and_individual_exam_stays_forty_points(self):
+        self.assertEqual(set(assessments.UNIT_PRACTICE), set(range(1, 13)))
+        self.assertEqual(set(assessments.UNIT_EVIDENCE), set(range(1, 13)))
+        for questions in assessments.UNIT_PRACTICE.values():
+            self.assertEqual(len(questions), 3)
+            for question in questions:
+                self.assertEqual(len(question["choices"]), 3)
+                self.assertIn(question["correct_index"], (0, 1, 2))
+                self.assertTrue(all(choice["feedback"] for choice in question["choices"]))
+        self.assertEqual(assessments.FINAL_EXAM["max"], 40)
+        self.assertEqual(len(assessments.DISCUSSIONS), 3)
 
 
 if __name__ == "__main__":

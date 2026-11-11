@@ -32,7 +32,7 @@ TEMPLATE_DOWNLOADS = {
         BUILDING AI SOLUTIONS — PROJECT RECORD
         Original editable template by Majid Memari
         Replace brackets with your work. Leave unobserved results blank or pending.
-        Use fictional or approved information; do not include private customer data.
+        Use fictional or approved information; do not include private personal data.
 
         Project / artifact name: [ ]
         Current version and date: [ ]
@@ -41,7 +41,7 @@ TEMPLATE_DOWNLOADS = {
 
         1. NEED AND EVIDENCE
         User and task: [ ]
-        Buyer or internal sponsor, and decision owner: [ ]
+        Responsible decision owner (may be you for an appropriate personal project): [ ]
         Consequence of the current problem: [ ]
         Current alternative / baseline, with units and denominator: [ ]
         Evidence: [source ID | claim | supplied / observed / role-play / assumption]
@@ -53,6 +53,12 @@ TEMPLATE_DOWNLOADS = {
         Scope feedback or authorization status: [pending / approved scope and source]
 
         2. SOLUTION AND WORKFLOW
+        Chosen AI capability and why it fits the task: [ ]
+        Capability: [generate/transform | source Q&A | extract/classify |
+        analyze/predict | images | voice/translation | workflow/agent]
+        Permitted input and useful expected output: [ ]
+        Execution route: [available no-code tool / supplied-output simulation]
+        Tool or supplied example reference, likely failure, and specific human check: [ ]
         Artifact location and reviewer access instructions: [ ]
         Input -> AI or supplied-output step -> human check -> output or handoff: [ ]
         Approved source card version: [ ]
@@ -66,11 +72,11 @@ TEMPLATE_DOWNLOADS = {
         Defect -> meaningful revision -> actual retest: [record / pending]
         What the evidence supports and cannot support: [ ]
 
-        4. ECONOMICS AND ROUTE TO USERS
+        4. IMPACT, RESOURCES, AND ROUTE TO USERS
         Base and unfavorable scenario: [link to economics table]
         Capacity value versus cash change: [ ]
-        Offer or internal adoption case: [link to offer/adoption plan]
-        Observed behavior versus projected interest/use/payment: [ ]
+        Release readiness and bounded adoption plan: [link to release/adoption plan]
+        Observed interest, agreement, first successful task, and continued use: [ ]
 
         5. DELIVERY, OWNERSHIP, AND NEXT DECISION
         Demonstration / accessible written equivalent: [ ]
@@ -162,7 +168,7 @@ TEMPLATE_DOWNLOADS = {
         Who supplied each observation, and what I did myself: [ ]
     """),
     "04-economics-and-capacity.txt": _text("""
-        BUILDING AI SOLUTIONS — ECONOMICS AND CAPACITY TABLE
+        BUILDING AI SOLUTIONS — IMPACT, RESOURCES, AND CAPACITY TABLE
         Original editable template by Majid Memari
         Keep one period throughout (for example, per month). Label every assumption.
         Released staff time is capacity value; it is not automatically a cash saving.
@@ -179,7 +185,7 @@ TEMPLATE_DOWNLOADS = {
         Assumed capacity valuation | currency/hour | [ ] | [ ] | [ ]
         Gross capacity value | currency/period | [ ] | [ ] | [ ]
         Tools | currency/period | [ ] | [ ] | [ ]
-        Review, delivery, support, acquisition | currency/period | [ ] | [ ] | [ ]
+        Review, delivery, support, onboarding | currency/period | [ ] | [ ] | [ ]
         Other recurring costs | currency/period | [ ] | [ ] | [ ]
         Net capacity value | currency/period | [ ] | [ ] | [ ]
         Actual incremental cash receipts/costs | currency/period | [ ] | [ ] | [ ]
@@ -193,51 +199,62 @@ TEMPLATE_DOWNLOADS = {
         Net capacity value = gross capacity value - applicable recurring costs.
         Cash change = incremental actual cash receipts/savings - cash outflows.
         Explain whether payroll or another real cash expense changes; do not assume it.
-        State what stays fixed when changing adoption, time, price, or cost.
+        State what stays fixed when changing adoption, effort, or cost.
+        Record useful outcomes and adverse effects, not just monetary value.
 
         DELIVERY CAPACITY AND DECISION
-        Available operator/reviewer hours and whole-task effort per customer: [ ]
-        Feasible customers/tasks per period and queue/support limit: [ ]
+        Available operator/reviewer hours and whole-task effort per user/task: [ ]
+        Feasible users/tasks per period and queue/support limit: [ ]
         Missing costs or possible double counting: [ ]
-        Break-even type (capacity-value / cash / contribution) and calculation: [ ]
+        Decision threshold (quality / effort / capacity-value / cash) and calculation: [ ]
         Evidence needed before trusting the assumptions: [ ]
         Recommendation and what would change it: [ ]
     """),
     "05-offer-and-adoption-plan.txt": _text("""
-        BUILDING AI SOLUTIONS — OFFER OR INTERNAL ADOPTION PLAN
+        BUILDING AI SOLUTIONS — RELEASE AND ADOPTION PLAN
         Original editable template by Majid Memari
-        A role-play can demonstrate a conversation. Actual outreach, sales, or payment
-        are not required. External work needs approved scope and information.
+        A role-play can rehearse an invitation. It is not an actual use attempt.
+        A sale, business, or public launch is not required. External work needs
+        approved scope and information. A classroom reviewer can attempt the task.
 
-        User / buyer or internal sponsor / decision owner: [ ]
+        Intended user / responsible decision owner: [ ]
         User's current alternative and specific need: [ ]
-        Useful promise supported by evidence: [ ]
-        Included task, delivery format, and acceptance test: [ ]
+        Useful result supported by evidence: [ ]
+        Version, current accessible files, and delivery format: [ ]
+        Included task, first-step instructions, and acceptance test: [ ]
+        Access needs and permitted inputs/actions: [ ]
         Excluded actions, uncertain benefits, and limits: [ ]
-        Price OR internal resources requested: [ ]
+        Resources needed and permission status: [ ]
         Whole-package delivery/review/support cost and capacity limit: [ ]
-        Evidence supporting the offer, and assumptions still untested: [ ]
+        Evidence supporting readiness, and assumptions still untested: [ ]
+        Resource-value allowance - valued effort - cash expense: [ ]
+        Name omitted costs; unallocated resource value is not cash remaining/profit.
 
         ONE ROUTE TO USERS
-        Channel or internal adoption route and why it fits: [ ]
+        Route to intended users and why it fits: [ ]
         Effort/cash budget and period: [ ]
-        Stages (define each): contacted -> responded -> tried -> accepted -> used/paid
+        Stages (define each): reached -> relevant conversation -> pilot agreement
+        -> observed successful first-task completion -> continued use
         Count | denominator | time window | observed or forecast: [ ]
-        If claiming acquisition cost, divide the appropriate cost by NEW PAYING
-        customers in the same cohort/period. Interest or pilot use is not payment.
+        If claiming resource cost per successful first-task completion, divide
+        the defined resource cost by OBSERVED SUCCESSFUL COMPLETIONS in the same
+        cohort/period. Agreement is not use. Valued time is not necessarily cash.
 
         CONVERSATION / ROLE-PLAY
         Label: [actual approved interaction / actual classroom role-play / supplied example]
         Date, role, and evidence available: [ ]
-        Question asked, objection received, and evidence-based response: [ ]
+        Need, access concern/question, and evidence-based response: [ ]
         What I cannot promise or do without approval: [ ]
-        Offer revision and truthful next request: [ ]
+        Invitation or instruction revision and truthful next request: [ ]
 
         ONBOARDING AND FOLLOW-THROUGH
         First task, access, source card, human owner, and support route: [ ]
+        Actual task attempt, assistance, outcome, and friction: [record / pending]
+        Issue -> meaningful revision -> actual retest: [record / pending]
         Measure for initial use and sustained use, with denominator/window: [ ]
         Stop/review trigger and next review date: [ ]
         Pending information, approval, or observation: [ ]
+        Optional commercial application, only if relevant: [ ]
     """),
     "06-operating-handoff.txt": _text("""
         BUILDING AI SOLUTIONS — OPERATING HANDOFF
@@ -326,9 +343,23 @@ _GUIDE_BODY = """
 <li>Save the draft, source check, and correction as <strong>version 1</strong> in your project record. Keep unobserved user-test fields pending.</li>
 <li>Finish the lesson, use <strong>Canvas Next</strong>, and submit the native quiz's project-update response explaining what you changed and why. A file saved on your device has not yet been submitted to Canvas.</li>
 </ol>
-<p>Keep this one continuing project. Each unit improves the same evidence, artifact, tests, economics, or handoff; each milestone is a dated snapshot, not a new project. The figures, simulations, and course TA stay inside the lesson. Submit assessed work and read feedback in Canvas.</p>
+<p>Keep this one continuing project. Each unit improves the same evidence, artifact, tests, resource analysis, or handoff; each milestone is a dated snapshot, not a new project. The figures, simulations, and course TA stay inside the lesson. Submit assessed work and read feedback in Canvas.</p>
+<details><summary>Connect AI capabilities to your problem</summary>
+<p>In Unit 1, start with what a person needs to accomplish. Choose a capability for a permitted input and useful output, then define a check for its likely errors. A particular tool may support only some capabilities. The course does not require every learner to build every kind of AI system.</p>
+<table><caption>Candidate capabilities and examples of checks</caption><thead><tr><th scope="col">Capability</th><th scope="col">Possible real-world task</th><th scope="col">What to check</th></tr></thead><tbody>
+<tr><th scope="row">Generate or transform text</th><td>Turn approved notes into a plain-language draft.</td><td>Meaning, omitted conditions, unsupported facts, and audience needs.</td></tr>
+<tr><th scope="row">Answer from sources</th><td>Explain a policy using permitted documents.</td><td>Every material claim, source conditions, missing facts, and authority.</td></tr>
+<tr><th scope="row">Extract or classify</th><td>Make a dates/locations table from event notices.</td><td>Fields against originals; missing values remain visible.</td></tr>
+<tr><th scope="row">Analyze or predict</th><td>Summarize attendance or compare a forecast with a simple baseline.</td><td>Data suitability, calculations, units, baseline, and uncertainty.</td></tr>
+<tr><th scope="row">Interpret or create images</th><td>Propose an illustration or draft an image description.</td><td>What is actually depicted, misleading details, accessibility, and permissions.</td></tr>
+<tr><th scope="row">Transcribe, translate, or speak</th><td>Prepare a transcript or multilingual draft from permitted material.</td><td>Names, numbers, meaning, speaker labels, and missing context.</td></tr>
+<tr><th scope="row">Coordinate a workflow or agent</th><td>Prepare a task handoff or propose a next action.</td><td>Allowed actions, approvals, tool failures, status, and a manual fallback.</td></tr>
+</tbody></table>
+<p>Record <strong>problem → capability → input/output → implementation → human check → actual test</strong> in your project. With no AI account, use the provided output and label that step a supplied-output simulation. An operable document kit can demonstrate the workflow; it does not demonstrate a live model connection or autonomous action.</p>
+</details>
 <details><summary>Plain-language concepts you will use</summary><dl>
 <dt><strong>AI output</strong></dt><dd>A draft, prediction, summary, or recommendation produced by an AI tool; it needs checking before you rely on it.</dd>
+<dt><strong>AI capability</strong></dt><dd>A type of work an available AI tool can assist with, such as extracting fields or drafting text. Choose it because it fits the task and can be checked, not because its name sounds advanced.</dd>
 <dt><strong>Model</strong></dt><dd>A system that uses learned patterns to produce an output from an input; its confident wording is not proof that a claim is true.</dd>
 <dt><strong>Source</strong></dt><dd>The document, record, person, or supplied case fact that a specific claim can be checked against.</dd>
 <dt><strong>Evidence</strong></dt><dd>Traceable information supporting a particular claim, with a clear label showing whether it is observed, supplied, or assumed.</dd>
@@ -398,7 +429,7 @@ def _templates_body():
         '<p>Use an ordinary document or spreadsheet. These six plain-text downloads are editable starting points, not six extra assignments. Combine them into the same project record and submit the relevant dated snapshot in Canvas. Blank or pending fields are honest when an observation has not happened.</p>',
         '<p>Download a template below or copy its visible text. The downloads contain no learner data. Keep only fictional or approved information in your copy.</p>',
     ]
-    labels = ("Project record", "Source card", "Pilot and retest log", "Economics and capacity", "Offer or internal adoption plan", "Operating handoff")
+    labels = ("Project record", "Source card", "Pilot and retest log", "Impact, resources, and capacity", "Release and adoption plan", "Operating handoff")
     for (filename, content), label in zip(TEMPLATE_DOWNLOADS.items(), labels):
         items.append(
             f'<details><summary>{escape(label)} · editable template</summary>'
@@ -423,7 +454,7 @@ COMPLETION_HTML = wrap_content("""
 <ol>
 <li><strong>One complete project:</strong> the current artifact or repeatable service is accessible, versioned, and usable for the bounded task. Include sources, review rules, exceptions, and fallback.</li>
 <li><strong>Actual use, revision, and retest:</strong> another person's attempt is recorded with assistance, quality, complete effort, and limitations. Supplied benchmarks, role-play, assumptions, and observations remain distinct. Any missing observation is marked pending.</li>
-<li><strong>Quantitative decision:</strong> tables/figures state units, denominator, period, and baseline. Economics distinguishes capacity from cash and includes a less favorable scenario. Claims about demand, adoption, and payment fit the evidence.</li>
+<li><strong>Quantitative decision:</strong> tables/figures state units, denominator, period, and baseline. Resource analysis distinguishes capacity from cash and includes a less favorable scenario. Claims about need, initial use, and continued use fit the evidence.</li>
 <li><strong>Five milestone groups:</strong> confirm the current snapshots are submitted after Units 3, 5, 7, 10, and 12. In Milestone 5, confirm both the 60-point demonstration/handoff and the separate 40-point individual case exam are submitted to their proper assignments.</li>
 <li><strong>Individual reasoning:</strong> your exam and contribution record show a calculation, consequential choice, source/AI-use disclosure, and evidence limit. Instructor review may still be pending; submission alone is not a passing judgment.</li>
 <li><strong>Feedback and revisions:</strong> open Canvas Grades, read each rubric and comment, identify any incomplete or unreviewed item, and submit revisions within the current offering's window. Do not count a quiz's raw practice score toward the course grade.</li>
@@ -463,7 +494,7 @@ def render_home(course_id, routes):
     syllabus = _route(base, routes, "syllabus", base + "/assignments/syllabus")
     body = (
         '<p><strong>Majid Memari · All disciplines · No prerequisites</strong></p>'
-        '<p>Find a real-world need, build a useful AI-assisted solution without programming, test it with a person, and explain the evidence, value, and next decision. No prior AI, statistics, or business background is required.</p>'
+        '<p>Find a real-world need, select a suitable AI capability, build a useful solution without programming, test it with a person, and explain the evidence, impact, resources, and next decision. No prior AI, statistics, or business background is required.</p>'
         '<p>' + primary_link(urls["start"], "Start with Unit 1 →") + '</p>'
         '<h3>One path, twelve units, one project</h3>'
         '<ol><li><strong>Read and explore.</strong> Use Learn → Try → Build → Finish inside each Canvas lesson. Original core reading and a text/table alternative are available on the page; figures, simulations, and the course TA are embedded.</li>'
@@ -494,17 +525,17 @@ def render_syllabus(course_id, policies_html=""):
     base = _course_path(course_id)
     body = (
         '<p><strong>Instructor: Majid Memari</strong></p>'
-        '<p>Discover a real-world need, build and test an AI-assisted product or service, evaluate its value, find users, and deliver a responsible handoff. This course is open to everyone, from any discipline. There are no prerequisites: no prior AI, programming, statistics, or business background is required.</p>'
+        '<p>Discover a real-world need, select a suitable AI capability, build and test a useful solution, evaluate its impact and resources, help people use it, and deliver a responsible handoff. This course is open to everyone, from any discipline. There are no prerequisites: no prior AI, programming, statistics, or business background is required.</p>'
         '<h3>Asynchronous course path</h3>'
         f'<p>Follow Units 01–12 in <a href="{base}/modules">Canvas Modules</a>. Each lesson uses Learn → Try → Build → Finish, with original core reading, a text/table alternative, embedded simulations, and the course TA. Use Canvas Next for an exchange when listed, then the native quiz/project update, then a milestone when due. The Unit 12 milestone is followed by the individual case exam and completion checklist. No live attendance is required for this route.</p>'
         '<p>Work on one continuing capstone using an approved need or the complete fictional Cedar Desk case. A usable document-based kit or repeatable service is sufficient; a mock-up alone is not the final deliverable. No business partner, paid AI account, sale, public deployment, or payment is required. External work must stay within approved scope and information permissions.</p>'
         '<p>Use an ordinary document tool and a calculator or spreadsheet. Required original reading and supplied outputs are available inside Canvas. External references and books are optional. Allow approximately 65–115 minutes per guided unit plus project work; 37–63 total learner hours is a provisional design estimate, not measured effort or academic-credit equivalence. Actual offering dates and requirements appear in Canvas.</p>'
         '<h3>What you will learn</h3><ul>'
         '<li>Identify a specific need, user, accountable decision owner, and measurable success criteria.</li>'
-        '<li>Use AI or critically evaluate supplied outputs while checking sources, calculations, authority, and missing facts.</li>'
+        '<li>Match a task to an AI capability: text, source answers, extraction/classification, data analysis/prediction, images, voice/translation, or workflows/agents. Check its limits using an available tool or a clearly labeled supplied-output simulation.</li>'
         '<li>Build a bounded usable solution, observe another person using it, revise, and retest.</li>'
         '<li>Interpret statistics, tables, figures, denominators, uncertainty, complete effort, costs, and capacity without programming.</li>'
-        '<li>Develop a truthful offer or internal adoption case and communicate a proportionate next decision.</li>'
+        '<li>Prepare accessible instructions and a bounded release, observe first use, improve onboarding, and communicate an evidence-backed next decision.</li>'
         '<li>Prepare operating instructions, human review, exceptions, maintenance, support limits, and handoff.</li></ul>'
         '<h3>Assessment and final-grade weights</h3>' + _grade_table() +
         '<p>Twelve native quizzes contain three one-point choice questions and one zero-point project-update essay. Their technical raw scores are formative, omitted from the final grade, and in a 0%-weight group. They replace the earlier unit check-ins. Three project exchanges add formative critique with a supplied-sample alternative; the general course-questions forum is optional. No practice score or forum score contributes to the final grade.</p>'

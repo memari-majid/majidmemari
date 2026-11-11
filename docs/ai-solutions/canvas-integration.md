@@ -1,6 +1,4 @@
-# Canvas course integration
-
-> Mirrored guide. Run the builder and its tests in the canonical course integration directory. The [source-reference copies](canvas/README.md) depend on canonical curriculum and CSS that are not bundled into this documentation folder.
+# Canvas asynchronous course integration
 
 This folder builds the complete Canvas delivery and assessment structure for **Building AI Solutions by Majid Memari**. Students follow one ordered path, study original readings, use the embedded figures/simulations and course AI TA, submit work, and receive feedback inside Canvas. The course welcomes learners from any discipline with no AI, programming, statistics, or business prerequisite.
 
@@ -58,7 +56,7 @@ Keep five weighted groups totaling 100%:
 | Milestone 1. Problem and feasible scope | 100 | 15% |
 | Milestone 2. First usable solution | 100 | 20% |
 | Milestone 3. Pilot and learning | 100 | 25% |
-| Milestone 4. Viability and route to users | 100 | 15% |
+| Milestone 4. Impact and adoption plan | 100 | 15% |
 | Milestone 5. Demonstration and handoff | 60 shared + 40 individual exam | 25% |
 
 The five milestone snapshots remain after Units 3, 5, 7, 10, and 12. Milestones 1–4 keep their canonical rubrics. The existing Milestone 5 assignment becomes the 60-point shared demonstration/handoff with criteria 25/20/15. The separate individual case exam has two 20-point criteria and sits in that **same** Milestone 5 group. Together the group remains 100 points: the shared portion contributes 15 percentage points of the course, the individual portion 10. Do not keep a 100-point Milestone 5 assignment beside the 40-point exam.
@@ -77,7 +75,7 @@ The stable identifiers preserve the twelve modules, twelve lesson pages/items, f
 
 Canvas importers match many objects by migration identifier, but repeated imports are not generically idempotent. Importing can overwrite authored records, reset positions, or remove missing imported module items. The rubric importer may refuse to overwrite a rubric already used for grading. Inspect migration issues, actual IDs, counts, points, rubric associations, and content after every import. Do not reimport blindly after students have worked in the course.
 
-The current reusable package includes this inline TA placement. It was **not reimported** into the receiving course: all twelve native lesson bodies were updated through the Canvas HTML editor, preserving assessment and grade history. The [live record](canvas-live-integration.md) distinguishes the current source-package hash from the last imported hash and retains earlier rubric notices. Do not reimport merely to reproduce this page-layout change in an already-assessed course.
+The current reusable package includes the inline TA and the real-world AI capability redesign: Unit 1 explicitly connects capabilities to tasks, Units 9–10 teach release readiness and supported adoption, and Milestone 4 assesses impact and adoption. Its SHA-256 is **`16b4366f54b28f45158ab432b3150f39cd8de0dd2db7c8ac4e5e4c8e26566563`**. It was **not imported** into the receiving course. Native page bodies, affected quiz questions/project fields, assignment briefs, rubric wording, forums and template files were updated in place while preserving native records, Spring 2027 dates, points, approved weights, attempts and Test Student scores. The [live record](canvas-live-integration.md) distinguishes this source package from the last imported hash and retains the earlier rubric notices. Do not reimport an assessed course merely to reproduce these content changes.
 
 The package contains no course settings, replacement syllabus, enrollment, grade, message, student record, credential, announcement, or institution-specific branding. It does not change overall course publication. `canvas-home.html`, `canvas-syllabus.html`, and live evidence are maintained separately; update any destination-specific Canvas IDs before reuse.
 

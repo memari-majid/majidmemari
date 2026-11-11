@@ -2,23 +2,23 @@
   "course": "Building AI Solutions",
   "owner": "Majid Memari",
   "base_url": "https://www.majidmemari.com/teaching/ai-solutions/",
-  "source_sha256": "79dba64c0416e0a3d768ea39c27a32cbf8246bd44f5d96cb31281b5209cf7728",
+  "source_sha256": "ccfb4b0f1a4239778e07f142b826d587d1e32a91c370005d3d12954da2827531",
   "grade_policy": "Milestones 1–4:100 points; Milestone5:60-point shared plus40-point individual exam. Group weights15/20/25/15/25. Formative quizzes3points omitted in0%group; no due dates",
   "progress_policy": "View guide/12lesson pages/completion; submit12practice quizzes,5milestone snapshots,individual exam. No hard prerequisites or sequential gates.",
   "lesson_delivery": "native_canvas_pages_with_course_iframes",
   "theme_version": "building-ai-solutions-2",
   "source_fingerprints": {
-    "site/course_content.py": "79dba64c0416e0a3d768ea39c27a32cbf8246bd44f5d96cb31281b5209cf7728",
-    "site/visual_lessons.py": "b53d73766345bfd6bce451b8768483e76ebc903cd615d57fde762645335b9b8c",
+    "site/course_content.py": "ccfb4b0f1a4239778e07f142b826d587d1e32a91c370005d3d12954da2827531",
+    "site/visual_lessons.py": "3d32ea2b9be1b077f0bc37315b9de64a8ca6b45d2d3aece8fa0848e825c3a8a9",
     "site/assets/core.css": "bd51ed55fcf49ec23508f42162ae0f2603aa9d9e0697e5fa4fd88cc604047484",
-    "integrations/canvas/async_content.py": "17b6f970346b815999631712e14e346d7ce8b731cbbd8d94b1689258c80549ef",
-    "integrations/canvas/async_guide.py": "5d880744424fcc8d1746fe3b69acfb67980f4bf79c8b68899aec56d9d9d064ca",
+    "integrations/canvas/async_content.py": "7500ac6fd020f6714ed72cb7be74519ed59c4397871761c7bd0b1c1a851a525e",
+    "integrations/canvas/async_guide.py": "43bf3df940ea9dc75e57ee5765631bcb70ae568758a32c6d73c3f6519d14cb95",
     "integrations/canvas/theme.py": "c5478d200107a0d05430441dd0ea979b9bfdae71bf480631eade4a9e4b94ce0c"
   },
   "units": [
     {
       "number": 1,
-      "title": "AI and a useful business task",
+      "title": "AI capabilities and useful tasks",
       "url": "https://www.majidmemari.com/teaching/ai-solutions/unit-01.html?delivery=canvas",
       "module_identifier": "memari_ai_solutions_v1_module_1",
       "page_identifier": "memari_ai_solutions_v1_lesson_page_1",
@@ -81,7 +81,7 @@
     },
     {
       "number": 8,
-      "title": "Calculate value and capacity",
+      "title": "Evaluate impact and resources",
       "url": "https://www.majidmemari.com/teaching/ai-solutions/unit-08.html?delivery=canvas",
       "module_identifier": "memari_ai_solutions_v1_module_8",
       "page_identifier": "memari_ai_solutions_v1_lesson_page_8",
@@ -90,7 +90,7 @@
     },
     {
       "number": 9,
-      "title": "Shape the offer",
+      "title": "Prepare the solution for use",
       "url": "https://www.majidmemari.com/teaching/ai-solutions/unit-09.html?delivery=canvas",
       "module_identifier": "memari_ai_solutions_v1_module_9",
       "page_identifier": "memari_ai_solutions_v1_lesson_page_9",
@@ -99,7 +99,7 @@
     },
     {
       "number": 10,
-      "title": "Find users and sell or secure adoption",
+      "title": "Bring the solution into use",
       "url": "https://www.majidmemari.com/teaching/ai-solutions/unit-10.html?delivery=canvas",
       "module_identifier": "memari_ai_solutions_v1_module_10",
       "page_identifier": "memari_ai_solutions_v1_lesson_page_10",
@@ -128,7 +128,7 @@
   "practice_quizzes": [
     {
       "unit": 1,
-      "title": "Unit 01 practice and check-in: AI and a useful business task",
+      "title": "Unit 01 practice and check-in: AI capabilities and useful tasks",
       "quiz_identifier": "memari_ai_solutions_v1_practice_quiz_1",
       "assignment_identifier": "memari_ai_solutions_v1_practice_assignment_1",
       "replaces_assignment_identifier": "memari_ai_solutions_v1_checkin_1",
@@ -212,7 +212,7 @@
     },
     {
       "unit": 8,
-      "title": "Unit 08 practice and check-in: Calculate value and capacity",
+      "title": "Unit 08 practice and check-in: Evaluate impact and resources",
       "quiz_identifier": "memari_ai_solutions_v1_practice_quiz_8",
       "assignment_identifier": "memari_ai_solutions_v1_practice_assignment_8",
       "replaces_assignment_identifier": "memari_ai_solutions_v1_checkin_8",
@@ -224,7 +224,7 @@
     },
     {
       "unit": 9,
-      "title": "Unit 09 practice and check-in: Shape the offer",
+      "title": "Unit 09 practice and check-in: Prepare the solution for use",
       "quiz_identifier": "memari_ai_solutions_v1_practice_quiz_9",
       "assignment_identifier": "memari_ai_solutions_v1_practice_assignment_9",
       "replaces_assignment_identifier": "memari_ai_solutions_v1_checkin_9",
@@ -236,7 +236,7 @@
     },
     {
       "unit": 10,
-      "title": "Unit 10 practice and check-in: Find users and sell or secure adoption",
+      "title": "Unit 10 practice and check-in: Bring the solution into use",
       "quiz_identifier": "memari_ai_solutions_v1_practice_quiz_10",
       "assignment_identifier": "memari_ai_solutions_v1_practice_assignment_10",
       "replaces_assignment_identifier": "memari_ai_solutions_v1_checkin_10",
@@ -313,7 +313,7 @@
     },
     {
       "number": 4,
-      "title": "Viability and route to users",
+      "title": "Impact and adoption plan",
       "after_unit": 10,
       "assignment_identifier": "memari_ai_solutions_v1_milestone_4",
       "source_url": "https://www.majidmemari.com/teaching/ai-solutions/project.html#milestone-4",
@@ -407,5 +407,5 @@
     "course_weight_percent": 10,
     "completion_requirement": "must_submit"
   },
-  "package_sha256": "a061893e367608491e2bf62d916b59342a3730272b419fdb0373d3e168b057d7"
+  "package_sha256": "16b4366f54b28f45158ab432b3150f39cd8de0dd2db7c8ac4e5e4c8e26566563"
 }

@@ -1,6 +1,6 @@
 {
   "date": "2026-11-11",
-  "edition": "v4 asynchronous delivery, native inline TA and Spring 2027 Canvas offering",
+  "edition": "v5 real-world AI capabilities and implementation, native Canvas integration, Spring 2027",
   "canvasCourse": "https://uvu.instructure.com/courses/644965",
   "courseState": "unpublished",
   "packageSha256": "891ef92210f08cd39bd62018ddbebb9f182ba3f58d15a1401917d739aa25b11c",
@@ -8,8 +8,8 @@
     "time": "Nov 11 at 10:33am",
     "status": "Partially Completed",
     "issues": [
-      "Rubric - Building AI Solutions — Milestone 5: Demonstration and handoff",
-      "Rubric - Building AI Solutions — Individual case exam: evidence, decisions, and responsible handoff"
+      "Rubric - Building AI Solutions \u2014 Milestone 5: Demonstration and handoff",
+      "Rubric - Building AI Solutions \u2014 Individual case exam: evidence, decisions, and responsible handoff"
     ],
     "disposition": "Both rubrics had Test Student assessments. Their criteria, point totals, and identifiers were byte-identical to the previously imported package. The retained native rubrics, scores, criterion feedback, and combined grade arithmetic were verified after import. No content/rubric mismatch remains; the import-history warnings are retained."
   },
@@ -35,6 +35,7 @@
           "href": "/courses/644965/modules/items/16726666",
           "id": "context_module_item_16726666",
           "required": true,
+          "requirement": "View\nMust view in order to complete this module item",
           "title": "Course guide: start, submit, and get help",
           "type": [
             "wiki_page"
@@ -44,6 +45,7 @@
           "href": "/courses/644965/modules/items/16726667",
           "id": "context_module_item_16726667",
           "required": false,
+          "requirement": "",
           "title": "Cedar Desk case and project templates",
           "type": [
             "wiki_page"
@@ -53,7 +55,8 @@
           "href": "/courses/644965/modules/items/16726534",
           "id": "context_module_item_16726534",
           "required": true,
-          "title": "Unit 01 lesson: AI and a useful business task",
+          "requirement": "View\nMust view in order to complete this module item",
+          "title": "Unit 01 lesson: AI capabilities and useful tasks",
           "type": [
             "wiki_page"
           ]
@@ -62,7 +65,8 @@
           "href": "/courses/644965/modules/items/16726625",
           "id": "context_module_item_16726625",
           "required": true,
-          "title": "Unit 01 practice and check-in: AI and a useful business task",
+          "requirement": "Submit\nMust submit this module item to complete it",
+          "title": "Unit 01 practice and check-in: AI capabilities and useful tasks",
           "type": [
             "quiz"
           ]
@@ -71,13 +75,14 @@
           "href": "/courses/644965/modules/items/16726624",
           "id": "context_module_item_16726624",
           "required": false,
+          "requirement": "",
           "title": "Course questions and project exchange",
           "type": [
             "discussion_topic"
           ]
         }
       ],
-      "title": "Unit 01: AI and a useful business task"
+      "title": "Unit 01: AI capabilities and useful tasks"
     },
     {
       "id": "context_module_2219786",
@@ -86,6 +91,7 @@
           "href": "/courses/644965/modules/items/16726535",
           "id": "context_module_item_16726535",
           "required": true,
+          "requirement": "View\nMust view in order to complete this module item",
           "title": "Unit 02 lesson: Discover the need",
           "type": [
             "wiki_page"
@@ -95,6 +101,7 @@
           "href": "/courses/644965/modules/items/16726626",
           "id": "context_module_item_16726626",
           "required": true,
+          "requirement": "Submit\nMust submit this module item to complete it",
           "title": "Unit 02 practice and check-in: Discover the need",
           "type": [
             "quiz"
@@ -110,6 +117,7 @@
           "href": "/courses/644965/modules/items/16726536",
           "id": "context_module_item_16726536",
           "required": true,
+          "requirement": "View\nMust view in order to complete this module item",
           "title": "Unit 03 lesson: Choose and scope a solution",
           "type": [
             "wiki_page"
@@ -119,6 +127,7 @@
           "href": "/courses/644965/modules/items/16726668",
           "id": "context_module_item_16726668",
           "required": false,
+          "requirement": "",
           "title": "Project exchange: a need worth solving",
           "type": [
             "discussion_topic"
@@ -128,6 +137,7 @@
           "href": "/courses/644965/modules/items/16726627",
           "id": "context_module_item_16726627",
           "required": true,
+          "requirement": "Submit\nMust submit this module item to complete it",
           "title": "Unit 03 practice and check-in: Choose and scope a solution",
           "type": [
             "quiz"
@@ -137,6 +147,7 @@
           "href": "/courses/644965/modules/items/16726537",
           "id": "context_module_item_16726537",
           "required": true,
+          "requirement": "Submit\nMust submit this module item to complete it",
           "title": "Milestone 1: Problem and feasible scope",
           "type": [
             "assignment"
@@ -152,6 +163,7 @@
           "href": "/courses/644965/modules/items/16726538",
           "id": "context_module_item_16726538",
           "required": true,
+          "requirement": "View\nMust view in order to complete this module item",
           "title": "Unit 04 lesson: Design the workflow",
           "type": [
             "wiki_page"
@@ -161,6 +173,7 @@
           "href": "/courses/644965/modules/items/16726628",
           "id": "context_module_item_16726628",
           "required": true,
+          "requirement": "Submit\nMust submit this module item to complete it",
           "title": "Unit 04 practice and check-in: Design the workflow",
           "type": [
             "quiz"
@@ -176,6 +189,7 @@
           "href": "/courses/644965/modules/items/16726539",
           "id": "context_module_item_16726539",
           "required": true,
+          "requirement": "View\nMust view in order to complete this module item",
           "title": "Unit 05 lesson: Build the first usable version",
           "type": [
             "wiki_page"
@@ -185,6 +199,7 @@
           "href": "/courses/644965/modules/items/16726629",
           "id": "context_module_item_16726629",
           "required": true,
+          "requirement": "Submit\nMust submit this module item to complete it",
           "title": "Unit 05 practice and check-in: Build the first usable version",
           "type": [
             "quiz"
@@ -194,6 +209,7 @@
           "href": "/courses/644965/modules/items/16726540",
           "id": "context_module_item_16726540",
           "required": true,
+          "requirement": "Submit\nMust submit this module item to complete it",
           "title": "Milestone 2: First usable solution",
           "type": [
             "assignment"
@@ -209,6 +225,7 @@
           "href": "/courses/644965/modules/items/16726541",
           "id": "context_module_item_16726541",
           "required": true,
+          "requirement": "View\nMust view in order to complete this module item",
           "title": "Unit 06 lesson: Design a fair test",
           "type": [
             "wiki_page"
@@ -218,6 +235,7 @@
           "href": "/courses/644965/modules/items/16726630",
           "id": "context_module_item_16726630",
           "required": true,
+          "requirement": "Submit\nMust submit this module item to complete it",
           "title": "Unit 06 practice and check-in: Design a fair test",
           "type": [
             "quiz"
@@ -233,6 +251,7 @@
           "href": "/courses/644965/modules/items/16726542",
           "id": "context_module_item_16726542",
           "required": true,
+          "requirement": "View\nMust view in order to complete this module item",
           "title": "Unit 07 lesson: Pilot, revise, and retest",
           "type": [
             "wiki_page"
@@ -242,6 +261,7 @@
           "href": "/courses/644965/modules/items/16726669",
           "id": "context_module_item_16726669",
           "required": false,
+          "requirement": "",
           "title": "Project exchange: what the pilot actually shows",
           "type": [
             "discussion_topic"
@@ -251,6 +271,7 @@
           "href": "/courses/644965/modules/items/16726631",
           "id": "context_module_item_16726631",
           "required": true,
+          "requirement": "Submit\nMust submit this module item to complete it",
           "title": "Unit 07 practice and check-in: Pilot, revise, and retest",
           "type": [
             "quiz"
@@ -260,6 +281,7 @@
           "href": "/courses/644965/modules/items/16726543",
           "id": "context_module_item_16726543",
           "required": true,
+          "requirement": "Submit\nMust submit this module item to complete it",
           "title": "Milestone 3: Pilot and learning",
           "type": [
             "assignment"
@@ -275,7 +297,8 @@
           "href": "/courses/644965/modules/items/16726544",
           "id": "context_module_item_16726544",
           "required": true,
-          "title": "Unit 08 lesson: Calculate value and capacity",
+          "requirement": "View\nMust view in order to complete this module item",
+          "title": "Unit 08 lesson: Evaluate impact and resources",
           "type": [
             "wiki_page"
           ]
@@ -284,13 +307,14 @@
           "href": "/courses/644965/modules/items/16726632",
           "id": "context_module_item_16726632",
           "required": true,
-          "title": "Unit 08 practice and check-in: Calculate value and capacity",
+          "requirement": "Submit\nMust submit this module item to complete it",
+          "title": "Unit 08 practice and check-in: Evaluate impact and resources",
           "type": [
             "quiz"
           ]
         }
       ],
-      "title": "Unit 08: Calculate value and capacity"
+      "title": "Unit 08: Evaluate impact and resources"
     },
     {
       "id": "context_module_2219793",
@@ -299,7 +323,8 @@
           "href": "/courses/644965/modules/items/16726545",
           "id": "context_module_item_16726545",
           "required": true,
-          "title": "Unit 09 lesson: Shape the offer",
+          "requirement": "View\nMust view in order to complete this module item",
+          "title": "Unit 09 lesson: Prepare the solution for use",
           "type": [
             "wiki_page"
           ]
@@ -308,13 +333,14 @@
           "href": "/courses/644965/modules/items/16726633",
           "id": "context_module_item_16726633",
           "required": true,
-          "title": "Unit 09 practice and check-in: Shape the offer",
+          "requirement": "Submit\nMust submit this module item to complete it",
+          "title": "Unit 09 practice and check-in: Prepare the solution for use",
           "type": [
             "quiz"
           ]
         }
       ],
-      "title": "Unit 09: Shape the offer"
+      "title": "Unit 09: Prepare the solution for use"
     },
     {
       "id": "context_module_2219794",
@@ -323,7 +349,8 @@
           "href": "/courses/644965/modules/items/16726546",
           "id": "context_module_item_16726546",
           "required": true,
-          "title": "Unit 10 lesson: Find users and sell or secure adoption",
+          "requirement": "View\nMust view in order to complete this module item",
+          "title": "Unit 10 lesson: Bring the solution into use",
           "type": [
             "wiki_page"
           ]
@@ -332,7 +359,8 @@
           "href": "/courses/644965/modules/items/16726634",
           "id": "context_module_item_16726634",
           "required": true,
-          "title": "Unit 10 practice and check-in: Find users and sell or secure adoption",
+          "requirement": "Submit\nMust submit this module item to complete it",
+          "title": "Unit 10 practice and check-in: Bring the solution into use",
           "type": [
             "quiz"
           ]
@@ -341,13 +369,14 @@
           "href": "/courses/644965/modules/items/16726547",
           "id": "context_module_item_16726547",
           "required": true,
-          "title": "Milestone 4: Viability and route to users",
+          "requirement": "Submit\nMust submit this module item to complete it",
+          "title": "Milestone 4: Impact and adoption plan",
           "type": [
             "assignment"
           ]
         }
       ],
-      "title": "Unit 10: Find users and sell or secure adoption"
+      "title": "Unit 10: Bring the solution into use"
     },
     {
       "id": "context_module_2219795",
@@ -356,6 +385,7 @@
           "href": "/courses/644965/modules/items/16726548",
           "id": "context_module_item_16726548",
           "required": true,
+          "requirement": "View\nMust view in order to complete this module item",
           "title": "Unit 11 lesson: Make delivery dependable",
           "type": [
             "wiki_page"
@@ -365,6 +395,7 @@
           "href": "/courses/644965/modules/items/16726635",
           "id": "context_module_item_16726635",
           "required": true,
+          "requirement": "Submit\nMust submit this module item to complete it",
           "title": "Unit 11 practice and check-in: Make delivery dependable",
           "type": [
             "quiz"
@@ -380,6 +411,7 @@
           "href": "/courses/644965/modules/items/16726549",
           "id": "context_module_item_16726549",
           "required": true,
+          "requirement": "View\nMust view in order to complete this module item",
           "title": "Unit 12 lesson: Demonstrate and defend",
           "type": [
             "wiki_page"
@@ -389,6 +421,7 @@
           "href": "/courses/644965/modules/items/16726670",
           "id": "context_module_item_16726670",
           "required": false,
+          "requirement": "",
           "title": "Project exchange: defend the next decision",
           "type": [
             "discussion_topic"
@@ -398,6 +431,7 @@
           "href": "/courses/644965/modules/items/16726636",
           "id": "context_module_item_16726636",
           "required": true,
+          "requirement": "Submit\nMust submit this module item to complete it",
           "title": "Unit 12 practice and check-in: Demonstrate and defend",
           "type": [
             "quiz"
@@ -407,6 +441,7 @@
           "href": "/courses/644965/modules/items/16726550",
           "id": "context_module_item_16726550",
           "required": true,
+          "requirement": "Submit\nMust submit this module item to complete it",
           "title": "Milestone 5: Demonstration and handoff",
           "type": [
             "assignment"
@@ -416,6 +451,7 @@
           "href": "/courses/644965/modules/items/16726671",
           "id": "context_module_item_16726671",
           "required": true,
+          "requirement": "Submit\nMust submit this module item to complete it",
           "title": "Individual case exam: evidence, decisions, and responsible handoff",
           "type": [
             "assignment"
@@ -425,6 +461,7 @@
           "href": "/courses/644965/modules/items/16726672",
           "id": "context_module_item_16726672",
           "required": true,
+          "requirement": "View\nMust view in order to complete this module item",
           "title": "Course completion and next steps",
           "type": [
             "wiki_page"
@@ -679,17 +716,32 @@
     "courseTAPlacement": "Native inline disclosure between lesson iframe and text reading"
   },
   "vercel": {
-    "commit": "d907328c88e2b7efe103b96aeab3e77f96561a42",
-    "deployment": "dpl_4pnuqm5HtnsSLqGETe3JruJwEdsr",
+    "commit": "3cad64d694f10cca254b2e17852f6bc9b4fa393f",
+    "deployment": "dpl_G24C3kUuphi5QVSFK3ZT3bMv7gij",
     "status": "READY",
     "url": "https://www.majidmemari.com/teaching/ai-solutions/",
-    "manifestSha256": "dff3f1c38b014e7f4d1736f1d83b3cf1400b03664fcf57f0d00bee38a1436b72",
+    "manifestSha256": "20a63e3c85fafa1f90b3af7c8360d5257595af00d2877c8fc1c27f6c2befcebe",
     "staticFilesVerified": 70,
     "tests": {
       "course": 68,
+      "Canvas": 20,
       "TAAndWorkshop": 40,
       "typecheck": "pass",
       "productionBuild": "pass"
+    },
+    "priorRuntime": {
+      "commit": "d907328c88e2b7efe103b96aeab3e77f96561a42",
+      "deployment": "dpl_4pnuqm5HtnsSLqGETe3JruJwEdsr",
+      "status": "READY",
+      "url": "https://www.majidmemari.com/teaching/ai-solutions/",
+      "manifestSha256": "dff3f1c38b014e7f4d1736f1d83b3cf1400b03664fcf57f0d00bee38a1436b72",
+      "staticFilesVerified": 70,
+      "tests": {
+        "course": 68,
+        "TAAndWorkshop": 40,
+        "typecheck": "pass",
+        "productionBuild": "pass"
+      }
     }
   },
   "observed": [
@@ -708,7 +760,8 @@
     "All 18 current native due dates saved successfully and confirmed in Student View; exact ISO timestamps reflect America/Denver daylight-saving transition",
     "Individual exam unavailable until April 29, 2027 at 00:00 Mountain Time; due May 5 at 23:59, with no Until date",
     "Read-only administrative name/code/term remain ODS/2026; no course-settings mutation",
-    "Only offering date fields and Home/Syllabus blocks changed; grades, rubric weights, late policy, legacy dates and portable runtime/package unchanged"
+    "Only offering date fields and Home/Syllabus blocks changed; grades, rubric weights, late policy, legacy dates and portable runtime/package unchanged",
+    "Real-world capability update: twelve native readings and both iframe routes read back; zero external reading links; all nine changed rubric names/descriptions matched; six downloaded templates byte-matched; 18 dates and five weights preserved; U1 instructor preview 3/3; course TA answered the event-extraction question from new course sources in Canvas. Existing synthetic 30/60 and 20/40 grades retained."
   ],
   "limits": [
     "Only clearly labeled Test Student QA work was submitted and graded; no real learner record changed",
@@ -725,12 +778,16 @@
     "evidence/canvas-inline-ta.jpg",
     "evidence/canvas-inline-ta-verification.json",
     "evidence/canvas-spring-2027-schedule.jpg",
-    "evidence/canvas-spring-2027-verification.json"
+    "evidence/canvas-spring-2027-verification.json",
+    "evidence/canvas-ai-capability-map.png",
+    "evidence/canvas-ai-capability-ta.png",
+    "evidence/canvas-real-world-ai-verification.json",
+    "evidence/real-world-ai-public-release.json"
   ],
   "history": "evidence/canvas-v3-installation.json",
   "packageSha256Meaning": "Last imported package; the newer reusable source package was not imported",
   "lastImportedPackageSha256": "891ef92210f08cd39bd62018ddbebb9f182ba3f58d15a1401917d739aa25b11c",
-  "currentSourcePackageSha256": "a061893e367608491e2bf62d916b59342a3730272b419fdb0373d3e168b057d7",
+  "currentSourcePackageSha256": "16b4366f54b28f45158ab432b3150f39cd8de0dd2db7c8ac4e5e4c8e26566563",
   "currentSourcePackageImported": false,
   "pageLayoutUpdate": {
     "date": "2026-11-11",
@@ -952,5 +1009,188 @@
     "sourceCommit": "8070d09",
     "evidence": "evidence/canvas-spring-2027-verification.json",
     "nativeAndStudentDatesMatchedSource": 18
+  },
+  "realWorldAIUpdate": {
+    "checkedAt": "2026-11-11T19:01:19.070Z",
+    "method": "Native Canvas UI edits and readback; instructor quiz preview; Student View using existing synthetic Test Student only. No cartridge import.",
+    "unitsRetitled": [
+      1,
+      8,
+      9,
+      10
+    ],
+    "nativeLessonBodiesUpdated": 12,
+    "supportPagesUpdated": [
+      "guide",
+      "case/templates",
+      "completion",
+      "Home",
+      "Syllabus"
+    ],
+    "multipleChoiceUpdated": [
+      "U1Q3",
+      "U9Q1",
+      "U9Q2",
+      "U9Q3",
+      "U10Q1",
+      "U10Q2",
+      "U10Q3",
+      "U12Q1"
+    ],
+    "writtenUpdatesChanged": [
+      1,
+      3,
+      5,
+      9,
+      10,
+      12
+    ],
+    "assignmentBodiesUpdated": 5,
+    "rubricCriteriaUpdated": 9,
+    "rubricReadback": [
+      {
+        "milestone": 1,
+        "points": 100,
+        "checks": [
+          {
+            "ordinal": 1,
+            "name": "Problem and stakeholder fit",
+            "descriptionPresent": true,
+            "namePresent": true
+          },
+          {
+            "ordinal": 3,
+            "name": "Alternatives and feasible scope",
+            "descriptionPresent": true,
+            "namePresent": true
+          }
+        ]
+      },
+      {
+        "milestone": 2,
+        "points": 100,
+        "checks": [
+          {
+            "ordinal": 2,
+            "name": "Grounded AI use and human control",
+            "descriptionPresent": true,
+            "namePresent": true
+          },
+          {
+            "ordinal": 4,
+            "name": "Operating clarity and evidence record",
+            "descriptionPresent": true,
+            "namePresent": true
+          }
+        ]
+      },
+      {
+        "milestone": 4,
+        "points": 100,
+        "checks": [
+          {
+            "ordinal": 1,
+            "name": "Impact, resources, and capacity",
+            "descriptionPresent": true,
+            "namePresent": true
+          },
+          {
+            "ordinal": 2,
+            "name": "Uncertainty and decision threshold",
+            "descriptionPresent": true,
+            "namePresent": true
+          },
+          {
+            "ordinal": 3,
+            "name": "Readiness and route to users",
+            "descriptionPresent": true,
+            "namePresent": true
+          },
+          {
+            "ordinal": 4,
+            "name": "Onboarding and feedback",
+            "descriptionPresent": true,
+            "namePresent": true
+          }
+        ]
+      },
+      {
+        "milestone": 5,
+        "points": 60,
+        "checks": [
+          {
+            "ordinal": 3,
+            "name": "Clear communication and evidence",
+            "descriptionPresent": true,
+            "namePresent": true
+          }
+        ]
+      }
+    ],
+    "milestone4Title": "Impact and adoption plan",
+    "discussionPromptsUpdated": [
+      3,
+      7
+    ],
+    "templates": [
+      {
+        "ordinal": 1,
+        "name": "01-project-record-1.txt",
+        "oldId": 136496983,
+        "newId": 136499154,
+        "bytesMatch": true
+      },
+      {
+        "ordinal": 2,
+        "name": "02-source-card-1.txt",
+        "oldId": 136496985,
+        "newId": 136496985,
+        "bytesMatch": true
+      },
+      {
+        "ordinal": 3,
+        "name": "03-pilot-and-retest-log-2.txt",
+        "oldId": 136497665,
+        "newId": 136497665,
+        "bytesMatch": true
+      },
+      {
+        "ordinal": 4,
+        "name": "04-economics-and-capacity-1.txt",
+        "oldId": 136496987,
+        "newId": 136499157,
+        "bytesMatch": true
+      },
+      {
+        "ordinal": 5,
+        "name": "05-offer-and-adoption-plan-1.txt",
+        "oldId": 136496988,
+        "newId": 136499159,
+        "bytesMatch": true
+      },
+      {
+        "ordinal": 6,
+        "name": "06-operating-handoff-1.txt",
+        "oldId": 136496989,
+        "newId": 136496989,
+        "bytesMatch": true
+      }
+    ],
+    "nativeDatesPreserved": 18,
+    "quizPreview": {
+      "unit": 1,
+      "rawScore": "3/3",
+      "capabilityAnswer": "Extract the stated fields, preserve missing values, and check against each notice.",
+      "feedbackConfirmed": true,
+      "writtenField": "0 points; not yet graded; instructor preview QA only"
+    },
+    "courseTAVerified": true,
+    "courseTAContext": "Unit 1: AI capabilities and useful tasks",
+    "retainedSyntheticGrades": [
+      "\n                \n                          Milestone 5: Demonstration and handoff\n                    Milestone 5 \u2014 Demonstration and handoff\n                \n                \n                    Apr 25, 2027 by 11:59pm\n                \n                \n                    Nov 11 at 10:39am\n                \n                \n                \n\n                \n                  \n                      \n                      \n                    \n                      \n                        \n                            \n                                Click to test a different score\n                            \n                        \n                          \n                            Click to test a different score\n                          \n                          30\n                      \n                        / 60\n                    \n                    \n                      \n                      \n                        30.0\n                      \n                      \n                      \n                        30 \n                      \n                      \n                      \n                        30 \n                      \n                      \n                      \n                        \n                      \n                      \n                        submitted\n                      \n                      1469653\n                      9370393\n                      \n                      \n                    \n                  \n                \n                \n                \n                  \n                    \n                      Grade Info\n                    \n                    \n                  \n                  \n                    \n                      See scoring details\n                    \n                    \n                  \n                  \n                    \n                      See rubric results\n                    \n                    \n                  \n                  \n                    \n                      \n                        0 comments\n                      \n                    \n                    \n                    \n                      0\n                    \n                  \n                \n                \n              ",
+      "\n                \n                          Individual case exam: evidence, decisions, and responsible handoff\n                    Milestone 5 \u2014 Demonstration and handoff\n                \n                \n                    May 5, 2027 by 11:59pm\n                \n                \n                    Nov 11 at 10:28am\n                \n                \n                \n\n                \n                  \n                      \n                      \n                    \n                      \n                        \n                            \n                                Click to test a different score\n                            \n                        \n                          \n                            Click to test a different score\n                          \n                          20\n                      \n                        / 40\n                    \n                    \n                      \n                      \n                        20.0\n                      \n                      \n                      \n                        20 \n                      \n                      \n                      \n                        20 \n                      \n                      \n                      \n                        \n                      \n                      \n                        graded\n                      \n                      1469653\n                      9370474\n                      \n                      \n                    \n                  \n                \n                \n                \n                  \n                    \n                      Grade Info\n                    \n                    \n                  \n                  \n                    \n                      See scoring details\n                    \n                    \n                  \n                  \n                    \n                      See rubric results\n                    \n                    \n                  \n                  \n                    \n                      \n                        0 comments\n                      \n                    \n                    \n                    \n                      0\n                    \n                  \n                \n                \n              "
+    ],
+    "viewRestored": "instructor",
+    "evidence": "evidence/canvas-real-world-ai-verification.json"
   }
 }

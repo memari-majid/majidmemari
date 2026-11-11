@@ -2,6 +2,18 @@
 
 Destination: https://uvu.instructure.com/courses/644965. The course remains **unpublished**; current learning items are published within that draft. **Building AI Solutions by Majid Memari** welcomes students from any discipline with **no prerequisites**. Its framing is “Practical AI problem-solving for everyone.”
 
+## Current update: AI capabilities and real-world implementation
+
+The current design explicitly connects a real need to an AI capability, permitted inputs, usable output, a practical no-code route, human checks, testing, revision and adoption. Unit 1 covers seven capability families with cross-disciplinary examples and supplied-output practice. Milestones 1–2 require learners to identify and implement the selected capability, accurately labeling a live AI step versus a supplied-output simulation. Units 9–10 now teach release readiness and supported adoption; Milestone 4 is **Impact and adoption plan**. Commercialization is optional. See the [design decision](real-world-ai-redesign.md).
+
+Native Canvas updates were made in place: twelve lessons, guide/case/completion, Home and syllabus, eight choice questions, six project-update prompts, five assignment bodies, nine rubric criteria across four rubrics, two exchange prompts, six templates, four module titles and the Milestone 4 group label. All nine rubric names/descriptions were read back. All twelve native text lessons retained full content, two correct frame routes and zero external reading links. The six current template downloads byte-matched their prepared files; current native IDs are in the evidence JSON.
+
+The native record still has **12 modules, 37 items and 32 requirements**. All **18 Spring 2027 due dates**, exam availability, **15/20/25/15/25** weights and **60+40** final allocation were preserved. Existing synthetic Test Student grades remained **30/60** and **20/40**. Unit 1 instructor preview returned **3/3**, the new extraction explanation and a zero-point written field pending review. The embedded TA selected extraction for event notices, explained missing values and source checks, cited the revised course and kept navigation in Canvas. Only this fresh QA chat was cleared; instructor view was restored. The overall course remains unpublished.
+
+Production runtime: commit `3cad64d694f10cca254b2e17852f6bc9b4fa393f`, deployment `dpl_G24C3kUuphi5QVSFK3ZT3bMv7gij`, **READY**. All **70** public files matched manifest SHA-256 `20a63e3c85fafa1f90b3af7c8360d5257595af00d2877c8fc1c27f6c2befcebe`. Checks passed: **68 course tests, 20 Canvas tests, 40 TA/workshop tests**, TypeScript and optimized production build. The current reusable cartridge is `16b4366f54b28f45158ab432b3150f39cd8de0dd2db7c8ac4e5e4c8e26566563` and was **not imported**. The earlier `891ef922…` import and its used-rubric notices remain historical evidence below.
+
+Evidence: [capability map](canvas/evidence/canvas-ai-capability-map.png), [embedded TA](canvas/evidence/canvas-ai-capability-ta.png), [native readback](canvas/evidence/canvas-real-world-ai-verification.json), [public release verification](canvas/evidence/real-world-ai-public-release.json). This is technical and desktop UI verification, not a new learner-effectiveness study or full mobile/accessibility audit.
+
 ## One path and two complementary systems
 
 | Canvas owns | Embedded Vercel application supplies |
@@ -64,7 +76,7 @@ The current rebuilt reusable package is **`a061893e367608491e2bf62d916b59342a373
 
 Eighteen superseded weekly modules, 26 older assessments/discussions and the 12 former standalone check-ins remain unpublished with records preserved. Six legacy groups have weight 0%. Stable current module/item and milestone identifiers remain intact. The prior [v3 installation record](canvas/evidence/canvas-v3-installation.json) is historical, not the current assessment model.
 
-The unchanged course runtime was verified READY at commit `d907328c88e2b7efe103b96aeab3e77f96561a42`, deployment `dpl_4pnuqm5HtnsSLqGETe3JruJwEdsr`. The static manifest SHA-256 is `dff3f1c38b014e7f4d1736f1d83b3cf1400b03664fcf57f0d00bee38a1436b72`; all 70 public files were verified. Checks passed: 68 course tests, 40 TA/workshop tests, typecheck, production build, all package validators, 15 Canvas helper/guide tests and a byte-identical cartridge rebuild. The private exam marking guide is excluded from the cartridge, website, review mirrors and TA corpus.
+The earlier white-theme course runtime was verified READY at commit `d907328c88e2b7efe103b96aeab3e77f96561a42`, deployment `dpl_4pnuqm5HtnsSLqGETe3JruJwEdsr`. The static manifest SHA-256 is `dff3f1c38b014e7f4d1736f1d83b3cf1400b03664fcf57f0d00bee38a1436b72`; all 70 public files were verified. Checks passed: 68 course tests, 40 TA/workshop tests, typecheck, production build, all package validators, 15 Canvas helper/guide tests and a byte-identical cartridge rebuild. The private exam marking guide is excluded from the cartridge, website, review mirrors and TA corpus.
 
 ## Remaining offering decisions and limits
 

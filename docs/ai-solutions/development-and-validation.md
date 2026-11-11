@@ -2,9 +2,17 @@
 
 Owner and sole instructor: Majid Memari. Development authorized November 10, 2026 after completion and review of the instructional plan.
 
+## November 11: capability-based real-world course update
+
+The [redesign plan](real-world-ai-redesign.md) preceded implementation. Required learning now links needs to AI capabilities, no-code execution, checked output, observed use, improvement and supported adoption. Unit 1 explains seven capability families; capability/implementation evidence appears in Milestones 1–2. Units 9–10 and Milestone 4 were refocused from required commercialization to release readiness, impact/resources and adoption. Tables, simulations, feedback, templates, quizzes, rubrics, reviewer instructions and TA sources were aligned. Commercialization remains optional.
+
+Published runtime `3cad64d694f10cca254b2e17852f6bc9b4fa393f` is READY; all 70 public artifacts byte-match the release manifest. Validation passed: 68 course tests, 20 Canvas tests, 40 TA/workshop tests, typecheck and optimized Next.js build. Native Canvas was updated without importing the new cartridge: 12 modules/37 items/32 requirements, all 18 Spring dates, weights and 60+40 final split were read back. Nine changed native criteria matched their source, all six template downloads matched, Unit 1 preview scored 3/3 with the correct capability feedback, and the embedded TA used new source examples correctly. Existing synthetic grades remained 30/60 and 20/40; no real learner work was created or changed. Instructor view was restored; the course remains unpublished.
+
+See the [live record](canvas-live-integration.md) and [structured evidence](canvas/evidence/canvas-real-world-ai-verification.json). Reusable cartridge SHA-256 `16b4366f54b28f45158ab432b3150f39cd8de0dd2db7c8ac4e5e4c8e26566563` was not imported. Earlier installation warnings and releases below are historical. Technical success does not establish learning effectiveness; learner-pilot evidence remains outstanding.
+
 ## Product contract
 
-One independent business course: twelve ordered units, one continuing capstone, five milestone snapshots. Every unit uses Learn → Try → Build → Finish. Simulations are embedded at the point of instruction. All business disciplines follow the same path. No programming, paid AI account, commercial launch, or real revenue is required.
+One independent real-world AI problem-solving course: twelve ordered units, one continuing capstone, five milestone snapshots. Every unit uses Learn → Try → Build → Finish. Simulations are embedded at the point of instruction. Learners from any discipline follow the same path, with no prerequisites. No programming, paid AI account, commercial launch, or real revenue is required.
 
 The course is hosted within the teaching section of Majid's personal website. The course TA uses the published course corpus and current page. The website chatbot handles site guidance and provides a separate, explicit inquiry form. AI chat alone never claims to send a message to Majid. The shared cream, navy, teal, and blue theme uses labels and patterns alongside semantic colors.
 
