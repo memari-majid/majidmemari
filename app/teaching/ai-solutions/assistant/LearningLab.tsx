@@ -16,13 +16,13 @@ export function LearningLab({ activity: a, canvasDelivery, renderCoach }: { acti
   const [record, setRecord] = useState<LearningRecord>(emptyLearningRecord);
   const [ready, setReady] = useState(false);
   const [storage, setStorage] = useState(true);
-  const [openCards, setOpenCards] = useState<number[]>([]);
   const [showCoach, setShowCoach] = useState(false);
   const [notice, setNotice] = useState('');
   const heading = useRef<HTMLHeadingElement>(null);
   const key = `course-decision-lab:v1:${a.page}`;
   const phase = STEPS.findIndex(s => s.id === record.phase);
   const choice = a.choices.find(c => c.id === record.choice);
+  const openCards = record.reviewedEvidence;
   useEffect(() => {
     try { setRecord(restoreLearningRecord(sessionStorage.getItem(key), a.page)); }
     catch { setStorage(false); }
@@ -46,7 +46,7 @@ export function LearningLab({ activity: a, canvasDelivery, renderCoach }: { acti
     setNotice('Practice record exported. Add relevant reasoning to your existing project update.');
   }
   if (!ready) return <p role="status" className="p-5 text-sm text-slate-600">Opening your decision lab…</p>;
-  return <section aria-label={`Unit ${a.unit} decision lab`} className="min-w-0">
+  return <section aria-label={`Unit ${a.unit} decision lab`} className="min-w-0 [overflow-wrap:anywhere]">
     <header className="rounded-2xl bg-slate-950 p-5 text-white sm:p-7">
       <p className="text-xs font-semibold uppercase tracking-[.16em] text-teal-200">Unit {String(a.unit).padStart(2, '0')} · Decision lab</p>
       <h2 className="mt-3 text-2xl leading-tight text-white sm:text-3xl">{a.title}</h2>
@@ -70,7 +70,7 @@ export function LearningLab({ activity: a, canvasDelivery, renderCoach }: { acti
       {record.phase === 'investigate' && <>
         <div className="mt-4 rounded-xl border-l-4 border-amber-500 bg-amber-50 p-4 text-sm leading-6"><p className="font-semibold">Your call: {choice?.label}</p><p className="mt-2">{choice?.consequence}</p><p className="mt-2 text-amber-950">Your reason: {record.attempt}</p></div>
         <p className="mt-5 text-sm text-slate-600">Open each evidence card. Look for the fact that most challenges your reasoning.</p>
-        <div className="mt-3 space-y-2">{a.evidence.map((e, i) => <div key={e.label} className="overflow-hidden rounded-xl border border-slate-200"><button type="button" aria-expanded={openCards.includes(i)} aria-controls={`evidence-${i}`} onClick={() => setOpenCards(old => old.includes(i) ? old : [...old, i])} className="flex min-h-12 w-full items-center justify-between gap-3 bg-slate-50 px-4 py-3 text-left text-sm font-semibold"><span><span className="mr-2 text-teal-800">0{i + 1}</span>{e.label}</span><span aria-hidden="true">{openCards.includes(i) ? '✓' : '+'}</span></button>{openCards.includes(i) && <p id={`evidence-${i}`} className="p-4 text-sm leading-7 text-slate-700">{e.detail}</p>}</div>)}</div>
+        <div className="mt-3 space-y-2">{a.evidence.map((e, i) => <div key={e.label} className="overflow-hidden rounded-xl border border-slate-200"><button type="button" aria-expanded={openCards.includes(i)} aria-controls={`evidence-${i}`} onClick={() => setRecord(old => old.reviewedEvidence.includes(i) ? old : { ...old, reviewedEvidence: [...old.reviewedEvidence, i] })} className="flex min-h-12 w-full items-center justify-between gap-3 bg-slate-50 px-4 py-3 text-left text-sm font-semibold"><span><span className="mr-2 text-teal-800">0{i + 1}</span>{e.label}</span><span aria-hidden="true">{openCards.includes(i) ? '✓' : '+'}</span></button>{openCards.includes(i) && <p id={`evidence-${i}`} className="p-4 text-sm leading-7 text-slate-700">{e.detail}</p>}</div>)}</div>
         <button type="button" disabled={openCards.length < a.evidence.length} className={`${button} mt-5`} onClick={() => go('revise')}>Use the evidence to revise →</button>
         {openCards.length < a.evidence.length && <p className="mt-2 text-xs text-slate-500">Open all {a.evidence.length} evidence cards to continue.</p>}
       </>}

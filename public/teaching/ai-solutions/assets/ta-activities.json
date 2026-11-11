@@ -500,7 +500,7 @@
       }
     ],
     "challenge": "Give a three-sentence defense: recommendation, strongest evidence with its limit, and the next test with an owner. What would change your recommendation?",
-    "worked": "A defensible recommendation is a bounded next test of a reviewed workflow. The supplied comparison shows lower effort at the stated quality threshold, while the changed-use scenario weakens the value case. These are fictional course data, not the team’s observed deployment. A handoff needs an accessible artifact, approved sources, review and exception ownership, support boundaries, and a decision trigger.",
+    "worked": "A defensible recommendation is a bounded next test of a reviewed workflow. The supplied comparison shows 12.5% lower complete effort on these twelve cases. Proceeding depends on confirming that both methods met the same quality threshold: acceptable-output counts are not provided here. The changed-use scenario weakens the value case. These are fictional course data, not the team’s observed deployment. A handoff needs an accessible artifact, approved sources, review and exception ownership, support boundaries, and a decision trigger.",
     "transfer": "Write your own recommendation, one traceable calculation, one evidence limit, and the person or role owning the next decision."
   }
 ]

@@ -424,7 +424,7 @@ test("Canvas workflow guidance does not require private learner status or an exa
 });
 
 // The learning record is deliberately separate from grades, workbook notes and chat.
-const { LEARNING_ACTIVITIES, validateLearningRequest, restoreLearningRecord, learningPrompt, learningSummary, emptyLearningRecord } = await import('./learning');
+const { LEARNING_ACTIVITIES, validateLearningRequest, restoreLearningRecord, learningPrompt, learningSummary, emptyLearningRecord, learningContextChunks } = await import('./learning');
 test('lab restoration rejects malformed state and preserves a committed choice independently of a revision', () => {
   const original = { ...emptyLearningRecord(), committed: true, phase: 'transfer' as const, choice: '1', attempt: 'I counted time as cash.', revision: 'Payroll does not change.', transfer: 'Check recurring cash expense.', complete: true };
   const restored = restoreLearningRecord(JSON.stringify(original), 'unit-08.html');
@@ -438,6 +438,20 @@ test('lab restoration rejects malformed state and preserves a committed choice i
   assert.match(summary, /not a grade or a submission/);
   assert.match(summary, /Initial reason: I counted time as cash/);
   assert.match(summary, /Revision: Payroll does not change/);
+});
+test('lab restoration preserves reviewed cards while rejecting invalid indexes and an empty committed lock', () => {
+  const saved = { ...emptyLearningRecord(), choice: '1', attempt: 'My first reason.', phase: 'investigate' as const,
+    committed: true, reviewedEvidence: [0, 2, 2, -1, 99, 1.5, '1', null] };
+  const restored = restoreLearningRecord(JSON.stringify(saved), 'unit-08.html');
+  assert.deepEqual(restored.reviewedEvidence, [0, 2]);
+  assert.equal(restored.committed, true);
+  const legacy = { ...saved, reviewedEvidence: undefined };
+  assert.deepEqual(restoreLearningRecord(JSON.stringify(legacy), 'unit-08.html').reviewedEvidence, []);
+  const damaged = restoreLearningRecord(JSON.stringify({ ...emptyLearningRecord(), committed: true }), 'unit-01.html');
+  assert.equal(damaged.committed, false, 'Empty initial fields must remain editable after a damaged saved flag');
+  assert.equal(damaged.complete, false);
+  // Card expansion is browser-only state, not model input or a server completion claim.
+  assert.equal(Reflect.get(validateLearningRequest(saved, 'unit-08.html')!, 'reviewedEvidence'), undefined);
 });
 test('coach context uses an authored current-unit task and keeps pre-evidence coaching distinct', () => {
   const a = LEARNING_ACTIVITIES[7];
@@ -475,4 +489,74 @@ test('UTF-8 request budgeting includes lab responses as well as conversation his
   const selected = prepareCourseHistory(messages, context);
   assert(selected.length > 0 && selected.length < messages.length);
   assert(new TextEncoder().encode(JSON.stringify({ ...context, messages: selected })).length <= COURSE_LIMITS.bodyBytes);
+});
+
+
+test('full API coaching context respects every phase without retrieval leaking the worked route', async () => {
+  const model = new MockLanguageModelV3({ doStream: async () => ({ stream: simulateReadableStream({ initialDelayInMs: null, chunkDelayInMs: null, chunks: [
+    { type: 'text-start', id: 'phase' }, { type: 'text-delta', id: 'phase', delta: 'Consider the evidence for your next decision.' }, { type: 'text-end', id: 'phase' },
+    { type: 'finish', finishReason: { unified: 'stop', raw: undefined }, usage: { inputTokens: { total: 10, noCache: 10, cacheRead: undefined, cacheWrite: undefined }, outputTokens: { total: 10, text: 10, reasoning: undefined } } },
+  ] }) }) });
+  const handler = createCourseChatHandler({ model: () => model,
+    access: createCourseAccess({ perClient: 100, global: 100 }), config: () => ({}) });
+  const question = 'Give me feedback on my current decision-lab attempt and ask one question to help me improve it.';
+  for (const unit of [6, 8, 9]) {
+    const activity = LEARNING_ACTIVITIES[unit - 1];
+    // This is the real generic button whose previous retrieval included full lab solutions.
+    assert(retrieveCourseChunks(question, 6, activity.page).some(chunk => chunk.body.includes(activity.worked)));
+    for (const phase of ['decide', 'investigate', 'revise', 'transfer'] as const) {
+      const learning = { phase, choice: '1', attempt: 'I am choosing the easiest-looking option.',
+        revision: phase === 'transfer' ? 'I will check the complete evidence and state a limitation.' : '', transfer: '' };
+      const response = await handler(new Request('https://example.test/api/course-chat', { method: 'POST', headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ lesson: activity.page, delivery: 'canvas', messages: [text('user', question)], learning }) }));
+      assert.equal(response.status, 200);
+      const events = (await response.text()).split('\n').filter(line => line.startsWith('data: ') && !line.includes('[DONE]')).map(line => JSON.parse(line.slice(6)));
+      const system = String(model.doStreamCalls.at(-1)!.prompt[0].content);
+      const reference = JSON.parse(system.split('ACTIVITY REFERENCE: ').at(-1)!.split('\nCURRENT LEARNER')[0]);
+      assert.equal(reference.unit, unit);
+      assert(reference.choices.every((choice: Record<string, unknown>) => choice.consequence === undefined));
+      const chunks = learningContextChunks(COURSE_CHUNKS, activity, learning);
+      assert(chunks.length >= 1 && chunks.every(chunk => chunk.page === activity.page));
+      assert(chunks.every(chunk => chunk.section === activity.title || chunk.section === 'Read, then apply one idea'));
+      assert(events.filter(event => event.type === 'source-url').every(source => chunks.some(chunk => chunk.url === source.url)));
+      if (phase === 'decide') {
+        assert.equal(reference.evidence, undefined);
+        assert.equal(reference.challenge, undefined);
+        assert.equal(reference.selectedConsequence, undefined);
+        assert(!system.includes(activity.challenge));
+        for (const card of activity.evidence) assert(!system.includes(card.detail));
+        for (const choice of activity.choices) assert(!system.includes(choice.consequence));
+      } else {
+        assert.deepEqual(reference.evidence, activity.evidence);
+        assert.equal(reference.challenge, activity.challenge);
+        assert.equal(reference.selectedConsequence, activity.choices[0].consequence);
+      }
+      if (phase === 'decide' || phase === 'investigate') {
+        assert.equal(reference.worked, undefined);
+        assert(!system.includes(activity.worked), `Unit ${unit} ${phase} must not receive the full worked route`);
+      } else assert.equal(reference.worked, activity.worked);
+      assert.equal(events.find(event => event.type === 'start').messageMetadata.learningPhase, phase);
+      assert.equal(events.find(event => event.type === 'finish').messageMetadata.learningPhase, phase);
+      let reconstructed: CourseChatMessage | undefined;
+      for await (const update of readUIMessageStream<CourseChatMessage>({ stream: simulateReadableStream({ initialDelayInMs: null, chunkDelayInMs: null, chunks: events }) })) reconstructed = update;
+      assert.equal(reconstructed?.metadata?.learningPhase, phase);
+      assert.equal(reconstructed?.metadata?.finishReason, 'stop');
+    }
+  }
+});
+
+test('all twelve labs have a bounded phase-safe context with a genuine published lab source', () => {
+  assert.equal(LEARNING_ACTIVITIES.length, 12);
+  assert.equal(new Set(LEARNING_ACTIVITIES.map(activity => activity.page)).size, 12);
+  for (const activity of LEARNING_ACTIVITIES) {
+    for (const phase of ['decide', 'investigate', 'revise', 'transfer'] as const) {
+      const request = { phase, choice: '1', attempt: 'My first reason.', revision: 'My evidence-based revision.', transfer: 'My bounded next action.' };
+      const chunks = learningContextChunks(COURSE_CHUNKS, activity, request);
+      assert.equal(chunks[0]?.section, activity.title, `Unit ${activity.unit} needs its actual published lab anchor`);
+      assert(chunks.length <= 6);
+      assert(chunks.reduce((size, chunk) => size + chunk.body.length, 0) <= 14500);
+      assert(chunks.every(chunk => COURSE_CHUNKS.some(source => source.id === chunk.id && source.url === chunk.url)));
+      if (phase === 'decide' || phase === 'investigate') assert(!JSON.stringify(chunks).includes(activity.worked));
+    }
+  }
 });

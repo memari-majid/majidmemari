@@ -12,6 +12,9 @@ import type { CourseChatMessage } from "@/lib/course-kb/types";
 import remarkGfm from "remark-gfm";
 import { LEARNING_ACTIVITIES, learningActivity, type LearningRequest } from "@/lib/course-kb/learning";
 import { LearningLab } from "./LearningLab";
+import { checkpointCourseConversation } from "@/lib/course-kb/conversation-checkpoint";
+
+const LAB_STEP_NAMES = { decide: "Decide", investigate: "Investigate", revise: "Revise", transfer: "Apply" } as const;
 
 const QUESTIONS = [
   "How do I turn a partner’s problem into a practical capstone?",
@@ -49,6 +52,7 @@ function CourseConversation({ embedded = false, lesson = "", canvasDelivery = fa
   const [sessionReady, setSessionReady] = useState(false);
   const [storageAvailable, setStorageAvailable] = useState(true);
   const [input, setInput] = useState("");
+  const [contextNotice, setContextNotice] = useState("");
   const [code, setCode] = useState("");
   const [interruptedMessages, setInterruptedMessages] = useState<Set<string>>(() => new Set());
   const codeRef = useRef("");
@@ -84,6 +88,26 @@ function CourseConversation({ embedded = false, lesson = "", canvasDelivery = fa
   });
   const restored = useRef(false);
   const busy = status === "submitted" || status === "streaming";
+  // A snapshot belongs to the request/view that produced it. Keep it current for
+  // cleanup without making every streamed token replace the cleanup callback.
+  const checkpointRef = useRef({ sessionReady, messages, lesson: currentLesson, interrupted: interruptedMessages, busy, failed: status === "error", sessionKey, stop });
+  checkpointRef.current = { sessionReady, messages, lesson: currentLesson, interrupted: interruptedMessages, busy, failed: status === "error", sessionKey, stop };
+  const previousPhase = useRef(learning?.phase);
+  useEffect(() => () => {
+    const snapshot = checkpointRef.current;
+    checkpointCourseConversation(snapshot, raw => sessionStorage.setItem(snapshot.sessionKey, raw), snapshot.stop);
+  }, []);
+  useEffect(() => {
+    if (previousPhase.current === learning?.phase) return;
+    previousPhase.current = learning?.phase;
+    const snapshot = checkpointRef.current;
+    if (!snapshot.busy) return;
+    const result = checkpointCourseConversation(snapshot, raw => sessionStorage.setItem(snapshot.sessionKey, raw), snapshot.stop);
+    if (!result.saved) setStorageAvailable(false);
+    const marked = new Map(result.messages.map(message => [message.id, message.metadata]));
+    setMessages(current => current.map(message => marked.has(message.id) ? { ...message, metadata: marked.get(message.id) } : message));
+    setContextNotice("The previous step’s coaching was stopped. Its question and any partial reply are kept below with their original step. Ask again for feedback on your current step.");
+  }, [learning?.phase, setMessages]);
   // Read first, then let React commit both the restored messages and ready state.
   // A ref alone would let the initial empty render overwrite saved conversation.
   useEffect(() => {
@@ -118,16 +142,20 @@ function CourseConversation({ embedded = false, lesson = "", canvasDelivery = fa
   function clearConversation() {
     if (busy || !sessionReady) return;
     try { sessionStorage.removeItem(sessionKey); } catch { setStorageAvailable(false); }
-    setMessages([]); setInterruptedMessages(new Set()); clearError(); setInput("");
+    setMessages([]); setInterruptedMessages(new Set()); clearError(); setInput(""); setContextNotice("");
     questionRef.current?.focus();
   }
 
   async function ask(text: string) {
     if (!text.trim() || busy || !sessionReady) return;
     clearError();
-    setInput("");
-    await sendMessage({ text: text.trim() });
+    setInput(""); setContextNotice("");
+    const phase = learningRef.current?.phase;
+    await sendMessage({ text: text.trim(), ...(phase ? { metadata: { learningPhase: phase } } : {}) });
   }
+
+  const lastMessage = messages.at(-1);
+  const lastCompletionNotice = lastMessage?.role === "assistant" ? courseCompletionNotice(lastMessage.metadata, interruptedMessages.has(lastMessage.id)) : null;
 
   return (
     <section aria-label="AI coaching conversation" className={embedded ? "course-assistant-embedded px-4 py-5" : "mx-auto max-w-3xl px-5 py-10"}>
@@ -138,9 +166,11 @@ function CourseConversation({ embedded = false, lesson = "", canvasDelivery = fa
       <div>
         <section aria-label="Conversation with the course teaching assistant" className="min-w-0">
           <div className="flex items-center justify-between gap-3 border-b border-zinc-200 pb-3">
-            <h2 className="text-lg">{learning ? "Coach this step" : "Let’s work through it."}</h2>
+            <h2 className="text-lg">{learning ? "Lab coaching conversation" : "Let’s work through it."}</h2>
             <button disabled={busy || !sessionReady || messages.length === 0} onClick={clearConversation} className="min-h-11 rounded-md px-3 text-sm text-zinc-600 underline underline-offset-4 disabled:opacity-40">New conversation</button>
           </div>
+          {learning && <p className="mt-3 text-xs leading-5 text-teal-900">Current step: <strong>{LAB_STEP_NAMES[learning.phase]}</strong>. Each message below identifies the step recorded when it was sent; earlier feedback is not a new assessment of your current response.</p>}
+          {contextNotice && <p role="status" className="mt-3 rounded-lg border border-amber-200 bg-amber-50 p-3 text-sm leading-6 text-amber-950">{contextNotice}</p>}
           <div className="space-y-4 py-5" aria-label="Messages" aria-busy={busy}>
             {!sessionReady && <p role="status" className="text-sm text-zinc-600">Restoring this tab’s conversation…</p> }
             {sessionReady && messages.length === 0 && <div><p className="text-sm leading-relaxed text-zinc-600">{learning ? "Try your own reasoning first. The coach can offer a hint or respond to the attempt you have recorded above." : "Ask for a simpler explanation, help with the numbers, or a hint for your next step."}</p><div className="mt-4 flex flex-col gap-2">{(learning ? ["Give me feedback on my current decision-lab attempt and ask one question to help me improve it."] : currentLesson ? ["What should I learn and do on this course page?", "Help me understand the numbers on this course page."] : QUESTIONS.slice(0,2)).map(question => <button key={question} disabled={busy} onClick={() => void ask(question)} className="rounded-xl border border-zinc-200 bg-white p-3 text-left text-sm hover:border-teal-600 disabled:opacity-50">{question}</button>)}</div></div>}
@@ -151,9 +181,11 @@ function CourseConversation({ embedded = false, lesson = "", canvasDelivery = fa
               const seen = new Set<string>();
               return <article key={message.id} aria-label={message.role === "user" ? "Your question" : "Assistant response"} className={message.role === "user" ? "ml-4 rounded-xl bg-slate-950 p-4 text-white" : "rounded-xl border border-zinc-200 bg-white p-4"}>
                 <p className={`mb-3 text-xs font-semibold uppercase tracking-wider ${message.role === "user" ? "text-sky-200" : "text-teal-800"}`}>{message.role === "user" ? "You" : "Course teaching assistant"}</p>
+                {learning && <p className={`mb-2 text-xs ${message.role === "user" ? "text-sky-100" : "text-slate-600"}`}>{message.metadata?.learningPhase ? `${LAB_STEP_NAMES[message.metadata.learningPhase]} · recorded attempt` : 'Earlier lab conversation · step not recorded'}</p>}
                 <div className="min-w-0 break-words text-sm leading-7 [&_a]:text-teal-800 [&_a]:underline [&_blockquote]:border-l-2 [&_blockquote]:border-teal-600 [&_blockquote]:pl-3 [&_h1]:my-3 [&_h1]:text-xl [&_h2]:my-3 [&_h2]:text-lg [&_h3]:my-3 [&_h3]:font-semibold [&_ol]:my-3 [&_ol]:list-decimal [&_ol]:pl-5 [&_p]:my-2 [&_pre]:overflow-auto [&_ul]:my-3 [&_ul]:list-disc [&_ul]:pl-5">
                   {message.role === "user" ? <p className="whitespace-pre-wrap">{text}</p> : <ReactMarkdown remarkPlugins={[remarkGfm]} components={groundedMarkdownComponents(new Set(sources.map(source => source.type === "source-url" ? courseEvidenceLink(source.url) ?? "" : "")), canvasDelivery)}>{text}</ReactMarkdown>}
                 </div>
+                {message.role === "user" && message.metadata?.requestInterrupted && <p className="mt-3 text-xs leading-5 text-sky-100">This coaching request was interrupted. Any partial reply is kept below. <button type="button" disabled={busy} onClick={() => void ask(text)} className="min-h-11 font-semibold underline underline-offset-4 disabled:opacity-50">Ask this question again{learning ? ' about the current step' : ''}</button></p>}
                 {completionNotice && <p role="status" className="mt-4 rounded-lg border border-amber-300 bg-amber-50 p-3 text-sm leading-relaxed text-amber-950">{completionNotice}</p>}
                 {sources.length > 0 && <div className="mt-5 border-t border-zinc-200 pt-4"><p className="text-xs font-semibold uppercase tracking-wider text-zinc-600">Course material consulted</p><ul className="mt-2 space-y-2">{sources.map(source => {
                   if (source.type !== "source-url") return null;
@@ -166,7 +198,7 @@ function CourseConversation({ embedded = false, lesson = "", canvasDelivery = fa
                 })}</ul></div>}
               </article>;
             })}
-            <p role="status" aria-live="polite" className="text-sm text-teal-800">{status === "submitted" ? "Finding relevant course material…" : status === "streaming" ? "Writing an explanation…" : messages.at(-1)?.role === "assistant" ? "Response ready. Review the explanation and sources above." : ""}</p>
+            <p role="status" aria-live="polite" className="text-sm text-teal-800">{status === "submitted" ? "Finding relevant course material…" : status === "streaming" ? "Writing an explanation…" : lastCompletionNotice ? "This reply is incomplete. Review the notice above before using it." : lastMessage?.role === "assistant" ? "Response ready. Review the explanation and sources above." : lastMessage?.metadata?.requestInterrupted ? "Your interrupted question is saved above. Ask it again when you are ready." : ""}</p>
             {error && <div role="alert" className="rounded-lg border border-amber-300 bg-amber-50 p-4 text-sm"><p>{error.message}</p><button type="button" disabled={busy} onClick={() => void regenerate()} className="mt-3 min-h-11 font-semibold underline underline-offset-4">Try the last question again</button></div>}
           </div>
           <form onSubmit={event => { event.preventDefault(); void ask(input); }} className="rounded-xl border border-zinc-200 bg-white p-4 shadow-sm">
@@ -200,6 +232,6 @@ export function CourseAssistant({ embedded = false, lesson = "", canvasDelivery 
       {!learningActivity(lesson) && <div className="mb-5"><label htmlFor="lab-unit" className="text-sm font-semibold">Choose your current unit</label><select id="lab-unit" value={selectedPage} onChange={e => setSelectedPage(e.target.value)} className="mt-2 min-h-11 w-full rounded-lg border border-slate-300 bg-white p-3 text-sm">{LEARNING_ACTIVITIES.map(a => <option key={a.page} value={a.page}>Unit {a.unit} · {a.title}</option>)}</select></div>}
       <LearningLab key={activity.page} activity={activity} canvasDelivery={canvasDelivery} renderCoach={learning => <CourseConversation key={activity.page} embedded lesson={activity.page} canvasDelivery={canvasDelivery} learning={learning} />} />
     </>}
-    {mode === 'help' && <CourseConversation key="general-help" embedded lesson={lesson} canvasDelivery={canvasDelivery} />}
+    {mode === 'help' && <CourseConversation key={`general-help:${normalizeCoursePage(lesson) || activity.page}`} embedded lesson={normalizeCoursePage(lesson) || activity.page} canvasDelivery={canvasDelivery} />}
   </main>;
 }

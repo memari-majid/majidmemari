@@ -5,7 +5,8 @@ import { courseRetrievalQuery, courseSources, retrieveCourseChunks } from "./ret
 import { COURSE_LIMITS, CourseRequestError, readCourseRequest, validateCourseMessages } from "./validation";
 import type { CourseChatMessage } from "./types";
 import { normalizeCoursePage } from "./context";
-import { learningActivity, learningPrompt, validateLearningRequest } from "./learning";
+import { learningActivity, learningContextChunks, learningPrompt, validateLearningRequest } from "./learning";
+import { COURSE_CHUNKS } from "./generated";
 
 const UNAVAILABLE = "The teaching assistant is temporarily unavailable. Your course lessons remain available; please try again later.";
 const errorResponse = (status: number, error: string) => Response.json({ error }, { status, headers: { "Cache-Control": "no-store", ...(status === 429 ? { "Retry-After": "600" } : {}) } });
@@ -33,12 +34,15 @@ export function createCourseChatHandler(options: {
       const canvasDelivery = !!(body && typeof body === "object" && "delivery" in body && body.delivery === "canvas");
       const learning = validateLearningRequest(body && typeof body === "object" && "learning" in body ? body.learning : undefined, lesson);
       const lab = learning ? learningActivity(lesson) : undefined;
-      const chunks = retrieveCourseChunks(courseRetrievalQuery(messages), 6, lesson);
+      const chunks = learning && lab
+        ? learningContextChunks(COURSE_CHUNKS, lab, learning)
+        : retrieveCourseChunks(courseRetrievalQuery(messages), 6, lesson);
+      const learningMetadata = learning ? { learningPhase: learning.phase } : undefined;
       const sources = courseSources(chunks);
       if (!chunks.length) {
         release();
-        const stream = createUIMessageStream({ execute({ writer }) {
-          writer.write({ type: "start" }); writer.write({ type: "text-start", id: "guidance" });
+        const stream = createUIMessageStream<CourseChatMessage>({ execute({ writer }) {
+          writer.write({ type: "start", ...(learningMetadata ? { messageMetadata: learningMetadata } : {}) }); writer.write({ type: "text-start", id: "guidance" });
           writer.write({ type: "text-delta", id: "guidance", delta: "I could not find a relevant passage in the public course materials. Tell me the unit, milestone, or concept you are working on, and share your specific question or attempt. I can help you reason through it; I cannot access private records or your instructor’s current calendar." });
           writer.write({ type: "text-end", id: "guidance" }); writer.write({ type: "finish" });
         } });
@@ -53,7 +57,7 @@ export function createCourseChatHandler(options: {
         onError: () => { release(); return UNAVAILABLE; },
         onFinish: release,
         execute({ writer }) {
-          writer.write({ type: "start" });
+          writer.write({ type: "start", ...(learningMetadata ? { messageMetadata: learningMetadata } : {}) });
           for (const source of sources) writer.write({ type: "source-url", ...source });
           const result = streamText({
             model: getModel(modelId), system: buildCourseSystemPrompt(chunks, lesson, canvasDelivery) + (learning && lab ? `\n\n${learningPrompt(lab, learning)}` : ""), messages,
@@ -63,7 +67,7 @@ export function createCourseChatHandler(options: {
           });
           writer.merge(result.toUIMessageStream<CourseChatMessage>({
             sendStart: false, sendReasoning: false, sendSources: false, onError: () => UNAVAILABLE,
-            messageMetadata: ({ part }) => part.type === "finish" ? { finishReason: part.finishReason } : undefined,
+            messageMetadata: ({ part }) => part.type === "finish" ? { finishReason: part.finishReason, ...learningMetadata } : undefined,
           }));
         },
       });

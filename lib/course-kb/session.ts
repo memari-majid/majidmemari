@@ -6,6 +6,7 @@ export const COURSE_SESSION_KEY = "ai-solutions-ta-conversation";
 const VERSION = 2;
 const MAX_BYTES = 200 * 1024;
 const MAX_MESSAGES = 30;
+const LEARNING_PHASES = new Set(['decide', 'investigate', 'revise', 'transfer']);
 const FINISH_REASONS = new Set(["stop", "length", "content-filter", "tool-calls", "error", "other"]);
 const object = (value: unknown): value is Record<string, unknown> => value !== null && typeof value === "object" && !Array.isArray(value);
 export type CourseSession = { version: 2; lesson: string; messages: CourseChatMessage[] };
@@ -33,7 +34,13 @@ export function normalizeCourseSession(value: unknown): CourseSession {
     }
     if (!parts.some(part => part.type === "text")) continue;
     let metadata: CourseMessageMetadata | undefined;
-    if (candidate.role === "assistant" && object(candidate.metadata) && typeof candidate.metadata.finishReason === "string" && FINISH_REASONS.has(candidate.metadata.finishReason)) metadata = { finishReason: candidate.metadata.finishReason as CourseMessageMetadata["finishReason"] };
+    if (object(candidate.metadata)) {
+      metadata = {};
+      if (candidate.role === "assistant" && typeof candidate.metadata.finishReason === "string" && FINISH_REASONS.has(candidate.metadata.finishReason)) metadata.finishReason = candidate.metadata.finishReason as CourseMessageMetadata["finishReason"];
+      if (typeof candidate.metadata.learningPhase === "string" && LEARNING_PHASES.has(candidate.metadata.learningPhase)) metadata.learningPhase = candidate.metadata.learningPhase as CourseMessageMetadata["learningPhase"];
+      if (candidate.role === "user" && candidate.metadata.requestInterrupted === true) metadata.requestInterrupted = true;
+      if (!Object.keys(metadata).length) metadata = undefined;
+    }
     messages.push({ id: candidate.id, role: candidate.role, parts, ...(metadata ? { metadata } : {}) });
     ids.add(candidate.id);
   }
@@ -48,7 +55,12 @@ export function parseCourseSession(raw: string | null): CourseSession {
 }
 
 export function serializeCourseSession(messages: readonly CourseChatMessage[], lesson: string, interrupted: ReadonlySet<string> = new Set(), unfinished = false): string {
-  const marked = messages.map((message, index) => message.role === "assistant" && (interrupted.has(message.id) || (unfinished && index === messages.length - 1)) ? { ...message, metadata: { ...message.metadata, finishReason: "error" } } : message);
+  const latestQuestion = messages.map(message => message.role).lastIndexOf("user");
+  const marked = messages.map((message, index) => {
+    if (message.role === "assistant" && (interrupted.has(message.id) || (unfinished && index === messages.length - 1))) return { ...message, metadata: { ...message.metadata, finishReason: "error" } };
+    if (message.role === "user" && unfinished && index === latestQuestion) return { ...message, metadata: { ...message.metadata, requestInterrupted: true } };
+    return message;
+  });
   return JSON.stringify(normalizeCourseSession({ version: VERSION, lesson, messages: marked }));
 }
 

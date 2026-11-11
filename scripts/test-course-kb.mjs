@@ -13,6 +13,7 @@ registerHooks({
   },
 });
 await import(new URL("../lib/course-kb/course-kb.test.ts", import.meta.url).href);
+await import(new URL("../lib/course-kb/conversation-checkpoint.test.ts", import.meta.url).href);
 
 
 // This is a policy/data-consistency guard, not a claim that all model answers
