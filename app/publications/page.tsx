@@ -3,76 +3,43 @@ import Link from "next/link";
 import { ChatWidget } from "@/app/components/ChatWidget";
 import { JsonLd } from "@/app/components/JsonLd";
 import { NavBar } from "@/app/components/NavBar";
+import { PublicationsExplorer, type PublicationView } from "@/app/components/PublicationsExplorer";
 import { MAJID } from "@/lib/majid";
+import { getProject } from "@/lib/projects";
+import { PUBLICATIONS, RESEARCH_FOCUSES, publicationKindLabel } from "@/lib/publications";
 
 export const metadata: Metadata = {
-  title: "Publications",
-  description:
-    "Selected publications by Dr. Majid Memari, including 2026 IETC and SITE papers and the Capability Ladder preprint. Full list on Google Scholar.",
+  title: "Research & Publications",
+  description: "Research by Majid Memari in AI, language models, education, computer vision, engineering, and data governance. Explore paper summaries and related projects.",
   alternates: { canonical: "/publications" },
-  openGraph: {
-    title: "Majid Memari — Publications",
-    description:
-      "Selected papers and preprints. Complete record on Google Scholar.",
-    url: "/publications",
-  },
+  openGraph: { title: "Research & Publications — Majid Memari", description: "Publications and graduate research, organized by focus and connected to the projects behind the work.", url: "/publications" },
 };
 
-const KIND_LABEL = {
-  journal: "Journal",
-  conference: "Conference",
-  preprint: "Preprint",
-} as const;
-
 export default function PublicationsPage() {
+  const publications: PublicationView[] = PUBLICATIONS.map((paper) => ({
+    ...paper,
+    kindLabel: publicationKindLabel(paper),
+    focusLabels: paper.topics.map((topic) => RESEARCH_FOCUSES.find((focus) => focus.id === topic)!.label),
+    projectLinks: (paper.projectLinks ?? []).map((connection) => {
+      const project = getProject(connection.slug);
+      if (!project) throw new Error(`Unknown research project: ${connection.slug}`);
+      return { ...connection, name: project.name };
+    }),
+  }));
   return (
-    <div className="min-h-screen min-w-0 overflow-x-hidden bg-zinc-50 text-zinc-900 dark:bg-zinc-950 dark:text-zinc-100">
+    <div className="min-h-screen min-w-0 overflow-x-hidden text-slate-900">
       <JsonLd page="/publications" />
       <NavBar />
-      <main className="mx-auto max-w-3xl px-4 pb-24 pt-[calc(6rem+env(safe-area-inset-top))] sm:px-6">
-        <p className="text-xs font-medium uppercase tracking-[0.2em] text-zinc-500">Scholarship</p>
-        <h1 className="mt-3 text-4xl font-semibold tracking-tight text-zinc-900 dark:text-zinc-50">
-          Majid Memari — Publications
-        </h1>
-        <p className="mt-3 text-lg text-zinc-600 dark:text-zinc-400">
-          Explore my work on{" "}
-          <a
-            className="text-sky-600 underline dark:text-sky-400"
-            href={MAJID.scholar}
-            rel="me noopener noreferrer"
-            target="_blank"
-          >
-            Google Scholar
-          </a>
-          . Selected recent items below; citation counts stay on Scholar so they do not go stale here.
-        </p>
-
-        <ol className="mt-10 space-y-8">
-          {MAJID.publications.map((p) => (
-            <li key={p.title} className="text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
-              <p className="text-xs font-medium uppercase tracking-wider text-zinc-500">
-                {p.year} · {KIND_LABEL[p.kind]}
-              </p>
-              <p className="mt-1 text-base font-semibold text-zinc-900 dark:text-zinc-100">
-                <a href={p.href} target="_blank" rel="noopener noreferrer" className="hover:underline">
-                  {p.title}
-                </a>
-              </p>
-              <p className="mt-1">{p.authors}</p>
-              <p className="mt-0.5 italic">{p.venue}</p>
-            </li>
-          ))}
-        </ol>
-
-        <p className="mt-12 text-sm">
-          <a className="text-sky-600 underline dark:text-sky-400" href={MAJID.scholar} target="_blank" rel="me">
-            All publications on Google Scholar
-          </a>
-          {" · "}
-          <Link className="text-sky-600 underline dark:text-sky-400" href="/about">
-            About
-          </Link>
-        </p>
+      <main id="main-content" className="mx-auto max-w-5xl px-5 pb-20 pt-32 sm:px-8 sm:pt-36">
+        <p className="text-xs font-semibold uppercase tracking-[0.18em] text-teal-800">Research</p>
+        <h1 className="mt-4 text-4xl font-semibold tracking-tight sm:text-6xl">Research &amp; publications</h1>
+        <p className="mt-6 max-w-3xl text-lg leading-relaxed text-slate-600">My research connects AI methods with practical questions in education, specialist information work, and engineering. I work on language models and agents, generative-model evaluation, computer vision, and the evidence needed to assess these systems.</p>
+        <div className="mt-5 flex flex-wrap gap-x-6 gap-y-2 text-sm">
+          <a className="inline-flex min-h-11 items-center font-medium text-teal-800 underline underline-offset-4" href={MAJID.scholar} target="_blank" rel="me noopener noreferrer" referrerPolicy="no-referrer">Google Scholar ↗<span className="sr-only"> (opens in a new tab)</span></a>
+          <Link className="inline-flex min-h-11 items-center font-medium text-teal-800 underline underline-offset-4" href="/projects">Explore the projects →</Link>
+        </div>
+        <PublicationsExplorer publications={publications} focuses={RESEARCH_FOCUSES} />
+        <p className="mt-8 border-t border-slate-200 pt-6 text-sm leading-relaxed text-slate-600">For additional records and current citation information, visit <a className="text-teal-800 underline underline-offset-4" href={MAJID.scholar} target="_blank" rel="me noopener noreferrer" referrerPolicy="no-referrer">Google Scholar ↗</a>.</p>
       </main>
       <ChatWidget />
     </div>

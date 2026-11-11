@@ -5,6 +5,7 @@ const websiteAccess = createCourseAccess();
 import { MAJID } from "@/lib/majid";
 import { SITE } from "@/lib/site";
 import { PROJECTS } from "@/lib/projects";
+import { PUBLICATIONS, publicationKindLabel } from "@/lib/publications";
 
 export const runtime = "nodejs";
 export const maxDuration = 60;
@@ -25,7 +26,7 @@ ${MAJID.bio.industry}
 ${MAJID.bio.community}
 - Professional learning: ${MAJID.certifications.aiForBusiness.title}, ${MAJID.certifications.aiForBusiness.issuer}. Certificate: ${MAJID.certifications.aiForBusiness.url}.
 - Project collection: ${MAJID.personalSite}/projects. Public research case studies include ${PROJECTS.filter((project) => project.context).map((project) => `${project.name} (${project.context}): ${MAJID.personalSite}/projects/${project.slug}`).join("; ")}. The postdoctoral wind-turbine work is controlled imaging and machine-learning research; do not present it as an operational autonomous drone service.
-- Publications: ${MAJID.personalSite}/publications and Scholar ${MAJID.scholar}.
+- Research and publications: ${MAJID.personalSite}/publications has focus filters, paper summaries, and project links. Scholar: ${MAJID.scholar}. Current selected records: ${PUBLICATIONS.map((publication) => `${publication.year}: ${publication.title} — ${publicationKindLabel(publication)}${publication.note ? ` (${publication.note})` : ""}; ${MAJID.personalSite}/publications#${publication.id}`).join("\n")}
 - Profiles: GitHub ${MAJID.github}, LinkedIn ${MAJID.linkedin}.
 - Contact: use the “Send an inquiry to Majid” form inside this website chatbot. LinkedIn remains a professional profile link: ${MAJID.linkedin}. Never provide an email address.
 
