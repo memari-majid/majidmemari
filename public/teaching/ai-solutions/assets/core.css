@@ -17,6 +17,7 @@
 /* Canvas is the navigation and assessment shell; standalone delivery is unchanged. */
 .canvas-only{display:none}
 html[data-delivery="canvas"] .canvas-only{display:block}
+html[data-delivery="canvas"] .site-header,
 html[data-delivery="canvas"] .brand,
 html[data-delivery="canvas"] .site-header nav>a,
 html[data-delivery="canvas"] .site-footer,
