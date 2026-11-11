@@ -16,7 +16,26 @@
    return url.pathname+url.search+url.hash;
   }catch{return null;}
  }
- if(typeof module==='object'&&module.exports){module.exports={isCanvasDelivery,canvasLesson,canvasLink};return;}
+ function textbookSource(value){
+  try{
+   const url=new URL(value);
+   if(url.protocol!=='https:'||url.username||url.password||url.search)return null;
+   if(url.origin==='https://artint.info'&&url.pathname.startsWith('/3e/html/'))return url.href;
+   if(url.origin==='https://openstax.org'&&['/books/introductory-statistics-2e/pages/','/books/entrepreneurship/pages/'].some(path=>url.pathname.startsWith(path)))return url.href;
+   return null;
+  }catch{return null;}
+ }
+ function initTextbookReaders(root){
+  root.querySelectorAll('.textbook-reader').forEach(details=>details.addEventListener('toggle',()=>{
+   if(!details.open)return;
+   const frame=details.querySelector('iframe[data-textbook-src]');
+   if(!frame||frame.getAttribute('src'))return;
+   const source=textbookSource(frame.dataset.textbookSrc);
+   if(source)frame.setAttribute('src',source);
+  }));
+ }
+ if(typeof module==='object'&&module.exports){module.exports={isCanvasDelivery,canvasLesson,canvasLink,textbookSource,initTextbookReaders};return;}
+ initTextbookReaders(document);
  const canvasMode=isCanvasDelivery(location.search);
  if(canvasMode){
   document.documentElement.dataset.delivery='canvas';
