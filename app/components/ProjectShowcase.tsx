@@ -33,7 +33,7 @@ export function ProjectShowcase() {
       <div className="border-t border-slate-200 pt-8">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <h2 id="projects-heading" className="text-2xl font-semibold tracking-tight">Selected projects</h2>
-          <Link href="/projects" className="inline-flex min-h-11 items-center text-sm font-medium text-teal-800 underline decoration-teal-800/30 underline-offset-4 hover:decoration-teal-800">All {PROJECTS.length} projects →</Link>
+          <Link href="/projects" className="inline-flex min-h-11 items-center text-sm font-medium text-teal-800 underline decoration-teal-800/30 underline-offset-4 hover:decoration-teal-800">Explore research →</Link>
         </div>
         <p className="mt-3 text-sm leading-relaxed text-slate-600">Try a guided demo with fictional or public samples. No sign-in required.</p>
         <div className="mt-5 divide-y divide-slate-200">{featured.map((project) => (

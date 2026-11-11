@@ -5,7 +5,7 @@ import { useEffect, useRef, useState } from "react";
 
 const NAV_ITEMS = [
   { label: "Courses", href: "/teaching" },
-  { label: "Projects & research", href: "/projects" },
+  { label: "Research", href: "/projects" },
   { label: "Workshops", href: "/#workshops" },
   { label: "Mentorship", href: "/#mentorship" },
   { label: "About", href: "/about" },

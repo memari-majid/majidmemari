@@ -6,6 +6,7 @@ import { NavBar } from "@/app/components/NavBar";
 import { ChatWidget } from "@/app/components/ChatWidget";
 import { getProject, PROJECTS } from "@/lib/projects";
 import { PUBLICATIONS, publicationKindLabel } from "@/lib/publications";
+import { ComputationMethods } from "@/app/components/ResearchArea";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -31,11 +32,12 @@ export default async function ProjectPage({ params }: Props) {
     <div className="min-h-screen min-w-0 overflow-x-hidden text-slate-900">
       <NavBar />
       <main id="main-content" className="mx-auto max-w-5xl px-5 pb-20 pt-32 sm:px-8 sm:pt-36">
-        <Link href="/projects" className="inline-flex min-h-11 items-center text-sm font-medium text-teal-800 underline underline-offset-4">← Projects &amp; research</Link>
+        <Link href="/projects" className="inline-flex min-h-11 items-center text-sm font-medium text-teal-800 underline underline-offset-4">← Research</Link>
         <p className="mt-7 text-xs font-semibold uppercase tracking-[0.18em] text-teal-800">{project.kind} · {project.category}</p>
         <h1 className="mt-4 max-w-4xl text-4xl font-semibold tracking-tight sm:text-6xl">{project.name}</h1>
         <p className="mt-6 max-w-2xl text-lg leading-relaxed text-slate-600">{project.summary}</p>
         {project.context && <p className="mt-4 max-w-3xl text-sm leading-relaxed text-slate-600">{project.context}</p>}
+        <ComputationMethods methods={project.computationMethods} />
 
         {guide && <section aria-labelledby="demo-guide" className="mt-9 rounded-2xl border border-teal-900/15 bg-white p-6 sm:p-8">
           <p className="text-xs font-semibold uppercase tracking-[0.15em] text-teal-800">Your first walkthrough</p>

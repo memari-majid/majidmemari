@@ -23,6 +23,7 @@ export type Publication = {
   note?: string;
   topics: readonly ResearchFocusId[];
   summary: string;
+  computationMethods?: readonly string[];
   projectLinks?: readonly { slug: string; relationship: ResearchConnection }[];
   otherLinks?: readonly { label: string; href: string }[];
 };
@@ -181,6 +182,7 @@ export const PUBLICATIONS: readonly Publication[] = [
   },
   {
     id: "argane-genome-2020", year: 2020, kind: "journal",
+    computationMethods: ["Big Data", "High-Performance Computing"],
     title: "First draft genome assembly of the Argane tree (Argania spinosa)", authors: "S. Khayi et al.", venue: "F1000Research, 7, 1310 · Version 2",
     href: "https://doi.org/10.12688/f1000research.15719.2", topics: ["biology"],
     note: "First published in 2018; revised version published in 2020.",
@@ -188,6 +190,7 @@ export const PUBLICATIONS: readonly Publication[] = [
   },
   {
     id: "news-sentiment-thesis-2017", year: 2017, kind: "thesis",
+    computationMethods: ["Big Data", "High-Performance Computing"],
     title: "Predicting the Stock Market Using News Sentiment Analysis", authors: "M. Memari", venue: "M.S. thesis · Southern Illinois University Carbondale",
     href: "https://opensiuc.lib.siu.edu/theses/2442/", topics: ["ai"],
     note: "Presented in 2017; the university repository records the award in 2018.",

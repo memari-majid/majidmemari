@@ -15,6 +15,7 @@ export type Project = {
   historical?: boolean;
   publicDemo?: boolean;
   context?: string;
+  computationMethods?: readonly string[];
   sources?: readonly { title: string; url: string }[];
 };
 
@@ -218,6 +219,7 @@ export const PROJECTS: readonly Project[] = [
   },
   {
     slug: "news-sentiment-market-prediction",
+    computationMethods: ["Big Data", "High-Performance Computing"],
     kind: "Master’s research",
     group: "research",
     name: "News sentiment & market prediction",

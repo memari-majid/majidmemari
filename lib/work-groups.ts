@@ -5,6 +5,7 @@ type WorkGroupDefinition = {
   id: string;
   title: string;
   description: string;
+  subtopics: readonly string[];
   projectSlugs: readonly string[];
   publicationIds: readonly string[];
 };
@@ -13,6 +14,7 @@ export type WorkGroup = {
   id: string;
   title: string;
   description: string;
+  subtopics: readonly string[];
   projects: Project[];
   publications: Publication[];
 };
@@ -22,7 +24,8 @@ const WORK_GROUP_DEFINITIONS = [
   {
     id: "computer-vision",
     title: "Computer Vision",
-    description: "Visual recognition, synthetic images, and imaging methods for engineering inspection.",
+    description: "Generating, recognizing, and interpreting images, with applications in OCR and engineering inspection.",
+    subtopics: ["Image generation", "OCR", "Visual inspection"],
     projectSlugs: ["wind-turbine-inspection", "synthetic-image-evaluation", "grideye"],
     publicationIds: [
       "infrared-blade-testing-2025",
@@ -39,8 +42,9 @@ const WORK_GROUP_DEFINITIONS = [
   },
   {
     id: "ai-education",
-    title: "AI & Education",
-    description: "AI-supported learning, teacher preparation, assessment, and curriculum.",
+    title: "Education",
+    description: "Using AI to support teaching, learning, curriculum design, and human-led assessment.",
+    subtopics: ["Teacher preparation", "Assessment", "AI literacy"],
     projectSlugs: ["building-ai-solutions", "ai-classsims", "ai-ster", "course-chatbot", "nvidia-workshop-ta"],
     publicationIds: [
       "capability-ladder-2026",
@@ -53,24 +57,19 @@ const WORK_GROUP_DEFINITIONS = [
   },
   {
     id: "language-models",
-    title: "Language Models & Agents",
-    description: "Language-model applications for specialist guidance, reflection, and planning.",
-    projectSlugs: ["datagovai", "carewise", "willow"],
+    title: "Language Models",
+    description: "Building language-model assistants and agents for source-grounded guidance, reflection, and planning.",
+    subtopics: ["Natural language processing", "Large language models", "Agentic AI"],
+    projectSlugs: ["datagovai", "carewise", "willow", "ai-cpa", "finhub"],
     publicationIds: ["datagovai-2026", "meal-planning-agent-2025"],
   },
   {
-    id: "finance-analytics",
-    title: "Finance & Analytics",
-    description: "Bookkeeping, financial dashboards, and historical predictive research.",
-    projectSlugs: ["ai-cpa", "finhub", "news-sentiment-market-prediction"],
-    publicationIds: ["news-sentiment-thesis-2017"],
-  },
-  {
-    id: "computational-biology",
-    title: "Computational Biology",
-    description: "Genome assembly and computational contributions to biological research.",
-    projectSlugs: [],
-    publicationIds: ["argane-genome-2020"],
+    id: "big-data",
+    title: "Big Data",
+    description: "Data-intensive analytics and high-performance computing in news-based predictive modeling and computational genomics.",
+    subtopics: ["Data Analytics", "High-Performance Computing", "Computational Genomics"],
+    projectSlugs: ["news-sentiment-market-prediction"],
+    publicationIds: ["news-sentiment-thesis-2017", "argane-genome-2020"],
   },
 ] as const satisfies readonly WorkGroupDefinition[];
 
@@ -99,7 +98,7 @@ function resolveWorkGroups(): WorkGroup[] {
       assignedPublications.add(id);
       return publication;
     });
-    return { id: group.id, title: group.title, description: group.description, projects, publications };
+    return { id: group.id, title: group.title, description: group.description, subtopics: group.subtopics, projects, publications };
   });
 
   const missingProjects = PROJECTS.filter((project) => !assignedProjects.has(project.slug)).map((project) => project.slug);
