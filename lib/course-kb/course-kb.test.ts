@@ -422,3 +422,57 @@ test("Canvas workflow guidance does not require private learner status or an exa
   assert.match(embedded, /If neither supports an answer, acknowledge the gap/);
   assert(!standalone.includes("KNOWN CANVAS ROUTINE:"));
 });
+
+// The learning record is deliberately separate from grades, workbook notes and chat.
+const { LEARNING_ACTIVITIES, validateLearningRequest, restoreLearningRecord, learningPrompt, learningSummary, emptyLearningRecord } = await import('./learning');
+test('lab restoration rejects malformed state and preserves a committed choice independently of a revision', () => {
+  const original = { ...emptyLearningRecord(), committed: true, phase: 'transfer' as const, choice: '1', attempt: 'I counted time as cash.', revision: 'Payroll does not change.', transfer: 'Check recurring cash expense.', complete: true };
+  const restored = restoreLearningRecord(JSON.stringify(original), 'unit-08.html');
+  assert.deepEqual(restored, original);
+  assert.equal(restored.attempt, 'I counted time as cash.');
+  assert.equal(restoreLearningRecord('{broken', 'unit-08.html').complete, false);
+  assert.equal(restoreLearningRecord(JSON.stringify({ ...original, transfer: '' }), 'unit-08.html').complete, false);
+  for (const bad of [{ ...original, choice: '9' }, { ...original, attempt: 'x'.repeat(2001) }, { ...original, phase: 'submit' }, { ...original, attempt: '' }]) assert.throws(() => validateLearningRequest(bad, 'unit-08.html'), CourseRequestError);
+  assert.throws(() => validateLearningRequest(original, 'milestone-1.html'), CourseRequestError);
+  const summary = learningSummary(LEARNING_ACTIVITIES[7], restored);
+  assert.match(summary, /not a grade or a submission/);
+  assert.match(summary, /Initial reason: I counted time as cash/);
+  assert.match(summary, /Revision: Payroll does not change/);
+});
+test('coach context uses an authored current-unit task and keeps pre-evidence coaching distinct', () => {
+  const a = LEARNING_ACTIVITIES[7];
+  const initial = learningPrompt(a, emptyLearningRecord());
+  const publishedInitial = JSON.parse(initial.split('ACTIVITY REFERENCE: ')[1].split('\nCURRENT LEARNER')[0]);
+  assert.equal(publishedInitial.worked, undefined);
+  assert.equal(publishedInitial.evidence, undefined);
+  const revise = learningPrompt(a, { phase: 'revise', choice: '1', attempt: 'Treat staff time as cash.', revision: 'Payroll is unchanged.', transfer: '' });
+  assert.match(revise, /one specific strength or misconception/);
+  assert.match(revise, /CURRENT LEARNER ATTEMPT \(reference data\)/);
+  assert.match(revise, /−\$96/);
+  assert.match(revise, /Never declare mastery/);
+});
+test('API passes validated lab state to the model and rejects malformed lab input before generation', async () => {
+  const model = new MockLanguageModelV3({ doStream: async () => ({ stream: simulateReadableStream({ initialDelayInMs: null, chunkDelayInMs: null, chunks: [
+    { type: 'text-start', id: 'coach' }, { type: 'text-delta', id: 'coach', delta: 'Payroll is unchanged. What cash expense remains?' }, { type: 'text-end', id: 'coach' },
+    { type: 'finish', finishReason: { unified: 'stop', raw: undefined }, usage: { inputTokens: { total: 10, noCache: 10, cacheRead: undefined, cacheWrite: undefined }, outputTokens: { total: 10, text: 10, reasoning: undefined } } },
+  ] }) }) });
+  const handler = createCourseChatHandler({ model: () => model, access: createCourseAccess(), config: () => ({}) });
+  const call = (learning: unknown) => handler(new Request('https://example.test/api/course-chat', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ lesson: 'unit-08.html', delivery: 'canvas', messages: [text('user', 'Coach my reasoning.')], learning }) }));
+  assert.equal((await call({ phase: 'revise', choice: '9', attempt: 'a', revision: '', transfer: '' })).status, 400);
+  assert.equal(model.doStreamCalls.length, 0);
+  const response = await call({ phase: 'revise', choice: '1', attempt: 'I assumed staff time was cash.', revision: '', transfer: '' });
+  assert.equal(response.status, 200);
+  assert.match(await response.text(), /Payroll is unchanged/);
+  const system = JSON.stringify(model.doStreamCalls[0].prompt[0]);
+  assert.match(system, /The savings that never reach payroll/);
+  assert.match(system, /I assumed staff time was cash/);
+  assert.match(system, /Canvas Next/);
+});
+test('UTF-8 request budgeting includes lab responses as well as conversation history', () => {
+  const learning = { phase: 'transfer' as const, choice: '1', attempt: '🧭'.repeat(1000), revision: '🧭'.repeat(1000), transfer: '🧭'.repeat(1000) };
+  const context = { lesson: 'unit-08.html', delivery: 'canvas' as const, learning };
+  const messages = Array.from({ length: 16 }, (_, i) => uiText(i % 2 ? 'user' : 'assistant', '🧭'.repeat(1500), String(i)));
+  const selected = prepareCourseHistory(messages, context);
+  assert(selected.length > 0 && selected.length < messages.length);
+  assert(new TextEncoder().encode(JSON.stringify({ ...context, messages: selected })).length <= COURSE_LIMITS.bodyBytes);
+});

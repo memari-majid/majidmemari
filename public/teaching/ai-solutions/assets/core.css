@@ -50,3 +50,7 @@ html[data-delivery="canvas"] .canvas-finish h3{margin-top:0}
 html[data-delivery="canvas"] .canvas-finish p:last-child{margin-bottom:0}
 html[data-delivery="canvas"] .ta-panel{height:100dvh;max-height:100%;top:0;bottom:0}
 @media print{html[data-delivery="canvas"] .canvas-guidance,html[data-delivery="canvas"] .site-header{display:none!important}}
+
+/* The unit reasoning rehearsal, before applying the idea in Build. */
+.ta-learning-activity{margin-block:2.5rem;padding:clamp(1rem,3vw,2rem);border:1px solid var(--teal,#147d84);border-radius:16px;background:var(--surface,#fff)}
+.ta-learning-activity>h2{margin-top:.5rem}.ta-learning-activity details{margin-top:1rem}

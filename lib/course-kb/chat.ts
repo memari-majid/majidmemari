@@ -5,6 +5,7 @@ import { courseRetrievalQuery, courseSources, retrieveCourseChunks } from "./ret
 import { COURSE_LIMITS, CourseRequestError, readCourseRequest, validateCourseMessages } from "./validation";
 import type { CourseChatMessage } from "./types";
 import { normalizeCoursePage } from "./context";
+import { learningActivity, learningPrompt, validateLearningRequest } from "./learning";
 
 const UNAVAILABLE = "The teaching assistant is temporarily unavailable. Your course lessons remain available; please try again later.";
 const errorResponse = (status: number, error: string) => Response.json({ error }, { status, headers: { "Cache-Control": "no-store", ...(status === 429 ? { "Retry-After": "600" } : {}) } });
@@ -30,6 +31,8 @@ export function createCourseChatHandler(options: {
       const messages = validateCourseMessages(body);
       const lesson = normalizeCoursePage(body && typeof body === "object" && "lesson" in body ? body.lesson : "");
       const canvasDelivery = !!(body && typeof body === "object" && "delivery" in body && body.delivery === "canvas");
+      const learning = validateLearningRequest(body && typeof body === "object" && "learning" in body ? body.learning : undefined, lesson);
+      const lab = learning ? learningActivity(lesson) : undefined;
       const chunks = retrieveCourseChunks(courseRetrievalQuery(messages), 6, lesson);
       const sources = courseSources(chunks);
       if (!chunks.length) {
@@ -53,7 +56,7 @@ export function createCourseChatHandler(options: {
           writer.write({ type: "start" });
           for (const source of sources) writer.write({ type: "source-url", ...source });
           const result = streamText({
-            model: getModel(modelId), system: buildCourseSystemPrompt(chunks, lesson, canvasDelivery), messages,
+            model: getModel(modelId), system: buildCourseSystemPrompt(chunks, lesson, canvasDelivery) + (learning && lab ? `\n\n${learningPrompt(lab, learning)}` : ""), messages,
             maxOutputTokens: COURSE_LIMITS.outputTokens, maxRetries: 0, abortSignal: signal,
             onFinish: release, onAbort: release, onError: () => { release(); },
             providerOptions: { gateway: { tags: ["site:majidmemari", "feature:course-ta", `env:${settings.environment ?? "dev"}`] } },

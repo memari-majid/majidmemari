@@ -4,8 +4,8 @@ import { normalizeCoursePage } from "@/lib/course-kb/context";
 import { CourseAssistant } from "./CourseAssistant";
 
 export const metadata: Metadata = {
-  title: "Building AI Solutions — AI teaching assistant",
-  description: "Ask about AI capabilities, real-world problem-solving, simulations, and your capstone. The AI teaching assistant uses Majid Memari’s course materials and links to its sources.",
+  title: "Building AI Solutions — decision lab and AI coach",
+  description: "Practice the next decision in twelve guided labs. Investigate evidence, revise your reasoning, and apply it to your project with a course-grounded AI coach.",
   alternates: { canonical: "/teaching/ai-solutions/assistant" },
   robots: { index: false, follow: true },
 };

@@ -13,7 +13,7 @@ if (source === destination || source.startsWith(`${destination}/`)) {
   throw new Error("Source must be the independently built course, outside the destination.");
 }
 
-const allowed = new Set([".html", ".css", ".js", ".mjs", ".svg", ".txt", ".zip"]);
+const allowed = new Set([".html", ".css", ".js", ".mjs", ".svg", ".txt", ".zip", ".json"]);
 const assistantUrl = "https://www.majidmemari.com/teaching/ai-solutions/assistant";
 const assistantPath = "/teaching/ai-solutions/assistant";
 const files = [];
@@ -24,7 +24,7 @@ async function inspect(directory) {
       throw new Error(`Refusing hidden file or symlink: ${relative(source, full)}`);
     }
     if (item.isDirectory()) await inspect(full);
-    else if (item.isFile() && allowed.has(extname(full))) files.push(full);
+    else if (item.isFile() && allowed.has(extname(full)) && (extname(full) !== ".json" || relative(source, full) === "assets/ta-activities.json")) files.push(full);
     else throw new Error(`Unexpected public file: ${relative(source, full)}`);
   }
 }
