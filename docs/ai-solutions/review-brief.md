@@ -77,6 +77,14 @@ The **website chatbot** is a separate service for general website guidance and i
 
 Evaluate the assigned reading load and optional textbook roles. Verify edition, access, and specific educational fit before suggesting replacements. Prefer official publisher pages, official syllabi, primary research, and product documentation for external claims. Documented use in one course is not evidence of widespread adoption. Keep a viable free route.
 
+## Review the Canvas delivery when accessible
+
+Start with the [Canvas integration guide](canvas-integration.md) and [verified installation record](canvas-live-integration.md). Distinguish the standalone course from the `delivery=canvas` profile and the native Canvas records. The recorded installation is unpublished; another offering may differ.
+
+Trace a lesson through its four stages, embedded simulation and TA, Canvas Next, native check-in, and the milestone when present. Check that students can remain inside Canvas; that twelve unit check-ins collect reasoning and evidence; and that five native rubrics, instructor comments and 15/20/25/15/25% milestone groups support assessment. Verify view/submission requirements without treating receipt as mastery. Confirm that legacy assessments cannot contribute to the current final grade or compete with the current student path.
+
+Evaluate whether formative check-ins are brief, useful snapshots of one project rather than additional papers. Review the optional discussion and Inbox guidance, accessible input alternatives, no-prerequisite explanations, and the instructor's feedback workload. Confirm that the TA explains public course content without claiming access to private Canvas work. Raw simulation events, local practice history and TA chats do not automatically enter Canvas. Use the supplied test evidence or authorized read-only access; a public-site review alone cannot establish live LMS behavior or actual submission/feedback delivery. Do not submit, grade or alter real learner work as part of a review.
+
 ## Return actionable feedback
 
 Lead with the **three highest-value improvements**, then provide:
