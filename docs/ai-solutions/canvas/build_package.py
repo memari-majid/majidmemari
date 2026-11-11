@@ -107,11 +107,41 @@ def assignment_html(milestone):
         + render_criteria(milestone["rubric"]) +
         '<p>Use approved or fictional information. Label supplied facts, observations, '
         'role-play, assumptions, and AI assistance accurately. A defensible decision to '
-        'revise, narrow, or stop can demonstrate sound business judgment.</p>'
+        'revise, narrow, or stop can demonstrate sound evidence-based judgment.</p>'
     )
     body = wrap_content(body, eyebrow="Your continuing capstone", compact=True)
     return (f'<!doctype html><html lang="en"><head><meta charset="utf-8">'
             f'<title>Assignment: {escape(title)}</title></head><body>{body}</body></html>').encode()
+
+
+def native_reading_references(fragment):
+    """Keep optional source citations readable without external LMS navigation."""
+    class Citations(HTMLParser):
+        def __init__(self):
+            super().__init__(convert_charrefs=False)
+            self.parts, self.links = [], []
+
+        def handle_starttag(self, tag, attrs):
+            href = dict(attrs).get("href", "")
+            external = tag == "a" and urlsplit(href).scheme.lower() in {"http", "https"}
+            if tag == "a":
+                self.links.append(href if external else None)
+            self.parts.append("<span>" if external else self.get_starttag_text())
+
+        def handle_endtag(self, tag):
+            href = self.links.pop() if tag == "a" else None
+            self.parts.append(f' <span>({escape(href)})</span></span>' if href else f'</{tag}>')
+
+        def handle_data(self, data): self.parts.append(data)
+        def handle_entityref(self, name): self.parts.append(f'&{name};')
+        def handle_charref(self, name): self.parts.append(f'&#{name};')
+        def handle_startendtag(self, tag, attrs): self.parts.append(self.get_starttag_text())
+        def handle_comment(self, data): self.parts.append(f'<!--{data}-->')
+
+    parser = Citations()
+    parser.feed(fragment)
+    parser.close()
+    return ''.join(parser.parts)
 
 
 def lesson_body_html(unit, *, templates_href=None, guide_href=None):
@@ -168,7 +198,8 @@ def lesson_body_html(unit, *, templates_href=None, guide_href=None):
     resources = ('<p><a href="' + escape(templates_href, quote=True) + '">'
                  'Open the Canvas case packet and editable project templates</a> · '
                  '<a href="' + escape(guide_href, quote=True) + '">Course guide and help</a></p>')
-    return wrap_content(body + assistant + reading + resources, eyebrow=f"Unit {n:02d} of 12", compact=True)
+    return wrap_content(body + assistant + native_reading_references(reading) + resources,
+                        eyebrow=f"Unit {n:02d} of 12", compact=True)
 
 
 def lesson_page_html(unit, page_id):

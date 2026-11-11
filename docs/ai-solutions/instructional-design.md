@@ -32,7 +32,7 @@ The course should help a learner from any discipline take a worthwhile real-worl
 
 **Promise:** Find a real need. Build a useful solution. Test it. Bring it to users.
 
-Personal, community, research, organizational, and business projects can use the same method. A solo business supported by AI agents is a motivating scenario, not a prediction that every learner must become an entrepreneur. The core includes finding users, making an offer, selling or securing adoption, delivering, and operating responsibly.
+Personal, community, research, organizational, and business projects can use the same method. A solo business supported by AI agents is a motivating scenario, not a prediction that every learner must become an entrepreneur. The core includes matching AI capabilities to needs, creating an operable solution, testing it, helping people adopt it, delivering and operating responsibly. Commercialization is an optional application. See [the real-world AI redesign](real-world-ai-redesign.md) for the current capability map and assessment correction.
 
 The course belongs to Majid Memari and can be offered across institutions and organizations. Its public identity does not contain an institution or course number. Students from any discipline follow the same sequence. Their project can address a need in their field, community, organization, or an emerging business; business-school enrollment and entrepreneurial intent are not assumed.
 
@@ -75,10 +75,12 @@ Begin with a short ungraded diagnostic: distinguish a fact from an unsupported A
 
 Capabilities developed during the course include:
 
-- Understanding generative AI, prediction/classification, workflows, and agents at the level needed to choose and evaluate a use.
+- Matching a need to a suitable AI capability: text generation/transformation, source-grounded retrieval, extraction/classification, data analysis/prediction, images, voice/language, workflows and agents.
 - Briefing an existing AI tool, supplying allowed sources, checking output, revising, and documenting human responsibility.
 - Producing a usable document kit, decision aid, repeatable AI-assisted service, or no-code experience.
-- Interpreting data, error consequences, economics, adoption, and customer evidence.
+- Interpreting data, error consequences, resource costs, impact and observed use.
+
+The capability map is practical, not a promise that every tool supports every input or produces reliable results. For each selected capability, learners identify the input, expected output, allowed sources, no-code tool or supplied-output route, likely failure, human check and acceptance task. The supplied-output route labels its AI step as simulated; it does not claim a live model integration. Learners explore breadth through short examples, then implement the capability relevant to their one project rather than build a separate product for every modality.
 
 Algorithm implementation, model training, infrastructure setup, autonomous external actions, public software deployment, and real payment collection are outside the required work. Advanced model mechanics may be optional reference material when they serve an instructor's chosen offering. They must not become hidden prerequisites.
 
@@ -86,19 +88,19 @@ Algorithm implementation, model training, infrastructure setup, autonomous exter
 
 | Outcome | Evidence students must be able to produce | What sufficient work demonstrates |
 |---|---|---|
-| O1. Establish a worthwhile need | Problem statement, user and buyer/sponsor, current alternative, evidence log, baseline | Important claims have an identified source or are labeled assumptions; consequence and scope are specific. |
-| O2. Select and design an appropriate AI response | Comparison of current process, simple non-AI improvement, and AI-assisted option; workflow | The chosen option fits resources; inputs, output, AI role, human check, exception, and fallback are explicit. |
+| O1. Establish a worthwhile need | Problem statement, user and responsible decision owner, current alternative, evidence log, baseline | Important claims have an identified source or are labeled assumptions; consequence and scope are specific. The learner may be the decision owner for an appropriate personal project. |
+| O2. Select and design an appropriate AI response | Capability-to-task map; comparison of current process, simple non-AI improvement, and AI-assisted option; workflow | The chosen capability fits the task and resources; inputs, output, AI role, human check, exception, and fallback are explicit. |
 | O3. Build a usable solution | Actual artifact or repeatable service plus instructions and varied test cases | Another person can complete the bounded intended task, with any assistance recorded; essential claims and calculations can be checked. A mock-up alone is insufficient. |
 | O4. Evaluate and improve it | Test plan, observed user-task record, relevant baseline/comparison, defects, revision and retest | Measures have units and denominators; preparation, review, and rework are included; results are not overstated. |
-| O5. Explain viability | Cost and capacity table, scenario comparison, price or resource request, decision threshold | Distinguishes revenue, contribution, cash costs, and released capacity; considers an unfavorable scenario. |
-| O6. Reach users and make a credible offer | Buyer/sponsor definition, one channel, offer, sales/adoption conversation, onboarding | Promise matches evidence; scope, cost, objections, and a realistic next step are clear. |
+| O5. Evaluate impact and resources | Outcome measures, complete-effort/resource/capacity table, scenario comparison, decision threshold | Distinguishes valued effort and released capacity from cash costs or savings; considers an unfavorable scenario and a meaningful benefit beyond output volume. |
+| O6. Prepare for use and support adoption | Accessible release package, intended users, permission, one route to users, onboarding and observed first-task record | Instructions and promises match evidence; permitted inputs, acceptance task, support owner, resource limits and a proportionate next step are clear. Agreement is distinct from observed use. |
 | O7. Operate and defend the solution | Demonstration, concise recommendation, individual explanation, handoff | Learner explains decisions and limits; ownership, review, updates, support, and stopping conditions are clear. |
 
 Three evidence questions remain separate throughout:
 
 1. **Need:** Is there evidence that the problem matters?
 2. **Performance:** Does this solution perform the intended task in the tested setting?
-3. **Adoption:** Will someone use, approve, or pay for it?
+3. **Adoption:** Can someone begin, complete the intended task, and choose to use it again?
 
 A successful classroom task does not prove market demand. A positive interview does not prove performance. Generated personas do not count as customer observations. A sound recommendation to narrow, revise, or stop can demonstrate excellent learning.
 
@@ -110,18 +112,18 @@ Twelve units are proposed to organize the work. They are **not twelve mandatory 
 
 | Unit | Central question and core learning | Practice within the lesson | Addition to the same project record |
 |---|---|---|---|
-| **1. AI and a useful business task** | What can AI contribute, and what must a person verify? Identify generative, predictive, workflow, and agent uses through examples. | Compare a supplied AI output with its sources; repair an unsupported claim. See a finished capstone example. | Initial need, intended user, and AI-use/review log. |
-| **2. Discover the need** | Who experiences the problem, how often, and what happens today? Distinguish user, buyer, and sponsor; ask neutral questions. | Practice a short neutral discovery conversation with a classmate or classroom client, then revise the evidence log. Inspect supplied notes and a baseline table; compare mean, median, total, and denominator. Supplied responses provide an access fallback. | Evidence log, neutral questions, current process, and initial baseline. |
+| **1. AI capabilities and useful tasks** | What can AI contribute, and what must a person verify? Match text, source Q&A, extraction/classification, analysis/prediction, images, voice, workflows and agents to concrete tasks and limits. | Compare supplied AI outputs with sources; repair an unsupported claim; choose a capability and a check for a real need. See a finished capstone example. | Initial need, intended user, capability/task/input/output/check map and AI-use log. |
+| **2. Discover the need** | Who experiences the problem, how often, and what happens today? Distinguish the user, affected people and responsible decision owner; ask neutral questions. | Practice a short neutral discovery conversation with a classmate or classroom client, then revise the evidence log. Inspect supplied notes and a baseline table; compare mean, median, total, and denominator. Supplied responses provide an access fallback. | Evidence log, neutral questions, current process, and initial baseline. |
 | **3. Choose and scope a solution** | Which response fits the need, uncertainty, and resources? Compare current practice, simple improvement, and AI assistance. | Make a constrained choice; change one uncertain estimate and explain whether the choice changes. | One user, one task, one output, success measure, quality boundary, and exclusions. **Milestone 1.** |
 | **4. Design the workflow** | How does an input become a useful, checked output? Distinguish a fixed workflow from an agent with choices. | Trace a case through intake, approved sources, AI draft, human review, exception, and delivery. | Workflow, AI role brief, source requirements, reviewer, and manual fallback. |
 | **5. Build the first usable version** | Can someone use what we made? Use an existing tool to produce a kit, service, or no-code experience. | Follow one complete construction example, then test ordinary, incomplete, and exception inputs. | Usable version, three varied bench tests, defects, and first revision. **Milestone 2.** |
 | **6. Design a fair test** | What would count as improvement, unacceptable quality, or an inconclusive result? | Compare policies on the same small dataset. Interpret missed exceptions, unnecessary review, full-process time, and sample limits. | Pilot task, comparison, measures, success/stop rules, observation sheet, and approved scope. |
 | **7. Pilot, revise, and retest** | What happened when another person tried it? Observe the task rather than coach the user through every step. | Critique a supplied pilot record before conducting the class/partner task. Interpret before-and-after results without claiming causation automatically. | Actual user-task observation, revision, retest, and stated limitations. **Milestone 3.** |
-| **8. Calculate value and capacity** | Does the benefit survive preparation, review, rework, delivery, and support? | Inspect a value bridge and less favorable scenario; distinguish cash savings from capacity value. | Economics and capacity model with units, periods, assumptions, and a decision threshold. |
-| **9. Shape the offer** | Who pays or approves, what is included, and why choose this? | Compare two offers and revise an unsupported promise; inspect price, cost, and scope together. | Offer card, price/resource request, alternatives, delivery terms, and support boundary. |
-| **10. Find users and sell or secure adoption** | How does a prospect or sponsor reach a justified next step? | Interpret a small acquisition funnel; practice discovery, objection handling, and an honest close. | One channel, message, funnel assumptions, sales/adoption conversation, and onboarding. **Milestone 4.** |
+| **8. Evaluate impact and resources** | Does the benefit survive preparation, review, rework, delivery, and support? | Inspect a value bridge and less favorable scenario; distinguish cash savings from capacity value. | Economics and capacity model with units, periods, assumptions, and a decision threshold. |
+| **9. Prepare the solution for use** | Can another person access, understand and start the current version within its permitted scope? | Repair an unsupported release promise; inspect instructions, acceptance task, accessibility and the resource/capacity effect of an added revision. | Versioned release package, access and first-task instructions, permitted inputs/actions, acceptance task, support boundary and resource plan. |
+| **10. Bring the solution into use** | What helps intended users move from interest to a successful first task? | Interpret a small adoption funnel; rehearse a truthful invitation and onboarding; distinguish agreement from observed completion. | One route to users, permission, bounded rollout, observed first-task record, friction/revision and adoption measures. **Milestone 4.** |
 | **11. Make delivery dependable** | Who owns quality, exceptions, updates, and continued use? | Step through an exception and a recovery; compare bounded AI roles with unchecked delegation. | Operating instructions, AI/human responsibility table, maintenance, handoff, and retention/adoption measures. |
-| **12. Demonstrate and defend** | What should happen next, given the evidence? | Rehearse the demonstration and answer a changed-assumption question. Revise a misleading figure. | Demonstration, concise decision brief, evidence figure, pitch, individual defense, and final handoff. **Milestone 5.** |
+| **12. Demonstrate and defend** | What should happen next, given the evidence? | Rehearse the demonstration and answer a changed-assumption question. Revise a misleading figure. | Demonstration, concise decision brief, evidence figure, individual defense, and final handoff. **Milestone 5.** |
 
 Discovery continues after Unit 2. Rough economics inform scope in Unit 3 before the fuller analysis in Unit 8. Source checks and human responsibility begin in Unit 1. Learners may revise an earlier decision without leaving the common course path.
 
@@ -131,22 +133,22 @@ Different disciplines offer perspectives on the same decisions through a common 
 
 ### One living project record
 
-Keep a single project folder/dossier: problem and evidence; solution and workflow; tests and revision; economics and offer; delivery and handoff. Each milestone is a snapshot of new evidence and changes. Do not ask learners to rewrite the same background in five papers.
+Keep a single project folder/dossier: problem and evidence; solution and workflow; tests and revision; impact/resources/adoption; delivery and handoff. Each milestone is a snapshot of new evidence and changes. Do not ask learners to rewrite the same background in five papers.
 
 The final synthesis can be a concise 4–6-page decision brief with linked evidence and a 6–8-slide presentation. The usable artifact, observations, calculations, and operating instructions live in supporting files. These are proposed limits to be tested with learners, not existing policies.
 
 | Milestone | At unit | Design weight / authorized Canvas group | Main evidence |
 |---|---:|---:|---|
-| 1. Problem and feasible scope | 3 | 15% | Need, baseline, evidence quality, alternatives, bounded task |
-| 2. First usable solution | 5 | 20% | Usability, source checks, AI contribution, bench tests, revision |
+| 1. Problem and feasible scope | 3 | 15% | Need, baseline, evidence quality, capability-to-task fit, alternatives, bounded task |
+| 2. First usable solution | 5 | 20% | Usability, capability/input/output/check, source checks, AI contribution, bench tests, revision |
 | 3. Pilot and learning | 7 | 25% | Test design, observed task, quantitative interpretation, revision/retest |
-| 4. Viability and route to users | 10 | 15% | Economics, capacity, offer, channel, selling or adoption, onboarding |
+| 4. Impact and adoption plan | 10 | 15% | Impact/resources/capacity (35), uncertainty and decision threshold (20), readiness and route to users (25), onboarding and feedback (20) |
 | 5. Demonstration and handoff | 12 | 25% | 60-point shared artifact/handoff (15% of course) plus 40-point individual case exam (10%) in Canvas |
 | **Total** | | **100%** | One cumulative project plus the individual case assessment; formative work adds no percentage |
 
 These weights have been authorized for the current Canvas configuration; other offerings must publish their own approved arrangements. Existing learner grades are not rewritten by this design document. Teams may share artifacts, but every learner must explain a calculation, a design decision, and a limitation. Independent website self-study uses the same evidence and self-checks without implying instructor grading or a credential. Canvas's separate exam implementation is defined by its asynchronous supplement, not by old public-page wording about two individual checks.
 
-Use a short common rubric vocabulary: **problem fit, evidence, usability, evaluation, economics, judgment, communication**. Score the criteria relevant to the milestone. Give feedback on the next consequential improvement.
+Use a short common rubric vocabulary: **problem fit, evidence, usability, evaluation, impact and resources, judgment, communication**. Score the criteria relevant to the milestone. Give feedback on the next consequential improvement. Starting a business, finding paying customers or making a sale is not required for full credit; those are optional applications of the common method.
 
 Example evaluation criterion:
 
@@ -207,11 +209,11 @@ The [reference audit](reference-analysis.md) records observations and limits. Th
 
 | Experience | Position | Required reasoning |
 |---|---|---|
-| Evidence and business numbers | Units 2 and 6, as short connected exercises | Counts versus rates; distribution and total effort; small-sample limits |
+| Evidence and quantitative reasoning | Units 2 and 6, as short connected exercises | Counts versus rates; distribution and total effort; small-sample limits |
 | Quality, review, and exceptions | Units 4–6 | Inputs, human handoff, error consequences, a workable review policy |
 | Pilot value and adoption | Units 7–8 | Full-process effort, actual use, capacity, recurring cost, and assumptions |
 
-Marketing, pricing, and opportunity selection still receive worked figures and short choices in the core. Deeper existing marketing/product/portfolio simulations can be optional expansions **inside the relevant lesson**, not a second suite or required track. The draft 24-concept lab expansion is a content pool, not a commitment to require 24 scenes.
+Capability matching, release preparation, resources and supported adoption receive worked figures and short choices in the core. The six compact figures in Units 3, 5, 9, 10, 11 and 12 complement the five practice placements. Unit 9 shows resource-value allocation and complete-release capacity; Unit 10 shows observed first-task completion and its denominator. Marketing, pricing and sales simulations can be optional commercial applications **inside the relevant lesson**, not a second suite or required track. The draft 24-concept lab expansion is a content pool, not a commitment to require 24 scenes.
 
 Every substantial activity needs a written specification before implementation: outcome; misconception; fixed facts; student decisions; uncertain estimates; data provenance; calculation/model; accessible figure/table; expected feedback; debrief; capstone contribution; approximate time; reset behavior; and a noninteractive alternative.
 
@@ -246,7 +248,7 @@ TA help should usually proceed from hint → small example → source → learne
 
 Before an offering, Majid selects one or two bounded partner briefs, or one complete classroom case. Partners contribute a problem and periodic feedback; Majid owns instruction and grading.
 
-Required brief: user and buyer/sponsor; current process; evidence available; acceptable data; desired outcome; resources and approved tools; sharing limits; feedback windows; pilot task; acceptance criteria; and handoff owner. Scope should fit the learner's time and available access.
+Required brief: user and responsible decision owner; current process; evidence available; acceptable data; desired outcome; candidate AI capability and checks; resources and approved tools; sharing limits; feedback windows; pilot task; acceptance criteria; and handoff owner. Scope should fit the learner's time and available access.
 
 Use three partner touchpoints: initial brief; scope/pilot review; final demonstration and response. Gather questions centrally. Establish the supplied-case fallback before students depend on an external reply.
 
@@ -262,7 +264,7 @@ For asynchronous Canvas delivery, the original core explanation and worked examp
 
 - **AI foundation:** selected material from Ethan Mollick's *Co-Intelligence*, with current original examples and tool evaluation. The [publisher's educator page](https://penguinrandomhousehighereducation.com/book/?isbn=9780593716717) is the verified source for the book; it is not a full implementation manual.
 - **Testing and evidence:** *Testing Business Ideas* for instructor preparation and selected experimentation activities. Its [official description](https://www.strategyzer.com/library/testing-business-ideas-book) organizes experiments by factors including time, cost, and evidence strength. Write original activities and use appropriate licensed access.
-- **Business development:** selected parts of *Disciplined Entrepreneurship*, adapted to both external customers and internal sponsors. The [author's edition page](https://www.d-eship.com/books/) supplies edition information and sample chapters. Do not require all 24 steps as extra milestones.
+- **Optional commercialization:** selected parts of *Disciplined Entrepreneurship* for projects pursuing a business model. The [author's edition page](https://www.d-eship.com/books/) supplies edition information and sample chapters. Business development is not a core reading or assessment requirement; do not add all 24 steps as extra milestones.
 - **Quantitative support:** brief linked sections from [OpenStax Introductory Business Statistics 2e](https://openstax.org/books/introductory-business-statistics-2e/pages/preface). The core emphasis is interpretation; derivations are optional. Direct links avoid assuming unrestricted commercial republication rights.
 
 The detailed earlier [textbook selection memo](textbook-selection.md) remains useful research. Final page/chapter assignments depend on inspected copies and the completed unit storyboards. No book purchase or exam-copy request is made in this planning phase.
@@ -282,7 +284,7 @@ Provisional learner-workload budget for the full twelve-unit core:
 | Discover and scope, Units 1–3 | 4–6 | Discovery preparation/practice, evidence review, scope revision |
 | Design and build, Units 4–5 | 6–10 | Construction beyond the guided Build step, bench tests, correction |
 | Test and revise, Units 6–7 | 6–10 | Reviewer coordination, user task, analysis, revision, retest |
-| Value and route to users, Units 8–10 | 4–7 | Economics refinement, offer, channel, sales/adoption rehearsal |
+| Impact, readiness and adoption, Units 8–10 | 4–7 | Resource refinement, release instructions, bounded rollout, onboarding and observed first-task feedback |
 | Operation and demonstration, Units 11–12 | 4–7 | Handoff trial, final synthesis, individual preparation, rehearsal |
 | **Additional independent work** | **24–40** | Does not repeat time already counted inside Learn/Try/Build/Finish |
 

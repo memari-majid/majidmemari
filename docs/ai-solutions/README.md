@@ -1,12 +1,14 @@
 # Building AI Solutions
 
-> Documentation mirror in the personal-site hosting repository, refreshed from canonical commit `84d7ee2`. Canonical source: `/Users/majid/Documents/GitHub/uvu_courses/courses/cs4720R/`. Edit canonical curriculum and documentation first; then refresh these copies. Source paths below refer to that checkout unless identified as hosting paths. See [source-agent guidance](source-agent-guidance.md) and the [Canvas artifact handoff](canvas/README.md).
+> Documentation mirror in the personal-site hosting repository. Canonical source: `/Users/majid/Documents/GitHub/uvu_courses/courses/cs4720R/`. Edit canonical curriculum and documentation first; then refresh these copies. Source paths below refer to that checkout unless identified as hosting paths. See [source-agent guidance](source-agent-guidance.md) and the [Canvas artifact handoff](canvas/README.md). Current release evidence is in [development and validation](development-and-validation.md).
 
-**Practical AI problem-solving for everyone.** An independent course owned and taught by **Majid Memari**, open to students from any discipline with **no prerequisites**. Learners follow **12 units, one capstone, and five milestones**, using **Learn → Try → Build → Finish**. They discover a need, build a usable AI-assisted solution, test and revise it, develop an offer or adoption case, bring it to users, and hand it over. No programming, prior AI or business knowledge, specific-tool experience, or paid AI access is required.
+**Practical AI problem-solving for everyone.** An independent course owned and taught by **Majid Memari**, open to students from any discipline with **no prerequisites**. Learners follow **12 units, one capstone, and five milestones**, using **Learn → Try → Build → Finish**. They discover a need, build a usable AI-assisted solution, test and revise it, prepare an impact and adoption plan, bring it to users, and hand it over. No programming, prior AI or business knowledge, specific-tool experience, or paid AI access is required.
 
 **Live course:** [www.majidmemari.com/teaching/ai-solutions/](https://www.majidmemari.com/teaching/ai-solutions/)
 
 The directory name is historical. It does not identify the public course, impose an institution, or select an offering. Students across campus use the same path and can apply it to a problem in their field, community, organization, or an emerging business. A partner can supply the problem; Cedar Desk provides the complete classroom fallback. Business cases, economics, and adoption remain practical examples, with the necessary concepts explained in the course.
+
+The learning spine is **need → suitable AI capability → usable solution → test and improvement → supported use and handoff**. Students explore text, source Q&A, extraction/classification, data, images, voice, workflows and agents, then choose the capability relevant to their one project. Capability-specific limits and human checks are part of implementation. Commercialization is optional. See the [real-world AI redesign](real-world-ai-redesign.md) for the current assessment and figure contracts.
 
 ## Start here
 
@@ -14,6 +16,7 @@ The directory name is historical. It does not identify the public course, impose
 |---|---|---|
 | Review the course and recommend improvements | [AI review brief](review-brief.md) | Live learning path, all 12 units, five milestones, and the actual interactions |
 | Understand the educational design | [Instructional design plan](instructional-design.md) | Outcomes, capstone evidence, sequence, feedback, and workload assumptions |
+| Understand capability coverage and the broader real-world focus | [Real-world AI redesign](real-world-ai-redesign.md) | Capability/task/check map, release readiness, adoption and the corrected Unit 9–10 numerical contracts |
 | Find the owning files or connect local and online content | [Repository map](source-map.md) | Source ownership, routes, hosting handoff, and review boundaries |
 | Edit, build, or validate course content | [Site maintenance guide](site-maintenance.md) | Current Python sources, seven assets, and workbook, practice, figure and delivery tests |
 | Check what was actually tested and released | [Development and validation](development-and-validation.md) | Dated evidence, exact release commits, and remaining learner validation |
@@ -47,6 +50,7 @@ The optional course TA is embedded in lessons and uses public course evidence. I
 - **Private operations and instructor assessment material:** ignored `private/`. Account screenshots, configuration records, and the instructor-only exam marking guide are not reviewer inputs, student-cartridge resources, public mirrors, or TA evidence.
 
 The surrounding repository contains other courses and pre-existing work. A clean course review does not require resetting, deleting, staging, or publishing that material. This repository currently has local Git history and no configured remote; the personal website has its own Git and deployment workflow.
+
 
 ## Hosting repository handoff
 

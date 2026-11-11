@@ -58,7 +58,7 @@ Create **12 practice quizzes**, each with three short choice items and one zero-
 
 | Unit | Main practice and transfer target |
 |---|---|
-| 1 | AI draft versus evidence, source checking, human authority, usable task |
+| 1 | Capability-to-task fit, usable inputs/outputs, AI draft versus evidence, source checking and human authority |
 | 2 | Neutral discovery, contrary evidence, mean/median/total, sample denominators |
 | 3 | Consistent alternatives, full-process effort, quality boundaries, feasible scope |
 | 4 | Workflow roles, source validity, missing facts, exception and authorization |
@@ -66,8 +66,8 @@ Create **12 practice quizzes**, each with three short choice items and one zero-
 | 6 | Fair comparison, complete effort and quality, percentage reduction and limits |
 | 7 | Actual observation versus supplied example, denominator/cohort, retest and inference |
 | 8 | Capacity versus cash, costs and periods, adoption sensitivity and named threshold |
-| 9 | Truthful offer, scope, contribution, excluded costs, whole-package capacity |
-| 10 | Channel/funnel denominators, actual paying customer, acquisition cost, adoption next step |
+| 9 | Release readiness, truthful instructions, resource-value allowance versus cash, excluded costs and complete-release capacity |
+| 10 | Adoption denominators, observed successful first task versus agreement, resource cost per completion and supported next step |
 | 11 | Current approved sources, owner review, queue/capacity, support and stopping rules |
 | 12 | Evidence-backed recommendation, honest chart, changed assumption, handoff and limits |
 

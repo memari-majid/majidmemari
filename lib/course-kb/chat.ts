@@ -36,7 +36,7 @@ export function createCourseChatHandler(options: {
         release();
         const stream = createUIMessageStream({ execute({ writer }) {
           writer.write({ type: "start" }); writer.write({ type: "text-start", id: "guidance" });
-          writer.write({ type: "text-delta", id: "guidance", delta: "I could not find a relevant passage in the public course materials. Tell me the unit, milestone, or business concept you are working on, and share your specific question or attempt. I can help you reason through it; I cannot access private records or your instructor’s current calendar." });
+          writer.write({ type: "text-delta", id: "guidance", delta: "I could not find a relevant passage in the public course materials. Tell me the unit, milestone, or concept you are working on, and share your specific question or attempt. I can help you reason through it; I cannot access private records or your instructor’s current calendar." });
           writer.write({ type: "text-end", id: "guidance" }); writer.write({ type: "finish" });
         } });
         return createUIMessageStreamResponse({ stream, headers: { "Cache-Control": "no-store" } });

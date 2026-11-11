@@ -12,7 +12,7 @@ I am Majid Memari, the owner and sole instructor of Building AI Solutions. Revie
 
 The framing is **Practical AI problem-solving for everyone**. The audience is students from any discipline, with **no prerequisites**. Do not assume programming, prior AI or business knowledge, experience with a specific tool, or paid AI access. Students work with explained examples, numbers, tables, figures, evidence, existing AI tools, and real-world workflows. Check that necessary vocabulary, calculations, and tool steps are taught, with a supplied-output fallback. Students should not have to implement algorithms, configure APIs, or administer infrastructure.
 
-The course takes one project from a real need through a usable AI-assisted solution, evaluation, a viable offer or adoption case, finding users, selling or securing adoption, dependable delivery, and handoff. A partner can supply a need in a field, community, organization, or business; the fictional Cedar Desk case must make the same learning possible without one. Business cases and economics remain useful learning material, without requiring business-school knowledge or a plan to start a business. The partner, tools, budget, and available information can vary by offering.
+The course takes one project from a real need through a usable AI-assisted solution, evaluation, an impact and resource assessment, preparing for real use, supporting adoption, dependable delivery, and handoff. A partner can supply a need in a field, community, organization, or business; the fictional Cedar Desk case must make the same learning possible without one. Business cases and economics remain useful learning material, without requiring business-school knowledge or a plan to start a business. The partner, tools, budget, and available information can vary by offering.
 
 A usable document kit, repeatable AI-assisted service, decision aid, or no-code experience can qualify. A slide deck, mock-up, or claim that something was built is not sufficient implementation evidence. Learners need an observed user task, revision, retest, and an honest account of limitations. Real revenue, public launch, paid tools, and a favorable business outcome are not prerequisites for learning or assessment success.
 
@@ -34,7 +34,9 @@ Historical offering files, archived plans, retired links, and old screenshots do
 
 Check whether every important outcome has a taught explanation, a worked example, meaningful practice, feedback, a project application, and observable assessment evidence. Find missing prerequisites, shallow explanations, excessive reading, repeated writing, and places where students can finish by clicking without demonstrating understanding. Judge whether support gradually decreases so students can reason independently by the final milestone.
 
-Evaluate the complete path from problem to continued use: need and alternatives, user and customer or sponsor, scope, usable implementation, controlled delivery, evaluation, economics, offer and price or resource request, reaching users, sales or adoption, onboarding, operations, and handoff. Distinguish learning to implement a solution from merely discussing AI strategy. Check whether ethical judgment, source quality, privacy, human authority, exception handling, and limitations are taught at the point of use.
+Check the explicit capability-to-problem map: generation, source-grounded retrieval, extraction/classification, analysis/prediction, images, voice/language, workflows and agents. Every chosen capability needs usable inputs/outputs, a no-code implementation, an appropriate human check and an observed test. Business formation and sales must be optional applications rather than requirements for full credit.
+
+Evaluate the complete path from problem to continued use: need and alternatives, user and responsible decision owner, scope, usable implementation, controlled delivery, evaluation, impact, resource costs and capacity, accessible release instructions, reaching users and supported adoption, onboarding, operations, and handoff. Distinguish learning to implement a solution from merely discussing AI strategy. Check whether ethical judgment, source quality, privacy, human authority, exception handling, and limitations are taught at the point of use.
 
 Assess transfer across disciplines without recommending separate learning paths. Determine whether a student outside a business school can follow the common case and apply its reasoning to a relevant problem. Check that business terminology and quantitative examples are explained rather than treated as prior knowledge. Identify any specialist knowledge or tool access silently assumed by a required task.
 
@@ -48,7 +50,7 @@ For each activity, identify the concept or misconception, learner action, visibl
 
 | Unit | Interaction to examine | Main reasoning check |
 |---|---|---|
-| 1 | Input, AI draft, human check, and outcome diagram | Does a novice understand what AI contributes and who can authorize action? |
+| 1 | Capability-to-task map; input, AI draft, human check and outcome diagram | Can a novice select a relevant capability, identify a failure and check, and distinguish a supplied-output simulation from a live tool? |
 | 2 | Reply-wait dots, mean, median, and discovery counts | Change the long wait, inspect the original record, and check totals, sample size, and unsupported overlap between survey answers. |
 | 3 | Complete-effort reveal | Include preparation, checking, correction, and handoff rather than counting draft time alone. |
 | 4 | AI and human workflow | Compare ordinary and exception inputs, checking and unchecked delivery, and owner authority versus draft correctness. |
@@ -56,8 +58,8 @@ For each activity, identify the concept or misconception, learner action, visibl
 | 6 | Effort bars and the linked twelve-case quality matrix | Compare the same cases; inspect errors and source facts; add rework and test both quality and effort criteria. |
 | 7 | Twelve-person cohort and denominator brackets | Switch from all invitees to the preceding stage without changing the people or observation window. |
 | 8 | Capacity, cost waterfall, cash view, and adoption curve | Vary adoption and costs; distinguish valued time from actual cash change and conditional break-even from a forecast. |
-| 9 | Extra revision and package capacity | Include owner time, scope, whole-package capacity, contribution, and excluded expenses. |
-| 10 | Acquisition funnel and cost per customer | Distinguish prospects, conversations, trials, and paying customers within the stated period. |
+| 9 | Extra revision and supported-release capacity | Reconcile $180 resource-value allowance − $108 valued time − $12 cash = $60 unallocated resource value; after one added hour, $36 remains and whole-release capacity falls from three to two. Neither remainder is cash or profit. |
+| 10 | Adoption funnel and cost per observed first task | Distinguish 100 reached, 20 conversations, five agreements and three successful first-task completions in 30 days. Check $270/3 = $90 resource cost per completion, not $270/5. Agreements are not use; first use is not continued use. |
 | 11 | Review queue and operating policies | Reconcile arrivals, reviewed work, waiting work, and deferred demand; limiting intake must not erase unmet need. |
 | 12 | Truncated chart origin and supported claims | Recalculate the actual percentage change; distinguish bar-length appearance from data and quality evidence. |
 

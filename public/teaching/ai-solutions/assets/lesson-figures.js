@@ -9,7 +9,7 @@
   }
 })(typeof globalThis !== 'undefined' ? globalThis : this, function () {
   'use strict';
-  const VERSION = '1.0.0';
+  const VERSION = '1.1.0';
   const clamp = (value, low, high, fallback) => { const n = Number(value); return Number.isFinite(n) ? Math.max(low, Math.min(high, Math.round(n))) : fallback; };
   const esc = value => readableText(value).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
   const number = value => Number(value).toLocaleString('en-US', { maximumFractionDigits: 2 });
@@ -38,16 +38,16 @@
     return { stage, cases, total: cases.length, passed: cases.filter(c => c.pass).length };
   }
 
-  function offerModel(extraRevision = false) {
-    const extra = extraRevision === true, price = 180, cashExpense = 12, hours = 4.5 + (extra ? 1 : 0), hourValue = 24, timeValue = hours * hourValue, contribution = price - cashExpense - timeValue, capacityHours = 15, packages = Math.floor(capacityHours / hours);
-    return { extra, price, cashExpense, hours, hourValue, timeValue, contribution, cashBeforeOwnerTime: price - cashExpense, capacityHours, packages, unusedHours: capacityHours - packages * hours };
+  function resourceModel(extraRevision = false) {
+    const extra = extraRevision === true, allowance = 180, cashExpense = 12, hours = 4.5 + (extra ? 1 : 0), hourValue = 24, timeValue = hours * hourValue, remainingAllowance = allowance - cashExpense - timeValue, capacityHours = 15, releases = Math.floor(capacityHours / hours);
+    return { extra, allowance, cashExpense, hours, hourValue, timeValue, remainingAllowance, capacityHours, releases, unusedHours: capacityHours - releases * hours };
   }
 
-  function funnelModel(stage = 0, paying = 3, basis = 'all') {
-    stage = clamp(stage, 0, 3, 0); paying = Number(paying) === 5 ? 5 : 3; basis = basis === 'previous' ? 'previous' : 'all';
-    const all = [{ label: 'Reached', count: 100 }, { label: 'Qualified conversations', count: 20 }, { label: 'Agreed pilot next steps', count: 5 }, { label: 'New paying customers', count: paying }];
+  function funnelModel(stage = 0, completed = 3, basis = 'all') {
+    stage = clamp(stage, 0, 3, 0); completed = Number(completed) === 5 ? 5 : 3; basis = basis === 'previous' ? 'previous' : 'all';
+    const all = [{ label: 'Reached', count: 100 }, { label: 'Conversations', count: 20 }, { label: 'Pilot agreements', count: 5 }, { label: completed === 5 ? 'Hypothetical successful first tasks' : 'Observed successful first tasks', count: completed }];
     const rows = all.slice(0, stage + 1).map((row, i) => ({ ...row, denominator: basis === 'previous' && i > 0 ? all[i - 1].count : 100, rate: row.count / (basis === 'previous' && i > 0 ? all[i - 1].count : 100) }));
-    return { stage, paying, basis, rows, current: rows[rows.length - 1], acquisitionValue: 270, acquisitionCash: 150, acquisitionHours: 5, cac: stage === 3 ? 270 / paying : null, contribution: stage === 3 ? 60 - 270 / paying : null };
+    return { stage, completed, basis, rows, current: rows[rows.length - 1], resourceValue: 270, cashExpense: 150, supportHours: 5, costPerCompletion: stage === 3 ? 270 / completed : null };
   }
 
   function queueModel(days = 0, policy = 'standard') {
@@ -97,20 +97,20 @@
     return `<div class="lesson-figure-controls">${state.stage < 4 ? button('next', next[state.stage]) : button('next', 'All four supplied cases checked', true)}${reset()}</div><p class="lesson-figure-rule"><strong>Current rule:</strong> ${esc(steps[state.stage])}</p>${matrix}${status(`${r.passed} of${r.total} supplied cases pass. ${state.stage === 3 ? 'The denominator increased because a fourth case was added.' : ''}`)}${insight(state.stage === 2 ? 'Three passes do not mean every boundary is covered. Predict what happens at exactly24hours before revealing it.' : state.stage === 3 ? 'The earlier cases still pass. The newly tested24-hour boundary exposes a missing credit rule; do not hide it in the old3/3 score.' : state.stage === 4 ? 'Retesting confirms these four supplied cases after the repair. It does not establish universal reliability or replace your actual reviewer’s test record.' : 'A repair should address a specific defect while preserving the cases that already work. Follow the source condition rather than adding a confident sentence.')}`;
   }
 
-  function renderOffer(state, id) {
-    const r = offerModel(state.extra), pieces = [{ label: 'Cash expense', value: r.cashExpense, tone: 'amber' }, { label: 'Owner time value', value: r.timeValue, tone: 'navy' }, { label: 'Contribution', value: r.contribution, tone: 'teal' }];
+  function renderResources(state, id) {
+    const r = resourceModel(state.extra), pieces = [{ label: 'Cash expense', value: r.cashExpense, tone: 'amber' }, { label: 'Preparation/review/handoff time value', value: r.timeValue, tone: 'navy' }, { label: 'Unallocated resource value', value: r.remainingAllowance, tone: 'teal' }];
     let x = 60;
     const bars = pieces.map(p => { const start = x; x += p.value * 3.2; return `<rect x="${start}" y="58" width="${p.value * 3.2}" height="48" class="lf-fill-${p.tone}"/>${p.value > 20 ? `<text x="${start + p.value * 1.6}" y="88" text-anchor="middle" class="lf-on-${p.tone}">${dollars(p.value)}</text>` : ''}`; }).join('');
-    const chart = svg(id, 'Where the 180-dollar price goes', `Price 180 dollars: 12 cash expense, ${r.timeValue} valued owner time, ${r.contribution} contribution before acquisition and fixed cost.`, `<text x="60" y="27">Fixed proposed price:$180</text>${bars}<text x="60" y="135">$12 cash expense</text><text x="60" y="170">${r.hours} hours/package → ${r.packages} whole packages within15 delivery hours</text>`, 190);
-    return `<div class="lesson-figure-controls">${button('revision', r.extra ? 'Return to the agreed scope' : 'Include an unpriced second revision', false, r.extra)}${reset()}</div>${chart}${legend([['amber','Incremental cash expense'],['navy','Owner time valued at$24/hour'],['teal','Contribution after valued time']])}${table('Provider-side scope comparison', ['Measure', 'Current scenario'], [['Price', dollars(r.price)], ['Incremental cash expense', dollars(r.cashExpense)], ['Owner time', `${r.hours} hours;${dollars(r.timeValue)} assigned value`], ['Contribution before acquisition/fixed cost', dollars(r.contribution)], ['Cash before compensating owner time', dollars(r.cashBeforeOwnerTime)], ['Whole packages within15 hours', `${r.packages};${r.unusedHours} hours unused`]])}${status(r.extra ? 'An extra hour reduces contribution from$60 to$36 and whole-package capacity from3 to2.' : 'At the agreed scope, contribution is$60 after valued time. Capacity is3 whole packages, assuming sufficient demand.')} ${insight('These are provider-side planning figures, not customer willingness-to-pay evidence or a sales forecast. The second revision is additional to the revision already included in the offer. Acquisition and fixed costs remain excluded.')}`;
+    const chart = svg(id, 'Allocating a 180-dollar resource-value allowance', `Resource-value allowance 180 dollars: 12 cash expense, ${r.timeValue} valued preparation/review/handoff time, ${r.remainingAllowance} unallocated resource value. This is not a cash balance or profit.`, `<text x="60" y="27">Fixed resource-value allowance:$180</text>${bars}<text x="60" y="135">$12 cash expense</text><text x="60" y="170">${r.hours} hours/release → ${r.releases} complete releases within15 support hours</text>`, 190);
+    return `<div class="lesson-figure-controls">${button('revision', r.extra ? 'Return to the planned scope' : 'Include an additional revision', false, r.extra)}${reset()}</div>${chart}${legend([['amber','Incremental cash expense'],['navy','Preparation/review/handoff time valued at$24/hour'],['teal','Unallocated resource value']])}${table('Supported-release resource comparison', ['Measure', 'Current scenario'], [['Resource-value allowance', dollars(r.allowance)], ['Incremental cash expense', dollars(r.cashExpense)], ['Preparation/review/handoff time', `${r.hours} hours;${dollars(r.timeValue)} assigned value`], ['Unallocated resource value', dollars(r.remainingAllowance)], ['Complete supported releases within15 hours', `${r.releases};${r.unusedHours} hours unused`]])}${status(r.extra ? 'An extra hour reduces unallocated resource value from$60 to$36 and complete-release capacity from3 to2.' : 'At the planned scope,$60 of resource value is unallocated. Capacity is3 complete supported releases.')} ${insight('The allowance combines cash expense and valued time. Its remainder is neither cash remaining nor profit. The additional revision is beyond the revision already planned. Setup and recurring costs outside this narrow scenario need separate estimates, and actual successful use still needs observation.')}`;
   }
 
   function renderFunnel(state) {
-    const r = funnelModel(state.stage, state.paying, state.basis);
-    const stages = ['Reveal qualified conversations', 'Reveal pilot agreements', 'Reveal payment scenario'];
+    const r = funnelModel(state.stage, state.completed, state.basis);
+    const stages = ['Reveal conversations', 'Reveal pilot agreements', 'Reveal successful first tasks'];
     const dots = Array.from({ length: 100 }, (_, i) => `<span class="lesson-figure-dot ${i < r.current.count ? 'is-current' : 'is-remaining'}" aria-hidden="true"></span>`).join('');
-    const ledger = r.stage === 3 ? `<p class="lesson-figure-rule"><strong>${dollars(r.cac)} per new paying customer</strong> = $270 acquisition effort ÷${r.paying} payers. Contribution after delivery and acquisition:${dollars(r.contribution)} each, before fixed cost.</p>` : '<p class="lesson-figure-rule">Acquisition effort is$270 including valued time. A paying-customer denominator is not established yet.</p>';
-    return `<div class="lesson-figure-controls">${state.stage < 3 ? button('next', stages[state.stage]) : button('payers', r.paying === 3 ? 'Suppose all 5 become paying customers' : 'Return to the 3-payer scenario')}${reset()}</div><label class="lesson-figure-select">Rates compared with<select data-lf-control="basis"><option value="all"${r.basis === 'all' ? ' selected' : ''}>All100 reached people</option><option value="previous"${r.basis === 'previous' ? ' selected' : ''}>Each preceding stage</option></select></label><figure class="lesson-figure-cohort"><div class="lesson-figure-dots" role="img" aria-label="${esc(`${r.current.count} of the original100 people are in the current stage:${r.current.label}. All100 positions remain visible.`)}">${dots}</div><figcaption><strong>${r.current.count}/100</strong> original people at this stage. Blue marks the current group; outlined positions keep the rest of the cohort visible.</figcaption></figure>${table('Acquisition funnel · unique people at day 30', ['Stage', 'People', r.basis === 'all' ? 'Rate of100 reached' : 'Rate of preceding stage'], r.rows.map(row => [row.label, row.count, `${row.count}/${row.denominator} =${percent(row.rate)}`]))}${ledger}${status(`${r.current.label}:${r.current.count} people. Selected denominator:${r.current.denominator}; rate:${percent(r.current.rate)}. Changing the denominator does not change the people.`)}${insight(r.stage === 3 ? `${r.paying} paying customers is a hypothetical outcome, not observed demand. Payment is not completed delivery. At3 packages/month,${r.paying === 5 ? 'five orders require at least two delivery months' : 'three orders fill the example monthly delivery capacity'}. State scheduling before making a promise.` : 'A conversation is not a pilot agreement, and a pilot agreement is not payment. Keep every stage and the denominator named; do not count an earlier stage as a sale.')}`;
+    const ledger = r.stage === 3 ? `<p class="lesson-figure-rule"><strong>${r.completed === 5 ? 'Hypothetical: ' : ''}${dollars(r.costPerCompletion)} resource cost per ${r.completed === 5 ? 'hypothetical' : 'observed'} successful first task</strong> = $270 outreach/support resources ÷${r.completed} completions. The$270 includes$150 cash plus5 hours valued at$24/hour.</p>` : '<p class="lesson-figure-rule">Outreach/support resources total$270 including valued time. A completed-use denominator is not established yet.</p>';
+    return `<div class="lesson-figure-controls">${state.stage < 3 ? button('next', stages[state.stage]) : button('completions', r.completed === 3 ? 'Suppose all 5 complete a first task' : 'Return to 3 completed first tasks')}${reset()}</div><label class="lesson-figure-select">Rates compared with<select data-lf-control="basis"><option value="all"${r.basis === 'all' ? ' selected' : ''}>All100 reached people</option><option value="previous"${r.basis === 'previous' ? ' selected' : ''}>Each preceding stage</option></select></label><figure class="lesson-figure-cohort"><div class="lesson-figure-dots" role="img" aria-label="${esc(`${r.current.count} of the original100 people are in the current stage:${r.current.label}. All100 positions remain visible.`)}">${dots}</div><figcaption><strong>${r.current.count}/100</strong> original people at this stage. Blue marks the current group; outlined positions keep the rest of the cohort visible.</figcaption></figure>${table(r.stage === 3 && r.completed === 5 ? 'Hypothetical adoption comparison · same 30-day cohort' : 'Adoption trial · unique people at day 30', ['Stage', 'People', r.basis === 'all' ? 'Rate of100 reached' : 'Rate of preceding stage'], r.rows.map(row => [row.label, row.count, `${row.count}/${row.denominator} =${percent(row.rate)}`]))}${ledger}${status(`${r.current.label}:${r.current.count} people. Selected denominator:${r.current.denominator}; rate:${percent(r.current.rate)}. Changing the denominator does not change the people.`)}${insight(r.stage === 3 ? `${r.completed === 5 ? 'Five successful first tasks are a hypothetical comparison, not observed outcomes. This comparison assumes the same$270 resources; extra support could change that cost.' : 'Three successful first tasks are supplied fictional observations, not your own collected evidence.'} First use does not establish continued use or broad effectiveness.` : 'A conversation is not a pilot agreement, and an agreement is not successful use. Keep every stage and denominator named. Define the acceptance task before observing it.')}`;
   }
 
   function renderQueue(state) {
@@ -133,8 +133,8 @@
     return `<div class="lesson-figure-controls">${button('axis', r.axis === 0 ? 'Start the chart axis at80' : 'Restore the zero baseline', false, r.axis === 80)}${reset()}</div>${chart}${table('Unchanged evidence', ['Policy', 'Complete effort', 'Acceptable replies'], [['Manual','96 minutes','12/12'],['Reviewed AI','84 minutes','12/12']])}${status(`Actual effort reduction: ${percent(r.reduction)}. Difference in drawn bar lengths: ${percent(r.visibleReduction)}. The numbers did not change. ${state.claim === null ? '' : claims[state.claim].feedback}`)}<fieldset class="lesson-figure-claims"><legend>Which statement can the evidence support?</legend>${claims.map((claim,i) => `<button type="button" data-lf-action="claim-${i}" aria-pressed="${state.claim === i}">${esc(claim.label)}</button>`).join('')}</fieldset>${insight(state.claim === null ? 'Choose a claim, then explain the population, baseline, units, and limits. A dramatic shape does not create stronger evidence.' : claims[state.claim].feedback, state.claim !== null && state.claim !== 0 ? 'caution' : 'supported')}`;
   }
 
-  function initialState() { return { stage: 0, checking: 3, extra: false, paying: 3, basis: 'all', day: 0, policy: 'standard', axis: 0, claim: null }; }
-  const renderers = {3:renderEffort,5:renderRepair,9:renderOffer,10:renderFunnel,11:renderQueue,12:renderChart};
+  function initialState() { return { stage: 0, checking: 3, extra: false, completed: 3, basis: 'all', day: 0, policy: 'standard', axis: 0, claim: null }; }
+  const renderers = {3:renderEffort,5:renderRepair,9:renderResources,10:renderFunnel,11:renderQueue,12:renderChart};
   function renderFigure(unit, state = initialState(), id = 'lesson-figure-preview') {
     return renderers[unit] ? renderers[unit]({...initialState(),...state},id) : '';
   }
@@ -183,12 +183,12 @@
       else if (action === 'next') state.stage = Math.min(unit === 5 ? 4 : 3,state.stage+1);
       else if (action === 'check') state.checking = state.checking === 3 ? 2 : 3;
       else if (action === 'revision') state.extra = !state.extra;
-      else if (action === 'payers') state.paying = state.paying === 3 ? 5 : 3;
+      else if (action === 'completions') state.completed = state.completed === 3 ? 5 : 3;
       else if (action === 'day') state.day = Math.min(5,state.day+1);
       else if (action === 'axis') state.axis = state.axis === 0 ? 80 : 0;
       else if (/^claim-[0-2]$/.test(action)) state.claim = Number(action.slice(-1));
       else return;
-      render(action === 'next' && state.stage === 3 && unit !== 5 ? unit === 3 ? 'check' : 'payers' : action);
+      render(action === 'next' && state.stage === 3 && unit !== 5 ? unit === 3 ? 'check' : 'completions' : action);
     }
     function change(event) {
       const target = event.target;
@@ -204,5 +204,5 @@
     return { getState: () => ({...state}), dispose: () => { if (disposed) return; disposed=true; enhanced.removeEventListener('click',click); enhanced.removeEventListener('change',change); enhanced.remove(); fallback.hidden=false; delete element.dataset.lfMounted; } };
   }
   function mountAll(scope = document) { return [...scope.querySelectorAll('[data-lesson-figure]')].map(mount).filter(Boolean); }
-  return { VERSION, effortModel, repairModel, offerModel, funnelModel, queueModel, chartModel, initialState, readableText, renderFigure, mount, mountAll };
+  return { VERSION, effortModel, repairModel, resourceModel, funnelModel, queueModel, chartModel, initialState, readableText, renderFigure, mount, mountAll };
 });

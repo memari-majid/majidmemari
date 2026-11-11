@@ -17,9 +17,9 @@ This mapping is an instructional inference from public contents, requiring excer
 | 5 | Chapter 2 | Prototype planning |
 | 6 | Chapter 6 | Measures tied to decisions |
 | 7 | Chapter 2 | Testing and revision |
-| 8 | Chapters 5–6 | Strategy and measures; retain original economics lesson |
-| 9 | Chapters 3, 5 | Fit and tradeoffs |
-| 10 | Chapter 2 | Rollout; retain original adoption/sales exercises |
+| 8 | Chapters 5–6 | Strategy and measures; retain original impact/resource calculations |
+| 9 | Chapters 3, 5 | Fit, usable release and resource tradeoffs |
+| 10 | Chapter 2 | Rollout; retain original onboarding and observed-adoption exercises |
 | 11 | Chapters 3, 8 | Human oversight and operation |
 | 12 | Appendix | Review and requirements prompts |
 

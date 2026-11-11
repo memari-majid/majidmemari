@@ -46,7 +46,7 @@ Guided practice appears in Units 2, 4, 6, 7, and 8: discovery evidence, source c
 
 The [simulation application plan](simulation-application-plan.md) defines the decision cycle: record a prediction, explore linked evidence, commit a recommendation and its settings, reveal a fixed worked challenge, then retain or revise with a reason and a capstone implication. The challenge comparison is labeled separately from the learner's live settings. A complete worked table and explanation follows each practice in an optional disclosure; it remains available to printing, static readers, and the course TA.
 
-Inline figures appear in Units 3, 5, 9, 10, 11, and 12: complete effort, repair/retest, offer scope, acquisition, review queues, and misleading chart origins. Keep static explanations, dynamic calculations, tables, and evidence limits consistent. Fictional supplied observations, hypothetical changes, and actual learner evidence are distinct.
+Inline figures appear in Units 3, 5, 9, 10, 11, and 12: complete effort, repair/retest, release resources/capacity, observed adoption, review queues, and misleading chart origins. Unit 9's unallocated resource-value allowance is not cash remaining or profit. Unit 10 divides outreach/support resources by observed successful first tasks, not agreements. Keep static explanations, dynamic calculations, tables, and evidence limits consistent. Fictional supplied observations, hypothetical changes, and actual learner evidence are distinct. The [real-world AI redesign](real-world-ai-redesign.md) defines capability coverage and the assessment changes.
 
 ## Canvas delivery profile
 

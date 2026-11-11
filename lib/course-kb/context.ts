@@ -1,12 +1,12 @@
 /** Public course context shared by the iframe, request handler and retrieval. */
 export const COURSE_PREFIX = "/teaching/ai-solutions/";
 const UNIT_TITLES = [
-  "AI and a useful business task", "Discover the need", "Choose and scope a solution",
+  "AI capabilities and useful tasks", "Discover the need", "Choose and scope a solution",
   "Design the workflow", "Build the first usable version", "Design a fair test",
-  "Pilot, revise, and retest", "Calculate value and capacity", "Shape the offer",
-  "Find users and sell or secure adoption", "Make delivery dependable", "Demonstrate and defend",
+  "Pilot, revise, and retest", "Evaluate impact and resources", "Prepare the solution for use",
+  "Bring the solution into use", "Make delivery dependable", "Demonstrate and defend",
 ];
-const MILESTONE_TITLES = ["Problem and feasible scope", "First usable solution", "Pilot and learning", "Viability and route to users", "Demonstration and handoff"];
+const MILESTONE_TITLES = ["Problem and feasible scope", "First usable solution", "Pilot and learning", "Impact and adoption plan", "Demonstration and handoff"];
 const SUPPORT_TITLES: Record<string, string> = { "index.html": "Course overview", "resources.html": "Course resources", "project.html": "Your project record", "example.html": "Worked project example", "finish.html": "Course finish", "readings.html": "Course readings", "instructor.html": "Instructor information" };
 
 /** Public edition layout, not a read of an institution's settings or learner records. */

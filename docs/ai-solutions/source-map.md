@@ -10,6 +10,7 @@ The maintained audience is students from any discipline, with no prerequisites: 
 |---|---|---|
 | Learner experience and review requirements | `README.md`, `AI_REVIEW_BRIEF.md` | Review of the live course |
 | Educational intent and assessment alignment | `INSTRUCTIONAL_DESIGN_PLAN.md` | Twelve-unit sequence and five milestone design |
+| Current capability coverage and real-world assessment correction | [Real-world AI redesign](real-world-ai-redesign.md) | Capability/task/check map; Unit 9 resource planning, Unit 10 observed adoption and Milestone 4 impact/adoption criteria |
 | Optional textbook decision | `TEXTBOOK_RECOMMENDATION.md`, with earlier research in `TEXTBOOK_SELECTION.md` | Selective reference mapping; no book-purchase or required-reading change |
 | Reference-course design research and reconstruction guidance | `docs/reference-study/README.md` | Six case studies, build/visual handbooks, coverage ledgers, worked example and independent review instructions; not public runtime or TA input |
 | Application of the reference patterns to current lessons | `docs/SIMULATION_APPLICATION_PLAN.md` | Five decision/challenge/revision contracts inside existing Try activities |

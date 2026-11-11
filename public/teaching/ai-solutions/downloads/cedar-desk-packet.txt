@@ -1,44 +1,44 @@
- 
- Your continuing case: Cedar Desk 
-  Fictional teaching case.  Cedar Desk is a booking and customer-support service for small workshop businesses. Its coordinators answer questions about bookings, cancellations, rescheduling, and special requests. The operations owner wants dependable replies without unnecessary checking or repeated clarification. Your project is  ReplyKit : a small source-grounded reply service that turns a permitted question into a checked response or a useful human handoff. It can run with documents, a calculator, and an available AI assistant or the supplied draft. No application or live customer account is needed. 
- The user is a booking coordinator. The buyer or internal sponsor is the operations owner. A customer receives the final approved reply. Those are three different roles. The owner has agreed only to a classroom exploration in this fictional case, not to a purchase, a live integration, or a commercial launch. Your instructor may replace this packet with an approved partner brief while preserving the same tasks and evidence standards. 
- Approved source card: Standard Workshop policy, version 1 
-  Use these supplied facts when drafting or checking replies    Source  Approved fact    
-  S1 — Session  A Standard Workshop lasts 90 minutes and costs $40 per participant, including materials. Participants must be at least 16.  
-  S2 — Cancellation  At least 72 hours before the session: refund eligibility. From 24 hours up to, but not including, 72 hours: credit valid for 90 days. Under 24 hours: no automatic refund or credit; the owner reviews exceptional requests. Do not promise a payment-processing date.  
-  S3 — Rescheduling  A request made at least 48 hours before the session may be considered, subject to available space and coordinator confirmation. No availability is supplied in this packet.  
-  S4 — Missing facts  Ask only for the missing fact needed to apply a policy. Classroom booking references are fictional. A draft is not confirmation that a booking was changed or a refund was processed.  
-  S5 — Special requests  Group prices, accessibility arrangements, age exceptions, and policy exceptions require owner review. The packet supplies no basis for promising them.  
-  S6 — Release  A person checks the source, conditions, tone, and next step before a reply leaves the service. A human decides exceptions and authorizes commitments.  
-  
- Discovery packet 
- Eight supplied, fictional interview records describe waits of  4, 5, 5, 6, 6, 7, 8, and 31 minutes  for a response. Six of eight describe repeated delay; three of eight say they would try a pilot. These convenience-case records are teaching inputs, not a representative market survey. They do not establish purchase intent. Response waiting time is different from the staff processing time in the later benchmark. 
-   Coordinator:  “I often know the basic answer. Finding the latest policy and asking about exceptions takes longer.”   Customer:  “My last reply was quick, but I still did not know whether the date change was confirmed.”   Owner:  “I might try a small test if I can inspect every reply. I have not approved a budget.”   Contrary evidence:  Two of the eight records report no repeated delay. One of these customers prefers a clear policy page to another conversation.  
- These are invented case statements, not quotations from real people. In a discovery role-play, the respondent uses the card and says “unknown” when the packet does not answer a question. Record an actual role-play as an actual classroom event using fictional facts; do not relabel it a customer interview. 
- Twelve supplied test inputs 
-  Bench cases and the expected business behavior    Case  Input  Required response or handoff    
-  1  Cancel 96 hours before the session.  Explain refund eligibility; do not claim a refund was processed.  
-  2  Cancel 48 hours before the session.  Explain 90-day credit eligibility, not a refund.  
-  3  Cancel 8 hours before the session because of an emergency.  No automatic promise; send the exception to the owner.  
-  4  Cancel, but the time until the session is missing.  Ask for the missing time before choosing a policy branch.  
-  5  Move a booking 60 hours before the session.  State the space/confirmation conditions; do not confirm a seat.  
-  6  Move a booking 20 hours before the session.  Escalate rather than extend the published rescheduling rule.  
-  7  Book for a 14-year-old.  State the age condition; an exception needs owner review.  
-  8  Ask the duration and whether materials cost extra.  Give 90 minutes and $40 including materials.  
-  9  Cancel exactly 72 hours before the session.  Apply the refund-eligibility boundary correctly.  
-  10  Cancel exactly 24 hours before the session.  Apply the credit boundary correctly.  
-  11  Ask whether a particular access arrangement is guaranteed.  Ask the owner to confirm; do not invent an arrangement.  
-  12  Request a special price for a group of 20.  Prepare a quotation request for the owner, not a made-up price.  
-  
- A complete usable example 
-  Intake:  Case 5; request to move a booking 60 hours before the session.  Sources:  S3, S4, S6.  Draft:  “Your request is at least 48 hours before the session, so a change can be considered. It depends on available space and coordinator confirmation. Which session would you like us to check? Your booking has not yet been changed.”  Review:  Timing, conditional wording, missing desired session, and no false confirmation checked.  Handoff:  A coordinator checks availability and confirms or declines the requested change.  Status:  Approved draft for classroom use; no external message sent. 
- Make the example usable by another person: provide this source card, an intake sheet, a draft-and-source table, the review checklist, an exception note, and a delivery record. Number the version and label who performs each step. A slide showing those items without providing them is not a working kit. 
- Keep four datasets separate 
-  What each supplied dataset can support    Dataset  Values  Evidence limit    
-  Discovery  Eight waits; six report repeated delay; three would try a pilot.  Supports questions about this fictional sample, not demand in a population.  
-  Processing benchmark  Same 12 cases: manual 96 minutes and 12 acceptable replies; unchecked AI 24 and 9; reviewed AI 84 and 12.  Supplied performance comparison, not your actual user test.  
-  Monthly planning scenario  1,200 eligible replies; 50% planned adoption; one minute released per assisted reply; $24/hour capacity value; $180 tools plus $60 support monthly.  A conditional forecast. Adoption, transfer of timing, and costs require verification.  
-  Adoption cohort  12 invited, 9 started, 6 completed, 4 returned within 14 days after invitation.  Return means completing another task in that same 14-day window; not a forecast for all coordinators.  
-  
-  Your actual evidence starts with what you do.  Use the packet to practice and build. Then ask a classmate, instructor, or approved partner user to perform a bounded task with your version. Record the real attempt, assistance, result, revision, and retest. Leave fields blank until the event happens. A self-review is useful preparation but is not another person’s user test. 
- 
+
+ Your continuing case: Cedar Desk
+  Fictional teaching case.  Cedar Desk is a booking and customer-support service for small workshop businesses. Its coordinators answer questions about bookings, cancellations, rescheduling, and special requests. The operations owner wants dependable replies without unnecessary checking or repeated clarification. Your project is  ReplyKit : a small source-grounded reply service that turns a permitted question into a checked response or a useful human handoff. It can run with documents, a calculator, and an available AI assistant or the supplied draft. No application or live customer account is needed.
+ The user is a booking coordinator. The responsible decision owner is the operations owner. A customer receives the final approved reply. Those are three different roles. The owner has agreed only to a classroom exploration in this fictional case, not to a purchase, a live integration, or a commercial launch. Your instructor may replace this packet with an approved partner brief while preserving the same tasks and evidence standards.
+ Approved source card: Standard Workshop policy, version 1
+  Use these supplied facts when drafting or checking replies    Source  Approved fact
+  S1 — Session  A Standard Workshop lasts 90 minutes and costs $40 per participant, including materials. Participants must be at least 16.
+  S2 — Cancellation  At least 72 hours before the session: refund eligibility. From 24 hours up to, but not including, 72 hours: credit valid for 90 days. Under 24 hours: no automatic refund or credit; the owner reviews exceptional requests. Do not promise a payment-processing date.
+  S3 — Rescheduling  A request made at least 48 hours before the session may be considered, subject to available space and coordinator confirmation. No availability is supplied in this packet.
+  S4 — Missing facts  Ask only for the missing fact needed to apply a policy. Classroom booking references are fictional. A draft is not confirmation that a booking was changed or a refund was processed.
+  S5 — Special requests  Group prices, accessibility arrangements, age exceptions, and policy exceptions require owner review. The packet supplies no basis for promising them.
+  S6 — Release  A person checks the source, conditions, tone, and next step before a reply leaves the service. A human decides exceptions and authorizes commitments.
+
+ Discovery packet
+ Eight supplied, fictional interview records describe waits of  4, 5, 5, 6, 6, 7, 8, and 31 minutes  for a response. Six of eight describe repeated delay; three of eight say they would try a pilot. These convenience-case records are teaching inputs, not a representative market survey. They do not establish purchase intent. Response waiting time is different from the staff processing time in the later benchmark.
+   Coordinator:  “I often know the basic answer. Finding the latest policy and asking about exceptions takes longer.”   Customer:  “My last reply was quick, but I still did not know whether the date change was confirmed.”   Owner:  “I might try a small test if I can inspect every reply. I have not approved a budget.”   Contrary evidence:  Two of the eight records report no repeated delay. One of these customers prefers a clear policy page to another conversation.
+ These are invented case statements, not quotations from real people. In a discovery role-play, the respondent uses the card and says “unknown” when the packet does not answer a question. Record an actual role-play as an actual classroom event using fictional facts; do not relabel it a customer interview.
+ Twelve supplied test inputs
+  Bench cases and the expected task behavior    Case  Input  Required response or handoff
+  1  Cancel 96 hours before the session.  Explain refund eligibility; do not claim a refund was processed.
+  2  Cancel 48 hours before the session.  Explain 90-day credit eligibility, not a refund.
+  3  Cancel 8 hours before the session because of an emergency.  No automatic promise; send the exception to the owner.
+  4  Cancel, but the time until the session is missing.  Ask for the missing time before choosing a policy branch.
+  5  Move a booking 60 hours before the session.  State the space/confirmation conditions; do not confirm a seat.
+  6  Move a booking 20 hours before the session.  Escalate rather than extend the published rescheduling rule.
+  7  Book for a 14-year-old.  State the age condition; an exception needs owner review.
+  8  Ask the duration and whether materials cost extra.  Give 90 minutes and $40 including materials.
+  9  Cancel exactly 72 hours before the session.  Apply the refund-eligibility boundary correctly.
+  10  Cancel exactly 24 hours before the session.  Apply the credit boundary correctly.
+  11  Ask whether a particular access arrangement is guaranteed.  Ask the owner to confirm; do not invent an arrangement.
+  12  Request a special price for a group of 20.  Prepare a quotation request for the owner, not a made-up price.
+
+ A complete usable example
+  Intake:  Case 5; request to move a booking 60 hours before the session.  Sources:  S3, S4, S6.  Draft:  “Your request is at least 48 hours before the session, so a change can be considered. It depends on available space and coordinator confirmation. Which session would you like us to check? Your booking has not yet been changed.”  Review:  Timing, conditional wording, missing desired session, and no false confirmation checked.  Handoff:  A coordinator checks availability and confirms or declines the requested change.  Status:  Approved draft for classroom use; no external message sent.
+ Make the example usable by another person: provide this source card, an intake sheet, a draft-and-source table, the review checklist, an exception note, and a delivery record. Number the version and label who performs each step. A slide showing those items without providing them is not a working kit.
+ Keep four datasets separate
+  What each supplied dataset can support    Dataset  Values  Evidence limit
+  Discovery  Eight waits; six report repeated delay; three would try a pilot.  Supports questions about this fictional sample, not demand in a population.
+  Processing benchmark  Same 12 cases: manual 96 minutes and 12 acceptable replies; unchecked AI 24 and 9; reviewed AI 84 and 12.  Supplied performance comparison, not your actual user test.
+  Monthly planning scenario  1,200 eligible replies; 50% planned adoption; one minute released per assisted reply; $24/hour capacity value; $180 tools plus $60 support monthly.  A conditional forecast. Adoption, transfer of timing, and costs require verification.
+  Adoption cohort  12 invited, 9 started, 6 completed, 4 returned within 14 days after invitation.  Return means completing another task in that same 14-day window; not a forecast for all coordinators.
+
+  Your actual evidence starts with what you do.  Use the packet to practice and build. Then ask a classmate, instructor, or approved partner user to perform a bounded task with your version. Record the real attempt, assistance, result, revision, and retest. Leave fields blank until the event happens. A self-review is useful preparation but is not another person’s user test.
+
