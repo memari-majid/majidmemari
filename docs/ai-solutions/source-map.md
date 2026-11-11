@@ -8,6 +8,8 @@ Use this map to find the current source, compare it with the live course, and un
 |---|---|---|
 | Learner experience and review requirements | `README.md`, `AI_REVIEW_BRIEF.md` | Review of the live course |
 | Educational intent and assessment alignment | `INSTRUCTIONAL_DESIGN_PLAN.md` | Twelve-unit sequence and five milestone design |
+| Reference-course design research and reconstruction guidance | `docs/reference-study/README.md` | Six case studies, build/visual handbooks, coverage ledgers, worked example and independent review instructions; not public runtime or TA input |
+| Application of the reference patterns to current lessons | `docs/SIMULATION_APPLICATION_PLAN.md` | Five decision/challenge/revision contracts inside existing Try activities |
 | Lesson prose, objectives, checks, readings, cases, rubrics | `site/course_content.py` | Unit, milestone, case, and reading pages |
 | HTML structure and authored supporting-page text, optional book list, resources, instructor guidance, course map, redirects, downloads | `site/build_core.py`, invoked by `site/build_site.py` | `site/dist/` |
 | Six inline figure explanations and static fallbacks | `site/visual_lessons.py` | Learn sections in Units 3, 5, 9, 10, 11, and 12 |
@@ -16,7 +18,7 @@ Use this map to find the current source, compare it with the live course, and un
 | Shared course presentation | `site/assets/core.css` | Course layout, theme, responsive and print rules |
 | Navigation, checks, progress, embedded TA panel | `site/assets/site.js` | Learn/Try/Build/Finish and saved study state |
 | Portable workbook format and safe merge | `site/assets/workbook.js` | Local notes and JSON backup/restore |
-| Static and model checks | `site/check_site.py`, `test_workbook.cjs`, `test_practice.cjs`, `test_lesson_figures.cjs` | Link/alignment checks and 52 model/workbook tests in the recorded release |
+| Static and model checks | `site/check_site.py`, `test_workbook.cjs`, `test_practice.cjs`, `test_lesson_figures.cjs` | Link/alignment checks and 63 model/workbook tests in the decision-challenge update |
 | Build and browser evidence | `DEVELOPMENT_AND_VALIDATION.md`, `VISUAL_QA_REVIEW.md` | Dated results and remaining validation |
 
 The builder uses only current course sources and its seven explicit assets. It does not read historical offering JSON, Canvas records, old studios, private screenshots, or external textbook files. Student-facing text does not come from the old course plans.

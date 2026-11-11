@@ -120,3 +120,43 @@ On November 10, 2026, the independent review brief was rewritten for the current
 After organization, the course built successfully, all 60 generated HTML pages passed link/alignment checks, and all 52 workbook/practice/figure tests passed. All 69 non-ZIP generated files matched the published snapshot after the documented deployment-relative TA URL rewrite; ZIP container timestamps were not compared. Current documentation links were checked. No course behavior was changed by this organization pass. Independent review found no blocking orientation issue; its recommendations to allow evidence-backed simplification, preserve live-first review order, and clarify supporting-page authorship were incorporated.
 
 The repository contains pre-existing offering edits and other work outside this pass. They are not silently staged, reset, deleted, or represented as a clean working tree.
+
+## Reference preservation study — November 10, 2026
+
+At the owner's request, completed a deeper authenticated UI study of all six reference simulations before access ends. The durable original documentation is indexed at [reference-study/README.md](reference-study/README.md). It contains six case studies, a visual-design guide, an implementation handbook, an original six-record worked example, independent AI review instructions, a coverage report and machine-readable evidence ledgers. It preserves design knowledge rather than the reference's full lessons, data, question bank or application source.
+
+The finite inventory reconciles to 17 top-level stages/parts, 50 concept sections, 38 learning math/method disclosures, 24 business acts, 95 final practice/challenge explanations and 30 inline learning-check explanations. Major control families and representative edge cases were exercised; all numerical combinations, random states, distractor branches and statistical implementations were not verified. Selected content cautions were checked against primary documentation, including ADF interpretation, AIC comparability, residual diagnostics and Prophet regressors.
+
+A 390 × 844 viewport spot check covered the suite and all six initial learning pages. Document widths stayed within 390 px; some charts and tables had internal overflow, and sampled scaled chart text was only 6.5 px high. The records distinguish this limited layout check from a full mobile or accessibility audit. The temporary viewport override was reset.
+
+Documentation validation passed: 12 new Markdown files, 4 evidence JSON ledgers, balanced code fences and 35 local documentation links. Independent review reconciled the aggregate counts and found no material contradiction. The original worked-example calculation passed five expected scenarios, 101 threshold-invariant checks, empty/undefined-output checks and invalid-threshold checks. A manifest records the package files and their hashes; it is not a runtime course release manifest.
+
+Only research and orientation documentation changed in this pass. No published course behavior, TA corpus, account configuration or deployment changed. The existing learner pilot remains outstanding. Unrelated offering edits remain outside the focused documentation commit.
+
+
+## Shared typography alignment — November 10, 2026
+
+At the owner’s request, changed only the shared course `h1,h2` font weight from 500 to 600, preserving Georgia and the existing cream/navy/teal palette. This matches the personal website’s heading weight. Body text, lesson content, assessments, calculations, interactions, and stored workbook behavior were unchanged.
+
+Before the edit, an isolated build of the clean maintained source matched all 69 hosted non-ZIP files after the documented relative-TA URL rewrite, and every portable ZIP member matched the published archive. After the edit, the course build and structural check passed for 60 HTML pages. The standard personal-site sync refreshed the shared CSS, its cache hashes in 24 pages, portable ZIP, release manifest, and TA source digest; the 145 semantic chunks remained the same. All 34 retained course/workshop TA checks passed. ZIP comparison found only the CSS and its 24 HTML cache references changed. Browser visual checks and production release are handled in the owning personal-site task.
+
+Unrelated offering operations remain outside this typography change.
+
+## Applying the simulation study — November 10, 2026
+
+The owner requested applying the completed reference study to the actual course. The [application plan](simulation-application-plan.md) was written before implementation. Five existing Try activities now preserve an initial prediction and recommendation, reveal an original paired evidence challenge, and invite a retained or learner-authored revised recommendation with a reason. The one twelve-unit path, five milestones, shared theme, and embedded placement remain intact.
+
+The new linked comparisons cover reply-wait distributions (Unit 2), human authority (Unit 4), rework and an effort boundary (Unit 6), cohort denominators (Unit 7), and adoption/value/cash (Unit 8). Choice-specific feedback appears before the challenge. Each paired figure and table use the same calculation, units, and comparison. A fixed worked challenge is explicitly separate from current exploration settings. Worked answers moved below practice into optional ordinary-HTML disclosures, retaining a reading alternative and TA evidence.
+
+Original records, current drafts, and saved final responses are distinct. Freeform revision permits practical actions such as keeping the manual process while narrowing and retesting the AI task. Version-2 notes survive migration without invented commitments; Unit 4's old question choices remain labeled as old answers instead of being assigned new meanings. Completion can retain an incomplete-record notice and never asserts mastery. The separate activity export includes unsaved drafts as well as original and final records.
+
+Verification before publishing:
+
+- Course build and structural checks passed for 60 HTML pages, including all five practice-before-worked-explanation placements, links, branding, and the portable archive. All 63 course tests passed: 13 workbook, 41 practice, and 9 inline-figure checks.
+- Independent source/model review passed the five numerical contracts, all 15 initial-choice/recovery paths, snapshot isolation, migration, bounded/escaped revision text, exports, and zero-width zero bars. See [the independent review](simulation-application-review.md).
+- Browser checks exercised all five challenge routes. Unit 6 preserved a 3-minute original setting after live exploration changed to 6; a new written recommendation and reason survived reload, completed its transfer, and appeared in the downloaded record alongside the original settings. Incorrect recommendations received explanatory feedback. Unit 7 explicitly skipped a prediction and retained its incomplete-record notice after saving the study marker.
+- All five paired challenges stayed within a 390 × 844 viewport, with wide tables scrolling inside their containers. Keyboard Enter selected linked scenario evidence; reduced motion disabled automatic playback while preserving manual steps. Unit 4's zero-outcome bar measured zero width. No warning/error console entries were observed in the local checked tab.
+- With JavaScript disabled, Unit 6 retained its reading instructions and the native worked-answer disclosure opened to the complete 90-minute/6.25% comparison. Print behavior continues to use the existing disclosure-opening handler; this pass did not perform a full printed-page audit.
+- The synchronized website contains 70 public files and 149 TA chunks from 24 current HTML pages. The TA prompt now describes the decision/revision cycle and explicitly denies access to saved choices or live controls. All 35 course/workshop TA tests passed, including natural-language retrieval of the rework, downside, and authority explanations. TypeScript and the production Next.js build passed.
+
+These are technical and source-based checks. Representative-learner usability, time on task, and learning effectiveness still need the pilot described above. The documented design does not turn fictional comparisons into business-partner evidence. Production verification is recorded separately below after release.

@@ -34,7 +34,7 @@ node --test test_workbook.cjs test_practice.cjs test_lesson_figures.cjs
 python3 -m http.server 8765 --bind 127.0.0.1 --directory dist
 ```
 
-Open http://127.0.0.1:8765/. Python's standard library builds the static course without credentials or network access. A suitable Node.js runtime runs the pure-data tests; students do not need Node or programming tools. The current test set contains 52 checks: 13 workbook, 30 practice, and 9 inline-figure tests.
+Open http://127.0.0.1:8765/. Python's standard library builds the static course without credentials or network access. A suitable Node.js runtime runs the pure-data tests; students do not need Node or programming tools. The current test set contains 63 checks: 13 workbook, 41 practice, and 9 inline-figure tests.
 
 The builder replaces only `dist/`, which is generated and ignored by Git. Current output includes 24 main content pages, 36 compatibility redirects, seven maintained assets, two text downloads, and the portable ZIP. Retired `module-*`, `assessment-*`, and `labs/index.html` routes are redirects, not another learner path.
 
@@ -44,6 +44,8 @@ Browser verification should cover Start/Continue/Finish, all four lesson stages,
 
 Guided practice appears in Units 2, 4, 6, 7, and 8: discovery evidence, source checking and human authority, complete effort versus quality, cohort denominators, and capacity versus cash. Three model families serve these five lesson placements; this is not a separate simulation suite.
 
+The [simulation application plan](simulation-application-plan.md) defines the decision cycle: record a prediction, explore linked evidence, commit a recommendation and its settings, reveal a fixed worked challenge, then retain or revise with a reason and a capstone implication. The challenge comparison is labeled separately from the learner's live settings. A complete worked table and explanation follows each practice in an optional disclosure; it remains available to printing, static readers, and the course TA.
+
 Inline figures appear in Units 3, 5, 9, 10, 11, and 12: complete effort, repair/retest, offer scope, acquisition, review queues, and misleading chart origins. Keep static explanations, dynamic calculations, tables, and evidence limits consistent. Fictional supplied observations, hypothetical changes, and actual learner evidence are distinct.
 
 ## Workbook and printing
@@ -51,6 +53,8 @@ Inline figures appear in Units 3, 5, 9, 10, 11, and 12: complete effort, repair/
 The course workbook uses browser key `building-ai-solutions-v2`. Progress markers, preparation checks, notes, and lesson position remain on that browser and origin; they are not submissions or grades. Resources provides a version-2 JSON backup and readable text export. Imports preserve differing notes; invalid or oversized merges fail without replacing saved work. Earlier-edition import preserves notes without mapping old completion marks to new units.
 
 Guided practice has separate keys, `ai-solutions:v2:practice:<unit>:<family>`, and its own export/reset controls. A workbook backup does not contain those activity records. Clearing browser storage or changing origin can separate or remove local work. Use fictional notes for testing.
+
+The decision-cycle update uses a version-3 activity record in the existing practice key. Earlier version-2 notes are preserved without inventing a prior commitment. Original commitments and final responses are separate from editable exploration settings. The readable practice export records those distinctions. Finishing an activity is a study marker, not a score or proof of mastery.
 
 Browser Print shows all four lesson stages and opens worked-answer disclosures. Inline figures print their complete static worked explanations instead of a partially revealed animation. There is no maintained `course-print.html` reader in this edition.
 

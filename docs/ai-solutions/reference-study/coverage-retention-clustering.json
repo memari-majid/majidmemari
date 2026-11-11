@@ -1,0 +1,220 @@
+{
+  "schema_version": 1,
+  "audit_date": "2026-11-10",
+  "method": "Rendered authenticated browser UI through CUA; original analysis only. No source, network, hidden application-state, dataset, or question-bank archive.",
+  "exhaustiveness_definition": "All finite content sections, math disclosures, business acts, and question explanations; representative interaction/control families and selected boundaries. Not exhaustive numerical/state-space validation.",
+  "pages": [
+    {
+      "slug": "retention",
+      "url": "https://simulations-6620.vercel.app/c/mktg-6620/retention",
+      "document": "RETENTION.md",
+      "sections_observed": [
+        "split error",
+        "depth and pruning",
+        "boosting loop",
+        "rate trees depth",
+        "cross-validation grid",
+        "importance and refits",
+        "individual and average responses"
+      ],
+      "math_disclosures": {
+        "inventoried": 7,
+        "opened": 7
+      },
+      "inline_checks": {
+        "inventoried": 9,
+        "feedback_opened": 9,
+        "parent_completed_finite_coverage": true
+      },
+      "business_acts_observed": [
+        "brief",
+        "predict and threshold",
+        "importance guess",
+        "allocate",
+        "four checks and recommendation",
+        "score provenance and debrief"
+      ],
+      "evidence_checks_observed": [
+        "distribution behind average",
+        "record consistency",
+        "sound-record subgroup",
+        "one-column versus joint what-if"
+      ],
+      "challenge_items": {
+        "inventoried": 9,
+        "feedback_opened": 9,
+        "correct_and_incorrect_paths_sampled": true
+      },
+      "control_families_tested": [
+        "keyboard range endpoints",
+        "pressed-state toggles",
+        "single and batch iterative step",
+        "automatic search",
+        "explicit model run",
+        "multi-setting comparison",
+        "cell and reveal-all grid",
+        "batch refit",
+        "previous next wrap",
+        "redraw sample",
+        "disclosure",
+        "case modal and Escape",
+        "predict-before-reveal choice",
+        "batch allocation",
+        "sorting",
+        "individual over-budget refusal",
+        "clear plan",
+        "sequential evidence reveal",
+        "revisable recommendation",
+        "stage revisit"
+      ],
+      "representative_boundaries": [
+        "one-record extreme cut",
+        "maximum depth",
+        "maximum pruning charge gives root",
+        "zero-tree readout outside close-up",
+        "hard budget cap refuses upgrade",
+        "first-to-last record wrap"
+      ],
+      "completion_verified": [
+        "best split found",
+        "cross-validation completed",
+        "all refits completed",
+        "budget debrief personalized",
+        "all final feedback locked"
+      ],
+      "gaps": [
+        "continuous ranges and all settings",
+        "direct cut/curve drag or click",
+        "each individual refit control",
+        "four of five workload-slider variables",
+        "apply chosen pruning value",
+        "all possible plans and random draws",
+        "all distractor branches",
+        "full keyboard and screen-reader audit",
+        "contrast measurement",
+        "mobile and reduced motion",
+        "zoom and print",
+        "settled reload persistence"
+      ],
+      "architecture_status": "implementation recipe is inferred/proposed, not source inspection",
+      "business_acts_count": 6
+    },
+    {
+      "slug": "clustering",
+      "url": "https://simulations-6620.vercel.app/c/mktg-6620/clustering",
+      "document": "CLUSTERING.md",
+      "sections_observed": [
+        "manual grouping",
+        "unlabeled structure",
+        "assign and move loop",
+        "distance geometry",
+        "scaling and projected axes",
+        "silhouette",
+        "mean and medoid",
+        "kernel shape",
+        "soft membership"
+      ],
+      "math_disclosures": {
+        "inventoried": 5,
+        "opened": 5
+      },
+      "inline_checks": {
+        "inventoried": 0,
+        "note": "Learn uses interactive commitment and contextual explanations; no inline multiple-choice question groups observed."
+      },
+      "business_acts_observed": [
+        "stakeholder brief",
+        "scaling and count choice",
+        "segment naming",
+        "objective and target commitment",
+        "final strategic financial debrief"
+      ],
+      "challenge_items": {
+        "inventoried": 21,
+        "feedback_opened": 21,
+        "topic_groups": 9,
+        "chart_or_table_items": 4,
+        "correct_and_incorrect_paths_sampled": true
+      },
+      "control_families_tested": [
+        "chart marker placement",
+        "commit manual attempt",
+        "group-count choice",
+        "assign step",
+        "move step",
+        "automatic completion",
+        "reseed",
+        "drag distance point",
+        "keyboard p range",
+        "scaling toggle",
+        "axis choice",
+        "selected-record range",
+        "k range",
+        "comparison-line toggle",
+        "drag outlier",
+        "model-family switch",
+        "information-state tabs",
+        "soft share and move steps",
+        "soft reset",
+        "linked point selection",
+        "disclosures",
+        "naming choices",
+        "objective and target choice",
+        "commit and revise decision",
+        "stage revisit"
+      ],
+      "representative_boundaries": [
+        "aligned coordinates make distances equal",
+        "largest shown k",
+        "last shopper",
+        "outlier far from crowd",
+        "converged loop disables progression",
+        "wrong complete naming permutation"
+      ],
+      "completion_verified": [
+        "manual attempt retained",
+        "k-means converged",
+        "soft model converged",
+        "correct naming unlocked final decision",
+        "both objective types viewed",
+        "all final feedback locked"
+      ],
+      "observed_issues": [
+        {
+          "id": "naming-retry",
+          "description": "Complete swapped naming permutation prompted retry but all alternative labels disabled; selected label click did not clear; no visible reset/swap. Successful branch inspected in new tab.",
+          "reproduction_status": "one complete wrong permutation, rendered state verified"
+        },
+        {
+          "id": "score-scope",
+          "description": "Choosing two while raw-dollar curve displayed produced comparison using scaled score without explicit scope in that feedback sentence.",
+          "reproduction_status": "one observed choice; mathematical correctness not audited"
+        }
+      ],
+      "tool_limitations": [
+        "Old background tab had zero-width screenshot after navigation; fresh tab restored behavior. Not treated as app defect or persistence proof."
+      ],
+      "gaps": [
+        "all coordinate configurations and marker limit",
+        "clear uncommitted manual markers",
+        "every initialization and slider/axis setting",
+        "every naming permutation",
+        "every objective-target combination",
+        "all distractor branches",
+        "keyboard alternatives for direct SVG manipulation",
+        "full keyboard and screen-reader audit",
+        "contrast measurement",
+        "mobile and reduced motion",
+        "zoom and print"
+      ],
+      "architecture_status": "implementation recipe is inferred/proposed, not source inspection",
+      "business_acts_count": 4,
+      "final_debrief_observed": true
+    }
+  ],
+  "cross_cutting_followup": {
+    "record": "COVERAGE.md",
+    "initial_learning_view_390px_page_width_checked": true,
+    "complete_mobile_accessibility_audit": false
+  }
+}

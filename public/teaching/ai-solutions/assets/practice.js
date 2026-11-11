@@ -8,7 +8,8 @@
   else { root.AISolutionsPractice = api; if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', () => api.mountAll()); else api.mountAll(); }
 })(typeof globalThis !== 'undefined' ? globalThis : this, function () {
   'use strict';
-  const VERSION = 2;
+  const VERSION = 3;
+  const DATASET_VERSION = 'cedar-desk-1';
   const WAIT_RECORDS = [4, 5, 5, 6, 6, 7, 8, 31].map((minutes, i) => ({ id: `wait-${i + 1}`, label: `Reply ${i + 1}`, minutes }));
   const CASES = [
     ['Cancel 96 hours before', 'S2: At least 72 hours before the session gives refund eligibility. S4/S6: A draft does not mean a refund was processed.', 'You are eligible for a refund under the cancellation policy; the coordinator must process it. No refund has been processed by this reply.', false, 'S2, S4, S6'],
@@ -83,7 +84,19 @@
     transfer: 'For your actual capstone test, specify the observation window and invited population. Record the task, assistance, completion, defect, revision, and retest without filling in an event that has not happened.',
     takeaway: 'A usable task, willingness to try, repeated use, and purchase are different findings. Keep the denominator, time window, and contrary evidence visible.'
   };
-  function configFor(family, unit) { return family === 'value' && String(unit) === '7' ? PILOT_CONFIG : CONFIG[family]; }
+  const WORKFLOW_CONFIG = {
+    title: 'Who may authorize the next action?', duration: '10–15 minutes',
+    intro: 'Trace a customer request from an approved source to a checked reply. A draft, a prepared handoff, and an authorized business action are different states.',
+    prediction: 'An emergency cancellation arrives 8 hours before the session. What should happen to an AI draft promising a refund?',
+    predictions: ['Release it because it sounds helpful.', 'Check S2 and hold the unsupported promise for a human decision.', 'Treat a prepared handoff as a completed refund.'],
+    predictionFeedback: ['Helpfulness does not supply authority. Inspect the source and the customer commitment.', 'Compare the claim with S2, then distinguish preparing a handoff from an owner actually deciding.', 'Writing a handoff does not mean it was received, authorized, or carried out.'],
+    decision: 'Which operating rule would you use for this workflow?',
+    options: ['Release a fluent draft without a source or authority check.', 'Check the source, hold unsupported commitments, and prepare exceptions for the owner.', 'Let the assistant approve exceptions once it cites a source.'],
+    feedback: ['The emergency draft promises an automatic refund that S2 does not authorize. Fluency does not prevent a material error reaching the customer.', 'This rule separates a checked reply from an owner decision. In the classroom, report a prepared handoff unless a real handoff occurred; no refund is established.', 'A source can identify an exception without authorizing it. The owner decides; the assistant cannot grant itself that authority.'],
+    transfer: 'For your project, name the approved source, reviewer, permitted action, exception owner, and condition that stops delivery. State what a prepared handoff does—and does not—mean.',
+    takeaway: 'Check the claim and the authority to act. A plausible draft is not an approved business action.'
+  };
+  function configFor(family, unit) { return family === 'quality' && String(unit) === '4' ? WORKFLOW_CONFIG : family === 'value' && String(unit) === '7' ? PILOT_CONFIG : CONFIG[family]; }
   const CONTROLS = {
     evidence: [{ key: 'tail', label: 'Longest reply wait', min: 9, max: 55, step: 1, unit: 'minutes', initial: 31 }],
     quality: [{ key: 'rework', label: 'Extra rework across the 12 reviewed cases', min: 0, max: 24, step: 1, unit: 'minutes', initial: 0 }],
@@ -98,10 +111,15 @@
     const result = calculate(family, { ...current, [key]: raw });
     return { ...current, [key]: result[key] };
   }
-  function initialState(family) { return { version: VERSION, stage: 0, frame: 0, prediction: null, reason: '', decision: null, transfer: '', selected: null, policy: 'reviewed', caseId: 'case-1', cohortBasis: 'invited', complete: false, inputs: { ...Object.fromEntries(CONTROLS[family].map(c => [c.key, c.initial])), ...(family === 'evidence' ? { includeTail: true } : {}) } }; }
-  function restoreState(family, input) {
+  const validChoice = choice => Number.isInteger(choice) && choice >= 0 && choice < 3 ? choice : null;
+  function settingsFor(family, input = {}) {
+    const normalized = calculate(family, input.inputs && typeof input.inputs === 'object' ? input.inputs : {});
+    return { inputs: { ...Object.fromEntries(CONTROLS[family].map(c => [c.key, normalized[c.key]])), ...(family === 'evidence' ? { includeTail: normalized.includeTail } : {}) }, policy: Object.hasOwn(POLICY_NAMES, input.policy) ? input.policy : 'reviewed', caseId: CASES.some(c => c.id === input.caseId) ? input.caseId : 'case-1', cohortBasis: input.cohortBasis === 'previous' ? 'previous' : 'invited' };
+  }
+  function initialState(family) { return { version: VERSION, datasetVersion: DATASET_VERSION, stage: 0, frame: 0, prediction: null, reason: '', predictionRecord: null, decision: null, decisionReason: '', commitment: null, challengeRevealed: false, challengeSelected: null, revisionMode: '', revisionRecommendation: '', revisionReason: '', finalDecision: null, legacyDraft: false, legacyChoices: null, transfer: '', selected: null, complete: false, ...settingsFor(family) }; }
+  function restoreState(family, input, unit = '') {
     const state = initialState(family);
-    if (!input || input.version !== VERSION || typeof input !== 'object') return state;
+    if (!input || typeof input !== 'object' || ![2, VERSION].includes(input.version)) return state;
     const normalized = calculate(family, input.inputs && typeof input.inputs === 'object' ? input.inputs : {});
     CONTROLS[family].forEach(c => { state.inputs[c.key] = normalized[c.key]; });
     if (family === 'evidence') state.inputs.includeTail = normalized.includeTail;
@@ -112,17 +130,144 @@
     state.selected = text(input.selected, 40); state.policy = Object.hasOwn(POLICY_NAMES, input.policy) ? input.policy : 'reviewed';
     state.caseId = CASES.some(x => x.id === input.caseId) ? input.caseId : 'case-1';
     state.cohortBasis = input.cohortBasis === 'previous' ? 'previous' : 'invited';
+    state.legacyDraft = input.version === 2 || input.legacyDraft === true;
+    if (input.version === 2 && family === 'quality' && String(unit) === '4') {
+      state.legacyChoices = { prediction: state.prediction === null ? '' : CONFIG.quality.predictions[state.prediction], decision: state.decision === null ? '' : CONFIG.quality.options[state.decision] };
+      state.prediction = null; state.decision = null;
+    } else if (input.version === VERSION && input.legacyChoices && typeof input.legacyChoices === 'object') state.legacyChoices = { prediction: text(input.legacyChoices.prediction), decision: text(input.legacyChoices.decision) };
+
+    state.decisionReason = text(input.decisionReason); state.revisionReason = text(input.revisionReason); state.revisionRecommendation = text(input.revisionRecommendation);
+    // A version-2 choice was never an explicit commitment. Preserve its draft,
+    // notes and study marker, but do not invent an original prediction/decision.
+    if (input.version === VERSION && input.datasetVersion === DATASET_VERSION) {
+      if (input.predictionRecord && typeof input.predictionRecord === 'object') {
+        const choice = validChoice(input.predictionRecord.choice);
+        if (choice !== null || input.predictionRecord.skipped === true) state.predictionRecord = { choice, reason: text(input.predictionRecord.reason), skipped: choice === null, fromEarlierDraft: input.predictionRecord.fromEarlierDraft === true };
+      }
+      if (input.commitment && typeof input.commitment === 'object' && validChoice(input.commitment.choice) !== null) {
+        state.commitment = { choice: input.commitment.choice, reason: text(input.commitment.reason), settings: settingsFor(family, input.commitment.settings || {}) };
+        state.challengeRevealed = input.challengeRevealed === true;
+        state.challengeSelected = ['before', 'after'].includes(input.challengeSelected) ? input.challengeSelected : null;
+        state.revisionMode = ['retain', 'revise'].includes(input.revisionMode) ? input.revisionMode : '';
+        const final = input.finalDecision;
+        if (state.challengeRevealed && final && text(final.reason).trim() && ((final.mode === 'retain' && final.choice === state.commitment.choice) || (final.mode === 'revise' && text(final.recommendation).trim()))) state.finalDecision = { mode: final.mode, choice: final.mode === 'retain' ? final.choice : null, recommendation: final.mode === 'retain' ? configFor(family, unit).options[final.choice] : text(final.recommendation), reason: text(final.reason) };
+      }
+    }
     return state;
+  }
+  function revealPrediction(family, input, unit = '') {
+    const state = restoreState(family, input, unit);
+    if (!state.predictionRecord) state.predictionRecord = { choice: state.prediction, reason: state.reason, skipped: state.prediction === null, fromEarlierDraft: state.legacyDraft };
+    return state;
+  }
+  function commitDecision(family, input, unit = '') {
+    const state = restoreState(family, input, unit);
+    if (!state.commitment && state.decision !== null) {
+      state.commitment = { choice: state.decision, reason: state.decisionReason, settings: settingsFor(family, state) };
+      state.challengeRevealed = true; state.complete = false;
+    }
+    return state;
+  }
+  function saveRevision(family, input, unit = '') {
+    const state = restoreState(family, input, unit), choice = state.commitment?.choice;
+    const recommendation = state.revisionMode === 'retain' && validChoice(choice) !== null ? configFor(family, unit).options[choice] : state.revisionRecommendation;
+    if (state.commitment && state.challengeRevealed && ['retain', 'revise'].includes(state.revisionMode) && recommendation.trim() && state.revisionReason.trim()) state.finalDecision = { mode: state.revisionMode, choice: state.revisionMode === 'retain' ? choice : null, recommendation, reason: state.revisionReason };
+    state.complete = false;
+    return state;
+  }
+  function recordStatus(state) {
+    const missing = [];
+    if (!state.predictionRecord) missing.push('prediction not recorded');
+    else if (state.predictionRecord.skipped) missing.push('prediction skipped');
+    if (!state.commitment) missing.push('decision not committed');
+    if (!state.finalDecision) missing.push('response to the challenge not saved');
+    if (!state.transfer.trim()) missing.push('project transfer not drafted');
+    return missing.length ? `Incomplete practice record: ${missing.join('; ')}. You may continue and return later. This is a study marker, not a grade or proof of mastery.` : 'Prediction, decision, challenge response, and project transfer are recorded. This is a study marker, not a grade or proof of mastery.';
   }
   function storageKey(family, unit = '') { return `ai-solutions:v2:practice:${String(unit).replace(/[^a-zA-Z0-9_-]/g, '').slice(0, 30) || 'general'}:${family}`; }
   function decisionFeedback(family, choice, inputs, unit = '') {
     const config = configFor(family, unit);
     if (!Number.isInteger(choice) || !config.feedback[choice]) return 'Choose a recommendation to see its consequences.';
     let result = config.feedback[choice];
-    if (family === 'value' && String(unit) === '7') return result;
-    if (family === 'quality' && choice === 2) { const r = quality(inputs); result += r.savedMinutes > 0 ? ` At your setting, reviewed effort is ${96 - r.savedMinutes} minutes, releasing ${fmt(r.savedMinutes)} minutes (${fmt(r.percentReduction)}%). Tool cost remains uncounted.` : r.savedMinutes === 0 ? ' At your setting, review and rework remove the time advantage entirely. A pilot needs another justified benefit or a revised process.' : ` At your setting, review and rework require ${fmt(-r.savedMinutes)} minutes more than the manual comparison. Revise or justify a different benefit before scaling.`; }
+    if ((family === 'value' && String(unit) === '7') || (family === 'quality' && String(unit) === '4')) return result;
+    if (family === 'quality' && choice === 2) { const r = quality(inputs); result += r.savedMinutes > 0 ? ` At your setting, reviewed effort is ${96 - r.savedMinutes} minutes, releasing ${fmt(r.savedMinutes)} minutes (${fmt(r.percentReduction)}%). ${r.percentReduction >= 10 ? 'The example 10% effort boundary is met.' : 'The example 10% effort boundary is missed; revise or explicitly justify a different decision rule before proceeding.'} Tool cost remains uncounted.` : r.savedMinutes === 0 ? ' At your setting, review and rework remove the time advantage entirely. A pilot needs another justified benefit or a revised process.' : ` At your setting, review and rework require ${fmt(-r.savedMinutes)} minutes more than the manual comparison. Revise or justify a different benefit before scaling.`; }
     if (family === 'value' && choice === 2) { const r = value(inputs); result += ` Your scenario gives ${money(r.netCapacityValue)} monthly net capacity value and ${money(r.cashChange)} recurring cash change. `; result += r.breakEvenAdoption === null || r.breakEvenAdoption > 100 ? 'No feasible adoption share covers the recurring cost under these time assumptions.' : `Break-even capacity value requires ${fmt(r.breakEvenAdoption)}% adoption, with the other assumptions fixed; that is a requirement, not observed demand.`; }
     return result;
+  }
+
+  // Fixed worked contrasts are deliberately separate from exploration settings.
+  // Each figure, table, caption and export uses these same calculated rows.
+  function challengeModel(family, unit = '') {
+    if (family === 'evidence') {
+      const before = evidence(), after = evidence({ tail: 47 });
+      return { title: 'The exception worsens; the middle stays still', metric: 'Mean reply wait · minutes', domain: [0, 12], target: null,
+        lead: 'Keep the same eight reply records. Change only the longest wait from 31 to 47 minutes; do not remove it.',
+        columns: ['Scenario', 'Total wait', 'Mean', 'Median', 'Replies'],
+        rows: [before, after].map((r, i) => ({ id: i ? 'after' : 'before', label: i ? 'Challenge: 47-minute wait' : 'Reference: 31-minute wait', value: r.mean, display: `${fmt(r.mean)} min`, cells: [`${r.total} min`, `${fmt(r.mean)} min`, `${r.median} min`, `${r.count}/8`], detail: `Total ${r.total} minutes across ${r.count} replies; mean ${fmt(r.mean)} and median ${r.median} minutes.`, role: i ? 'uncertainty' : 'reference' })),
+        outcome: 'The total rises by 16 minutes and the mean by 2; the median stays at 6. Investigate the long exception without claiming that every customer waited longer.',
+        limit: 'A hypothetical change to a convenience sample is neither new customer evidence nor proof of demand. Wait time is not staff labor.', question: 'Does your discovery recommendation still hold? Name the summary you would report and the next neutral question.' };
+    }
+    if (family === 'quality' && String(unit) === '4') {
+      const record = CASES.find(c => c.id === 'case-3');
+      return { title: 'A source check changes what reaches the customer', metric: 'Unsupported commitments delivered · this one case', domain: [0, 1], target: null,
+        lead: `Use the same 8-hour emergency cancellation. ${record.fact} Compare sending the supplied draft with holding its promise for owner review.`,
+        columns: ['Policy', 'Unsupported commitments delivered', 'Customer message', 'Actual action established'],
+        rows: [{ id: 'before', label: 'Unchecked draft', value: 1, display: '1 of 1 case', cells: ['1', 'Promises an automatic refund', 'No refund or owner decision'], detail: 'Draft → customer: one unsupported promise reaches the customer. Nothing establishes that a refund occurred.', role: 'error' }, { id: 'after', label: 'Source + authority check', value: 0, display: '0 of 1 case', cells: ['0', 'Acknowledges request; owner must review', 'Prepared owner handoff only'], detail: 'Draft → source check → hold promise → prepare owner handoff. No exception is authorized by this classroom trace.', role: 'reference' }],
+        outcome: 'The reviewed route removes the unsupported commitment; it does not approve or process a refund. A prepared handoff still needs a responsible person to receive and decide it.',
+        limit: 'One supplied fictional case does not estimate a future error rate. A modeled route is not evidence that an external handoff or payment occurred.', question: 'Keep or revise your operating rule. Name the precise stop point and the person with authority to decide.' };
+    }
+    if (family === 'quality') {
+      const before = quality(), after = quality({ rework: 6 });
+      return { title: 'Six extra minutes change the decision boundary', metric: 'Complete reviewed effort · same 12 cases', domain: [0, 100], target: { value: 86.4, label: '86.4 min maximum for ≥10% reduction' },
+        lead: 'Keep the manual reference at 96 minutes and the same twelve cases. Add six hypothetical rework minutes to reviewed AI. Quality counts are held fixed.',
+        columns: ['Scenario', 'Reviewed effort', 'Reduction vs 96 min', 'Material errors', 'Chosen rule'],
+        rows: [before, after].map((r, i) => ({ id: i ? 'after' : 'before', label: i ? 'Challenge: +6 min rework' : 'Reference: no added rework', value: 84 + r.rework, display: `${84 + r.rework} min`, cells: [`${84 + r.rework} min`, `${fmt(r.percentReduction)}%`, '0 / 12', r.percentReduction >= 10 ? 'Meets example rule' : 'Misses effort boundary'], detail: `${84 + r.rework} minutes leaves ${fmt(r.savedMinutes)} minutes released (${fmt(r.percentReduction)}%). Zero material errors is held fixed; the maximum allowed effort is 86.4 minutes.`, role: i ? 'uncertainty' : 'reference' })),
+        outcome: 'At 84 minutes, both example boundaries are met. At 90 minutes, the 10% effort boundary is missed even though quality remains 12/12. Revise the process or explicitly justify a different next test; do not silently move the target.',
+        limit: 'Added rework is a sensitivity assumption, not a new observation. Zero errors in twelve supplied cases does not establish safety on new cases; tool costs remain separate.', question: 'Keep or revise your recommendation. Explain what the missed effort target changes and what you would test next.' };
+    }
+    if (String(unit) === '7') {
+      const completed = FUNNEL.find(r => r.id === 'completed').count, invited = FUNNEL[0].count, started = FUNNEL[1].count;
+      return { title: 'A larger percentage without another completion', metric: 'Completion rate · labeled denominator', domain: [0, 100], target: null,
+        lead: 'The same six people completed a task within 14 days after invitation. Compare the full invited cohort with only those who started; no person or outcome changes.',
+        columns: ['Claim basis', 'Completions', 'Denominator', 'Rate', 'Window'],
+        rows: [invited, started].map((denominator, i) => ({ id: i ? 'after' : 'before', label: i ? 'Among starters' : 'Among invitees', value: completed / denominator * 100, display: `${fmt(completed / denominator * 100)}%`, cells: [String(completed), String(denominator), `${fmt(completed / denominator * 100)}%`, '14 days after invitation'], detail: `${completed}/${denominator} = ${fmt(completed / denominator * 100)}%; ${i ? 'the three nonstarters are outside this denominator' : 'all twelve invited people remain in this denominator'}.`, role: i ? 'uncertainty' : 'reference' })),
+        outcome: '6/12 = 50% answers how many invitees completed. 6/9 ≈ 66.7% answers how many starters completed. The larger percentage does not show improvement or explain noncompletion.',
+        limit: 'These are supplied fictional cohort counts, not your pilot. Assistance, barriers, purchase, and longer-term retention are not established.', question: 'Keep or revise your pilot-reporting recommendation. Write the exact count, denominator, window, and missing observation.' };
+    }
+    const before = value(), after = value({ adoption: 30 });
+    return { title: 'Lower adoption changes value, not the supplier bill', metric: 'Net capacity value · $ per month', domain: [-120, 30], target: { value: 0, label: '$0 net capacity value' },
+      lead: 'Hold volume at 1,200 replies/month, gain at one minute per assisted reply, tools at $180 and support at $60. Change planned adoption from 50% to 30%.',
+      columns: ['Scenario', 'Assisted replies', 'Released hours', 'Net capacity value', 'Recurring cash change'],
+      rows: [before, after].map((r, i) => ({ id: i ? 'after' : 'before', label: `${r.adoption}% planned adoption`, value: r.netCapacityValue, display: money(r.netCapacityValue), cells: [String(r.assistedReplies), `${fmt(r.hours)} h`, money(r.netCapacityValue), money(r.cashChange)], detail: `${r.assistedReplies} assisted replies release ${fmt(r.hours)} hours, valued at ${money(r.capacityValue)}; subtract ${money(r.recurringCost)} costs for ${money(r.netCapacityValue)} net capacity value. Recurring cash change is ${money(r.cashChange)}.`, role: i ? 'uncertainty' : 'reference' })),
+      outcome: 'At 30% planned adoption, capacity value falls to $144 and net capacity value to −$96/month. Cash change remains −$240 in both scenarios because payroll is unchanged. A favorable use assumption needs evidence.',
+      limit: 'This is a fixed planning contrast, not a forecast or cash break-even claim. Setup, financing and incident costs are omitted.', question: 'Keep or revise your recommendation. State the adoption evidence you need and the threshold that would change the decision.' };
+  }
+  function challengeMarkup(model, prefix, selected) {
+    const scale = value => (value - model.domain[0]) / (model.domain[1] - model.domain[0]) * 100, zero = scale(0);
+    return `<section class="practice-challenge" aria-labelledby="${prefix}-challenge-title"><p class="practice-kicker">Now challenge the decision</p><h4 id="${prefix}-challenge-title" tabindex="-1">${esc(model.title)}</h4><p>${esc(model.lead)}</p><p class="practice-small">Fixed worked comparison below. Your saved exploration settings remain unchanged.</p><figure class="practice-paired-figure"><figcaption>${esc(model.metric)}</figcaption><div class="practice-paired-chart" role="group" aria-label="${esc(model.metric)}; matching numerical table follows">${model.rows.map(r => `<button type="button" data-challenge-select="${r.id}" class="practice-paired-row ${selected === r.id ? 'is-selected' : ''}" aria-pressed="${selected === r.id}"><span class="practice-paired-label">${esc(r.label)}<strong>${esc(r.display)}</strong></span><span class="practice-paired-track" aria-hidden="true"><span class="practice-paired-zero" style="left:${zero}%"></span><span class="practice-paired-bar practice-fill-${r.role}" style="left:${Math.min(zero, scale(r.value))}%;width:${Math.abs(scale(r.value) - zero)}%"></span>${model.target ? `<span class="practice-paired-target" style="left:${scale(model.target.value)}%"></span>` : ''}</span></button>`).join('')}<div class="practice-paired-scale" aria-hidden="true"><span>${fmt(model.domain[0])}</span><span>${fmt(model.domain[1])}</span></div></div>${model.target ? `<p class="practice-paired-target-label">Dashed line: ${esc(model.target.label)}.</p>` : ''}<p class="practice-small">Both bars use the same scale. Select a bar or table row to connect its exact evidence.</p></figure><div class="practice-table-scroll practice-challenge-table" tabindex="0" role="region" aria-label="Fixed worked comparison data"><table><caption>Same worked comparison · ${esc(model.metric)}</caption><thead><tr>${model.columns.map(c => `<th scope="col">${esc(c)}</th>`).join('')}</tr></thead><tbody>${model.rows.map(r => `<tr data-challenge-row="${r.id}" class="${selected === r.id ? 'is-selected' : ''}"><th scope="row"><button type="button" data-challenge-select="${r.id}" aria-pressed="${selected === r.id}">${esc(r.label)}</button></th>${r.cells.map(c => `<td>${esc(c)}</td>`).join('')}</tr>`).join('')}</tbody></table></div><p class="practice-inspection" data-challenge-readout role="status">${esc(model.rows.find(r => r.id === selected)?.detail || 'Select either scenario to inspect its exact values.')}</p><p class="practice-feedback">${esc(model.outcome)}</p><p class="practice-limit"><strong>Evidence boundary.</strong> ${esc(model.limit)}</p></section>`;
+  }
+
+  function explorationHint(family, state, unit) {
+    if (family === 'evidence') {
+      const r = evidence(state.inputs);
+      if (state.frame === 3) return 'These counts answer different questions: 6/8 report repeated delay; 3/8 would try a pilot. Their overlap and payment behavior are not supplied.';
+      return `${r.includeTail ? `At ${r.tail} minutes for the longest wait` : 'With the longest wait excluded'}, ${r.count} replies total ${r.total} minutes; mean ${fmt(r.mean)}, median ${r.median}. ${!r.includeTail ? 'Exclusion changes the summarized sample; inconvenience alone is not a reason to remove a record.' : r.tail === 31 ? 'Change the tail to 47 and follow record 8.' : 'Compare the mean and median, then explain which business question each answers.'}`;
+    }
+    if (family === 'quality' && String(unit) === '4') {
+      const record = CASES.find(c => c.id === state.caseId);
+      return `${record.request}. ${state.policy === 'unchecked' ? 'The selected route skips verification; a plausible draft can still exceed its authority.' : 'The selected route checks sources and keeps business decisions with the responsible person.'} Step to delivery and identify what has actually been authorized.`;
+    }
+    if (family === 'quality') {
+      if (state.frame < 3) return 'Select case 3, 7, or 11 to compare the same source and draft across policies. A fast draft with an unsupported commitment is not an acceptable final reply.';
+      const r = quality(state.inputs);
+      return `${r.rework} extra rework minutes gives ${84 + r.rework} minutes total and ${fmt(r.percentReduction)}% reduction. ${r.percentReduction >= 10 ? 'The 86.4-minute effort boundary is met.' : 'The 86.4-minute effort boundary is missed.'} Quality is held at 0/12 material errors in this sensitivity scenario.`;
+    }
+    if (String(unit) === '7') return state.cohortBasis === 'previous' ? 'Among starters, 6/9 = 66.67% completed. The three nonstarters are outside that denominator; their outcomes have not improved.' : 'Among all invitees, 6/12 = 50% completed within 14 days. Switch the denominator to see a different question, not different behavior.';
+    const r = value(state.inputs);
+    if (state.frame === 0) return 'The 14-day cohort is separate from the monthly planning assumptions. Four repeat completions are not four purchases.';
+    if (state.frame === 1) return `${r.rework} extra rework minutes leaves ${fmt(r.minutesPerReply)} minute per reply ${r.minutesPerReply >= 0 ? 'released' : 'as a negative saving'}. Carry the whole process into the monthly calculation.`;
+    if (state.frame === 2) return `${r.adoption}% of ${fmt(r.volume)} replies gives ${fmt(r.assistedReplies)} assisted replies and ${fmt(r.hours)} hours released. A planning use rate still needs evidence.`;
+    return `${r.adoption}% planned adoption gives ${money(r.netCapacityValue)} monthly net capacity value. Recurring cash change is ${money(r.cashChange)}. ${r.breakEvenAdoption === null || r.breakEvenAdoption > 100 ? 'No feasible adoption share covers these costs with the assumed time benefit.' : `The capacity-value break-even requirement is ${fmt(r.breakEvenAdoption)}% adoption; it is not a forecast.`}`;
   }
 
   function row(id, label, amount, note = '', role = 'reference') { return { id, label, amount, note, role }; }
@@ -148,7 +293,7 @@
     if (family === 'quality') {
       const visible = frame === 0 ? 1 : frame === 1 ? 2 : 3;
       const policies = r.policies.slice(0, visible).map(p => ({ ...p, minutes: p.id === 'reviewed' && frame === 2 ? 84 : p.minutes }));
-      return { title: ['Start with the same manual cases', 'Reveal speed and errors together', 'Add source checking and exception review', 'Stress the full-process estimate'][frame], caption: ['Twelve acceptable manual replies take 96 minutes, including preparation, checking, and rework.', 'Unchecked AI takes 24 minutes, but three of the same twelve cases contain material errors.', 'Reviewed AI takes 84 minutes on this supplied set and produces twelve acceptable replies. Zero errors here does not prove future safety.', 'Extra rework is a hypothetical sensitivity change. At six extra minutes, reviewed effort becomes 90 minutes: a 6.25% reduction from 96.'][frame], rows: policies.map(p => ({ ...row(p.id, p.label, p.minutes, `${p.acceptable}/12 acceptable final replies; ${p.errors} material errors.`, p.errors ? 'error' : p.id === 'reviewed' ? 'uncertainty' : 'reference'), acceptable: p.acceptable, errors: p.errors })), unit: 'total minutes for the same 12 cases', domain: [0, 120], metrics: [['Reviewed total at your setting', `${84 + r.rework} min`], ['Time released vs manual', `${fmt(r.savedMinutes)} min · ${fmt(r.percentReduction)}%`], ['Capacity value at $24/hour', money(r.capacityValue)]], limit: 'Unchanged payroll means no demonstrated cash saving. Tool costs remain a separate missing input. Added rework changes time, while the supplied quality counts are held fixed.' };
+      return { title: ['Start with the same manual cases', 'Reveal speed and errors together', 'Add source checking and exception review', 'Stress the full-process estimate'][frame], caption: ['Twelve acceptable manual replies take 96 minutes, including preparation, checking, and rework.', 'Unchecked AI takes 24 minutes, but three of the same twelve cases contain material errors.', 'Reviewed AI takes 84 minutes on this supplied set and produces twelve acceptable replies. Zero errors here does not prove future safety.', `Extra rework is a hypothetical sensitivity change. At ${r.rework} extra minutes, reviewed effort is ${84 + r.rework} minutes: ${fmt(r.percentReduction)}% reduction from 96. ${r.percentReduction >= 10 ? 'The example 10% effort boundary is met.' : 'The example 10% effort boundary is missed.'}`][frame], rows: policies.map(p => ({ ...row(p.id, p.label, p.minutes, `${p.acceptable}/12 acceptable final replies; ${p.errors} material errors.`, p.errors ? 'error' : p.id === 'reviewed' ? 'uncertainty' : 'reference'), acceptable: p.acceptable, errors: p.errors })), unit: 'total minutes for the same 12 cases', domain: [0, 120], metrics: [['Reviewed total at your setting', `${84 + r.rework} min`], ['Time released vs manual', `${fmt(r.savedMinutes)} min · ${fmt(r.percentReduction)}%`], ['Capacity value at $24/hour', money(r.capacityValue)]], limit: 'Unchanged payroll means no demonstrated cash saving. Tool costs remain a separate missing input. Added rework changes time, while the supplied quality counts are held fixed.' };
     }
     if (unit === '7') {
       const prior = state.cohortBasis === 'previous';
@@ -430,10 +575,25 @@
   function choiceMarkup(prompt, choices, name, current, attribute) {
     return `<fieldset class="practice-choices"><legend>${esc(prompt)}</legend>${choices.map((option, i) => `<label><input type="radio" name="${name}" ${attribute}="${i}" ${current === i ? 'checked' : ''}><span>${esc(option)}</span></label>`).join('')}</fieldset>`;
   }
+  function settingsLines(family, unit, settings) {
+    if (family === 'quality' && String(unit) === '4') return [`Case: ${CASES.find(c => c.id === settings.caseId)?.request || 'Unknown'}`, `Traced policy: ${POLICY_NAMES[settings.policy]}`];
+    if (family === 'value' && String(unit) === '7') return [`Displayed denominator: ${settings.cohortBasis === 'previous' ? 'preceding stage' : 'all 12 invitees'}`, 'Fixed 14-day observation window; cohort counts unchanged.'];
+    return Object.entries(settings.inputs).map(([key, value]) => `${CONTROLS[family].find(c => c.key === key)?.label || 'Include longest reply'}: ${value}${CONTROLS[family].find(c => c.key === key)?.unit ? ` ${CONTROLS[family].find(c => c.key === key).unit}` : ''}`);
+  }
+  function challengeInputs(family, unit) { return family === 'quality' ? { rework: 6 } : family === 'evidence' ? { tail: 47 } : String(unit) === '7' ? {} : { adoption: 30 }; }
+  function challengeFeedback(family, unit, choice) { return validChoice(choice) === null ? `Your revised recommendation is recorded, not automatically judged. Compare it with this fixed worked challenge: ${challengeModel(family, unit).outcome}` : `For this fixed worked challenge: ${decisionFeedback(family, choice, challengeInputs(family, unit), unit).replaceAll('At your setting', 'In the challenge').replaceAll('Your scenario', 'The fixed challenge')}`; }
+  function decisionStageMarkup(family, unit, state, prefix) {
+    const config = configFor(family, unit), model = challengeModel(family, unit);
+    const revisit = `<details class="practice-detail"><summary>Revisit your first prediction</summary><p>${state.predictionRecord?.choice != null ? esc(config.predictions[state.predictionRecord.choice]) : state.predictionRecord?.skipped ? 'Prediction was explicitly skipped.' : 'No original prediction was recorded.'}</p><p>${esc(state.predictionRecord?.reason || 'No reason recorded.')}</p></details>`;
+    if (!state.commitment) return `<p class="practice-intro">Record your recommendation before revealing a fixed worked challenge. Your choice and the settings you explored will be kept as the original record.</p>${choiceMarkup(config.decision, config.options, `${prefix}-decision`, state.decision, 'data-decision')}<label class="practice-text-label" for="${prefix}-decision-reason">Why this recommendation? <small>(a brief reason)</small></label><textarea id="${prefix}-decision-reason" data-decision-reason maxlength="1800" rows="2" placeholder="I would… because the evidence shows…">${esc(state.decisionReason)}</textarea><button class="practice-button" type="button" data-commit-decision ${state.decision === null ? 'disabled' : ''}>Commit decision and reveal challenge →</button><p class="practice-small">No correct answer is required to continue. If you skip this record, it remains marked incomplete.</p>${revisit}`;
+    const original = state.commitment, changed = JSON.stringify(settingsFor(family, state)) !== JSON.stringify(original.settings);
+    return `<details class="practice-detail practice-snapshot"><summary>Your original decision is saved${changed ? ' · exploration settings have changed since' : ''}</summary><p><strong>${esc(config.options[original.choice])}</strong></p><p>${esc(original.reason || 'No reason recorded.')}</p><ul>${settingsLines(family, unit, original.settings).map(x => `<li>${esc(x)}</li>`).join('')}</ul><p class="practice-small">This snapshot stays unchanged when you explore or revise below.</p></details><p class="practice-feedback"><strong>Your committed choice.</strong> ${esc(decisionFeedback(family, original.choice, original.settings.inputs, unit))}</p>${challengeMarkup(model, prefix, state.challengeSelected)}<section class="practice-revision"><h4>Keep or revise your decision</h4><p>${esc(model.question)}</p><fieldset class="practice-choices practice-revision-mode"><legend>Response to this worked challenge</legend>${[['retain', 'Keep my recommendation'], ['revise', 'Revise my recommendation']].map(([value, label]) => `<label><input type="radio" name="${prefix}-revision-mode" data-revision-mode="${value}" ${state.revisionMode === value ? 'checked' : ''}><span>${label}</span></label>`).join('')}</fieldset>${state.revisionMode === 'revise' ? `<label class="practice-text-label" for="${prefix}-revision-recommendation">Your revised recommendation</label><textarea id="${prefix}-revision-recommendation" data-revision-recommendation maxlength="1800" rows="2" placeholder="What would you do now: narrow the scope, revise the process, test again, or stop?">${esc(state.revisionRecommendation)}</textarea>` : ''}<label class="practice-text-label" for="${prefix}-revision-reason">What evidence changed or supports your reasoning?</label><textarea id="${prefix}-revision-reason" data-revision-reason maxlength="1800" rows="2" placeholder="The comparison shows… so I would… The next evidence I need is…">${esc(state.revisionReason)}</textarea><button class="practice-button secondary" type="button" data-save-revision>Save my response</button><p class="practice-feedback" data-revision-status role="status">${state.finalDecision ? `Response saved. ${esc(challengeFeedback(family, unit, state.finalDecision.choice))}` : 'Choose keep or revise and give a short reason. You may also continue with an incomplete practice record.'}</p></section>${revisit}`;
+  }
   function exportRecord(family, unit, state) {
     const r = calculate(family, state.inputs), config = configFor(family, unit);
     const numbers = family === 'evidence' ? [`Included replies: ${r.count}/8`, `Total waiting time: ${r.total} minutes (not staff processing effort)`, `Mean: ${fmt(r.mean)} minutes`, `Median: ${fmt(r.median)} minutes`, 'Discovery: 6/8 report repeated delay; 3/8 willing to try a pilot.'] : family === 'quality' ? [...r.policies.map(p => `${p.label}: ${p.minutes} minutes, ${p.acceptable}/12 acceptable, ${p.errors} material errors`), `Capacity value: ${money(r.capacityValue)} at $24/hour; no demonstrated cash saving.`, 'Tool costs are missing; 0/12 errors is not proof of future safety.'] : [`Assisted replies: ${r.assistedReplies}/month`, `Capacity: ${fmt(r.hours)} hours/month, ${money(r.capacityValue)} value`, `Recurring cost: ${money(r.recurringCost)}/month`, `Net capacity value: ${money(r.netCapacityValue)}/month`, `Recurring cash change: ${money(r.cashChange)}/month`, 'Adoption cohort: 12 invited; 9 started; 6 completed; 4 completed another task within 14 days after invitation. Separate from processing cases and monthly forecast.'];
-    return ['BUILDING AI SOLUTIONS · PRACTICE RECORD', `Unit ${unit || 'general'} · ${config.title}`, 'Original fictional Cedar Desk teaching data. Changed inputs are scenarios, not observed results.', '', 'PREDICTION', state.prediction === null ? 'Not selected' : config.predictions[state.prediction], state.reason || 'No explanation entered.', '', 'ASSUMPTIONS', ...(family === 'value' && String(unit) === '7' ? ['Supplied cohort counts are held fixed; only the displayed denominator changes.'] : Object.entries(state.inputs).map(([key, value]) => `${key}: ${value}`)), '', 'RESULTS', ...(family === 'value' && String(unit) === '7' ? ['Observation window: 14 days after invitation.', '12 invited; 9 started; 6 completed a task; 4 completed another task within the window.', `Displayed rate denominator: ${state.cohortBasis === 'previous' ? 'preceding stage' : 'all 12 invited people'}.`, 'No purchase, monthly volume, or longer-term retention is established.'] : numbers), '', 'RECOMMENDATION', state.decision === null ? 'Not selected' : config.options[state.decision], decisionFeedback(family, state.decision, state.inputs, unit), '', 'TRANSFER TO MY PROJECT', state.transfer || 'Not entered.'].join('\n');
+    const original = state.commitment, challenge = challengeModel(family, unit);
+    return ['BUILDING AI SOLUTIONS · PRACTICE RECORD', `Unit ${unit || 'general'} · ${config.title}`, 'Original fictional Cedar Desk teaching data. Changed inputs are scenarios, not observed results.', `Dataset: ${DATASET_VERSION}`, recordStatus(state), ...(state.legacyChoices ? ['', 'EARLIER ACTIVITY — DIFFERENT QUESTIONS, NOT MAPPED TO CURRENT ANSWERS', state.legacyChoices.prediction, state.legacyChoices.decision] : []), '', 'PREDICTION DRAFT', state.prediction === null ? 'Not selected' : config.predictions[state.prediction], state.reason || 'No explanation entered.', '', 'ORIGINAL PREDICTION RECORD', state.predictionRecord ? state.predictionRecord.skipped ? 'Explicitly skipped.' : config.predictions[state.predictionRecord.choice] : 'No recorded original prediction; an earlier saved draft is not a commitment.', state.predictionRecord?.reason || '', state.predictionRecord?.fromEarlierDraft ? 'Recorded after migration of an earlier draft; not claimed to precede all evidence.' : '', '', 'CURRENT EXPLORATION ASSUMPTIONS', ...(family === 'value' && String(unit) === '7' ? ['Supplied cohort counts are held fixed; only the displayed denominator changes.'] : Object.entries(state.inputs).map(([key, value]) => `${key}: ${value}`)), '', 'CURRENT EXPLORATION RESULTS', ...(family === 'value' && String(unit) === '7' ? ['Observation window: 14 days after invitation.', '12 invited; 9 started; 6 completed a task; 4 completed another task within the window.', `Displayed rate denominator: ${state.cohortBasis === 'previous' ? 'preceding stage' : 'all 12 invited people'}.`, 'No purchase, monthly volume, or longer-term retention is established.'] : family === 'quality' && String(unit) === '4' ? [...settingsLines(family, unit, settingsFor(family, state)), 'A traced workflow does not establish an actual owner decision, refund, or external handoff.'] : numbers), '', 'RECOMMENDATION DRAFT', state.decision === null ? 'Not selected.' : config.options[state.decision], state.decisionReason || 'No draft reason entered.', '', 'ORIGINAL COMMITTED DECISION', original ? config.options[original.choice] : 'Not committed. Any saved recommendation remains a draft.', original?.reason || '', ...(original ? settingsLines(family, unit, original.settings) : []), '', 'FIXED WORKED CHALLENGE — SEPARATE FROM EXPLORATION SETTINGS', ...(state.challengeRevealed ? [challenge.title, challenge.lead, ...challenge.rows.map(r => `${r.label}: ${r.detail}`), challenge.outcome, challenge.limit] : ['Not revealed.']), '', 'UNSAVED OR CURRENT CHALLENGE RESPONSE DRAFT', state.revisionMode || 'No response mode selected.', state.revisionRecommendation || '', state.revisionReason || 'No response reason entered.', '', 'FINAL RESPONSE TO THE WORKED CHALLENGE', state.finalDecision ? `${state.finalDecision.mode === 'retain' ? 'Kept' : 'Revised'}: ${state.finalDecision.recommendation}` : 'Not saved.', state.finalDecision?.reason || '', '', 'TRANSFER TO MY PROJECT', state.transfer || 'Not entered.'].join('\n');
   }
 
   let instance = 0;
@@ -446,7 +606,7 @@
     const workflow = family === 'quality' && unit === '4', maxFrame = workflow ? 5 : 3;
     let state = initialState(family), storageAvailable = true, timer = null, playing = false, disposed = false, resizeObserver = null, lastWidth = 0;
     const motion = window.matchMedia('(prefers-reduced-motion: reduce)');
-    try { const saved = localStorage.getItem(key); if (saved) state = restoreState(family, JSON.parse(saved)); } catch (_) { storageAvailable = false; }
+    try { const saved = localStorage.getItem(key); if (saved) state = restoreState(family, JSON.parse(saved), unit); } catch (_) { storageAvailable = false; }
     state.frame = Math.min(maxFrame, state.frame);
     if (workflow && !['case-1', 'case-3'].includes(state.caseId)) state.caseId = 'case-1';
     const save = () => { try { localStorage.setItem(key, JSON.stringify(state)); storageAvailable = true; } catch (_) { storageAvailable = false; } const status = element.querySelector('[data-save-status]'); if (status) status.textContent = storageAvailable ? 'Saved on this browser. Export to keep a portable copy.' : 'Browser storage is unavailable. Export to keep a copy before leaving.'; };
@@ -462,13 +622,17 @@
       element.querySelector('[data-stage-label]').textContent = ['Predict', 'Inspect and change one assumption', 'Make a decision', 'Transfer to your project'][state.stage];
       element.querySelector('[data-stage-count]').textContent = `${state.stage + 1} / 4`;
       element.querySelector('[data-back]').disabled = state.stage === 0;
-      element.querySelector('[data-next]').textContent = ['Inspect the evidence →', 'Make a recommendation →', 'Apply to my project →', state.complete ? 'Practice saved ✓' : 'Save and finish practice ✓'][state.stage];
+      element.querySelector('[data-next]').textContent = [state.predictionRecord ? 'Revisit the evidence →' : state.prediction === null ? 'Skip prediction and inspect →' : 'Record prediction and inspect →', 'Make a recommendation →', 'Apply to my project →', state.complete ? 'Study marker saved ✓' : 'Save practice record ✓'][state.stage];
       element.querySelector('[data-next]').disabled = state.stage === 3 && state.complete;
-      if (state.stage === 0) body.innerHTML = `<p class="practice-intro">${esc(config.intro)}</p>${choiceMarkup(config.prediction, config.predictions, `${prefix}-prediction`, state.prediction, 'data-prediction')}<label class="practice-text-label" for="${prefix}-reason">Your reason, before seeing the result <small>(optional)</small></label><textarea id="${prefix}-reason" data-reason maxlength="1800" rows="2" placeholder="I expect… because…">${esc(state.reason)}</textarea><p class="practice-feedback" data-prediction-feedback role="status">${state.prediction === null ? 'A prediction helps you notice what changes. It is practice, not a grade.' : esc(config.predictionFeedback[state.prediction])}</p>`;
+      if (state.stage === 0) body.innerHTML = `<p class="practice-intro">${esc(config.intro)}</p>${state.legacyDraft ? '<p class="practice-small">Your earlier draft and notes are preserved. They are not treated as a recorded prediction before evidence.</p>' : ''}${state.legacyChoices ? `<details class="practice-detail"><summary>Earlier activity answers, kept for reference</summary><p>The earlier question was different. Select a new answer to this activity; the old answers are not mapped to it.</p><p>${esc(state.legacyChoices.prediction || 'No earlier prediction.')}</p><p>${esc(state.legacyChoices.decision || 'No earlier recommendation.')}</p></details>` : ''}${state.predictionRecord ? `<p class="practice-feedback"><strong>Your first record is preserved.</strong> ${state.predictionRecord.skipped ? 'You explicitly skipped the prediction.' : esc(config.predictions[state.predictionRecord.choice])}</p><p>${esc(state.predictionRecord.reason || 'No reason was recorded.')}</p><details class="practice-detail"><summary>Prediction explanation</summary><p>${state.predictionRecord.choice === null ? 'No prediction was selected. Inspect the evidence, then explain your decision.' : esc(config.predictionFeedback[state.predictionRecord.choice])}</p></details>` : `${choiceMarkup(config.prediction, config.predictions, `${prefix}-prediction`, state.prediction, 'data-prediction')}<label class="practice-text-label" for="${prefix}-reason">Your reason, before seeing the result <small>(optional)</small></label><textarea id="${prefix}-reason" data-reason maxlength="1800" rows="2" placeholder="I expect… because…">${esc(state.reason)}</textarea><p class="practice-small" data-prediction-feedback role="status">Your choice is a prediction, not a grade. Record it to inspect the explanation; skipping is allowed.</p>`}`;
       if (state.stage === 1) body.innerHTML = `<p class="practice-instruction">${workflow ? 'Choose an ordinary input or an exception. Follow its source, draft, check, and human handoff.' : 'Step through the evidence, then change an assumption. The chart and table describe the same records; select either to connect them.'}</p>${workflow ? `<div class="practice-workflow-controls"><label for="${prefix}-case">Input to trace<select id="${prefix}-case" data-case><option value="case-1" ${state.caseId === 'case-1' ? 'selected' : ''}>Ordinary: cancellation at 96 hours</option><option value="case-3" ${state.caseId === 'case-3' ? 'selected' : ''}>Exception: emergency at 8 hours</option></select></label><label for="${prefix}-policy">Review policy<select id="${prefix}-policy" data-policy><option value="reviewed" ${state.policy !== 'unchecked' ? 'selected' : ''}>Check sources and route exceptions</option><option value="unchecked" ${state.policy === 'unchecked' ? 'selected' : ''}>Send draft without checking</option></select></label></div>` : pilotCohort ? `<div class="practice-workflow-controls"><label for="${prefix}-basis">Compare rates using<select id="${prefix}-basis" data-cohort-basis><option value="invited" ${state.cohortBasis === 'invited' ? 'selected' : ''}>All 12 invited people</option><option value="previous" ${state.cohortBasis === 'previous' ? 'selected' : ''}>Each preceding stage</option></select></label></div>` : `<div class="practice-controls">${controlMarkup(family, state.inputs, prefix)}</div>${family === 'evidence' ? `<label class="practice-exclusion"><input type="checkbox" data-include-tail ${state.inputs.includeTail ? 'checked' : ''}>Include the longest reply in the summary</label>` : ''}`}<p class="practice-try-hint" data-try-hint></p><div class="practice-playback" role="group" aria-label="Step through the explanation"><button type="button" data-previous-frame aria-label="Previous explanation">←</button><span data-frame-count></span><button type="button" data-next-frame aria-label="Next explanation">→</button><button type="button" data-play aria-pressed="false" ${motion.matches ? 'disabled' : ''}>Play steps</button><button type="button" data-replay>Replay</button><button type="button" data-show-all>${workflow ? 'Go to delivery' : 'Show final comparison'}</button></div>${motion.matches ? '<p class="practice-small">Reduced motion: step through at your own pace. Automatic playback is off.</p>' : ''}<div data-visual></div>${family === 'quality' ? `<details class="practice-detail"><summary>Inspect the same 12 supplied cases</summary><p>All totals include preparation, checking, and rework. Nine cases take 6 reviewed minutes each; correcting the three material errors takes 10 minutes each: 9 × 6 + 3 × 10 = 84. Extra rework is a separate scenario assumption.</p><div class="practice-table-scroll" tabindex="0" role="region" aria-label="Twelve fictional reply cases"><table><thead><tr><th scope="col">Case</th><th scope="col">Request</th><th scope="col">Sources</th><th scope="col">Unchecked outcome</th><th scope="col">Manual / draft / reviewed minutes</th></tr></thead><tbody>${CASES.map(c => `<tr data-table-row="${c.id}"><th scope="row">${workflow ? esc(c.label) : `<button type="button" data-inspect="${c.id}" aria-pressed="false">${c.label}</button>`}</th><td>${esc(c.request)}</td><td>${esc(c.sources)}</td><td>${c.materialError ? 'Material error' : 'Acceptable'}</td><td>${c.manualMinutes} / ${c.aiMinutes} / ${c.reviewedMinutes}</td></tr>`).join('')}</tbody></table></div><p>Approved fact and draft for an exception: ${esc(CASES[2].fact)} The unchecked draft instead says: “${esc(CASES[2].draft)}”</p></details>` : ''}`;
-      if (state.stage === 2) body.innerHTML = `<p class="practice-intro">${esc(config.takeaway)}</p>${choiceMarkup(config.decision, config.options, `${prefix}-decision`, state.decision, 'data-decision')}<p class="practice-feedback" data-decision-feedback role="status">${esc(decisionFeedback(family, state.decision, state.inputs, unit))}</p><details class="practice-detail"><summary>Revisit your prediction</summary><p>${state.prediction === null ? 'No prediction selected.' : esc(config.predictions[state.prediction])}</p><p>${esc(state.reason || 'No reason entered.')}</p></details>`;
-      if (state.stage === 3) body.innerHTML = `<p class="practice-intro">${esc(config.transfer)}</p><label class="practice-text-label" for="${prefix}-transfer">One addition to your project record</label><textarea id="${prefix}-transfer" data-transfer maxlength="1800" rows="5" placeholder="For our project… We will measure… We still do not know…">${esc(state.transfer)}</textarea><p class="practice-small">Use nonconfidential information. This draft stays on this browser; the course TA does not automatically receive it.</p><p class="practice-finish" data-finish-status role="status" tabindex="-1">${state.complete ? 'Practice finished and saved locally. Continue the lesson to apply it in your project.' : 'You can finish without a favorable numerical result. Explain your decision and its limits.'}</p>`;
-      if (state.stage === 1) renderVisual();
+      if (state.stage === 2) body.innerHTML = decisionStageMarkup(family, unit, state, prefix);
+      if (state.stage === 3) body.innerHTML = `<p class="practice-intro">${esc(config.transfer)}</p><label class="practice-text-label" for="${prefix}-transfer">One addition to your project record</label><textarea id="${prefix}-transfer" data-transfer maxlength="1800" rows="5" placeholder="For our project… We will measure… We still do not know…">${esc(state.transfer)}</textarea><p class="practice-small">Use nonconfidential information. This draft stays on this browser; the course TA does not automatically receive it.</p><p class="practice-finish" data-finish-status role="status" tabindex="-1">${state.complete ? 'Study marker saved locally. ' : ''}${esc(recordStatus(state))}</p>`;
+      if (state.stage === 1) {
+        const prediction = state.predictionRecord;
+        if (prediction && prediction.choice !== null) body.insertAdjacentHTML('afterbegin', `<details class="practice-detail"><summary>Your prediction and its explanation</summary><p>${esc(config.predictions[prediction.choice])}</p><p>${esc(config.predictionFeedback[prediction.choice])}</p><p>${esc(prediction.reason || 'No reason recorded.')}</p></details>`);
+        renderVisual();
+      }
       save();
     }
     function renderVisual() {
@@ -482,8 +646,7 @@
       element.querySelectorAll('.practice-control').forEach(box => { box.hidden = !visibleControls.includes(box.querySelector('[data-input]').dataset.input); });
       const controls = element.querySelector('.practice-controls'); if (controls) controls.hidden = visibleControls.length === 0;
       const exclusion = element.querySelector('.practice-exclusion'); if (exclusion) exclusion.hidden = state.frame === 3;
-      const hints = family === 'evidence' ? state.frame < 3 ? 'Try it: change the longest wait from 31 to 47. Follow record 8, then compare the mean and median.' : 'Try it: select each count. Explain what its denominator establishes—and what the unknown overlap prevents you from claiming.' : workflow ? 'Try it: choose the 8-hour emergency, then switch between a source check and an unchecked draft. Follow the route to the owner or customer.' : family === 'quality' ? state.frame === 3 ? 'Try it: add 6 minutes of rework. Does the reviewed process still meet both zero material errors and the example 10% effort reduction?' : 'Try it: select case 3, 7, or 11 in the outcome matrix. Compare its source and draft before judging the fastest bar.' : pilotCohort ? 'Try it: switch the denominator from all invitees to the preceding stage. The people do not change; the question and percentage do.' : state.frame === 1 ? 'Try it: add 6 minutes of rework. The saving per reply drops from 1 minute to half a minute.' : state.frame === 2 ? 'Try it: lower planned adoption to 30%. Follow eligible replies → assisted replies → released hours.' : state.frame === 3 ? 'Try it: move adoption to 75%. Follow the blue point and the net-value bar; check whether recurring cash expense changes.' : 'Try it: inspect how many people completed a task and how many completed another within the same 14-day window.';
-      element.querySelector('[data-try-hint]').textContent = hints;
+      element.querySelector('[data-try-hint]').textContent = explorationHint(family, state, unit);
       element.querySelector('[data-frame-count]').textContent = `Step ${state.frame + 1} / ${maxFrame + 1}`;
       element.querySelector('[data-previous-frame]').disabled = state.frame === 0;
       element.querySelector('[data-next-frame]').disabled = state.frame === maxFrame;
@@ -520,7 +683,21 @@
     }
     const click = event => {
       const target = event.target.closest('button,[data-record]'); if (!target || !element.contains(target)) return;
-      if (target.hasAttribute('data-next')) { pause(); if (state.stage < 3) { state.stage++; renderStage(); focusHeading(); } else { state.complete = true; save(); renderStage(); element.querySelector('[data-finish-status]').focus({ preventScroll: true }); element.dispatchEvent(new CustomEvent('ai-solutions-practice-complete', { bubbles: true, detail: { family, unit, complete: true } })); } }
+      if (target.hasAttribute('data-next')) { pause(); if (state.stage < 3) { if (state.stage === 0) state = revealPrediction(family, state, unit); state.stage++; renderStage(); focusHeading(); } else { state.complete = true; save(); renderStage(); element.querySelector('[data-finish-status]').focus({ preventScroll: true }); element.dispatchEvent(new CustomEvent('ai-solutions-practice-complete', { bubbles: true, detail: { family, unit, complete: true } })); } }
+      else if (target.hasAttribute('data-commit-decision')) { state = commitDecision(family, state, unit); renderStage(); element.querySelector(`#${prefix}-challenge-title`)?.focus({ preventScroll: true }); }
+      else if (target.hasAttribute('data-save-revision')) {
+        state = saveRevision(family, state, unit); save();
+        const status = element.querySelector('[data-revision-status]');
+        status.textContent = state.finalDecision ? `Response saved. ${challengeFeedback(family, unit, state.finalDecision.choice)}` : 'Choose keep or revise, write a revised recommendation if needed, and enter a short reason. You can continue with an incomplete record.';
+        status.setAttribute('tabindex', '-1'); status.focus({ preventScroll: true });
+      }
+      else if (target.hasAttribute('data-challenge-select')) {
+        state.challengeSelected = target.dataset.challengeSelect;
+        element.querySelectorAll('[data-challenge-select]').forEach(x => { const chosen = x.dataset.challengeSelect === state.challengeSelected; x.classList.toggle('is-selected', chosen); x.setAttribute('aria-pressed', String(chosen)); });
+        element.querySelectorAll('[data-challenge-row]').forEach(x => x.classList.toggle('is-selected', x.dataset.challengeRow === state.challengeSelected));
+        element.querySelector('[data-challenge-readout]').textContent = challengeModel(family, unit).rows.find(r => r.id === state.challengeSelected)?.detail || '';
+        save();
+      }
       else if (target.hasAttribute('data-back')) { pause(); state.stage = Math.max(0, state.stage - 1); renderStage(); focusHeading(); }
       else if (target.hasAttribute('data-next-frame')) { pause(); state.frame = Math.min(maxFrame, state.frame + 1); renderVisual(); save(); }
       else if (target.hasAttribute('data-previous-frame')) { pause(); state.frame = Math.max(0, state.frame - 1); renderVisual(); save(); }
@@ -532,16 +709,25 @@
       else if (target.hasAttribute('data-reset')) { pause(); state = initialState(family); try { localStorage.removeItem(key); } catch (_) {} shell(); focusHeading(); }
       else if (target.hasAttribute('data-export')) { const blob = new Blob([exportRecord(family, unit, state)], { type: 'text/plain;charset=utf-8' }), url = URL.createObjectURL(blob), a = document.createElement('a'); a.href = url; a.download = `ai-solutions-unit-${unit || 'general'}-${family}-practice.txt`; a.click(); setTimeout(() => URL.revokeObjectURL(url), 1000); }
     };
-    const input = event => { const t = event.target; if (t.hasAttribute('data-input') && t.type === 'range') applyInput(t); if (t.hasAttribute('data-reason')) { state.reason = text(t.value); save(); } if (t.hasAttribute('data-transfer')) { state.transfer = text(t.value); state.complete = false; element.querySelector('[data-next]').disabled = false; element.querySelector('[data-next]').textContent = 'Save and finish practice ✓'; element.querySelector('[data-finish-status]').textContent = 'Draft changed. Save and finish again when you are ready.'; save(); } };
+    const input = event => {
+      const t = event.target;
+      if (t.hasAttribute('data-input') && t.type === 'range') applyInput(t);
+      if (t.hasAttribute('data-reason') && !state.predictionRecord) { state.reason = text(t.value); save(); }
+      if (t.hasAttribute('data-decision-reason') && !state.commitment) { state.decisionReason = text(t.value); save(); }
+      if (t.hasAttribute('data-revision-recommendation')) { state.revisionRecommendation = text(t.value); state.finalDecision = null; state.complete = false; element.querySelector('[data-revision-status]').textContent = 'Revised recommendation drafted. Explain the evidence and save your response.'; save(); }
+      if (t.hasAttribute('data-revision-reason')) { state.revisionReason = text(t.value); state.finalDecision = null; state.complete = false; element.querySelector('[data-revision-status]').textContent = 'Response changed. Save it when ready; your original decision is preserved.'; save(); }
+      if (t.hasAttribute('data-transfer')) { state.transfer = text(t.value); state.complete = false; element.querySelector('[data-next]').disabled = false; element.querySelector('[data-next]').textContent = 'Save practice record ✓'; element.querySelector('[data-finish-status]').textContent = recordStatus(state); save(); }
+    };
     const change = event => {
       const t = event.target;
       if (t.hasAttribute('data-input')) applyInput(t);
-      if (t.hasAttribute('data-prediction')) { state.prediction = Number(t.dataset.prediction); element.querySelector('[data-prediction-feedback]').textContent = config.predictionFeedback[state.prediction]; save(); }
-      if (t.hasAttribute('data-decision')) { state.decision = Number(t.dataset.decision); state.complete = false; element.querySelector('[data-decision-feedback]').textContent = decisionFeedback(family, state.decision, state.inputs, unit); save(); }
-      if (t.hasAttribute('data-include-tail')) { state.inputs.includeTail = t.checked; pause(); renderVisual(); save(); }
-      if (t.hasAttribute('data-case')) { state.caseId = t.value; pause(); renderVisual(); save(); }
-      if (t.hasAttribute('data-cohort-basis')) { state.cohortBasis = t.value === 'previous' ? 'previous' : 'invited'; state.frame = 1; pause(); renderVisual(); save(); }
-      if (t.hasAttribute('data-policy')) { state.policy = t.value; pause(); renderVisual(); save(); }
+      if (t.hasAttribute('data-prediction') && !state.predictionRecord) { state.prediction = validChoice(Number(t.dataset.prediction)); element.querySelector('[data-next]').textContent = 'Record prediction and inspect →'; save(); }
+      if (t.hasAttribute('data-decision') && !state.commitment) { state.decision = validChoice(Number(t.dataset.decision)); state.complete = false; element.querySelector('[data-commit-decision]').disabled = state.decision === null; save(); }
+      if (t.hasAttribute('data-revision-mode')) { state.revisionMode = t.dataset.revisionMode; state.finalDecision = null; state.complete = false; renderStage(); element.querySelector(`[data-revision-mode="${state.revisionMode}"]`)?.focus({ preventScroll: true }); }
+      if (t.hasAttribute('data-include-tail')) { state.inputs.includeTail = t.checked; state.complete = false; pause(); renderVisual(); save(); }
+      if (t.hasAttribute('data-case')) { state.caseId = t.value; state.complete = false; pause(); renderVisual(); save(); }
+      if (t.hasAttribute('data-cohort-basis')) { state.cohortBasis = t.value === 'previous' ? 'previous' : 'invited'; state.frame = 1; state.complete = false; pause(); renderVisual(); save(); }
+      if (t.hasAttribute('data-policy')) { state.policy = t.value; state.complete = false; pause(); renderVisual(); save(); }
     };
     const focusout = event => { if (event.target.type === 'number' && event.target.hasAttribute('data-input')) applyInput(event.target); };
     const keydown = event => {
@@ -554,8 +740,8 @@
     document.addEventListener('visibilitychange', visibility); motion.addEventListener('change', reduced);
     shell();
     if ('ResizeObserver' in window) { resizeObserver = new ResizeObserver(entries => { const width = Math.round(entries[0].contentRect.width); if (width !== lastWidth) { lastWidth = width; if (state.stage === 1 && !disposed) renderVisual(); } }); resizeObserver.observe(element); }
-    return { getState: () => restoreState(family, state), dispose() { pause(); disposed = true; resizeObserver?.disconnect(); element.removeEventListener('click', click); element.removeEventListener('input', input); element.removeEventListener('change', change); element.removeEventListener('focusout', focusout); element.removeEventListener('keydown', keydown); document.removeEventListener('visibilitychange', visibility); motion.removeEventListener('change', reduced); } };
+    return { getState: () => restoreState(family, state, unit), dispose() { pause(); disposed = true; resizeObserver?.disconnect(); element.removeEventListener('click', click); element.removeEventListener('input', input); element.removeEventListener('change', change); element.removeEventListener('focusout', focusout); element.removeEventListener('keydown', keydown); document.removeEventListener('visibilitychange', visibility); motion.removeEventListener('change', reduced); } };
   }
   function mountAll(scope = document) { return [...scope.querySelectorAll('[data-practice]')].map(mount).filter(Boolean); }
-  return { VERSION, PRACTICE_EVIDENCE, WAIT_RECORDS, CASES, FUNNEL, evidence, quality, value, median, distributionData, dotPositions, qualityVisualData, cohortData, valueVisualData, chart, commitNumericInput, initialState, restoreState, storageKey, decisionFeedback, visualModel, exportRecord, mount, mountAll };
+  return { VERSION, DATASET_VERSION, configFor, challengeModel, challengeMarkup, decisionStageMarkup, challengeFeedback, settingsFor, revealPrediction, commitDecision, saveRevision, recordStatus, explorationHint, PRACTICE_EVIDENCE, WAIT_RECORDS, CASES, FUNNEL, evidence, quality, value, median, distributionData, dotPositions, qualityVisualData, cohortData, valueVisualData, chart, commitNumericInput, initialState, restoreState, storageKey, decisionFeedback, visualModel, exportRecord, mount, mountAll };
 });

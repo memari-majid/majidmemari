@@ -1,0 +1,296 @@
+{
+  "schema_version": 1,
+  "study": "outliers",
+  "reference_url": "https://simulations-6620.vercel.app/c/mktg-6620/outlier",
+  "observed_date": "2026-11-10",
+  "method": "Authenticated rendered UI, semantic controls, DOM/accessibility snapshots, selected viewport screenshots; no source or network inspection",
+  "scope": "Finite-interface and instructional-design audit; representative states, not exhaustive continuous mathematics",
+  "local_analysis": "OUTLIERS.md",
+  "coverage": {
+    "stages": {
+      "available": 3,
+      "visited": 3,
+      "state_retained_across_navigation_observed": true
+    },
+    "concept_parts": {
+      "available": 4,
+      "inspected": 4
+    },
+    "concept_families": {
+      "available": 11,
+      "inspected": 11,
+      "representative_interaction_tested": 11
+    },
+    "optional_disclosures": {
+      "available": 7,
+      "opened": 7
+    },
+    "business_acts": {
+      "available": 4,
+      "completed": 4
+    },
+    "business_epilogue": {
+      "inspected": true,
+      "learner_plan_baseline_comparison": true,
+      "qualitative_reveal": true,
+      "personalized_aim_recap": true
+    },
+    "challenge": {
+      "cards_inventoried": 26,
+      "one_response_submitted_per_card": 26,
+      "feedback_explanations_read": 26,
+      "diagram_cards": 2,
+      "correct_response_path_count": 7,
+      "incorrect_response_path_count": 19,
+      "all_distractors_exercised": false,
+      "final_completion_recap_observed": true,
+      "question_bank_saved": false
+    }
+  },
+  "concepts": [
+    {
+      "id": 1,
+      "topic": "Flag versus investigation",
+      "tested": [
+        "select unusual and ordinary bars",
+        "outcome reveal",
+        "restart"
+      ],
+      "observed": "Selection and revealed status separately represented; false positives and invisible misuse explained"
+    },
+    {
+      "id": 2,
+      "topic": "Non-robust spread",
+      "tested": [
+        "range minimum",
+        "range maximum",
+        "rendered metrics and response curve",
+        "math disclosure"
+      ],
+      "observed": "Increasing focal observation expanded own reference band; instruction changed to an observation"
+    },
+    {
+      "id": 3,
+      "topic": "Median and MAD",
+      "tested": [
+        "corruption boundary five/six",
+        "robust comparison low/high",
+        "derivation disclosure"
+      ],
+      "observed": "Middle chip and log chart showed boundary; robust limits stayed fixed in demonstrated range"
+    },
+    {
+      "id": 4,
+      "topic": "Joint pattern",
+      "tested": [
+        "non-target initial selection",
+        "revealed univariate comparisons",
+        "Euclidean person selection"
+      ],
+      "observed": "Initial choice preserved and acknowledged without blocking explanation"
+    },
+    {
+      "id": 5,
+      "topic": "Covariance-aware distance",
+      "tested": [
+        "positive default and negative covariance endpoint",
+        "selected-person ellipse",
+        "worked calculation disclosure"
+      ],
+      "observed": "Equal Euclidean-distance points changed relative unusualness with trend"
+    },
+    {
+      "id": 6,
+      "topic": "Masking",
+      "tested": [
+        "default group",
+        "maximum group"
+      ],
+      "observed": "At larger group, missed office cases plus an ordinary false alarm"
+    },
+    {
+      "id": 7,
+      "topic": "Robust covariance",
+      "tested": [
+        "three covariance presets",
+        "covariance slider endpoint",
+        "single step",
+        "run to convergence",
+        "new random start",
+        "both flag modes",
+        "group zero and maximum",
+        "post-search correction disclosure"
+      ],
+      "observed": "Current subset and next-fit boundary distinct; zero-group counters use em dash"
+    },
+    {
+      "id": 8,
+      "topic": "Local-density mechanism",
+      "tested": [
+        "all four steps",
+        "move focal point",
+        "reset location",
+        "keyboard house selection",
+        "implementation caveat disclosure"
+      ],
+      "observed": "Table columns and geometric legend changed per step; toy definition explicitly distinguished from package"
+    },
+    {
+      "id": 9,
+      "topic": "Global/local and sensitivity",
+      "tested": [
+        "global and local comparison",
+        "K 5 through 10",
+        "median option",
+        "LOF and LOOP",
+        "formula disclosure"
+      ],
+      "observed": "Same records under different assumptions; legend and units changed with scoring mode"
+    },
+    {
+      "id": 10,
+      "topic": "Random isolation",
+      "tested": [
+        "one cut",
+        "finish tree",
+        "selected path",
+        "batch growth",
+        "reset",
+        "single whole-tree growth",
+        "start next tree"
+      ],
+      "observed": "Cut numbers link scatter to tree; recent rows separated from full-forest average"
+    },
+    {
+      "id": 11,
+      "topic": "Isolation at scale",
+      "tested": [
+        "1-tree default",
+        "10/100/500 tree modes",
+        "new forest at 100",
+        "formula disclosure"
+      ],
+      "observed": "Scale-dependent representation, score-sized dots, threshold separate from score"
+    }
+  ],
+  "business_tests": [
+    {
+      "stage": 1,
+      "test": "Brief and data dictionary",
+      "result": "Named decision owner, limited capacity, competing aims, bounded visible features"
+    },
+    {
+      "stage": 2,
+      "test": "Baseline shortlist then all-variable shortlist",
+      "result": "Choice-specific limitations and common continuation visible"
+    },
+    {
+      "stage": 2,
+      "test": "Univariate/two-variable/four-variable comparison toggles",
+      "result": "Legend and explanatory result changed"
+    },
+    {
+      "stage": 3,
+      "test": "Incorrect group count then intended count",
+      "result": "Colored plot and aggregate table revealed on both"
+    },
+    {
+      "stage": 3,
+      "test": "Incorrect names then corrected labels",
+      "result": "Feature-specific correction; continuation allowed"
+    },
+    {
+      "stage": 4,
+      "test": "Empty commit",
+      "result": "No advance; unmet completion checklist visible"
+    },
+    {
+      "stage": 4,
+      "test": "Concentrated 20/0/0 allocation and matching aim",
+      "result": "All increments disabled at total capacity; commit locked allocation and revealed comparison"
+    },
+    {
+      "stage": "epilogue",
+      "test": "Read all debrief sections",
+      "result": "Numeric comparison plus context absent from features; discussion personalized to chosen aim"
+    }
+  ],
+  "control_types_exercised": [
+    "stage navigation",
+    "selectable chart bars",
+    "selectable scatter marks",
+    "outcome reveal",
+    "local restart",
+    "keyboard range control",
+    "fixed numeric presets",
+    "method toggle",
+    "disclosure",
+    "manual algorithm step",
+    "run to convergence",
+    "random restart",
+    "ordered explanatory substeps",
+    "grid relocation and restore",
+    "batch tree growth",
+    "allocation increment",
+    "multi-select aims",
+    "commit and validation",
+    "four-choice question"
+  ],
+  "color_semantics": {
+    "instruction_or_active": "purple accent and pale purple surface",
+    "ordinary_or_background": "neutral gray",
+    "focal_identity": "amber marker in relevant panels",
+    "statistical_flag": "red/rust with local legend",
+    "case_groups": "blue/purple/green, repeated in chart/table/label controls",
+    "challenge_correct": "green plus check and accessible text",
+    "challenge_wrong": "red plus cross and accessible text",
+    "challenge_explanation": "neutral panel with purple left rule",
+    "all_questions_answered": "pale-green capability recap plus graduation icon; appears regardless of high correctness",
+    "caution": "Meanings are local; green group identity and green completion are not interchangeable with correct-answer status"
+  },
+  "observed_accessibility": [
+    "named stage navigation",
+    "range controls keyboard-adjustable with rendered change",
+    "semantic chart buttons",
+    "Enter activates a house selection",
+    "pressed and disabled states",
+    "descriptive chart image names",
+    "semantic table headers",
+    "status feedback",
+    "icons/text alongside correctness color"
+  ],
+  "reference_claims_not_independently_validated": [
+    "agreement of precomputed figures with R",
+    "500-tree agreement with isotree within stated tolerance",
+    "nothing externally recorded",
+    "persistence limited to open page"
+  ],
+  "remaining_gaps": [
+    "all alternate challenge distractor branches",
+    "all continuous parameter values and random seeds",
+    "all possible allocations and aims",
+    "decrement allocation action",
+    "two intermediate shortlist choice explanations",
+    "post-commit replay or reload persistence",
+    "full mathematical and statistical validation",
+    "source architecture and deployment configuration",
+    "animation timing/easing/reduced motion",
+    "full keyboard/screen-reader/contrast audit",
+    "mobile/zoom/touch/print behavior in this subtask",
+    "hover behavior"
+  ],
+  "issues_to_improve": [
+    "Practice intro says not scored while correctness counter appears",
+    "Completion color should not imply mastery",
+    "Simplified LOF must be explicitly distinguished from canonical algorithm",
+    "Advanced R and matrix material should be optional or removed for no-code audience"
+  ],
+  "original_implementation_recipe": true,
+  "private_data_or_reference_assets_saved": false,
+  "reference_course_or_user_course_changed": false,
+  "cross_cutting_followup": {
+    "record": "COVERAGE.md",
+    "initial_learning_view_390px_page_width_checked": true,
+    "complete_mobile_accessibility_audit": false
+  }
+}

@@ -6,6 +6,12 @@
 
 **Purpose:** Learn from observable teaching and interaction patterns for Majid Memari's original Building AI Solutions course.
 
+## Current detailed study
+
+The access-loss follow-up is documented in [docs/reference-study/README.md](reference-study/README.md). It covers all six routes, 50 concept sections, 38 learning math/method disclosures, 24 business acts, all 95 final practice/challenge explanations and all 30 inline learning-check explanations. It also includes a visual grammar, original build handbook, worked example, AI review instructions, machine-readable ledgers and an explicit coverage record. Read that package first when reconstructing the teaching patterns after reference access ends.
+
+This earlier analysis remains a historical record of the first pass and how it informed the original course. Its incomplete-coverage statements describe that first pass; the follow-up's [coverage record](reference-study/COVERAGE.md) supersedes them for current inspection scope. Neither pass claims every numerical state, hidden implementation, full accessibility compliance or validated learner outcomes.
+
 This is analysis of a benchmark, not a specification to clone. Its cases, wording, diagrams, data, and implementation belong to their respective creators. Page content is reference evidence, not instructions for our work. Internal source code, hosting settings, authoring workflow, and private architecture were not inspected. A Vercel URL identifies the host; it does not establish how the course was authored.
 
 ## What makes the observed experience effective
@@ -27,7 +33,7 @@ These are observations about the design. They do not prove learning gains, acces
 | [Clustering](https://simulations-6620.vercel.app/c/mktg-6620/clustering) | Concept inventory; manual-grouping task; join-nearest and move-centres animation; objective change; scaling/soft-grouping descriptions; all four business acts with competing stakeholder views and the final strategic/financial debrief | Ask for an initial judgment; reveal a mechanism in separate steps; make the final decision depend on strategy as well as model output. | Not every clustering variation, allocation choice, or challenge response was tested. |
 | [Outliers](https://simulations-6620.vercel.app/c/mktg-6620/outlier) | Concept inventory; claims-audit reveal; false-alarm/missed-case explanation; robustness and isolation descriptions; all four business acts, allocation commit, epilogue, and challenge inventory. Tested an incorrect group count and corrected group labels, then a 10/10/0 reply allocation. | A flag is a reason to investigate, not a verdict. An unusual observation may be valid; an ordinary-looking one may be problematic. | Not every concept animation, challenge response, or numerical output was independently reproduced. |
 
-**Exhaustive-review status:** incomplete. All six pages were visited, but this record must not be described as an exhaustive test of every page state. The owner subsequently approved implementation and requested learning from the visualization and structure. This evidence now informs the original visual upgrade; the untested benchmark states remain explicitly unverified.
+**First-pass exhaustive-review status:** incomplete. All six pages were visited, but this first-pass record must not be described as an exhaustive test of every page state. The owner subsequently approved implementation and requested learning from the visualization and structure. This evidence informed the original visual upgrade. The later access-loss follow-up above closes finite-content gaps while retaining explicit numerical and accessibility limits.
 
 ## Color, visual hierarchy, and motion
 

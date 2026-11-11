@@ -6,7 +6,13 @@ The live course is [Building AI Solutions](https://www.majidmemari.com/teaching/
 
 Start with the [review brief](review-brief.md). Inspect the live learner path before relying on previous judgments. Then use the [instructional design](instructional-design.md), [source map](source-map.md), [site maintenance guide](site-maintenance.md), and [validation record](development-and-validation.md) to compare intent, source, and observed behavior. Return prioritized findings with exact locations, learner consequences, proposed changes, and acceptance checks.
 
-[Reference analysis](reference-analysis.md), [textbook research](textbook-selection.md), and [independent visual QA](visual-qa-review.md) provide supporting evidence. They do not prove current availability or learning effectiveness. Historical source directories and private records are not required review inputs.
+[Reference analysis](reference-analysis.md), the [complete simulation study](reference-study/README.md), [textbook research](textbook-selection.md), and [independent visual QA](visual-qa-review.md) provide supporting evidence. They do not prove current availability or learning effectiveness. Historical source directories and private records are not required review inputs.
+
+## Applying the simulation study
+
+The [simulation application plan](simulation-application-plan.md) maps the reference patterns into five existing Try activities: discovery evidence, human authority, fair testing, pilot denominators, and capacity versus cash. Learners predict, explore linked evidence, commit a recommendation, inspect a challenge, and retain or revise the decision before transferring the result to their capstone. Complete worked comparisons remain in authored HTML for reading, printing, and the course TA. The plan describes intended behavior; the [validation record](development-and-validation.md) records the checks actually completed.
+
+The [reference-study directory](reference-study/README.md) preserves six original case-study analyses, a build handbook, visual conventions, a worked example, review instructions, and explicit coverage ledgers. It is independent research documentation, not a copy of the reference application's source or question bank, not required student reading, and not an input to the course TA. Its manifest hashes the mirrored artifacts after link adaptation.
 
 ## Source and mirror ownership
 
@@ -16,7 +22,7 @@ This directory mirrors course documentation so the hosting repository can be und
 /Users/majid/Documents/GitHub/uvu_courses/courses/cs4720R/
 ```
 
-The organized canonical source and review documents are recorded in local course-repository commit `8860406`. The directory name is historical and does not define the public course identity. If that local path is unavailable, request the current course source from the owner; do not infer it from historical generated pages. Edit canonical documents first, then refresh these mirrors and their relative links. This directory does not contain the editable lesson generator.
+The directory name is historical and does not define the public course identity. Consult the dated validation record and current Git history for the source and release being reviewed. If that local path is unavailable, request the current course source from the owner; do not infer it from historical generated pages. Edit canonical documents first, then refresh these mirrors and their relative links. This directory does not contain the editable lesson generator.
 
 The personal-site repository owns the hosting application and online TA:
 

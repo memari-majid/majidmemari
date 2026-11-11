@@ -1,0 +1,117 @@
+{
+  "schema_version": 1,
+  "title": "Interactive business course design study",
+  "study_date": "2026-11-10",
+  "owner_of_original_adaptation": "Majid Memari",
+  "reference_suite": "https://simulations-6620.vercel.app/suite",
+  "reference_attribution": "Prof. Himanshu Mishra, as credited in the observed interface",
+  "entry_point": "README.md",
+  "read_order": [
+    "README.md",
+    "COVERAGE.md",
+    "VISUAL_DESIGN.md",
+    "BUILD_HANDBOOK.md",
+    "WORKED_EXAMPLE.md",
+    "REVIEW_PROMPT.md"
+  ],
+  "totals": {
+    "routes": 6,
+    "stages_or_parts": 17,
+    "concept_sections": 50,
+    "learning_disclosures": 38,
+    "business_acts": 24,
+    "final_feedback_cards": 95,
+    "inline_feedback_cards": 30
+  },
+  "scope": "Comprehensive finite structure and interaction-family study; representative states, not every numerical or answer branch",
+  "hidden_source_inspected": false,
+  "reference_copy_or_question_bank_included": false,
+  "user_course_deployed_by_this_study": false,
+  "artifacts": [
+    {
+      "path": "BUILD_HANDBOOK.md",
+      "bytes": 17576,
+      "sha256": "d36b133757a4b71a8668af2b9c4efc71cf07a8a80c585d74d5a1e0e96d215d4f"
+    },
+    {
+      "path": "CAMPAIGN.md",
+      "bytes": 21459,
+      "sha256": "9b6e5ce7dde63317d09d7480ec9220e476b7c74bb682c90ceb24092e1dc7ec91"
+    },
+    {
+      "path": "CLUSTERING.md",
+      "bytes": 18853,
+      "sha256": "6ae21b9e218f37e3662414aff11b723fe8e0bb52e7f0ded57899399725475ce9"
+    },
+    {
+      "path": "COVERAGE.md",
+      "bytes": 6297,
+      "sha256": "27de3126952918efffc1687af126fa1a295f562e32244366002acce5b6616eb3"
+    },
+    {
+      "path": "FORECAST.md",
+      "bytes": 10459,
+      "sha256": "bd73ab2e3daa298e7f9334736d3d62dcba778e0df8006d8a89d4e2d287c75403"
+    },
+    {
+      "path": "FORECAST_COVERAGE.json",
+      "bytes": 2368,
+      "sha256": "d9eceb875e19097585b32186ed16038c778fa1bcec02aaf8a06e4f888ad518c2"
+    },
+    {
+      "path": "OUTLIERS.md",
+      "bytes": 33218,
+      "sha256": "7bf5b2f353ef64720729bb65b2b9166adc78646b51abdf438bcb3f7e78ece40f"
+    },
+    {
+      "path": "OUTLIERS_COVERAGE.json",
+      "bytes": 9712,
+      "sha256": "33effd518caa34f0c63bd92d04c3334ea5b50a804a27ce042930d73da126d70d"
+    },
+    {
+      "path": "README.md",
+      "bytes": 5777,
+      "sha256": "47fe9ff54c029e66a735a173c7b7f2c44df22bd04476f984af8610688ec7f786"
+    },
+    {
+      "path": "RETENTION.md",
+      "bytes": 15821,
+      "sha256": "1639d39f901b5b37e8d0170cb918ed640551052277c20124c316df628b19c0bb"
+    },
+    {
+      "path": "REVIEW_PROMPT.md",
+      "bytes": 6929,
+      "sha256": "936c1f0ffee270146bc83ea0ee9f7ecebe158d7b686afc211be434504fe322e1"
+    },
+    {
+      "path": "STOCKROOM.md",
+      "bytes": 28032,
+      "sha256": "8e14c74a061b53a14d217aa2e3a5b77c0e1d66643ef16daac9f29fd3ce13f7dc"
+    },
+    {
+      "path": "VISUAL_DESIGN.md",
+      "bytes": 8269,
+      "sha256": "d43eda1b59db67647100c82ad5e468aeb78b762623c104aa67742c84374c3beb"
+    },
+    {
+      "path": "WORKED_EXAMPLE.md",
+      "bytes": 5148,
+      "sha256": "3808a05da46deec2b0033431ba0c68b067352e53c1a5d4ed91fdd78697bd8433"
+    },
+    {
+      "path": "campaign-stockroom-coverage.json",
+      "bytes": 7470,
+      "sha256": "bc98007b6846799cedb0657a12c87c940518826e050f46bca0c99acaf7e12683"
+    },
+    {
+      "path": "coverage-retention-clustering.json",
+      "bytes": 7627,
+      "sha256": "d71055d0141754c72a27f59b4b23627ab9b581009fd8d9944e12a5b0499aa334"
+    }
+  ],
+  "mirror": {
+    "canonical_root": "/Users/majid/Documents/GitHub/uvu_courses/courses/cs4720R/docs/reference-study",
+    "mirror_root": "docs/ai-solutions/reference-study",
+    "note": "Original study documentation mirrored with relative links adapted to this hosting checkout. Artifact hashes cover mirror bytes. Research coverage totals are unchanged; this is not a runtime course input or a source-code mirror of the reference course."
+  }
+}

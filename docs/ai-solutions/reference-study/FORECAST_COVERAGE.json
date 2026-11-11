@@ -1,0 +1,71 @@
+{
+  "schema_version": 1,
+  "study": "forecast",
+  "reference_url": "https://simulations-6620.vercel.app/c/mktg-6620/forecast",
+  "observed_date": "2026-11-10",
+  "method": "Authenticated rendered learner UI; semantic controls, keyboard, DOM and viewport observation. No source or network inspection.",
+  "local_analysis": "FORECAST.md",
+  "coverage": {
+    "parts": {
+      "available": 2,
+      "visited": 2
+    },
+    "concepts": {
+      "available": 8,
+      "inspected": 8
+    },
+    "math_disclosures": {
+      "available": 5,
+      "opened": 5
+    },
+    "inline_checks": {
+      "available": 6,
+      "feedback_read": 6
+    },
+    "practice": {
+      "groups": 8,
+      "cards": 23,
+      "one_response_per_card": 23,
+      "feedback_read": 23,
+      "figures": 6,
+      "completion_recap_observed": true
+    },
+    "stage_revisit_retains_state": true
+  },
+  "tested_interactions": [
+    "slow-trend reveal",
+    "decomposition month default and lower endpoint",
+    "lag default,14,24 with linked pairs and ACF",
+    "AR/MA generator switch",
+    "negative MA and high positive AR coefficient",
+    "differences0,1,2",
+    "ACF q0 and PACF p3 plus suggested-order restore",
+    "both model comparison presets",
+    "all six model-order selectors",
+    "both models all-zero terms empty state",
+    "five mathematical disclosures",
+    "all six inline feedback cards",
+    "all23 practice feedback cards",
+    "practice/learning stage return with state retained"
+  ],
+  "limits": [
+    "not every month, coefficient, model-order combination or distractor",
+    "underlying numerical series and software fits not independently reproduced",
+    "no backend or source inspection",
+    "no learner effectiveness study",
+    "full keyboard,screen-reader,reduced-motion and cross-browser audit not performed; responsive spotcheck recorded separately"
+  ],
+  "transfer_cautions": [
+    "ADF unit-root null is more specific than all non-stationarity",
+    "AIC comparability across differencing orders",
+    "residual diagnostics do not replace future-held-out evaluation",
+    "Prophet supports additional regressors",
+    "completion recap is not mastery"
+  ],
+  "question_bank_saved": false,
+  "cross_cutting_followup": {
+    "record": "COVERAGE.md",
+    "initial_learning_view_390px_page_width_checked": true,
+    "complete_mobile_accessibility_audit": false
+  }
+}
