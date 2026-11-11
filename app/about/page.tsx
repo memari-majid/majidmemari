@@ -68,8 +68,7 @@ export default function AboutPage() {
                   <p className="text-slate-600">{MAJID.certifications.aiForBusiness.issuer}</p>
                 </li>
               </ul>
-              <h3 className="mt-6 text-sm font-medium">Research</h3>
-              <Link className={`mt-1 inline-flex min-h-11 items-center text-sm ${linkClass}`} href="/projects">Research →</Link>
+              <Link className={`mt-6 inline-flex min-h-11 items-center text-sm font-medium ${linkClass}`} href="/projects">Research →</Link>
             </div>
           </div>
         </section>
