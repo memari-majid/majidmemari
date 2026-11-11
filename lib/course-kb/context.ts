@@ -27,6 +27,13 @@ export function normalizeCoursePage(value: unknown): string {
   return /^(?:unit-(?:0[1-9]|1[0-2])|milestone-[1-5]|index|resources|project|example|finish|readings|instructor)\.html$/.test(value) ? value : "";
 }
 
+/** A milestone or resource opens contextual help, never an unrelated Unit 1 lab.
+ * With no page supplied, the general lab selector remains the entry point. */
+export function courseAssistantInitialMode(value: unknown): "lab" | "help" {
+  const page = normalizeCoursePage(value);
+  return page && !page.startsWith("unit-") ? "help" : "lab";
+}
+
 export function coursePageLabel(value: unknown): string {
   const page = normalizeCoursePage(value);
   if (page.startsWith("unit-")) { const number = Number(page.slice(5, 7)); return `Unit ${number}: ${UNIT_TITLES[number - 1]}`; }

@@ -14,7 +14,7 @@ import { createCourseChatHandler } from "./chat";
 import { prepareCourseHistory } from "./history";
 import { courseCompletionNotice } from "./completion";
 import type { CourseChatMessage, CourseChunk } from "./types";
-import { CANVAS_ASYNC_LAYOUT, normalizeCoursePage, coursePageLabel, courseEvidenceLink, courseEvidenceNavigation } from "./context";
+import { CANVAS_ASYNC_LAYOUT, normalizeCoursePage, coursePageLabel, courseEvidenceLink, courseEvidenceNavigation, courseAssistantInitialMode } from "./context";
 import { parseCourseSession, serializeCourseSession, shouldPersistCourseSession } from "./session";
 
 const text = (role: string, content: string) => ({ role, parts: [{ type: "text", text: content }] });
@@ -559,4 +559,31 @@ test('all twelve labs have a bounded phase-safe context with a genuine published
       if (phase === 'decide' || phase === 'investigate') assert(!JSON.stringify(chunks).includes(activity.worked));
     }
   }
+});
+
+
+test('Canvas TA directions follow the native exchange-before-quiz order', () => {
+  const installed = JSON.parse(readFileSync(path.resolve('docs/ai-solutions/canvas/live-verification.json'), 'utf8'));
+  for (const unit of CANVAS_ASYNC_LAYOUT.peerExchangeUnits) {
+    const module = installed.modules.find((entry: { title: string }) => entry.title.startsWith(`Unit ${String(unit).padStart(2, '0')}:`));
+    assert(module, `Native Unit ${unit} must exist`);
+    const items = module.items as { title: string; type: string[] }[];
+    const lesson = items.findIndex(item => item.title.startsWith('Unit ') && item.title.includes('lesson:'));
+    const exchange = items.findIndex(item => item.type.includes('discussion_topic'));
+    const quiz = items.findIndex(item => item.type.includes('quiz'));
+    const milestone = items.findIndex(item => item.title.startsWith('Milestone '));
+    assert(lesson >= 0 && exchange > lesson && quiz > exchange, `Unit ${unit}: lesson → exchange → quiz`);
+    if (milestone >= 0) assert(milestone > quiz, `Unit ${unit}: milestone follows the quiz`);
+  }
+  const system = buildCourseSystemPrompt([], 'unit-03.html', true);
+  assert(system.includes('Lesson and reading → Project exchange when listed → Practice quiz and project update → Milestone when due'));
+  assert(system.includes('After Finish, use Canvas Next to continue through the project exchange when listed (Units 3, 7, 12), then open'));
+  assert(system.includes('Use Canvas Next after Finish to follow the same order: project exchange when listed in Units 3, 7, 12, then'));
+  assert(!system.includes('practice and check-in quiz → project exchange'));
+});
+
+test('explicit milestone and resource entries open contextual questions instead of an unrelated Unit 1 lab', () => {
+  for (const page of ['milestone-1.html', 'milestone-3.html', 'milestone-5.html', 'resources.html', 'readings.html', 'project.html', 'example.html', 'finish.html']) assert.equal(courseAssistantInitialMode(page), 'help', page);
+  for (let unit = 1; unit <= 12; unit++) assert.equal(courseAssistantInitialMode(`unit-${String(unit).padStart(2, '0')}.html`), 'lab');
+  assert.equal(courseAssistantInitialMode(''), 'lab', 'The general entry keeps the unit selector');
 });

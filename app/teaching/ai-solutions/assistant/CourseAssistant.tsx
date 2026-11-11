@@ -6,7 +6,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import ReactMarkdown, { type Components } from "react-markdown";
 import { prepareCourseHistory } from "@/lib/course-kb/history";
 import { courseCompletionNotice } from "@/lib/course-kb/completion";
-import { courseEvidenceLink, courseEvidenceNavigation, coursePageLabel, normalizeCoursePage } from "@/lib/course-kb/context";
+import { courseEvidenceLink, courseEvidenceNavigation, coursePageLabel, normalizeCoursePage, courseAssistantInitialMode } from "@/lib/course-kb/context";
 import { COURSE_SESSION_KEY, parseCourseSession, serializeCourseSession, shouldPersistCourseSession } from "@/lib/course-kb/session";
 import type { CourseChatMessage } from "@/lib/course-kb/types";
 import remarkGfm from "remark-gfm";
@@ -215,7 +215,7 @@ function CourseConversation({ embedded = false, lesson = "", canvasDelivery = fa
 }
 
 export function CourseAssistant({ embedded = false, lesson = "", canvasDelivery = false }: { embedded?: boolean; lesson?: string; canvasDelivery?: boolean }) {
-  const [mode, setMode] = useState<'lab' | 'help'>('lab');
+  const [mode, setMode] = useState<'lab' | 'help'>(() => courseAssistantInitialMode(lesson));
   const [selectedPage, setSelectedPage] = useState(learningActivity(lesson)?.page ?? 'unit-01.html');
   const activity = learningActivity(selectedPage)!;
   return <main id="main-content" className={embedded ? 'px-3 py-4 sm:px-5' : 'mx-auto max-w-3xl px-4 py-8 sm:px-6'}>
