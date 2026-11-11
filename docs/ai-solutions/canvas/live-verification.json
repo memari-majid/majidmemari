@@ -1,6 +1,6 @@
 {
   "date": "2026-11-11",
-  "edition": "v4 asynchronous delivery, white Canvas profile",
+  "edition": "v4 asynchronous delivery, white Canvas profile and native inline TA",
   "canvasCourse": "https://uvu.instructure.com/courses/644965",
   "courseState": "unpublished",
   "packageSha256": "891ef92210f08cd39bd62018ddbebb9f182ba3f58d15a1401917d739aa25b11c",
@@ -8,8 +8,8 @@
     "time": "Nov 11 at 10:33am",
     "status": "Partially Completed",
     "issues": [
-      "Rubric - Building AI Solutions \u2014 Milestone 5: Demonstration and handoff",
-      "Rubric - Building AI Solutions \u2014 Individual case exam: evidence, decisions, and responsible handoff"
+      "Rubric - Building AI Solutions — Milestone 5: Demonstration and handoff",
+      "Rubric - Building AI Solutions — Individual case exam: evidence, decisions, and responsible handoff"
     ],
     "disposition": "Both rubrics had Test Student assessments. Their criteria, point totals, and identifiers were byte-identical to the previously imported package. The retained native rubrics, scores, criterion feedback, and combined grade arithmetic were verified after import. No content/rubric mismatch remains; the import-history warnings are retained."
   },
@@ -603,7 +603,7 @@
       12
     ],
     "private": "Canvas Inbox",
-    "courseTA": "Embedded public-course assistant; no access to private learner records"
+    "courseTA": "Native inline disclosure after each lesson iframe, before native text reading; exact unit context; public course sources only, no access to private learner records"
   },
   "archivedUnpublished": {
     "legacyModules": 18,
@@ -622,14 +622,17 @@
     "bodyFont": "system-ui",
     "headingFont": "Georgia",
     "source": "site/assets/core.css Canvas profile, read by integrations/canvas/theme.py",
-    "scope": "Authored Canvas content and embedded lessons/TA; institutional chrome and native Canvas controls remain platform-native"
+    "scope": "Authored Canvas content and embedded lessons/TA; institutional chrome and native Canvas controls remain platform-native",
+    "embeddedHeaderDisplay": "none",
+    "bottomHelpPromptPresent": false,
+    "courseTAPlacement": "Native inline disclosure between lesson iframe and text reading"
   },
   "vercel": {
-    "commit": "32a1a8073d2477fe3550233e086404594c6b4621",
-    "deployment": "dpl_Fbhy2Nq6N5XFQFrZchf6hpYBknGf",
+    "commit": "d907328c88e2b7efe103b96aeab3e77f96561a42",
+    "deployment": "dpl_4pnuqm5HtnsSLqGETe3JruJwEdsr",
     "status": "READY",
     "url": "https://www.majidmemari.com/teaching/ai-solutions/",
-    "manifestSha256": "9202bb753d49e224dfee4370e8eaa7da2578d3aa63da271dce2fbc4af6adc743",
+    "manifestSha256": "dff3f1c38b014e7f4d1736f1d83b3cf1400b03664fcf57f0d00bee38a1436b72",
     "staticFilesVerified": 70,
     "tests": {
       "course": 68,
@@ -643,10 +646,13 @@
     "Six same-Canvas template download routes present; first template download/BOM verified before white-only import",
     "Home, syllabus, case packet, lesson wrapper and embedded lesson use white backgrounds",
     "Unit 6 rework control: 6 extra minutes -> 90 total -> 6.25% reduction; restored to zero",
-    "Nested course TA visible within Canvas with white surface and contained source labels",
+    "Earlier white-theme TA presentation verified; superseded by the native inline placement",
     "Exact pending-review question verified against production TA API after prompt clarification",
     "Test Student native submissions, rubric assessment, student criterion feedback, retry and resubmission receipts",
-    "Instructor view restored; course remains unpublished"
+    "Instructor view restored; course remains unpublished",
+    "All twelve native lesson pages saved/read back with matching lesson and TA frames, followed by text reading",
+    "Unit 12 Student View inline TA answered final-demonstration question with Unit 12 sources; only QA chat was cleared afterward",
+    "Canvas Next present, embedded header hidden, white background, bottom help absent; no reimport or assessment changes in this follow-up"
   ],
   "limits": [
     "Only clearly labeled Test Student QA work was submitted and graded; no real learner record changed",
@@ -659,7 +665,36 @@
   "evidence": [
     "evidence/canvas-white-lesson.jpg",
     "evidence/canvas-white-simulation.jpg",
-    "evidence/canvas-white-ta.jpg"
+    "evidence/canvas-white-ta.jpg",
+    "evidence/canvas-inline-ta.jpg",
+    "evidence/canvas-inline-ta-verification.json"
   ],
-  "history": "evidence/canvas-v3-installation.json"
+  "history": "evidence/canvas-v3-installation.json",
+  "packageSha256Meaning": "Last imported package; the newer reusable source package was not imported",
+  "lastImportedPackageSha256": "891ef92210f08cd39bd62018ddbebb9f182ba3f58d15a1401917d739aa25b11c",
+  "currentSourcePackageSha256": "a061893e367608491e2bf62d916b59342a3730272b419fdb0373d3e168b057d7",
+  "currentSourcePackageImported": false,
+  "pageLayoutUpdate": {
+    "date": "2026-11-11",
+    "method": "Canvas HTML editor; page bodies only; no cartridge reimport",
+    "nativePagesUpdated": 12,
+    "placement": "Interactive lesson, then inline collapsible course TA, then native text reading",
+    "sourceCommit": "e7eeda9",
+    "cartridgeComparison": {
+      "changedLessonPages": 12,
+      "byteIdenticalOtherEntries": 71
+    },
+    "assessmentOrGradeMutations": false,
+    "evidence": "evidence/canvas-inline-ta-verification.json",
+    "studentView": {
+      "unit": 12,
+      "assistantOpened": true,
+      "correctUnitContext": true,
+      "answer": "Three final-demonstration reminders returned with Unit 12 sources",
+      "canvasNextPresent": true,
+      "bottomHelpPresent": false,
+      "embeddedHeaderDisplay": "none",
+      "embeddedBackground": "rgb(255, 255, 255)"
+    }
+  }
 }

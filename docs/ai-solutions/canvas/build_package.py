@@ -114,13 +114,17 @@ def assignment_html(milestone):
             f'<title>Assignment: {escape(title)}</title></head><body>{body}</body></html>').encode()
 
 
-def lesson_page_html(unit, page_id):
+def lesson_body_html(unit, *, templates_href=None, guide_href=None):
+    """Render the shared lesson body for a cartridge or a native page update.
+
+    Installed-page updates pass already-observed Canvas-relative resource routes;
+    the portable package keeps Canvas's migration-reference tokens by default.
+    """
     n = unit["number"]
-    title = f'Unit {n:02d} lesson: {unit["title"]}'
-    frame_title = f'Unit {n:02d}: {unit["title"]} — interactive lesson and course AI TA'
+    frame_title = f'Unit {n:02d}: {unit["title"]} — interactive lesson'
     body = (
         '<p>Work through <strong>Learn → Try → Build → Finish</strong> in the lesson below. '
-        'Use the course AI TA inside the lesson when you need help explaining a concept. '
+        'Open the <strong>Course TA</strong> section on this Canvas page when you want to work through a question. '
         'Then use <strong>Canvas Next</strong> to continue through this module and submit '
         'your practice quiz and project response. Keep improving the same project record.</p>'
         f'<iframe src="{BASE}unit-{n:02d}.html?delivery=canvas" '
@@ -129,6 +133,15 @@ def lesson_page_html(unit, page_id):
         '<p>Your practice quiz, project response, submission history, instructor feedback, and module progress '
         'are recorded in Canvas. Opening this page records a visit; it does not confirm '
         'that you completed the lesson or mastered its concepts.</p>'
+    )
+    assistant_title = f'Course teaching assistant for Unit {n:02d}: {unit["title"]}'
+    assistant = (
+        '<details data-course-ta="inline"><summary>Course TA — work through a question</summary>'
+        '<p>Ask for a simpler explanation, help with the numbers, or a hint for your next step. '
+        'This assistant uses the course material for this unit. Submit work and read instructor feedback in Canvas.</p>'
+        f'<iframe src="{BASE}assistant?lesson=unit-{n:02d}.html&amp;embed=1&amp;delivery=canvas" '
+        f'title="{escape(assistant_title, quote=True)}" '
+        'width="100%" height="760" loading="lazy" style="border:0;"></iframe></details>'
     )
     q = unit["finish_check"]
     reading = (
@@ -150,10 +163,18 @@ def lesson_page_html(unit, page_id):
                   f'<span>{escape(r["url"])}</span></p>' for r in unit["readings"])
         + '</details>'
     )
-    resources = ('<p><a href="$WIKI_REFERENCE$/pages/' + identifier("templates") + '">'
+    templates_href = templates_href or '$WIKI_REFERENCE$/pages/' + identifier("templates")
+    guide_href = guide_href or '$WIKI_REFERENCE$/pages/' + identifier("course_guide")
+    resources = ('<p><a href="' + escape(templates_href, quote=True) + '">'
                  'Open the Canvas case packet and editable project templates</a> · '
-                 '<a href="$WIKI_REFERENCE$/pages/' + identifier("course_guide") + '">Course guide and help</a></p>')
-    body = wrap_content(body + reading + resources, eyebrow=f"Unit {n:02d} of 12", compact=True)
+                 '<a href="' + escape(guide_href, quote=True) + '">Course guide and help</a></p>')
+    return wrap_content(body + assistant + reading + resources, eyebrow=f"Unit {n:02d} of 12", compact=True)
+
+
+def lesson_page_html(unit, page_id):
+    n = unit["number"]
+    title = f'Unit {n:02d} lesson: {unit["title"]}'
+    body = lesson_body_html(unit)
     return (f'<!doctype html><html lang="en"><head><meta charset="utf-8">'
             f'<title>{escape(title)}</title><meta name="identifier" content="{page_id}">'
             '<meta name="editing_roles" content="teachers">'
@@ -855,10 +876,14 @@ def validate(path):
             assert parser.meta["identifier"] == identifier("lesson_page", n)
             assert parser.meta["editing_roles"] == "teachers"
             assert parser.meta["workflow_state"] == "active"
-            assert len(parser.frames) == 1
+            assert len(parser.frames) == 2
             frame = parser.frames[0]
             assert frame["src"] == f"{BASE}unit-{n:02d}.html?delivery=canvas"
             assert frame.get("title") and frame["width"] == "100%" and frame["height"] == "1000"
+            assistant = parser.frames[1]
+            assert assistant["src"] == f"{BASE}assistant?lesson=unit-{n:02d}.html&embed=1&delivery=canvas"
+            assert assistant.get("title") and assistant["width"] == "100%" and assistant["height"] == "760"
+            assert text.index('data-course-ta="inline"') < text.index('Read the complete text lesson')
             assert "Required core reading" in text and "before printing" in text
             assert f'data-course-theme="{THEME_VERSION}"' in text
         for name in names:

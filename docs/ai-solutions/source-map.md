@@ -19,7 +19,8 @@ The maintained audience is students from any discipline, with no prerequisites: 
 | Inline figure models and enhancement | `site/assets/lesson-figures.js`, `lesson-figures.css` | Same six in-lesson figures |
 | Guided practice models and linked visualizations | `site/assets/practice.js`, `practice.css` | Try activities in Units 2, 4, 6, 7, and 8 |
 | Shared course presentation | `site/assets/core.css` | Course layout, theme, responsive and print rules |
-| Navigation, checks, progress, embedded TA panel | `site/assets/site.js` | Learn/Try/Build/Finish and saved study state |
+| Navigation, checks, progress, standalone embedded TA panel | `site/assets/site.js` | Learn/Try/Build/Finish and saved study state |
+| Native Canvas inline TA placement | `integrations/canvas/build_package.py::lesson_body_html` | Unit-specific assistant disclosure between hosted lesson and native text reading |
 | Portable workbook format and safe merge | `site/assets/workbook.js` | Local notes and JSON backup/restore |
 | Static, model and delivery checks | `site/check_site.py`, `test_workbook.cjs`, `test_practice.cjs`, `test_lesson_figures.cjs`, `test_delivery.cjs` | Link/alignment checks and 68 workbook/model/delivery tests in the Canvas-profile release |
 | Build and browser evidence | `DEVELOPMENT_AND_VALIDATION.md`, `VISUAL_QA_REVIEW.md` | Dated results and remaining validation |
