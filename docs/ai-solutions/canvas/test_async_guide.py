@@ -50,12 +50,12 @@ class AsyncGuideTests(unittest.TestCase):
 
     def test_guide_explains_first_setup_without_an_ai_account_and_core_terms(self):
         text = " ".join(read(guide.GUIDE_HTML).text)
-        for required in ("seven steps", "without creating an account", "no previous AI", "Denominator", "Baseline", "Capacity value", "Cash change", "Core reading and text alternative"):
+        for required in ("seven steps", "without creating an account", "no previous AI", "Denominator", "Baseline", "Capacity value", "Cash change", "Read the complete text lesson and worked examples"):
             self.assertIn(required, text)
 
     def test_assessment_and_feedback_are_not_misrepresented_as_automatic_grades(self):
         text = " ".join(read(guide.GUIDE_HTML + guide.COMPLETION_HTML).text)
-        for required in ("60-point", "40-point", "same 25% group", "0%", "pending manual review", "two working days", "five working days", "37–63 learner hours including the guided units", "not automatically evaluated by AI"):
+        for required in ("60-point", "40-point", "same 25% group", "0%", "pending manual review", "two working days", "five working days", f"{guide.COURSE_HOURS} learner hours including the guided units and textbook reading", "not automatically evaluated by AI"):
             self.assertIn(required, text)
         self.assertIn("No live class attendance is required", text)
         self.assertIn("Lesson → Exchange when listed → Practice quiz and project update → Milestone when due", text)
@@ -78,8 +78,30 @@ class AsyncGuideTests(unittest.TestCase):
         self.assertNotIn("In-Person", result)
         self.assertNotIn("5:30", result)
         self.assertNotIn("UVU", result)
-        self.assertIn("37–63 total learner hours", result)
+        self.assertIn(f"{guide.COURSE_HOURS} total learner hours", result)
         self.assertIn("final reviewed submission counts", result)
+
+    def test_required_free_readings_have_precise_scope_and_one_existing_response(self):
+        plan = guide._readings.validate_readings()
+        text = " ".join(read(guide.GUIDE_HTML).text)
+        self.assertIn("Cambridge University Press", text)
+        self.assertIn("Introductory Statistics 2e", text)
+        self.assertIn("existing zero-point project update", text)
+        self.assertIn("book and section", text)
+        self.assertIn("Label that access alternative", text)
+        self.assertNotIn("Named articles and books are optional", text)
+        self.assertNotIn("iframe", read(guide.GUIDE_HTML).tags)
+        for unit, readings in plan.items():
+            with self.subTest(unit=unit):
+                for reading in readings:
+                    self.assertIn(reading["section"], text)
+                    self.assertIn(reading["scope"], text)
+                    self.assertIn(reading["prompt"], text)
+        for rendered in (guide.render_home(123, {}), guide.render_syllabus(123)):
+            content = " ".join(read(rendered).text)
+            self.assertIn("Required textbooks", content)
+            self.assertIn("No purchase", content)
+            self.assertFalse(any(link.startswith("http") for link in read(rendered).links))
 
     def test_all_portable_fragments_share_theme_and_contain_no_native_control_imitation(self):
         for value in (guide.GUIDE_HTML, guide.TEMPLATES_HTML, guide.COMPLETION_HTML):

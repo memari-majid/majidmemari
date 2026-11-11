@@ -2,6 +2,28 @@
 
 Owner and sole instructor: Majid Memari. Development authorized November 10, 2026 after completion and review of the instructional plan.
 
+## November 11: required academic textbooks — source implementation and review
+
+The current source assigns narrow, free selections from Poole and Mackworth's *Artificial Intelligence: Foundations of Computational Agents*, third edition (Cambridge, 2023), and Laverty and Littel's *Entrepreneurship* (OpenStax, 2020), with Illowsky and Dean's *Introductory Statistics 2e* (OpenStax, 2023) as the quantitative companion. The [textbook plan](textbook-recommendation.md) records the academic role and access limits. The [academic source policy](academic-source-policy.md) and [claim/source map](claim-source-map.md) distinguish established concepts, original course methods, fictional inputs, conditional calculations, and observations.
+
+`site/textbook_readings.py` is the required-reading source: exact section boundaries, reasons, original course connections, application prompts, bibliographic metadata, and provisional time estimates. The twelve-unit registry validates and totals **189 minutes**, **12–20 minutes per unit**, including a brief application. Learners read the named selections and connect one idea to the existing project update; no additional assignment, grading group, or progress gate is intended. The source keeps the course open to all disciplines with no prerequisites, required purchase, or business-formation requirement. IDEO and other professional material remain optional enrichment.
+
+Independent review inspected every required AI/statistics passage and the six business selections against official text, read all twelve current lesson units and milestone criteria, and recalculated the worked examples. No material arithmetic error was found. The review made the same-person capacity assumption explicit in Units 9 and 10. It also identified an inaccurate causality claim in later, unassigned *Entrepreneurship* §8.2 prose; the required directions now select only the first research-goal and first research-design paragraphs, excluding that material and later sampling advice. The statistics connection qualifies idealized random-assignment claims rather than promising balanced small groups or proof of a general causal effect. Section-level evidence and review limits are in the claim/source map; academic publication is not treated as infallibility or course accreditation.
+
+The source renderer provides official-book readers inside lessons and equivalent reading directions in the native Canvas text alternative. It stores original directions and metadata, not book chapters. The course TA must receive only the course's original content and reading directions, never downloaded book text, invented quotations, or a claim of full-book access. If a reader is unavailable, the labeled original-lesson alternative preserves the same reasoning task and records the access issue honestly.
+
+**Verification boundary:** this entry records source implementation, the independent source/number review, and the registry/workload check. It does **not** establish a new production deployment, public release hash, native Canvas save/readback, student-view reader behavior, or a completed live TA check. Record those separately after checking the exact final build. Prior release evidence below applies to its named release. Reader availability, mobile/keyboard/print behavior, native check-in wording, source/TA separation, and representative-learner timing still require their appropriate delivery checks; no learner-effectiveness result is claimed.
+
+### Delivery closeout
+
+The exact textbook edition was built, deployed and checked in Canvas. Validation passed: 60 HTML structural pages, 71 course Node tests, six Python reading tests, 23 Canvas tests, 41 TA/workshop tests, TypeScript and optimized Next.js build. All 70 public files match manifest `63f010152d8537515a2fd1b515e14a585f95f714d49e04f099c4320878b5da66`. Static runtime is `c290fd4777a6ad6f2c729c2ec5f2c9cabfd79355`; final TA rule correction is `56d1d1488e4bdce49fe7099150ec4351a6319b08`, READY deployment `dpl_EGv4uuGU15JxZUenVocxqa6LjqhA`.
+
+Native saves/readback covered all twelve lesson scopes/bridges, twelve existing zero-point essay prompts, guide, Home and Syllabus. Cambridge/OpenStax business/statistics readers loaded within Canvas; the AI reader and final TA response were checked in Student View. An initial TA answer miscounted its three listed titles as two; a scoped prompt/data consistency guard and fresh response corrected the count and clarified that the corpus contains course-authored directions rather than textbook excerpts. All 18 Spring dates, active 12/37/32 structure, five weights and existing synthetic scores were retained. No new quiz attempt or grade was created. Course remains unpublished and instructor view was restored.
+
+Current evidence: [Canvas textbook verification](canvas/evidence/canvas-textbook-verification.json) and [public release](canvas/evidence/textbook-public-release.json). The current source cartridge was not imported; previous import warnings remain historical. The preceding verification boundary described the source-stage status; this closeout supersedes only the checks explicitly completed here. Mobile/assistive-technology breadth, representative timing and learning-effectiveness studies remain outside this pass.
+
+The [frozen-source reproduction check](canvas/evidence/textbook-source-reproducibility.json) reran the 71 + 6 + 23 course/Canvas checks from committed source `f77e1ce3`, independently of concurrent working files. All 69 non-ZIP artifacts match the deployed edition after the documented publishing URL normalization. The portable course ZIP contains the same 69 entry names and payloads; its raw archive bytes vary with timestamp/file-mode metadata. Repacking with the deployed metadata reproduces its exact bytes. The Canvas cartridge reproduces byte-for-byte. The later source-ownership documentation correction changes no runtime behavior.
+
 ## November 11: capability-based real-world course update
 
 The [redesign plan](real-world-ai-redesign.md) preceded implementation. Required learning now links needs to AI capabilities, no-code execution, checked output, observed use, improvement and supported adoption. Unit 1 explains seven capability families; capability/implementation evidence appears in Milestones 1–2. Units 9–10 and Milestone 4 were refocused from required commercialization to release readiness, impact/resources and adoption. Tables, simulations, feedback, templates, quizzes, rubrics, reviewer instructions and TA sources were aligned. Commercialization remains optional.
@@ -18,7 +40,8 @@ The course is hosted within the teaching section of Majid's personal website. Th
 
 ## Source ownership
 
-- `site/course_content.py`: independent twelve-unit instructional content, five assessment specifications, and original Cedar Desk classroom packet.
+- `site/course_content.py`: independent twelve-unit instructional content, five assessment specifications, optional extension links, and original Cedar Desk classroom packet.
+- `site/textbook_readings.py`: required free textbook metadata, exact assigned scopes, original connections/prompts, time estimates, and standalone/Canvas rendering; no publisher text.
 - `site/build_core.py`: course shell, navigation, resource pages, milestones, legacy redirects, and portable archive.
 - `site/build_site.py`: build entry point.
 - `site/assets/core.css`: shared course visual language and responsive layout.
@@ -44,7 +67,8 @@ Run from the course `site` directory:
 ```sh
 python3 build_site.py
 python3 check_site.py
-node --test test_workbook.cjs test_practice.cjs test_lesson_figures.cjs
+python3 test_textbook_readings.py
+node --test test_workbook.cjs test_practice.cjs test_lesson_figures.cjs test_delivery.cjs test_textbook_readers.cjs
 ```
 
 Run from the personal website repository after building:
@@ -70,7 +94,7 @@ Technical checks passed: 60 generated HTML pages; twelve-unit/milestone alignmen
 
 ## Remaining educational validation
 
-Recruit representative business learners for a pilot. Observe finding Start, stating the task, reading the chart/table, recovering from a wrong choice, building the artifact, interpreting a changed case, saving/resuming, and finding Finish. Record time on task and help required. Revise from observed difficulties. The37–63hour workload estimate and learning outcomes have not yet been validated by a learner study.
+Recruit representative learners from different disciplines, including learners without prior AI or business knowledge, for a pilot. Observe finding Start, stating the task, reading the chart/table, recovering from a wrong choice, building the artifact, interpreting a changed case, saving/resuming, and finding Finish. Record time on task and help required. Revise from observed difficulties. The37–63hour workload estimate and learning outcomes have not yet been validated by a learner study.
 
 Before each taught offering, settle calendar, team size, partner or classroom client, approved tools/data, submission process, grading weights, accommodations, feedback windows, and partner permissions. These are offering decisions, not extra paths for students.
 
@@ -161,7 +185,7 @@ Original records, current drafts, and saved final responses are distinct. Freefo
 Verification before publishing:
 
 - Course build and structural checks passed for 60 HTML pages, including all five practice-before-worked-explanation placements, links, branding, and the portable archive. All 63 course tests passed: 13 workbook, 41 practice, and 9 inline-figure checks.
-- Independent source/model review passed the five numerical contracts, all 15 initial-choice/recovery paths, snapshot isolation, migration, bounded/escaped revision text, exports, and zero-width zero bars. See [the independent review](simulation-application-review.md).
+- Independent source/model review passed the five numerical contracts, all 15 initial-choice/recovery paths, snapshot isolation, migration, bounded/escaped revision text, exports, and zero-width zero bars. See [the independent review](evidence/simulation-application-review.md).
 - Browser checks exercised all five challenge routes. Unit 6 preserved a 3-minute original setting after live exploration changed to 6; a new written recommendation and reason survived reload, completed its transfer, and appeared in the downloaded record alongside the original settings. Incorrect recommendations received explanatory feedback. Unit 7 explicitly skipped a prediction and retained its incomplete-record notice after saving the study marker.
 - All five paired challenges stayed within a 390 × 844 viewport, with wide tables scrolling inside their containers. Keyboard Enter selected linked scenario evidence; reduced motion disabled automatic playback while preserving manual steps. Unit 4's zero-outcome bar measured zero width. No warning/error console entries were observed in the local checked tab.
 - With JavaScript disabled, Unit 6 retained its reading instructions and the native worked-answer disclosure opened to the complete 90-minute/6.25% comparison. Print behavior continues to use the existing disclosure-opening handler; this pass did not perform a full printed-page audit.
@@ -228,7 +252,7 @@ Checks completed during this documentation closeout:
 - The six editable files use Canvas's `web_resources/templates/` discovery path, exported forced-download query parameters, matching file metadata, and UTF-8 byte-order marks. These checks establish package configuration; actual file import/download behavior must be observed separately.
 - The private instructor marking-guide path remains covered by `.gitignore`. No private marking content was read, copied into these documents, or staged.
 
-The [current textbook recommendation](textbook-recommendation.md) was checked against official public publisher/resource pages. It proposes selective use of Marily Nika's book and IDEO.org's free field guide; it does not claim paid-book full-text inspection, assign invented page ranges, require a purchase, or change runtime reading requirements.
+Historical source-selection note for this earlier asynchronous pass: the recommendation then proposed selective use of Marily Nika's book and IDEO.org's free field guide without claiming full-book inspection or requiring a purchase. The required academic textbook foundation documented at the top of this record now supersedes that recommendation; these professional references remain optional.
 
 Live final-theme import, quiz attempts and feedback, manual assessment, responsive/keyboard/print behavior, operational response windows, and representative-learner timing/effectiveness require their own evidence. Do not infer these from a passing package or a matching palette.
 
@@ -265,3 +289,12 @@ Canvas’s bulk date editor reported a successful save for all 18 current assess
 The course time zone was verified as Mountain Time. Native ISO values match America/Denver’s daylight-saving change: Unit 1 `2027-01-18T06:59:00Z` and Unit 8 `2027-03-15T05:59:00Z`. The [schedule screenshot](canvas/evidence/canvas-spring-2027-schedule.jpg) and [structured offering evidence](canvas/evidence/canvas-spring-2027-verification.json) distinguish observed native dates from the authored plan; all 18 native and Student View due values match the schedule JSON. Offering source, Home/Syllabus and evidence were committed as `8070d09`. The renderer checks date/offset consistency and preserves HTML outside its offering blocks. This was a desktop Canvas/Student View check, not a new mobile, accessibility or learner-effectiveness study.
 
 No package reimport or runtime deployment was needed for the Canvas schedule. Source cartridge SHA-256 remains `a061893e367608491e2bf62d916b59342a3730272b419fdb0373d3e168b057d7`; the last imported cartridge remains `891ef92210f08cd39bd62018ddbebb9f182ba3f58d15a1401917d739aa25b11c`, with its two historical retained-rubric notices preserved. The Vercel course manifest remains `dff3f1c38b014e7f4d1736f1d83b3cf1400b03664fcf57f0d00bee38a1436b72`. No grading weights, rubrics, grades, late-work rules, legacy unpublished dates, real learner records or course-publication state were changed. Instructor view was restored; the course remains unpublished.
+
+
+## 2026-11-11 — TA decision labs
+
+Implemented twelve authored decision rehearsals inside Try with Decide → Investigate → Revise → Apply. Each lab connects to the unit outcome and ends with one action for the same project. Supplied mini-case data are labeled fictional; separate mini-cases do not silently replace the original Cedar Desk observations. Complete reading routes expose the scenario, evidence, worked reasoning and transfer without an AI service.
+
+The hosted TA defaults to the lab for the exact current unit. It retains a committed first choice separately from revision, restores bounded per-unit session records, exports readable reasoning, and passes validated current attempts to the AI coach. General questions remain a secondary mode. No assignments, grades, dates, learner records, or course publication settings are part of this change.
+
+Validation before release: static course checks, 6 textbook Python tests, 71 course model/delivery/workbook tests, TA/workshop tests including lab validation and streaming, TypeScript and Next.js build. Browser checks include a mistaken Unit 8 choice, all evidence cards, revision, project transfer, saved record after reload, and readable export. Further release and Canvas observations are recorded after deployment. These checks do not establish learning effectiveness; a learner pilot is still required.

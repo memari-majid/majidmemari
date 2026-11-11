@@ -4,9 +4,9 @@
 
 **Research checked:** November 10, 2026
 
-**Status:** Recommendations for course planning; no new student purchase requirement or live reading-list change.
+**Status:** Historical research catalog. The current required free AI, business and statistics selections are in [TEXTBOOK_RECOMMENDATION.md](textbook-recommendation.md) and `site/textbook_readings.py`; the recommendations below are not the active assignment list.
 
-> This is a research catalog, not the current assignment list. Any earlier module map below is historical. Current unit readings live in [site/course_content.py](source-map.md#source-ownership) and the [live reading guide](https://www.majidmemari.com/teaching/ai-solutions/readings.html).
+> This is a research catalog, not the current assignment list. Any earlier module map below is historical. Required unit reading assignments live in [site/textbook_readings.py](course-source/textbook_readings.py) and the [live reading guide](https://www.majidmemari.com/teaching/ai-solutions/readings.html).
 
 ## Recommendation
 

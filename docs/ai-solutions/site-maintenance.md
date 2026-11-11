@@ -10,7 +10,8 @@ Start with the [course orientation](README.md), [AI review brief](review-brief.m
 
 | File | Responsibility |
 |---|---|
-| `course_content.py` | Twelve lessons, objectives, readings, formative questions, Cedar Desk source packet, and five milestone rubrics |
+| `course_content.py` | Twelve lessons, objectives, optional extension links, formative questions, Cedar Desk source packet, and five milestone rubrics |
+| `textbook_readings.py` | Required free textbook metadata, exact scopes, original course connections/application prompts, estimates, and standalone/Canvas rendering; no book text |
 | `build_site.py` and `build_core.py` | Build entry point, page templates, four-stage navigation, supporting pages, redirects, asset hashes, and portable ZIP |
 | `visual_lessons.py` | Static explanations, tables, and enhancement hooks for six inline figures |
 | `assets/core.css` and `assets/site.js` | Shared course appearance, navigation, knowledge checks, printing, workbook interface, and standalone embedded TA panel |
@@ -19,7 +20,7 @@ Start with the [course orientation](README.md), [AI review brief](review-brief.m
 | `assets/lesson-figures.js` and `assets/lesson-figures.css` | Six compact interactive explanations; no network, grading, or stored progress |
 | `check_site.py` and `test_*.cjs` | Current structural, quantitative, and workbook checks listed below |
 
-The builder imports `course_content.py` and `visual_lessons.py`. It does **not** read offering JSON, Canvas records, archived modules, or private teaching files. Edit these maintained sources; do not edit generated `dist/` files.
+The builder imports `course_content.py`, `textbook_readings.py`, and `visual_lessons.py`. It does **not** read offering JSON, Canvas records, archived modules, or private teaching files. Edit these maintained sources; do not edit generated `dist/` files.
 
 `archive/pre-twelve-unit/` preserves the superseded builder, widgets, assets, and tests. `archive/standalone-deployment/` preserves earlier deployment packaging and release notes. They are historical references, not current build instructions. `test-fixtures/workbook-backup.json` is a fictional earlier-edition backup for compatibility checks.
 
@@ -30,15 +31,28 @@ Run from this directory:
 ```sh
 python3 build_site.py
 python3 check_site.py
-node --test test_workbook.cjs test_practice.cjs test_lesson_figures.cjs test_delivery.cjs
+python3 test_textbook_readings.py
+node --test test_workbook.cjs test_practice.cjs test_lesson_figures.cjs test_delivery.cjs test_textbook_readers.cjs
 python3 -m http.server 8765 --bind 127.0.0.1 --directory dist
 ```
 
-Open http://127.0.0.1:8765/. Python's standard library builds the static course without credentials or network access. A suitable Node.js runtime runs the pure-data tests; students do not need Node or programming tools. The current test set contains 68 checks: 13 workbook, 41 practice, 9 inline-figure tests, and 5 delivery-profile tests.
+Open http://127.0.0.1:8765/. Python's standard library builds the static course without credentials or network access. A suitable Node.js runtime runs the pure-data tests; students do not need Node or programming tools. Run the listed commands for the current test counts. The source suite covers workbook, practice, inline figures, delivery profiles, required-reading metadata, and deferred official-reader loading; counts in historical release records describe those versions.
 
 The builder replaces only `dist/`, which is generated and ignored by Git. Current output includes 24 main content pages, 36 compatibility redirects, seven maintained assets, two text downloads, and the portable ZIP. Retired `module-*`, `assessment-*`, and `labs/index.html` routes are redirects, not another learner path.
 
 Browser verification should cover Start/Continue/Finish, all four lesson stages, changed inputs, wrong-answer explanations, figure/table agreement, source-linked cases, keyboard focus, reduced motion, mobile width, local save/reload, backup/restore, and printing. Pure-data tests cannot establish usability, accessibility certification, or learning effectiveness.
+
+## Required textbooks and source accuracy
+
+The [textbook plan](textbook-recommendation.md) assigns selected free passages from the Cambridge AI text, OpenStax *Entrepreneurship*, and *Introductory Statistics 2e*. The [academic source policy](academic-source-policy.md) and [claim/source map](claim-source-map.md) govern exact edition/section checks, independent calculations, current primary evidence, and the distinction between sourced principles and original teaching examples. The course remains suitable for all disciplines without prior AI, programming, statistics, or business study; business formation and commercialization remain optional.
+
+Edit required scopes, reasons, original bridges, prompts, and estimates in `textbook_readings.py`. Keep the official URLs and exact stopping points; do not replace a narrow selection with an entire technical chapter. The current registry totals 189 provisional minutes, 12–20 per unit including a short application. Every unit uses its existing project update for one applied idea with a book/section citation. Do not introduce another assignment, grade, or completion gate for reading.
+
+`render_required_reading` supplies the same assignment metadata to the standalone lesson and the native Canvas text alternative. In the interactive lesson, official source frames load only after their disclosure is opened. Keep the remote chapter content outside course-TA indexing and the portable download; the course carries only the official URL and original reading directions. The registry and static HTML may contain original directions and bibliographic metadata; they must not contain copied chapters, publisher figures, or restricted instructor material. The TA cannot claim complete textbook access. It can tutor from original course explanations and state the assigned section.
+
+Maintain the labeled access alternative: if an official reader is unavailable or inaccessible, the learner applies the original lesson explanation/worked example, records the source-access problem, and completes the same reasoning task. Do not claim the book passage was read. Optional links must not become completion dependencies.
+
+Check all twelve scopes and source boundaries when changing the registry. The required business §8.2 selection deliberately omits later inaccurate causality/sampling generalizations; preserve the explicit first-paragraph boundaries. The statistics bridge qualifies randomization and small-sample limits. Check capacity versus actual cash, source authority versus fluent explanations, and original versus observed data. Required-reader tests, source checks, and a successful build do not establish live embedded-reader behavior or learning effectiveness. Verify the exact production and native Canvas version separately and record results in the validation/live-integration records.
 
 ## Visual learning
 
@@ -83,7 +97,7 @@ node node_modules/next/dist/bin/next build
 
 The sync validates the public snapshot, replaces only `public/teaching/ai-solutions/`, writes `content/ai-solutions-release.json`, and regenerates `lib/course-kb/generated.ts`. It does not deploy. Follow the personal site's current release workflow; verify the exact commit, deployment, public content, and TA after publishing.
 
-The TA builder indexes the 24 current public HTML pages, retaining headings, tables, rubrics, and authored worked explanations. It hashes `practice.js` and `lesson-figures.js` for freshness but does not execute them or derive live learner input from them. Keep required simulation reasoning in the HTML. Navigation, note inputs, private records, and this repository's review instructions are excluded.
+The TA builder indexes the 24 current public HTML pages, retaining headings, tables, rubrics, authored worked explanations, and original assigned-reading directions. Official textbook iframe content is not fetched or indexed. It hashes `practice.js` and `lesson-figures.js` for freshness but does not execute them or derive live learner input from them. Keep required simulation reasoning in the HTML. Navigation, note inputs, private records, and this repository's review instructions are excluded.
 
 The embedded course TA receives the current lesson and conversation, retrieves course passages, and uses an online AI service. It cannot inspect the workbook or live figure settings unless the learner describes them. Its conversation uses browser session storage and can survive reload; this is separate from workbook backups and provider processing. The general website chatbot has a separate contact role.
 

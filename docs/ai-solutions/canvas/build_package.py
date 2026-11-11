@@ -35,6 +35,18 @@ sys.path.insert(0, str(HERE))
 from theme import THEME_VERSION, render_criteria, style_fragment, wrap_content
 
 
+def load_textbook_readings():
+    """Load the single maintained assignment plan, never third-party book text."""
+    spec = importlib.util.spec_from_file_location(
+        "canvas_textbook_readings", COURSE / "site" / "textbook_readings.py")
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
+TEXTBOOK_READINGS = load_textbook_readings()
+
+
 def child(parent, tag, value=None, **attributes):
     el = ET.SubElement(parent, tag, attributes)
     if value is not None:
@@ -85,8 +97,62 @@ def normalize_practice(unit, source):
                           "explanation": style_fragment(f'<p>{escape(question["rationale"])}</p>')})
     assert len(questions) == 3
     return {"unit": n, "questions": questions,
-            "evidence_prompt_html": wrap_content(source.UNIT_EVIDENCE[n],
+            "evidence_prompt_html": wrap_content(source.UNIT_EVIDENCE[n] + reading_response_html(n),
                                                   title="Your project update", compact=True)}
+
+
+def reading_response_html(unit):
+    """Keep reading evidence in the existing zero-point project response."""
+    readings = TEXTBOOK_READINGS.READING_PLAN.get(unit, [])
+    citations = "; ".join(
+        f'{TEXTBOOK_READINGS.BOOKS[r["book"]]["authors"]}, {r["section"]}'
+        for r in readings)
+    return (
+        '<p><strong>Reading connection:</strong> Add one brief sentence to this same '
+        'project response: name the assigned book and section, explain one idea in '
+        'your own words, and state the project decision it informs. '
+        + (f'For this unit: {escape(citations)}. ' if citations else '')
+        + 'If the official reading was unavailable or inaccessible, identify the '
+        'access problem and use the original lesson explanation and worked example '
+        'for the same application question. Label that alternative; do not claim '
+        'to have read a text you could not access. This adds no separate upload, '
+        'points, or grading group.</p>'
+    )
+
+
+def practice_description_html(unit):
+    """Public quiz directions shared by exports and in-place native updates."""
+    return wrap_content(
+        '<p>Answer three short choice questions and add a concise project response in the final field. '
+        'Choice questions give immediate explanatory feedback. You may retry and revisit the lesson. '
+        'The three raw practice points contribute 0% to the course grade.</p>'
+        '<p>Complete the assigned free textbook passage in Learn before the check-in. '
+        'Include one book-and-section connection in the same project response; use '
+        'the lesson\'s stated access alternative if the official text is unavailable.</p>'
+        '<p>The project response is zero points and is reviewed by the instructor. It is not '
+        'automatically checked; comments or a pending review state may remain after the choice '
+        'questions are scored. Module progress requires a submitted attempt, not a score or '
+        'a completed essay review. Keep one continuing project record.</p>'
+        '<p>After submitting, review the explanatory feedback and use Canvas Next. If the results '
+        'screen does not show Next, choose Modules in the course navigation and open the next item. '
+        'You can continue within Canvas while instructor feedback is pending.</p>',
+        eyebrow=f'Unit {unit:02d} · formative practice', title="Practice and project check-in")
+
+
+def required_reading_intro_html(unit):
+    """A compact, visible LMS assignment label above the existing lesson frame."""
+    readings = TEXTBOOK_READINGS.READING_PLAN.get(unit, [])
+    labels = "; ".join(
+        f'{TEXTBOOK_READINGS.BOOKS[r["book"]]["authors"]}, {r["section"]}'
+        for r in readings)
+    minutes = sum(r["minutes"] for r in readings)
+    return (
+        '<p><strong>Required free textbook reading:</strong> '
+        + escape(labels) + f' (about {minutes} minutes). '
+        'Read the named scope in the textbook reader under <strong>Learn</strong> '
+        'inside the lesson below. Apply one idea in your existing Canvas project '
+        'update; no separate reading submission is needed.</p>'
+    )
 
 
 def assignment_html(milestone):
@@ -115,7 +181,7 @@ def assignment_html(milestone):
 
 
 def native_reading_references(fragment):
-    """Keep optional source citations readable without external LMS navigation."""
+    """Keep source citations readable without external LMS navigation."""
     class Citations(HTMLParser):
         def __init__(self):
             super().__init__(convert_charrefs=False)
@@ -157,7 +223,8 @@ def lesson_body_html(unit, *, templates_href=None, guide_href=None):
         'Open the <strong>Course TA</strong> section on this Canvas page when you want to work through a question. '
         'Then use <strong>Canvas Next</strong> to continue through this module and submit '
         'your practice quiz and project response. Keep improving the same project record.</p>'
-        f'<iframe src="{BASE}unit-{n:02d}.html?delivery=canvas" '
+        + required_reading_intro_html(n)
+        + f'<iframe src="{BASE}unit-{n:02d}.html?delivery=canvas" '
         f'title="{escape(frame_title, quote=True)}" width="100%" height="1000" '
         'style="border: 0;"></iframe>'
         '<p>Your practice quiz, project response, submission history, instructor feedback, and module progress '
@@ -181,14 +248,16 @@ def lesson_body_html(unit, *, templates_href=None, guide_href=None):
         'before printing; Canvas cannot automatically open it when you print.</p>'
         '<h3>By the end of this unit</h3><ul>'
         + ''.join(f'<li>{escape(o)}</li>' for o in unit["objectives"]) + '</ul>'
+        + TEXTBOOK_READINGS.render_required_reading(n, delivery="canvas")
         + unit["learn_html"] + VISUALS.render_lesson_figure(n)
         + '<h3>Try the reasoning</h3>' + unit["try_html"]
         + (unit.get("try_worked_html", ""))
         + '<h3>Build the same project</h3>' + unit["build_html"]
         + f'<h3>Finish: explain the decision</h3><p>{escape(q["question"])}</p>'
         + f'<p><strong>Worked reasoning:</strong> {escape(q["explanation"])}</p>'
-        + '<h3>Optional further reading</h3><p>The core text above is sufficient for the assigned work. '
-        'These references are optional background, not required external destinations.</p>'
+        + '<h3>Optional further reading</h3><p>The assigned free textbook passage and '
+        'the original lesson form the reading sequence. The references below are '
+        'optional background; they are not additional required readings.</p>'
         + ''.join(f'<p>{escape(r["title"])}. {escape(r["purpose"])}<br>'
                   f'<span>{escape(r["url"])}</span></p>' for r in unit["readings"])
         + '</details>'
@@ -485,6 +554,7 @@ def add_final_exam(files, resources, rubrics, org_module, items, requirements, e
 
 
 def build():
+    TEXTBOOK_READINGS.validate_readings()
     import async_content as async_source
     import async_guide as guide_source
     global VISUALS
@@ -614,18 +684,7 @@ def build():
             if exchange["unit"] == n:
                 mapping["discussions"].append(add_discussion(files, resources, org_module, items, exchange))
         quiz = normalize_practice(unit, async_source)
-        description = wrap_content(
-            '<p>Answer three short choice questions and add a concise project response in the final field. '
-            'Choice questions give immediate explanatory feedback. You may retry and revisit the lesson. '
-            'The three raw practice points contribute 0% to the course grade.</p>'
-            '<p>The project response is zero points and is reviewed by the instructor. It is not '
-            'automatically checked; comments or a pending review state may remain after the choice '
-            'questions are scored. Module progress requires a submitted attempt, not a score or '
-            'a completed essay review. Keep one continuing project record.</p>'
-            '<p>After submitting, review the explanatory feedback and use Canvas Next. If the results '
-            'screen does not show Next, choose Modules in the course navigation and open the next item. '
-            'You can continue within Canvas while instructor feedback is pending.</p>',
-            eyebrow=f"Unit {n:02d} · formative practice", title="Practice and project check-in")
+        description = practice_description_html(n)
         mapping["practice_quizzes"].append(add_practice_quiz(files, resources, org_module, items,
                                                            requirements, unit, checkin_group_id, quiz, description))
         if n == 1:

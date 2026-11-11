@@ -8,6 +8,7 @@ embedded in the portable fragments. The package builder owns resource envelopes.
 
 from html import escape
 import importlib.util
+from math import ceil, floor
 from pathlib import Path
 import re
 from textwrap import dedent
@@ -21,6 +22,42 @@ _course = importlib.util.module_from_spec(_spec)
 _spec.loader.exec_module(_course)
 COURSE_CASE_HTML = _course.COURSE_CASE_HTML
 MILESTONES = _course.MILESTONES
+_reading_spec = importlib.util.spec_from_file_location(
+    "canvas_async_textbook_readings", COURSE_ROOT / "site" / "textbook_readings.py")
+_readings = importlib.util.module_from_spec(_reading_spec)
+_reading_spec.loader.exec_module(_readings)
+
+
+def reading_workload_estimate():
+    """Add assigned reading to the earlier provisional course-work estimate."""
+    reading = _readings.reading_workload()
+    return {
+        "guided_minimum": 65 + reading["minimum_minutes"],
+        "guided_maximum": 115 + reading["maximum_minutes"],
+        "course_minimum": floor(37 + reading["total_minutes"] / 60),
+        "course_maximum": ceil(63 + reading["total_minutes"] / 60),
+        "reading_minutes": reading["total_minutes"],
+    }
+
+
+_WORKLOAD = reading_workload_estimate()
+GUIDED_MINUTES = f'{_WORKLOAD["guided_minimum"]}–{_WORKLOAD["guided_maximum"]}'
+COURSE_HOURS = f'{_WORKLOAD["course_minimum"]}–{_WORKLOAD["course_maximum"]}'
+
+
+def textbook_bibliography_html():
+    """Show only the books actually assigned in the maintained unit plan."""
+    used = {r["book"] for readings in _readings.READING_PLAN.values() for r in readings}
+    items = []
+    for key, book in _readings.BOOKS.items():
+        if key not in used:
+            continue
+        items.append(
+            f'<li><strong>{escape(book["authors"])}</strong>, '
+            f'<em>{escape(book["title"])}</em>, {escape(book["edition"])}, '
+            f'{escape(book["publisher"])}, {escape(book["year"])}. '
+            f'{escape(book["role"])} {escape(book["access"])}</li>')
+    return '<ul>' + ''.join(items) + '</ul>'
 
 
 def _text(value):
@@ -372,7 +409,7 @@ _GUIDE_BODY = """
 </dl></details>
 <h3>Your routine in every unit</h3>
 <ol>
-<li><strong>Learn.</strong> Read the original core explanation in the lesson. The native “Core reading and text alternative” section contains the required explanation and worked tables if the embedded lesson is unavailable.</li>
+<li><strong>Learn.</strong> Read the original core explanation and the assigned free textbook passage. Each assignment identifies the book, edition, section, exact scope, approximate time, and project question. The official textbook reader is inside the embedded lesson; stay on this Canvas page. The native “Read the complete text lesson and worked examples” section contains the original explanation and worked tables if the embedded lesson is unavailable.</li>
 <li><strong>Try.</strong> Predict, change a meaningful input, compare the figure with its numbers, and explain whether the evidence changes your decision. Use the text/table worked example when an interactive control is inaccessible.</li>
 <li><strong>Build.</strong> Add the unit's small piece of evidence or implementation to your project. Keep source labels, version, units, and limitations visible.</li>
 <li><strong>Finish and submit.</strong> At Units 3, 7, and 12, read the project exchange before the quiz. Then complete the native Canvas practice quiz and project update: three choice questions plus one short zero-point written response. This replaces the earlier unit check-in; you do not submit both. Read the choice feedback, then continue to the milestone when one is shown.</li>
@@ -381,8 +418,13 @@ _GUIDE_BODY = """
 <p>At Units 3, 7, and 12, the short project exchange appears <strong>before the quiz</strong>. Inspect a peer's reasoning or the supplied fictional sample, then include your constructive critique and its effect on your next decision in the quiz's project update when using the individual alternative. You need not wait for a peer or make a forum post to unlock progress. These exchanges are formative and add no course percentage. The general course-questions forum remains optional and ungraded.</p>
 <p>The repeated order is <strong>Lesson → Exchange when listed → Practice quiz and project update → Milestone when due</strong>. In Unit 12, continue from the shared demonstration/handoff to the individual case exam, then the completion checklist.</p>
 <h3>Plan a workable pace</h3>
-<p>Start with one unit per learning block; split a block across several sessions if useful. Allow roughly <strong>65–115 minutes for each guided unit</strong>, plus additional project, review, and revision work. The provisional total is <strong>37–63 learner hours including the guided units</strong>, not another 37–63 hours on top. These are design estimates, not measured completion times or an academic-credit claim. Follow the actual Canvas dates and leave time for another person's attempt, feedback, and retesting. No live class attendance is required for the asynchronous route.</p>
-<p>The original core reading is required and available within Canvas. Named articles and books are optional further study; no purchase or external reading visit is required to complete the assessed task. If an optional source fails, continue with the original core explanation and report the broken reference.</p>
+""" + f"""
+<p>Start with one unit per learning block; split a block across several sessions if useful. Allow roughly <strong>{GUIDED_MINUTES} minutes for each guided unit, including its assigned reading</strong>, plus additional project, review, and revision work. The provisional total is <strong>{COURSE_HOURS} learner hours including the guided units and textbook reading</strong>. The listed textbook passages add about {_WORKLOAD["reading_minutes"]} minutes across the course; they are included in this total, not added again. These are design estimates, not measured completion times or an academic-credit claim. Follow the actual Canvas dates and leave time for another person's attempt, feedback, and retesting. No live class attendance is required for the asynchronous route.</p>
+""" + """
+<p>The original core explanation and the assigned free textbook passages are required. The reading plan below identifies the academic AI foundation, business and value-creation companion, and quantitative companion. Apply ideas about people, resources, value, and adoption to your chosen real-world context; starting a business is not required. Read only the listed conceptual passages: no book purchase, paid access code, programming, mathematical derivations, algorithm exercises, or whole-book sequence is required. Other named articles and commercial books remain optional further study.</p>
+<p>Use one reading idea in the existing zero-point project update: identify its book and section, explain it in your own words, and connect it to a project decision. This is part of the same response, not an extra submission or weighted assessment. The course TA can help with the assignment and original lesson, but it does not have the complete textbooks.</p>
+<p>If a required official source is unavailable or inaccessible, use the original explanation and worked example on the same lesson page for the same application question. Label that access alternative and report the problem through Canvas Inbox. Keep moving with this equivalent route; do not claim you read an unavailable textbook section. The course does not require a paid account to recover access.</p>
+""" + _readings.render_reading_plan(delivery="canvas") + """
 <h3>Know what counts toward the grade</h3>
 """ + _grade_table() + """
 <p>Milestones 1–4 each have a 100-point rubric. Milestone 5 has a <strong>60-point shared demonstration/handoff assignment and a 40-point individual case exam in the same 25% group</strong>. This contributes 15 and 10 percentage points of the whole course respectively; it does not add a sixth weighted group. “Shared” describes the artifact criteria even when you work individually. Earlier individual explanations prepare you for the exam and are not graded a second time.</p>
@@ -390,7 +432,7 @@ _GUIDE_BODY = """
 """ + FEEDBACK_HTML + REVIEWER_HTML + AI_RULE_HTML + """
 <h3>If something does not work</h3>
 <ul>
-<li><strong>Lesson or animation unavailable:</strong> open the native core-reading/text alternative on the same Canvas page. Use its worked table and supplied output, record the access problem, and submit the same reasoning in the native quiz.</li>
+<li><strong>Lesson or animation unavailable:</strong> open “Read the complete text lesson and worked examples” on the same Canvas page. Use its worked table and supplied output, record the access problem, and submit the same reasoning in the native quiz.</li>
 <li><strong>TA unavailable:</strong> use the original explanation and worked examples, then the optional course forum or Canvas Inbox. TA access is helpful, not a condition of submission.</li>
 <li><strong>Artifact link inaccessible:</strong> correct its permissions using approved information, or upload the working files and instructions to the assignment. Test access as a reviewer would; do not expose a private workspace.</li>
 <li><strong>Download unavailable:</strong> copy the editable template text from the classroom packet into an ordinary document. A particular file format is not required.</li>
@@ -497,11 +539,12 @@ def render_home(course_id, routes):
         '<p>Find a real-world need, select a suitable AI capability, build a useful solution without programming, test it with a person, and explain the evidence, impact, resources, and next decision. No prior AI, statistics, or business background is required.</p>'
         '<p>' + primary_link(urls["start"], "Start with Unit 1 →") + '</p>'
         '<h3>One path, twelve units, one project</h3>'
-        '<ol><li><strong>Read and explore.</strong> Use Learn → Try → Build → Finish inside each Canvas lesson. Original core reading and a text/table alternative are available on the page; figures, simulations, and the course TA are embedded.</li>'
+        '<ol><li><strong>Read and explore.</strong> Use Learn → Try → Build → Finish inside each Canvas lesson. Read the original explanation and the assigned free textbook passage in the embedded reader, then apply one idea to the same project. A text/table alternative, figures, simulations, and the course TA are on the page.</li>'
         '<li><strong>Submit one short practice response.</strong> Read the exchange first when it appears in Units 3, 7, and 12; a supplied sample lets you continue without waiting for a peer. Then use Canvas Next for three choice questions and a zero-point project update. Read the immediate choice explanations; written feedback may await instructor review.</li>'
         '<li><strong>Improve the same project.</strong> Submit five cumulative milestones. Use an approved need or the complete fictional Cedar Desk case; no partner, paid AI tool, live attendance, or public launch is required.</li></ol>'
-        '<p>Suggested pace: one unit per learning block. Allow 65–115 minutes for guided unit work, plus project/review time; 37–63 hours total is a provisional design estimate, not measured workload. Follow current Canvas dates and allow time for feedback and an actual reviewer attempt.</p>'
+        f'<p>Suggested pace: one unit per learning block. Allow {GUIDED_MINUTES} minutes for guided unit work including the assigned reading, plus project/review time; {COURSE_HOURS} hours total is a provisional design estimate, not measured workload. Textbook time is included in that total. Follow current Canvas dates and allow time for feedback and an actual reviewer attempt.</p>'
         f'<p>Read the <a href="{escape(urls["guide"], quote=True)}">course guide</a> for the routine, feedback windows, recovery options, and individual exam. Use the <a href="{escape(urls["templates"], quote=True)}">classroom case and editable templates</a> throughout.</p>'
+        '<p><strong>Required textbooks, free access:</strong> short assigned passages from an academic AI text, a business/value-creation text, and a statistics companion support the project. Each lesson gives the book, edition, precise scope, and reader; the guide lists the complete bibliography. No purchase or access code is required; the guide explains an honest access alternative.</p>'
         '<h3>Five milestones, clear evidence</h3>' + _grade_table() +
         '<p>Practice quizzes and project exchanges contribute 0%. Milestone 5 divides its 25% group into 60 points for the shared demonstration/handoff and 40 points for the individually authored case exam. The instructor assesses the exam; the AI TA does not grade.</p>'
         '<h3>Questions, feedback, and finishing</h3><ul>'
@@ -529,7 +572,11 @@ def render_syllabus(course_id, policies_html=""):
         '<h3>Asynchronous course path</h3>'
         f'<p>Follow Units 01–12 in <a href="{base}/modules">Canvas Modules</a>. Each lesson uses Learn → Try → Build → Finish, with original core reading, a text/table alternative, embedded simulations, and the course TA. Use Canvas Next for an exchange when listed, then the native quiz/project update, then a milestone when due. The Unit 12 milestone is followed by the individual case exam and completion checklist. No live attendance is required for this route.</p>'
         '<p>Work on one continuing capstone using an approved need or the complete fictional Cedar Desk case. A usable document-based kit or repeatable service is sufficient; a mock-up alone is not the final deliverable. No business partner, paid AI account, sale, public deployment, or payment is required. External work must stay within approved scope and information permissions.</p>'
-        '<p>Use an ordinary document tool and a calculator or spreadsheet. Required original reading and supplied outputs are available inside Canvas. External references and books are optional. Allow approximately 65–115 minutes per guided unit plus project work; 37–63 total learner hours is a provisional design estimate, not measured effort or academic-credit equivalence. Actual offering dates and requirements appear in Canvas.</p>'
+        f'<p>Use an ordinary document tool and a calculator or spreadsheet. The original explanations, required textbook assignment directions, supplied outputs, and textbook reader are available within the Canvas lesson. Other references and commercial books are optional. Allow approximately {GUIDED_MINUTES} minutes per guided unit including assigned reading, plus project work; {COURSE_HOURS} total learner hours, including the textbook time, is a provisional design estimate, not measured effort or academic-credit equivalence. Actual offering dates and requirements appear in Canvas.</p>'
+        '<h3>Required textbooks and reading assignments</h3>'
+        + textbook_bibliography_html() +
+        '<p>Complete only each unit\'s named conceptual passages and use one idea in the existing project update, naming the book and section. No purchase, paid access code, full-book reading, coding, mathematical derivations, or textbook end-of-chapter exercises are required. The course supplies its own current-tool guidance, no-code implementation activities, simulations, cases, and assessment; textbook publication is not an endorsement of this course.</p>'
+        '<p>Read inside Learn without leaving Canvas. If the official reader is unavailable or inaccessible, use the original lesson and worked example for the same question, label that access alternative, and report the problem through Canvas Inbox. Do not claim to have read a source you could not access. The course guide lists all twelve assignments and reading times.</p>'
         '<h3>What you will learn</h3><ul>'
         '<li>Identify a specific need, user, accountable decision owner, and measurable success criteria.</li>'
         '<li>Match a task to an AI capability: text, source answers, extraction/classification, data analysis/prediction, images, voice/translation, or workflows/agents. Check its limits using an available tool or a clearly labeled supplied-output simulation.</li>'
@@ -538,7 +585,7 @@ def render_syllabus(course_id, policies_html=""):
         '<li>Prepare accessible instructions and a bounded release, observe first use, improve onboarding, and communicate an evidence-backed next decision.</li>'
         '<li>Prepare operating instructions, human review, exceptions, maintenance, support limits, and handoff.</li></ul>'
         '<h3>Assessment and final-grade weights</h3>' + _grade_table() +
-        '<p>Twelve native quizzes contain three one-point choice questions and one zero-point project-update essay. Their technical raw scores are formative, omitted from the final grade, and in a 0%-weight group. They replace the earlier unit check-ins. Three project exchanges add formative critique with a supplied-sample alternative; the general course-questions forum is optional. No practice score or forum score contributes to the final grade.</p>'
+        '<p>Twelve native quizzes contain three one-point choice questions and one zero-point project-update essay. Include the brief reading connection in that same essay. Their technical raw scores are formative, omitted from the final grade, and in a 0%-weight group. They replace the earlier unit check-ins. Three project exchanges add formative critique with a supplied-sample alternative; the general course-questions forum is optional. No practice score or forum score contributes to the final grade.</p>'
         '<p>Milestones 1–4 each use a 100-point rubric. Milestone 5 consists of a 60-point shared demonstration/handoff and a 40-point individual case exam in the same 25% group, contributing 15 and 10 percentage points of the whole course. The exam evaluates two 20-point criteria: quantitative understanding, and design judgment/ownership. Earlier individual explanations are preparation, not an additional numerical grade.</p>'
         '<p>Submit a dated snapshot of the same record as files, concise text, or a reviewer-accessible artifact link according to the assignment. Include access instructions, source/AI-use disclosure, and honest pending items. Use the posted dates and revision windows. A written alternative can replace a recording or presentation. A justified revision, narrowing, or stop decision can demonstrate learning; a successful sale or favorable AI result is not a grading condition.</p>'
         '<p>Canvas is the official submission and feedback record. A lesson view or submission requirement tracks a visit or receipt, not correctness or mastery. Interactive practice, exports, local browser state, and TA conversation are not submitted automatically. The instructor grades the milestones and individual exam using the rubric; the essay and exam are not automatically assessed by AI.</p>'

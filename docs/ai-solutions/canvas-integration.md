@@ -1,6 +1,6 @@
 # Canvas asynchronous course integration
 
-This folder builds the complete Canvas delivery and assessment structure for **Building AI Solutions by Majid Memari**. Students follow one ordered path, study original readings, use the embedded figures/simulations and course AI TA, submit work, and receive feedback inside Canvas. The course welcomes learners from any discipline with no AI, programming, statistics, or business prerequisite.
+This folder builds the complete Canvas delivery and assessment structure for **Building AI Solutions by Majid Memari**. Students follow one ordered path, study original explanations and assigned free textbook passages, use the embedded figures/simulations and course AI TA, submit work, and receive feedback inside Canvas. The course welcomes learners from any discipline with no AI, programming, statistics, or business prerequisite.
 
 See `ASYNC_DESIGN_PLAN.md` for the instructional specification and `LIVE_INTEGRATION.md` for the receiving-course state actually observed. Building a package does not by itself establish import success, teaching readiness, accessibility certification, or learner effectiveness.
 
@@ -9,6 +9,7 @@ See `ASYNC_DESIGN_PLAN.md` for the instructional specification and `LIVE_INTEGRA
 | Source | Responsibility |
 |---|---|
 | `../../site/course_content.py` | Twelve canonical lessons, source case, project prompts, Finish questions, and milestone criteria |
+| `../../site/textbook_readings.py` | Three academic textbooks, twelve precise required selections, original course connections and one response in the existing check-in |
 | `../../site/visual_lessons.py` | Original static figure explanations and tables; the native text fallback needs no script |
 | `async_content.py` | 36 choice items with per-choice feedback, 12 project-response prompts, three structured exchanges, and the student-facing individual case exam |
 | `async_guide.py` | Start/support guide, complete Cedar Desk packet, six editable text templates, completion checklist, and reusable homepage renderer |
@@ -75,7 +76,7 @@ The stable identifiers preserve the twelve modules, twelve lesson pages/items, f
 
 Canvas importers match many objects by migration identifier, but repeated imports are not generically idempotent. Importing can overwrite authored records, reset positions, or remove missing imported module items. The rubric importer may refuse to overwrite a rubric already used for grading. Inspect migration issues, actual IDs, counts, points, rubric associations, and content after every import. Do not reimport blindly after students have worked in the course.
 
-The current reusable package includes the inline TA and the real-world AI capability redesign: Unit 1 explicitly connects capabilities to tasks, Units 9–10 teach release readiness and supported adoption, and Milestone 4 assesses impact and adoption. Its SHA-256 is **`16b4366f54b28f45158ab432b3150f39cd8de0dd2db7c8ac4e5e4c8e26566563`**. It was **not imported** into the receiving course. Native page bodies, affected quiz questions/project fields, assignment briefs, rubric wording, forums and template files were updated in place while preserving native records, Spring 2027 dates, points, approved weights, attempts and Test Student scores. The [live record](canvas-live-integration.md) distinguishes this source package from the last imported hash and retains the earlier rubric notices. Do not reimport an assessed course merely to reproduce these content changes.
+The current reusable package includes the inline TA, real-world AI capability redesign, and required free selections from Cambridge's AI text plus OpenStax *Entrepreneurship* and *Introductory Statistics 2e*. Its SHA-256 is **`cd5dbe6c8a62a490d3845ca3e6eacfc7b3fefc9e40b8f7e2dbd74e3804e544c6`**. It was **not imported** into the receiving course. Twelve lesson bodies, the guide, Home/Syllabus and the twelve existing zero-point essay fields were updated in place. All reading scopes/connections and saved prompts were read back; each lesson retains exactly two course frames and no outbound native anchors. Spring dates, approved weights, attempts and synthetic Test Student scores were preserved. See the [current textbook verification](canvas/evidence/canvas-textbook-verification.json), [public release](canvas/evidence/textbook-public-release.json), and [live record](canvas-live-integration.md). The last imported package and its used-rubric notices remain historical. Do not reimport an assessed course merely to reproduce these content changes.
 
 The package contains no course settings, replacement syllabus, enrollment, grade, message, student record, credential, announcement, or institution-specific branding. It does not change overall course publication. `canvas-home.html`, `canvas-syllabus.html`, and live evidence are maintained separately; update any destination-specific Canvas IDs before reuse.
 

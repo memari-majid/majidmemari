@@ -1,0 +1,40 @@
+{
+  "checked_at": "2026-11-11T19:55:56.949544+00:00",
+  "canonical_source_commit": "f77e1ce38137ba2ea588aba3bf6904a3f82b6512",
+  "snapshot": "/tmp/verified-textbook-source-f77e1ce3/courses/cs4720R",
+  "hosting_commit": "56d1d1488e4bdce49fe7099150ec4351a6319b08",
+  "hosting_manifest_sha256": "63f010152d8537515a2fd1b515e14a585f95f714d49e04f099c4320878b5da66",
+  "file_count": 70,
+  "raw_dist_exact_matches": 45,
+  "publish_transform": "Committed scripts/sync-ai-course.mjs changes the absolute course assistant URL to the same-deployment relative path in HTML; the portable ZIP deliberately retains the absolute URL. Comparison reproduced that exact replacement from the committed script, not the concurrent working file.",
+  "after_publish_transform_exact_matches": 69,
+  "after_publish_transform_mismatches": [
+    "downloads/course-site.zip"
+  ],
+  "portable_zip": {
+    "deployed_sha256": "18326aadcb6fdc8da7a2a4f5686bc341901dd35311c9972903c7d5dcbe3ee7b4",
+    "rebuilt_sha256": "7a3bf3d09470859114115ffe84ff9879580ab41c4b20857e926b5bb4069c05ba",
+    "entry_count": 69,
+    "identical_entry_names_and_payloads": true,
+    "differing_metadata_counts": {
+      "date_time": 69,
+      "external_attr": 7
+    },
+    "rebuilt_payloads_repacked_with_deployed_metadata_match_exact_archive_bytes": true,
+    "entry_content_manifest_sha256": "452ded55e5a864e61d50415eb34c251a39a84e380c9e6a6c76f9a01cb7d8d9cd",
+    "limitation": "Portable ZIP bytes are not deterministic because build_core.py uses current output timestamps and source file attributes. All archive contents reproduce exactly; this test did not change build code."
+  },
+  "cartridge_sha256": "cd5dbe6c8a62a490d3845ca3e6eacfc7b3fefc9e40b8f7e2dbd74e3804e544c6",
+  "cartridge_byte_reproducible": true,
+  "validation": {
+    "site_build": "passed",
+    "canvas_build": "passed",
+    "site_check": "PASS: 60 HTML pages",
+    "textbook_python_tests": 6,
+    "node_tests": 71,
+    "canvas_python_tests": 23
+  },
+  "shared_repositories_mutated": false,
+  "later_canonical_documentation_commit": "de7a306a40601a50918a69de1dc033480b3c8481",
+  "later_commit_scope": "Parent reports only a one-line ownership clarification in TEXTBOOK_SELECTION.md; runtime tests identify the frozen f77e1ce3 source and were not repeated for that documentation-only change."
+}

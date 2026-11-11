@@ -16,7 +16,7 @@ The audience remains everyone, from any discipline, with no prerequisites. The v
 
 | Surface | Observed source state | Required treatment |
 |---|---|---|
-| Vercel lesson and figures | [core.css](../../public/teaching/ai-solutions/assets/core.css) defines the warm paper/navy/teal system; Canvas profile uses the same assets and a 960px lesson width. | Keep the existing palette, interactive semantics, four stages, and TA. Do not restyle or rebuild simulations for this task. |
+| Vercel lesson and figures | [core.css](course-source/assets/core.css) defines the warm paper/navy/teal system; Canvas profile uses the same assets and a 960px lesson width. | Keep the existing palette, interactive semantics, four stages, and TA. Do not restyle or rebuild simulations for this task. |
 | Canvas Home | [canvas-home.html](canvas/canvas-home.html) uses navy correctly but substitutes `#f7f4ec` and `#167d8d`; it has no explicit course body/heading font stack and largely unstyled tables. | Render the same tokens, typography, action treatment, spacing, and table pattern as the lesson. Keep one primary Start/Continue action. |
 | Native lesson wrapper | `lesson_page_html()` in [build_package.py](canvas/build_package.py) emits unstyled introduction and closing paragraphs around the correctly embedded lesson. | Apply a compact shared wrapper; keep the lesson iframe visually continuous with the wrapper, rather than adding another large hero or duplicate navigation. |
 | Twelve check-ins | `checkin_html()` emits default heading, paragraphs, and an ordered list. | Use a recognizable check-in header, concise task list, one submission explanation, and a clearly labeled formative-status note. Native submission fields remain below. |

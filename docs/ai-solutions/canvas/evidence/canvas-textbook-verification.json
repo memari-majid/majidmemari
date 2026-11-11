@@ -1,0 +1,852 @@
+{
+  "verifiedAt": "2026-11-11T19:51:55.256983+00:00",
+  "canvasCourse": "https://uvu.instructure.com/courses/644965",
+  "method": "In-place native HTML editor and existing fourth zero-point essay field; read back every lesson scope and each saved quiz. No cartridge import or new learner attempt. Existing synthetic Test Student used only for read-only grade and reader checks.",
+  "requiredTextbooks": 3,
+  "readingUnits": 12,
+  "readingMinutesPlanned": 189,
+  "readingMinutesPerUnit": [
+    12,
+    20
+  ],
+  "newAssignments": 0,
+  "choiceQuestionsChanged": 0,
+  "gradeMutations": false,
+  "newPackageImported": false,
+  "currentReusablePackageSha256": "cd5dbe6c8a62a490d3845ca3e6eacfc7b3fefc9e40b8f7e2dbd74e3804e544c6",
+  "lastImportedPackageSha256": "891ef92210f08cd39bd62018ddbebb9f182ba3f58d15a1401917d739aa25b11c",
+  "nativeChecks": {
+    "nativeLessons": [
+      {
+        "externalAnchors": 0,
+        "frames": [
+          {
+            "src": "https://www.majidmemari.com/teaching/ai-solutions/unit-01.html?delivery=canvas",
+            "title": "Unit 01: AI capabilities and useful tasks \u2014 interactive lesson"
+          },
+          {
+            "src": "https://www.majidmemari.com/teaching/ai-solutions/assistant?lesson=unit-01.html&embed=1&delivery=canvas",
+            "title": "Course teaching assistant for Unit 01: AI capabilities and useful tasks"
+          }
+        ],
+        "unit": 1,
+        "bookScopesVerified": true,
+        "readingTextLength": 1942
+      },
+      {
+        "externalAnchors": 0,
+        "frames": [
+          {
+            "src": "https://www.majidmemari.com/teaching/ai-solutions/unit-02.html?delivery=canvas",
+            "title": "Unit 02: Discover the need \u2014 interactive lesson"
+          },
+          {
+            "src": "https://www.majidmemari.com/teaching/ai-solutions/assistant?lesson=unit-02.html&embed=1&delivery=canvas",
+            "title": "Course teaching assistant for Unit 02: Discover the need"
+          }
+        ],
+        "unit": 2,
+        "bookScopesVerified": true,
+        "readingTextLength": 3189
+      },
+      {
+        "externalAnchors": 0,
+        "frames": [
+          {
+            "src": "https://www.majidmemari.com/teaching/ai-solutions/unit-03.html?delivery=canvas",
+            "title": "Unit 03: Choose and scope a solution \u2014 interactive lesson"
+          },
+          {
+            "src": "https://www.majidmemari.com/teaching/ai-solutions/assistant?lesson=unit-03.html&embed=1&delivery=canvas",
+            "title": "Course teaching assistant for Unit 03: Choose and scope a solution"
+          }
+        ],
+        "unit": 3,
+        "bookScopesVerified": true,
+        "readingTextLength": 2828
+      },
+      {
+        "externalAnchors": 0,
+        "frames": [
+          {
+            "src": "https://www.majidmemari.com/teaching/ai-solutions/unit-04.html?delivery=canvas",
+            "title": "Unit 04: Design the workflow \u2014 interactive lesson"
+          },
+          {
+            "src": "https://www.majidmemari.com/teaching/ai-solutions/assistant?lesson=unit-04.html&embed=1&delivery=canvas",
+            "title": "Course teaching assistant for Unit 04: Design the workflow"
+          }
+        ],
+        "unit": 4,
+        "bookScopesVerified": true,
+        "readingTextLength": 1899
+      },
+      {
+        "externalAnchors": 0,
+        "frames": [
+          {
+            "src": "https://www.majidmemari.com/teaching/ai-solutions/unit-05.html?delivery=canvas",
+            "title": "Unit 05: Build the first usable version \u2014 interactive lesson"
+          },
+          {
+            "src": "https://www.majidmemari.com/teaching/ai-solutions/assistant?lesson=unit-05.html&embed=1&delivery=canvas",
+            "title": "Course teaching assistant for Unit 05: Build the first usable version"
+          }
+        ],
+        "unit": 5,
+        "bookScopesVerified": true,
+        "readingTextLength": 2010
+      },
+      {
+        "externalAnchors": 0,
+        "frames": [
+          {
+            "src": "https://www.majidmemari.com/teaching/ai-solutions/unit-06.html?delivery=canvas",
+            "title": "Unit 06: Design a fair test \u2014 interactive lesson"
+          },
+          {
+            "src": "https://www.majidmemari.com/teaching/ai-solutions/assistant?lesson=unit-06.html&embed=1&delivery=canvas",
+            "title": "Course teaching assistant for Unit 06: Design a fair test"
+          }
+        ],
+        "unit": 6,
+        "bookScopesVerified": true,
+        "readingTextLength": 2719
+      },
+      {
+        "externalAnchors": 0,
+        "frames": [
+          {
+            "src": "https://www.majidmemari.com/teaching/ai-solutions/unit-07.html?delivery=canvas",
+            "title": "Unit 07: Pilot, revise, and retest \u2014 interactive lesson"
+          },
+          {
+            "src": "https://www.majidmemari.com/teaching/ai-solutions/assistant?lesson=unit-07.html&embed=1&delivery=canvas",
+            "title": "Course teaching assistant for Unit 07: Pilot, revise, and retest"
+          }
+        ],
+        "unit": 7,
+        "bookScopesVerified": true,
+        "readingTextLength": 2676
+      },
+      {
+        "externalAnchors": 0,
+        "frames": [
+          {
+            "src": "https://www.majidmemari.com/teaching/ai-solutions/unit-08.html?delivery=canvas",
+            "title": "Unit 08: Evaluate impact and resources \u2014 interactive lesson"
+          },
+          {
+            "src": "https://www.majidmemari.com/teaching/ai-solutions/assistant?lesson=unit-08.html&embed=1&delivery=canvas",
+            "title": "Course teaching assistant for Unit 08: Evaluate impact and resources"
+          }
+        ],
+        "unit": 8,
+        "bookScopesVerified": true,
+        "readingTextLength": 3184
+      },
+      {
+        "externalAnchors": 0,
+        "frames": [
+          {
+            "src": "https://www.majidmemari.com/teaching/ai-solutions/unit-09.html?delivery=canvas",
+            "title": "Unit 09: Prepare the solution for use \u2014 interactive lesson"
+          },
+          {
+            "src": "https://www.majidmemari.com/teaching/ai-solutions/assistant?lesson=unit-09.html&embed=1&delivery=canvas",
+            "title": "Course teaching assistant for Unit 09: Prepare the solution for use"
+          }
+        ],
+        "unit": 9,
+        "bookScopesVerified": true,
+        "readingTextLength": 2900
+      },
+      {
+        "externalAnchors": 0,
+        "frames": [
+          {
+            "src": "https://www.majidmemari.com/teaching/ai-solutions/unit-10.html?delivery=canvas",
+            "title": "Unit 10: Bring the solution into use \u2014 interactive lesson"
+          },
+          {
+            "src": "https://www.majidmemari.com/teaching/ai-solutions/assistant?lesson=unit-10.html&embed=1&delivery=canvas",
+            "title": "Course teaching assistant for Unit 10: Bring the solution into use"
+          }
+        ],
+        "unit": 10,
+        "bookScopesVerified": true,
+        "readingTextLength": 2999
+      },
+      {
+        "externalAnchors": 0,
+        "frames": [
+          {
+            "src": "https://www.majidmemari.com/teaching/ai-solutions/unit-11.html?delivery=canvas",
+            "title": "Unit 11: Make delivery dependable \u2014 interactive lesson"
+          },
+          {
+            "src": "https://www.majidmemari.com/teaching/ai-solutions/assistant?lesson=unit-11.html&embed=1&delivery=canvas",
+            "title": "Course teaching assistant for Unit 11: Make delivery dependable"
+          }
+        ],
+        "unit": 11,
+        "bookScopesVerified": true,
+        "readingTextLength": 2088
+      },
+      {
+        "externalAnchors": 0,
+        "frames": [
+          {
+            "src": "https://www.majidmemari.com/teaching/ai-solutions/unit-12.html?delivery=canvas",
+            "title": "Unit 12: Demonstrate and defend \u2014 interactive lesson"
+          },
+          {
+            "src": "https://www.majidmemari.com/teaching/ai-solutions/assistant?lesson=unit-12.html&embed=1&delivery=canvas",
+            "title": "Course teaching assistant for Unit 12: Demonstrate and defend"
+          }
+        ],
+        "unit": 12,
+        "bookScopesVerified": true,
+        "readingTextLength": 2886
+      }
+    ],
+    "essayReadbacks": [
+      {
+        "unit": 1,
+        "url": "https://uvu.instructure.com/courses/644965/quizzes/2364018/edit",
+        "questionCount": 4,
+        "readingConnection": true,
+        "exactAssignedSectionPresent": true,
+        "zeroPointEssay": true,
+        "noExtraUpload": true
+      },
+      {
+        "unit": 2,
+        "url": "https://uvu.instructure.com/courses/644965/quizzes/2364024/edit",
+        "questionCount": 4,
+        "readingConnection": true,
+        "exactAssignedSectionPresent": true,
+        "zeroPointEssay": true,
+        "noExtraUpload": true
+      },
+      {
+        "unit": 3,
+        "url": "https://uvu.instructure.com/courses/644965/quizzes/2364020/edit",
+        "questionCount": 4,
+        "readingConnection": true,
+        "exactAssignedSectionPresent": true,
+        "zeroPointEssay": true,
+        "noExtraUpload": true
+      },
+      {
+        "unit": 4,
+        "url": "https://uvu.instructure.com/courses/644965/quizzes/2364028/edit",
+        "questionCount": 4,
+        "readingConnection": true,
+        "exactAssignedSectionPresent": true,
+        "zeroPointEssay": true,
+        "noExtraUpload": true
+      },
+      {
+        "unit": 5,
+        "url": "https://uvu.instructure.com/courses/644965/quizzes/2364025/edit",
+        "questionCount": 4,
+        "readingConnection": true,
+        "exactAssignedSectionPresent": true,
+        "zeroPointEssay": true,
+        "noExtraUpload": true
+      },
+      {
+        "unit": 6,
+        "url": "https://uvu.instructure.com/courses/644965/quizzes/2364017/edit",
+        "questionCount": 4,
+        "readingConnection": true,
+        "exactAssignedSectionPresent": true,
+        "zeroPointEssay": true,
+        "noExtraUpload": true
+      },
+      {
+        "unit": 7,
+        "url": "https://uvu.instructure.com/courses/644965/quizzes/2364022/edit",
+        "questionCount": 4,
+        "readingConnection": true,
+        "exactAssignedSectionPresent": true,
+        "zeroPointEssay": true,
+        "noExtraUpload": true
+      },
+      {
+        "unit": 8,
+        "url": "https://uvu.instructure.com/courses/644965/quizzes/2364023/edit",
+        "questionCount": 4,
+        "readingConnection": true,
+        "exactAssignedSectionPresent": true,
+        "zeroPointEssay": true,
+        "noExtraUpload": true
+      },
+      {
+        "unit": 9,
+        "url": "https://uvu.instructure.com/courses/644965/quizzes/2364027/edit",
+        "questionCount": 4,
+        "readingConnection": true,
+        "exactAssignedSectionPresent": true,
+        "zeroPointEssay": true,
+        "noExtraUpload": true
+      },
+      {
+        "unit": 10,
+        "url": "https://uvu.instructure.com/courses/644965/quizzes/2364021/edit",
+        "questionCount": 4,
+        "readingConnection": true,
+        "exactAssignedSectionPresent": true,
+        "zeroPointEssay": true,
+        "noExtraUpload": true
+      },
+      {
+        "unit": 11,
+        "url": "https://uvu.instructure.com/courses/644965/quizzes/2364026/edit",
+        "questionCount": 4,
+        "readingConnection": true,
+        "exactAssignedSectionPresent": true,
+        "zeroPointEssay": true,
+        "noExtraUpload": true
+      },
+      {
+        "unit": 12,
+        "url": "https://uvu.instructure.com/courses/644965/quizzes/2364019/edit",
+        "questionCount": 4,
+        "readingConnection": true,
+        "exactAssignedSectionPresent": true,
+        "zeroPointEssay": true,
+        "noExtraUpload": true
+      }
+    ],
+    "guide": {
+      "threeBooks": true,
+      "readingTableRows": 13,
+      "u10PreciseScope": true
+    },
+    "structure": {
+      "entries": [
+        {
+          "id": "context_module_2219785",
+          "items": [
+            {
+              "href": "/courses/644965/modules/items/16726666",
+              "id": "context_module_item_16726666",
+              "text": "Page\nCourse guide: start, submit, and get help \nView\nMust view in order to complete this module item\n \nPublished. Click to unpublish Course guide: start, submit, and get help.\n \nManage Course guide: start, submit, and get help",
+              "title": "Course guide: start, submit, and get help "
+            },
+            {
+              "href": "/courses/644965/modules/items/16726667",
+              "id": "context_module_item_16726667",
+              "text": "Page\nCedar Desk case and project templates \n \nPublished. Click to unpublish Cedar Desk case and project templates.\n \nManage Cedar Desk case and project templates",
+              "title": "Cedar Desk case and project templates "
+            },
+            {
+              "href": "/courses/644965/modules/items/16726534",
+              "id": "context_module_item_16726534",
+              "text": "Page\nUnit 01 lesson: AI capabilities and useful tasks \nView\nMust view in order to complete this module item\n \nPublished. Click to unpublish Unit 01 lesson: AI capabilities and useful tasks.\n \nManage Unit 01 lesson: AI capabilities and useful tasks",
+              "title": "Unit 01 lesson: AI capabilities and useful tasks "
+            },
+            {
+              "href": "/courses/644965/modules/items/16726625",
+              "id": "context_module_item_16726625",
+              "text": "Quiz\nUnit 01 practice and check-in: AI capabilities and useful tasks \nJan 17, 2027\n3 pts\nSubmit\nMust submit this module item to complete it\n \nPublished. Click to unpublish Unit 01 practice and check-in: AI capabilities and useful tasks.\n \nManage Unit 01 practice and check-in: AI capabilities and useful tasks",
+              "title": "Unit 01 practice and check-in: AI capabilities and useful tasks "
+            },
+            {
+              "href": "/courses/644965/modules/items/16726624",
+              "id": "context_module_item_16726624",
+              "text": "Discussion Topic\nCourse questions and project exchange \n \nPublished. Click to unpublish Course questions and project exchange.\n \nManage Course questions and project exchange",
+              "title": "Course questions and project exchange "
+            }
+          ],
+          "text": "Unit 01: AI capabilities and useful tasks\n Unit 01: AI capabilities and useful tasks\nComplete All Items\nUnit 01: AI capabilities and useful tasks module publish options, published\nAdd Content to Unit 01: AI capabilities and useful tasks\nPage\nCourse guide: start, submit, and get help \nView\nMust view in order to complete this module item\n \nPublished. Click to unpublish Course guide: start, submit, and get help.\n \nManage Course guide: start, submit, and get help\nPage\nCedar Desk case and project templates \n \nPublished. Click to unpublish Cedar Desk case and project templates.\n \nManage Cedar Desk case and project templates\nPage\nUnit 01 lesson: AI capabilities and useful tasks \nView\nMust view in order to complete this module item\n \nPublished. Click to unpublish Unit 01 lesson: AI capabilities and useful tasks.\n \nManage Unit 01 lesson: AI capabilities and useful tasks\nQuiz\nUnit 01 practice and check-in: AI capabilities and useful tasks \nJan 17, 2027\n3 pts\nSubmit\nMust submit this module item to complete it\n \nPublished. Click to unpublish Unit 01 practice and check-in: AI capabilities and useful tasks.\n \nManage Unit 01 practice and check-in: AI capabilities and useful tasks\nDiscussion Topic\nCourse questions and project exchange \n \nPublished. Click to unpublish Course questions and project exchange.\n \nManage Course questions and project exchange"
+        },
+        {
+          "id": "context_module_2219786",
+          "items": [
+            {
+              "href": "/courses/644965/modules/items/16726535",
+              "id": "context_module_item_16726535",
+              "text": "Page\nUnit 02 lesson: Discover the need \nView\nMust view in order to complete this module item\n \nPublished. Click to unpublish Unit 02 lesson: Discover the need.\n \nManage Unit 02 lesson: Discover the need",
+              "title": "Unit 02 lesson: Discover the need "
+            },
+            {
+              "href": "/courses/644965/modules/items/16726626",
+              "id": "context_module_item_16726626",
+              "text": "Quiz\nUnit 02 practice and check-in: Discover the need \nJan 24, 2027\n3 pts\nSubmit\nMust submit this module item to complete it\n \nPublished. Click to unpublish Unit 02 practice and check-in: Discover the need.\n \nManage Unit 02 practice and check-in: Discover the need",
+              "title": "Unit 02 practice and check-in: Discover the need "
+            }
+          ],
+          "text": "Unit 02: Discover the need\n Unit 02: Discover the need\nComplete All Items\nUnit 02: Discover the need module publish options, published\nAdd Content to Unit 02: Discover the need\nPage\nUnit 02 lesson: Discover the need \nView\nMust view in order to complete this module item\n \nPublished. Click to unpublish Unit 02 lesson: Discover the need.\n \nManage Unit 02 lesson: Discover the need\nQuiz\nUnit 02 practice and check-in: Discover the need \nJan 24, 2027\n3 pts\nSubmit\nMust submit this module item to complete it\n \nPublished. Click to unpublish Unit 02 practice and check-in: Discover the need.\n \nManage Unit 02 practice and check-in: Discover the need"
+        },
+        {
+          "id": "context_module_2219787",
+          "items": [
+            {
+              "href": "/courses/644965/modules/items/16726536",
+              "id": "context_module_item_16726536",
+              "text": "Page\nUnit 03 lesson: Choose and scope a solution \nView\nMust view in order to complete this module item\n \nPublished. Click to unpublish Unit 03 lesson: Choose and scope a solution.\n \nManage Unit 03 lesson: Choose and scope a solution",
+              "title": "Unit 03 lesson: Choose and scope a solution "
+            },
+            {
+              "href": "/courses/644965/modules/items/16726668",
+              "id": "context_module_item_16726668",
+              "text": "Discussion Topic\nProject exchange: a need worth solving \n \nPublished. Click to unpublish Project exchange: a need worth solving.\n \nManage Project exchange: a need worth solving",
+              "title": "Project exchange: a need worth solving "
+            },
+            {
+              "href": "/courses/644965/modules/items/16726627",
+              "id": "context_module_item_16726627",
+              "text": "Quiz\nUnit 03 practice and check-in: Choose and scope a solution \nJan 31, 2027\n3 pts\nSubmit\nMust submit this module item to complete it\n \nPublished. Click to unpublish Unit 03 practice and check-in: Choose and scope a solution.\n \nManage Unit 03 practice and check-in: Choose and scope a solution",
+              "title": "Unit 03 practice and check-in: Choose and scope a solution "
+            },
+            {
+              "href": "/courses/644965/modules/items/16726537",
+              "id": "context_module_item_16726537",
+              "text": "Assignment\nMilestone 1: Problem and feasible scope \nJan 31, 2027\n100 pts\nSubmit\nMust submit this module item to complete it\n \nPublished. Click to unpublish Milestone 1: Problem and feasible scope.\n \nManage Milestone 1: Problem and feasible scope",
+              "title": "Milestone 1: Problem and feasible scope "
+            }
+          ],
+          "text": "Unit 03: Choose and scope a solution\n Unit 03: Choose and scope a solution\nComplete All Items\nUnit 03: Choose and scope a solution module publish options, published\nAdd Content to Unit 03: Choose and scope a solution\nPage\nUnit 03 lesson: Choose and scope a solution \nView\nMust view in order to complete this module item\n \nPublished. Click to unpublish Unit 03 lesson: Choose and scope a solution.\n \nManage Unit 03 lesson: Choose and scope a solution\nDiscussion Topic\nProject exchange: a need worth solving \n \nPublished. Click to unpublish Project exchange: a need worth solving.\n \nManage Project exchange: a need worth solving\nQuiz\nUnit 03 practice and check-in: Choose and scope a solution \nJan 31, 2027\n3 pts\nSubmit\nMust submit this module item to complete it\n \nPublished. Click to unpublish Unit 03 practice and check-in: Choose and scope a solution.\n \nManage Unit 03 practice and check-in: Choose and scope a solution\nAssignment\nMilestone 1: Problem and feasible scope \nJan 31, 2027\n100 pts\nSubmit\nMust submit this module item to complete it\n \nPublished. Click to unpublish Milestone 1: Problem and feasible scope.\n \nManage Milestone 1: Problem and feasible scope"
+        },
+        {
+          "id": "context_module_2219788",
+          "items": [
+            {
+              "href": "/courses/644965/modules/items/16726538",
+              "id": "context_module_item_16726538",
+              "text": "Page\nUnit 04 lesson: Design the workflow \nView\nMust view in order to complete this module item\n \nPublished. Click to unpublish Unit 04 lesson: Design the workflow.\n \nManage Unit 04 lesson: Design the workflow",
+              "title": "Unit 04 lesson: Design the workflow "
+            },
+            {
+              "href": "/courses/644965/modules/items/16726628",
+              "id": "context_module_item_16726628",
+              "text": "Quiz\nUnit 04 practice and check-in: Design the workflow \nFeb 7, 2027\n3 pts\nSubmit\nMust submit this module item to complete it\n \nPublished. Click to unpublish Unit 04 practice and check-in: Design the workflow.\n \nManage Unit 04 practice and check-in: Design the workflow",
+              "title": "Unit 04 practice and check-in: Design the workflow "
+            }
+          ],
+          "text": "Unit 04: Design the workflow\n Unit 04: Design the workflow\nComplete All Items\nUnit 04: Design the workflow module publish options, published\nAdd Content to Unit 04: Design the workflow\nPage\nUnit 04 lesson: Design the workflow \nView\nMust view in order to complete this module item\n \nPublished. Click to unpublish Unit 04 lesson: Design the workflow.\n \nManage Unit 04 lesson: Design the workflow\nQuiz\nUnit 04 practice and check-in: Design the workflow \nFeb 7, 2027\n3 pts\nSubmit\nMust submit this module item to complete it\n \nPublished. Click to unpublish Unit 04 practice and check-in: Design the workflow.\n \nManage Unit 04 practice and check-in: Design the workflow"
+        },
+        {
+          "id": "context_module_2219789",
+          "items": [
+            {
+              "href": "/courses/644965/modules/items/16726539",
+              "id": "context_module_item_16726539",
+              "text": "Page\nUnit 05 lesson: Build the first usable version \nView\nMust view in order to complete this module item\n \nPublished. Click to unpublish Unit 05 lesson: Build the first usable version.\n \nManage Unit 05 lesson: Build the first usable version",
+              "title": "Unit 05 lesson: Build the first usable version "
+            },
+            {
+              "href": "/courses/644965/modules/items/16726629",
+              "id": "context_module_item_16726629",
+              "text": "Quiz\nUnit 05 practice and check-in: Build the first usable version \nFeb 14, 2027\n3 pts\nSubmit\nMust submit this module item to complete it\n \nPublished. Click to unpublish Unit 05 practice and check-in: Build the first usable version.\n \nManage Unit 05 practice and check-in: Build the first usable version",
+              "title": "Unit 05 practice and check-in: Build the first usable version "
+            },
+            {
+              "href": "/courses/644965/modules/items/16726540",
+              "id": "context_module_item_16726540",
+              "text": "Assignment\nMilestone 2: First usable solution \nFeb 14, 2027\n100 pts\nSubmit\nMust submit this module item to complete it\n \nPublished. Click to unpublish Milestone 2: First usable solution.\n \nManage Milestone 2: First usable solution",
+              "title": "Milestone 2: First usable solution "
+            }
+          ],
+          "text": "Unit 05: Build the first usable version\n Unit 05: Build the first usable version\nComplete All Items\nUnit 05: Build the first usable version module publish options, published\nAdd Content to Unit 05: Build the first usable version\nPage\nUnit 05 lesson: Build the first usable version \nView\nMust view in order to complete this module item\n \nPublished. Click to unpublish Unit 05 lesson: Build the first usable version.\n \nManage Unit 05 lesson: Build the first usable version\nQuiz\nUnit 05 practice and check-in: Build the first usable version \nFeb 14, 2027\n3 pts\nSubmit\nMust submit this module item to complete it\n \nPublished. Click to unpublish Unit 05 practice and check-in: Build the first usable version.\n \nManage Unit 05 practice and check-in: Build the first usable version\nAssignment\nMilestone 2: First usable solution \nFeb 14, 2027\n100 pts\nSubmit\nMust submit this module item to complete it\n \nPublished. Click to unpublish Milestone 2: First usable solution.\n \nManage Milestone 2: First usable solution"
+        },
+        {
+          "id": "context_module_2219790",
+          "items": [
+            {
+              "href": "/courses/644965/modules/items/16726541",
+              "id": "context_module_item_16726541",
+              "text": "Page\nUnit 06 lesson: Design a fair test \nView\nMust view in order to complete this module item\n \nPublished. Click to unpublish Unit 06 lesson: Design a fair test.\n \nManage Unit 06 lesson: Design a fair test",
+              "title": "Unit 06 lesson: Design a fair test "
+            },
+            {
+              "href": "/courses/644965/modules/items/16726630",
+              "id": "context_module_item_16726630",
+              "text": "Quiz\nUnit 06 practice and check-in: Design a fair test \nFeb 21, 2027\n3 pts\nSubmit\nMust submit this module item to complete it\n \nCan't unpublish Unit 06 practice and check-in: Design a fair test if there are student submissions\n \nManage Unit 06 practice and check-in: Design a fair test",
+              "title": "Unit 06 practice and check-in: Design a fair test "
+            }
+          ],
+          "text": "Unit 06: Design a fair test\n Unit 06: Design a fair test\nComplete All Items\nUnit 06: Design a fair test module publish options, published\nAdd Content to Unit 06: Design a fair test\nPage\nUnit 06 lesson: Design a fair test \nView\nMust view in order to complete this module item\n \nPublished. Click to unpublish Unit 06 lesson: Design a fair test.\n \nManage Unit 06 lesson: Design a fair test\nQuiz\nUnit 06 practice and check-in: Design a fair test \nFeb 21, 2027\n3 pts\nSubmit\nMust submit this module item to complete it\n \nCan't unpublish Unit 06 practice and check-in: Design a fair test if there are student submissions\n \nManage Unit 06 practice and check-in: Design a fair test"
+        },
+        {
+          "id": "context_module_2219791",
+          "items": [
+            {
+              "href": "/courses/644965/modules/items/16726542",
+              "id": "context_module_item_16726542",
+              "text": "Page\nUnit 07 lesson: Pilot, revise, and retest \nView\nMust view in order to complete this module item\n \nPublished. Click to unpublish Unit 07 lesson: Pilot, revise, and retest.\n \nManage Unit 07 lesson: Pilot, revise, and retest",
+              "title": "Unit 07 lesson: Pilot, revise, and retest "
+            },
+            {
+              "href": "/courses/644965/modules/items/16726669",
+              "id": "context_module_item_16726669",
+              "text": "Discussion Topic\nProject exchange: what the pilot actually shows \n \nPublished. Click to unpublish Project exchange: what the pilot actually shows.\n \nManage Project exchange: what the pilot actually shows",
+              "title": "Project exchange: what the pilot actually shows "
+            },
+            {
+              "href": "/courses/644965/modules/items/16726631",
+              "id": "context_module_item_16726631",
+              "text": "Quiz\nUnit 07 practice and check-in: Pilot, revise, and retest \nMar 7, 2027\n3 pts\nSubmit\nMust submit this module item to complete it\n \nPublished. Click to unpublish Unit 07 practice and check-in: Pilot, revise, and retest.\n \nManage Unit 07 practice and check-in: Pilot, revise, and retest",
+              "title": "Unit 07 practice and check-in: Pilot, revise, and retest "
+            },
+            {
+              "href": "/courses/644965/modules/items/16726543",
+              "id": "context_module_item_16726543",
+              "text": "Assignment\nMilestone 3: Pilot and learning \nMar 7, 2027\n100 pts\nSubmit\nMust submit this module item to complete it\n \nPublished. Click to unpublish Milestone 3: Pilot and learning.\n \nManage Milestone 3: Pilot and learning",
+              "title": "Milestone 3: Pilot and learning "
+            }
+          ],
+          "text": "Unit 07: Pilot, revise, and retest\n Unit 07: Pilot, revise, and retest\nComplete All Items\nUnit 07: Pilot, revise, and retest module publish options, published\nAdd Content to Unit 07: Pilot, revise, and retest\nPage\nUnit 07 lesson: Pilot, revise, and retest \nView\nMust view in order to complete this module item\n \nPublished. Click to unpublish Unit 07 lesson: Pilot, revise, and retest.\n \nManage Unit 07 lesson: Pilot, revise, and retest\nDiscussion Topic\nProject exchange: what the pilot actually shows \n \nPublished. Click to unpublish Project exchange: what the pilot actually shows.\n \nManage Project exchange: what the pilot actually shows\nQuiz\nUnit 07 practice and check-in: Pilot, revise, and retest \nMar 7, 2027\n3 pts\nSubmit\nMust submit this module item to complete it\n \nPublished. Click to unpublish Unit 07 practice and check-in: Pilot, revise, and retest.\n \nManage Unit 07 practice and check-in: Pilot, revise, and retest\nAssignment\nMilestone 3: Pilot and learning \nMar 7, 2027\n100 pts\nSubmit\nMust submit this module item to complete it\n \nPublished. Click to unpublish Milestone 3: Pilot and learning.\n \nManage Milestone 3: Pilot and learning"
+        },
+        {
+          "id": "context_module_2219792",
+          "items": [
+            {
+              "href": "/courses/644965/modules/items/16726544",
+              "id": "context_module_item_16726544",
+              "text": "Page\nUnit 08 lesson: Evaluate impact and resources \nView\nMust view in order to complete this module item\n \nPublished. Click to unpublish Unit 08 lesson: Evaluate impact and resources.\n \nManage Unit 08 lesson: Evaluate impact and resources",
+              "title": "Unit 08 lesson: Evaluate impact and resources "
+            },
+            {
+              "href": "/courses/644965/modules/items/16726632",
+              "id": "context_module_item_16726632",
+              "text": "Quiz\nUnit 08 practice and check-in: Evaluate impact and resources \nMar 14, 2027\n3 pts\nSubmit\nMust submit this module item to complete it\n \nPublished. Click to unpublish Unit 08 practice and check-in: Evaluate impact and resources.\n \nManage Unit 08 practice and check-in: Evaluate impact and resources",
+              "title": "Unit 08 practice and check-in: Evaluate impact and resources "
+            }
+          ],
+          "text": "Unit 08: Evaluate impact and resources\n Unit 08: Evaluate impact and resources\nComplete All Items\nUnit 08: Evaluate impact and resources module publish options, published\nAdd Content to Unit 08: Evaluate impact and resources\nPage\nUnit 08 lesson: Evaluate impact and resources \nView\nMust view in order to complete this module item\n \nPublished. Click to unpublish Unit 08 lesson: Evaluate impact and resources.\n \nManage Unit 08 lesson: Evaluate impact and resources\nQuiz\nUnit 08 practice and check-in: Evaluate impact and resources \nMar 14, 2027\n3 pts\nSubmit\nMust submit this module item to complete it\n \nPublished. Click to unpublish Unit 08 practice and check-in: Evaluate impact and resources.\n \nManage Unit 08 practice and check-in: Evaluate impact and resources"
+        },
+        {
+          "id": "context_module_2219793",
+          "items": [
+            {
+              "href": "/courses/644965/modules/items/16726545",
+              "id": "context_module_item_16726545",
+              "text": "Page\nUnit 09 lesson: Prepare the solution for use \nView\nMust view in order to complete this module item\n \nPublished. Click to unpublish Unit 09 lesson: Prepare the solution for use.\n \nManage Unit 09 lesson: Prepare the solution for use",
+              "title": "Unit 09 lesson: Prepare the solution for use "
+            },
+            {
+              "href": "/courses/644965/modules/items/16726633",
+              "id": "context_module_item_16726633",
+              "text": "Quiz\nUnit 09 practice and check-in: Prepare the solution for use \nMar 28, 2027\n3 pts\nSubmit\nMust submit this module item to complete it\n \nPublished. Click to unpublish Unit 09 practice and check-in: Prepare the solution for use.\n \nManage Unit 09 practice and check-in: Prepare the solution for use",
+              "title": "Unit 09 practice and check-in: Prepare the solution for use "
+            }
+          ],
+          "text": "Unit 09: Prepare the solution for use\n Unit 09: Prepare the solution for use\nComplete All Items\nUnit 09: Prepare the solution for use module publish options, published\nAdd Content to Unit 09: Prepare the solution for use\nPage\nUnit 09 lesson: Prepare the solution for use \nView\nMust view in order to complete this module item\n \nPublished. Click to unpublish Unit 09 lesson: Prepare the solution for use.\n \nManage Unit 09 lesson: Prepare the solution for use\nQuiz\nUnit 09 practice and check-in: Prepare the solution for use \nMar 28, 2027\n3 pts\nSubmit\nMust submit this module item to complete it\n \nPublished. Click to unpublish Unit 09 practice and check-in: Prepare the solution for use.\n \nManage Unit 09 practice and check-in: Prepare the solution for use"
+        },
+        {
+          "id": "context_module_2219794",
+          "items": [
+            {
+              "href": "/courses/644965/modules/items/16726546",
+              "id": "context_module_item_16726546",
+              "text": "Page\nUnit 10 lesson: Bring the solution into use \nView\nMust view in order to complete this module item\n \nPublished. Click to unpublish Unit 10 lesson: Bring the solution into use.\n \nManage Unit 10 lesson: Bring the solution into use",
+              "title": "Unit 10 lesson: Bring the solution into use "
+            },
+            {
+              "href": "/courses/644965/modules/items/16726634",
+              "id": "context_module_item_16726634",
+              "text": "Quiz\nUnit 10 practice and check-in: Bring the solution into use \nApr 4, 2027\n3 pts\nSubmit\nMust submit this module item to complete it\n \nPublished. Click to unpublish Unit 10 practice and check-in: Bring the solution into use.\n \nManage Unit 10 practice and check-in: Bring the solution into use",
+              "title": "Unit 10 practice and check-in: Bring the solution into use "
+            },
+            {
+              "href": "/courses/644965/modules/items/16726547",
+              "id": "context_module_item_16726547",
+              "text": "Assignment\nMilestone 4: Impact and adoption plan \nApr 4, 2027\n100 pts\nSubmit\nMust submit this module item to complete it\n \nPublished. Click to unpublish Milestone 4: Impact and adoption plan.\n \nManage Milestone 4: Impact and adoption plan",
+              "title": "Milestone 4: Impact and adoption plan "
+            }
+          ],
+          "text": "Unit 10: Bring the solution into use\n Unit 10: Bring the solution into use\nComplete All Items\nUnit 10: Bring the solution into use module publish options, published\nAdd Content to Unit 10: Bring the solution into use\nPage\nUnit 10 lesson: Bring the solution into use \nView\nMust view in order to complete this module item\n \nPublished. Click to unpublish Unit 10 lesson: Bring the solution into use.\n \nManage Unit 10 lesson: Bring the solution into use\nQuiz\nUnit 10 practice and check-in: Bring the solution into use \nApr 4, 2027\n3 pts\nSubmit\nMust submit this module item to complete it\n \nPublished. Click to unpublish Unit 10 practice and check-in: Bring the solution into use.\n \nManage Unit 10 practice and check-in: Bring the solution into use\nAssignment\nMilestone 4: Impact and adoption plan \nApr 4, 2027\n100 pts\nSubmit\nMust submit this module item to complete it\n \nPublished. Click to unpublish Milestone 4: Impact and adoption plan.\n \nManage Milestone 4: Impact and adoption plan"
+        },
+        {
+          "id": "context_module_2219795",
+          "items": [
+            {
+              "href": "/courses/644965/modules/items/16726548",
+              "id": "context_module_item_16726548",
+              "text": "Page\nUnit 11 lesson: Make delivery dependable \nView\nMust view in order to complete this module item\n \nPublished. Click to unpublish Unit 11 lesson: Make delivery dependable.\n \nManage Unit 11 lesson: Make delivery dependable",
+              "title": "Unit 11 lesson: Make delivery dependable "
+            },
+            {
+              "href": "/courses/644965/modules/items/16726635",
+              "id": "context_module_item_16726635",
+              "text": "Quiz\nUnit 11 practice and check-in: Make delivery dependable \nApr 18, 2027\n3 pts\nSubmit\nMust submit this module item to complete it\n \nPublished. Click to unpublish Unit 11 practice and check-in: Make delivery dependable.\n \nManage Unit 11 practice and check-in: Make delivery dependable",
+              "title": "Unit 11 practice and check-in: Make delivery dependable "
+            }
+          ],
+          "text": "Unit 11: Make delivery dependable\n Unit 11: Make delivery dependable\nComplete All Items\nUnit 11: Make delivery dependable module publish options, published\nAdd Content to Unit 11: Make delivery dependable\nPage\nUnit 11 lesson: Make delivery dependable \nView\nMust view in order to complete this module item\n \nPublished. Click to unpublish Unit 11 lesson: Make delivery dependable.\n \nManage Unit 11 lesson: Make delivery dependable\nQuiz\nUnit 11 practice and check-in: Make delivery dependable \nApr 18, 2027\n3 pts\nSubmit\nMust submit this module item to complete it\n \nPublished. Click to unpublish Unit 11 practice and check-in: Make delivery dependable.\n \nManage Unit 11 practice and check-in: Make delivery dependable"
+        },
+        {
+          "id": "context_module_2219796",
+          "items": [
+            {
+              "href": "/courses/644965/modules/items/16726549",
+              "id": "context_module_item_16726549",
+              "text": "Page\nUnit 12 lesson: Demonstrate and defend \nView\nMust view in order to complete this module item\n \nPublished. Click to unpublish Unit 12 lesson: Demonstrate and defend.\n \nManage Unit 12 lesson: Demonstrate and defend",
+              "title": "Unit 12 lesson: Demonstrate and defend "
+            },
+            {
+              "href": "/courses/644965/modules/items/16726670",
+              "id": "context_module_item_16726670",
+              "text": "Discussion Topic\nProject exchange: defend the next decision \n \nPublished. Click to unpublish Project exchange: defend the next decision.\n \nManage Project exchange: defend the next decision",
+              "title": "Project exchange: defend the next decision "
+            },
+            {
+              "href": "/courses/644965/modules/items/16726636",
+              "id": "context_module_item_16726636",
+              "text": "Quiz\nUnit 12 practice and check-in: Demonstrate and defend \nApr 25, 2027\n3 pts\nSubmit\nMust submit this module item to complete it\n \nPublished. Click to unpublish Unit 12 practice and check-in: Demonstrate and defend.\n \nManage Unit 12 practice and check-in: Demonstrate and defend",
+              "title": "Unit 12 practice and check-in: Demonstrate and defend "
+            },
+            {
+              "href": "/courses/644965/modules/items/16726550",
+              "id": "context_module_item_16726550",
+              "text": "Assignment\nMilestone 5: Demonstration and handoff \nApr 25, 2027\n60 pts\nSubmit\nMust submit this module item to complete it\n \nCan't unpublish Milestone 5: Demonstration and handoff if there are student submissions\n \nManage Milestone 5: Demonstration and handoff",
+              "title": "Milestone 5: Demonstration and handoff "
+            },
+            {
+              "href": "/courses/644965/modules/items/16726671",
+              "id": "context_module_item_16726671",
+              "text": "Assignment\nIndividual case exam: evidence, decisions, and responsible handoff \nMay 5, 2027\n40 pts\nSubmit\nMust submit this module item to complete it\n \nCan't unpublish Individual case exam: evidence, decisions, and responsible handoff if there are student submissions\n \nManage Individual case exam: evidence, decisions, and responsible handoff",
+              "title": "Individual case exam: evidence, decisions, and responsible handoff "
+            },
+            {
+              "href": "/courses/644965/modules/items/16726672",
+              "id": "context_module_item_16726672",
+              "text": "Page\nCourse completion and next steps \nView\nMust view in order to complete this module item\n \nPublished. Click to unpublish Course completion and next steps.\n \nManage Course completion and next steps",
+              "title": "Course completion and next steps "
+            }
+          ],
+          "text": "Unit 12: Demonstrate and defend\n Unit 12: Demonstrate and defend\nComplete All Items\nUnit 12: Demonstrate and defend module publish options, published\nAdd Content to Unit 12: Demonstrate and defend\nPage\nUnit 12 lesson: Demonstrate and defend \nView\nMust view in order to complete this module item\n \nPublished. Click to unpublish Unit 12 lesson: Demonstrate and defend.\n \nManage Unit 12 lesson: Demonstrate and defend\nDiscussion Topic\nProject exchange: defend the next decision \n \nPublished. Click to unpublish Project exchange: defend the next decision.\n \nManage Project exchange: defend the next decision\nQuiz\nUnit 12 practice and check-in: Demonstrate and defend \nApr 25, 2027\n3 pts\nSubmit\nMust submit this module item to complete it\n \nPublished. Click to unpublish Unit 12 practice and check-in: Demonstrate and defend.\n \nManage Unit 12 practice and check-in: Demonstrate and defend\nAssignment\nMilestone 5: Demonstration and handoff \nApr 25, 2027\n60 pts\nSubmit\nMust submit this module item to complete it\n \nCan't unpublish Milestone 5: Demonstration and handoff if there are student submissions\n \nManage Milestone 5: Demonstration and handoff\nAssignment\nIndividual case exam: evidence, decisions, and responsible handoff \nMay 5, 2027\n40 pts\nSubmit\nMust submit this module item to complete it\n \nCan't unpublish Individual case exam: evidence, decisions, and responsible handoff if there are student submissions\n \nManage Individual case exam: evidence, decisions, and responsible handoff\nPage\nCourse completion and next steps \nView\nMust view in order to complete this module item\n \nPublished. Click to unpublish Course completion and next steps.\n \nManage Course completion and next steps"
+        }
+      ],
+      "items": 37,
+      "modules": 12,
+      "requirements": 32
+    },
+    "grades": {
+      "rows": [
+        "Unit 01 practice and check-in: AI capabilities and useful tasks\nBuilding AI Solutions \u2014 Formative practice\n\tJan 17, 2027 by 11:59pm\t\t\t\nClick to test a different score\n- / 3\n\t\t   \t",
+        "Unit 02 practice and check-in: Discover the need\nBuilding AI Solutions \u2014 Formative practice\n\tJan 24, 2027 by 11:59pm\t\t\t\nClick to test a different score\n- / 3\n\t\t   \t",
+        "Milestone 1: Problem and feasible scope\nMilestone 1 \u2014 Problem and feasible scope\n\tJan 31, 2027 by 11:59pm\t\t\t\nClick to test a different score\n- / 100\n\t\t  \t",
+        "Unit 03 practice and check-in: Choose and scope a solution\nBuilding AI Solutions \u2014 Formative practice\n\tJan 31, 2027 by 11:59pm\t\t\t\nClick to test a different score\n- / 3\n\t\t   \t",
+        "Unit 04 practice and check-in: Design the workflow\nBuilding AI Solutions \u2014 Formative practice\n\tFeb 7, 2027 by 11:59pm\t\t\t\nClick to test a different score\n- / 3\n\t\t   \t",
+        "Milestone 2: First usable solution\nMilestone 2 \u2014 First usable solution\n\tFeb 14, 2027 by 11:59pm\t\t\t\nClick to test a different score\n- / 100\n\t\t  \t",
+        "Unit 05 practice and check-in: Build the first usable version\nBuilding AI Solutions \u2014 Formative practice\n\tFeb 14, 2027 by 11:59pm\t\t\t\nClick to test a different score\n- / 3\n\t\t   \t",
+        "Unit 06 practice and check-in: Design a fair test\nBuilding AI Solutions \u2014 Formative practice\n\tFeb 21, 2027 by 11:59pm\tNov 11 at 10:25am\t\t\nClick to test a different score\nInstructor has not posted this grade\nQuiz Submission\n / 3\n\t\t   \t",
+        "Milestone 3: Pilot and learning\nMilestone 3 \u2014 Pilot and learning\n\tMar 7, 2027 by 11:59pm\t\t\t\nClick to test a different score\n- / 100\n\t\t  \t",
+        "Unit 07 practice and check-in: Pilot, revise, and retest\nBuilding AI Solutions \u2014 Formative practice\n\tMar 7, 2027 by 11:59pm\t\t\t\nClick to test a different score\n- / 3\n\t\t   \t",
+        "Unit 08 practice and check-in: Evaluate impact and resources\nBuilding AI Solutions \u2014 Formative practice\n\tMar 14, 2027 by 11:59pm\t\t\t\nClick to test a different score\n- / 3\n\t\t   \t",
+        "Unit 09 practice and check-in: Prepare the solution for use\nBuilding AI Solutions \u2014 Formative practice\n\tMar 28, 2027 by 11:59pm\t\t\t\nClick to test a different score\n- / 3\n\t\t   \t",
+        "Milestone 4: Impact and adoption plan\nMilestone 4 \u2014 Impact and adoption plan\n\tApr 4, 2027 by 11:59pm\t\t\t\nClick to test a different score\n- / 100\n\t\t  \t",
+        "Unit 10 practice and check-in: Bring the solution into use\nBuilding AI Solutions \u2014 Formative practice\n\tApr 4, 2027 by 11:59pm\t\t\t\nClick to test a different score\n- / 3\n\t\t   \t",
+        "Unit 11 practice and check-in: Make delivery dependable\nBuilding AI Solutions \u2014 Formative practice\n\tApr 18, 2027 by 11:59pm\t\t\t\nClick to test a different score\n- / 3\n\t\t   \t",
+        "Milestone 5: Demonstration and handoff\nMilestone 5 \u2014 Demonstration and handoff\n\tApr 25, 2027 by 11:59pm\tNov 11 at 10:39am\t\t\nClick to test a different score\n30 / 60\n\t\t  \t",
+        "\n                  \n                      \n                          Assessment by Majid Memari\n                      \n                      Close Rubric\n                        Building AI Solutions \u2014 Milestone 5: Demonstration and handoffCriteriaRatingsPtsBuilding AI Solutions \u2014 Milestone 5: Demonstration and handoffCriteriaRatingsPtsDemonstration and evidence-backed recommendationview longer descriptionCommentsINSTRUCTOR QA ONLY: synthetic half-credit validates the shared 60 plus individual 40 weighting. For the test revision, add a clearly labeled revised snapshot. This is not learner feedback.12.5 / 25 ptsOperating handoff and continued useview longer description10 / 20 ptsClear communication and evidenceview longer description7.5 / 15 ptsTotal Points: 30\n                  \n              ",
+        "Building AI Solutions \u2014 Milestone 5: Demonstration and handoff",
+        "Unit 12 practice and check-in: Demonstrate and defend\nBuilding AI Solutions \u2014 Formative practice\n\tApr 25, 2027 by 11:59pm\t\t\t\nClick to test a different score\n- / 3\n\t\t   \t",
+        "Individual case exam: evidence, decisions, and responsible handoff\nMilestone 5 \u2014 Demonstration and handoff\n\tMay 5, 2027 by 11:59pm\tNov 11 at 10:28am\t\t\nClick to test a different score\n20 / 40\n\t\t  \t",
+        "\n                  \n                      \n                          Assessment by Majid Memari\n                      \n                      Close Rubric\n                        Building AI Solutions \u2014 Individual case exam: evidence, decisions, and responsible handoffCriteriaRatingsPtsBuilding AI Solutions \u2014 Individual case exam: evidence, decisions, and responsible handoffCriteriaRatingsPtsIndividual quantitative understandingview longer descriptionCommentsInstructor QA only: synthetic 10/20 to verify rubric arithmetic; no learner judgment.10 / 20 ptsIndividual design judgment and ownershipview longer descriptionCommentsInstructor QA only: synthetic 10/20 to verify rubric arithmetic; no learner judgment.10 / 20 ptsTotal Points: 20\n                  \n              ",
+        "Building AI Solutions \u2014 Individual case exam: evidence, decisions, and responsible handoff",
+        "Milestone 1 \u2014 Problem and feasible scope\t\t\t\t\nN/A\n\t\t0.00 / 0.00\t",
+        "Milestone 2 \u2014 First usable solution\t\t\t\t\nN/A\n\t\t0.00 / 0.00\t",
+        "Milestone 3 \u2014 Pilot and learning\t\t\t\t\nN/A\n\t\t0.00 / 0.00\t",
+        "Milestone 4 \u2014 Impact and adoption plan\t\t\t\t\nN/A\n\t\t0.00 / 0.00\t",
+        "Milestone 5 \u2014 Demonstration and handoff\t\t\t\t\n50%\n\t\t50.00 / 100.00\t",
+        "Milestone 1 \u2014 Problem and feasible scope\t15%",
+        "Milestone 2 \u2014 First usable solution\t20%",
+        "Milestone 3 \u2014 Pilot and learning\t25%",
+        "Milestone 4 \u2014 Impact and adoption plan\t15%",
+        "Milestone 5 \u2014 Demonstration and handoff\t25%"
+      ],
+      "weights": [
+        "Group\tWeight",
+        "Business Application Briefs (5)\t0%",
+        "Building AI Solutions \u2014 Formative practice\t0%",
+        "Milestone 1 \u2014 Problem and feasible scope\t15%",
+        "Milestone 2 \u2014 First usable solution\t20%",
+        "Milestone 3 \u2014 Pilot and learning\t25%",
+        "Milestone 4 \u2014 Impact and adoption plan\t15%",
+        "Milestone 5 \u2014 Demonstration and handoff\t25%",
+        "Opportunity Portfolio and Pilot Plan\t0%",
+        "Business Proposal and Customer Evidence\t0%",
+        "Business Report: Value and Economics\t0%",
+        "Executive Strategy Presentation\t0%",
+        "Weekly Discussions and Participation\t0%",
+        "Total\t100%"
+      ]
+    },
+    "readers": {
+      "cambridgeAI": true,
+      "openstaxBusiness": true,
+      "openstaxStatistics": true,
+      "context": "nested official frames inside Canvas lesson; no top navigation",
+      "deferredBeforeOpen": true
+    },
+    "finalTa": {
+      "checks": {
+        "threeTitles": true,
+        "aiBook": true,
+        "businessBook": true,
+        "statsBook": true,
+        "unitScope": true,
+        "existingCanvasResponse": true,
+        "noFullBookAccess": true,
+        "studentView": true
+      },
+      "response": "Course teaching assistant\n\nHelping with Unit 1: AI capabilities and useful tasks\n\nStay in Canvas while you study. Source titles below identify the material used; ask the TA to explain a source here. Submit your check-in and review instructor feedback in Canvas.\n\nLet\u2019s work through it.\nNew conversation\n\nYOU\n\nWhich textbooks support the AI and business parts of this course? For this unit, what exactly should I read and where should I put my reading connection? Do you have the complete books?\n\nCOURSE TEACHING ASSISTANT\n\nThe three course textbooks:\n\nAI foundation: Artificial Intelligence: Foundations of Computational Agents, 3rd edition, by Poole and Mackworth (Cambridge University Press)\nBusiness foundation: Entrepreneurship, 1st edition, by Laverty and Littel (OpenStax)\nStatistics companion: Introductory Statistics 2e, 2nd edition, by Illowsky and Dean (OpenStax)\n\nFor Unit 1, you read only one book: Poole and Mackworth. Read the opening of section 1.1 and stop at the heading \"1.1.1 Artificial and Natural Intelligence.\" Don't follow links or read later subsections. The Unit 1 reading page also has the \"Official textbook section\" link.\n\nWhere your connection goes: In your existing project update in Canvas. Finish the lesson, then use Canvas Next to open the Unit 1 practice and check-in quiz. Put the reading connection and your \"apply one idea\" answer (a real task, its input, the output you need, and one check a person must make) in the final written project-update question. Identify the book and section, explain one idea in your own words, and show the decision it informs.\n\nDo I have the complete books? No. I have only course-authored directions and explanations about the assigned sections, not the book text. I can't read the book for you or quote it. If you want help with a specific passage, paste a short excerpt, and I'll treat it as your own material.\n\nIf the official reader is unavailable, use the lesson explanation and worked example instead, apply the same question, and label that access alternative honestly. Report the access problem through your course support route.\n\nWhat real task are you considering for your project?\n\nCOURSE MATERIAL CONSULTED\n\nUnit 1: AI capabilities and useful tasks \u2014 Read, then apply one idea\nUnit 1: AI capabilities and useful tasks \u2014 Your continuing case: Cedar Desk\nUnit 1: AI capabilities and useful tasks \u2014 Start one project record and make a capability choice\nUnit 1: AI capabilities and useful tasks \u2014 Learn\nUnit 2: Discover the need \u2014 Read, then apply one idea\nUnit 4: Design the workflow \u2014 Read, then apply one idea\n\nResponse ready. Review the explanation and sources above.\n\nYour question\n0 / 4,000 characters\nAsk the assistant \u2192\nPrivacy, limits & access code",
+      "correction": "First QA response miscounted three titles as two; corrected prompt and fresh production conversation verified.",
+      "deployment": "dpl_EGv4uuGU15JxZUenVocxqa6LjqhA",
+      "commit": "56d1d1488e4bdce49fe7099150ec4351a6319b08"
+    },
+    "home": {
+      "freeTextbooks": true,
+      "workload": true,
+      "spring2027": true
+    },
+    "finalState": {
+      "instructorView": true,
+      "courseUnpublished": true,
+      "qaChatCleared": true,
+      "noNewQuizAttempt": true
+    }
+  },
+  "springDatesReadBack": [
+    {
+      "title": "Unit 01 practice and check-in: AI capabilities and useful tasks",
+      "dueLocal": "2027-01-17T23:59-07:00",
+      "studentViewLabel": "Jan 17, 2027 by 11:59pm",
+      "matched": true
+    },
+    {
+      "title": "Unit 02 practice and check-in: Discover the need",
+      "dueLocal": "2027-01-24T23:59-07:00",
+      "studentViewLabel": "Jan 24, 2027 by 11:59pm",
+      "matched": true
+    },
+    {
+      "title": "Unit 03 practice and check-in: Choose and scope a solution",
+      "dueLocal": "2027-01-31T23:59-07:00",
+      "studentViewLabel": "Jan 31, 2027 by 11:59pm",
+      "matched": true
+    },
+    {
+      "title": "Unit 04 practice and check-in: Design the workflow",
+      "dueLocal": "2027-02-07T23:59-07:00",
+      "studentViewLabel": "Feb 7, 2027 by 11:59pm",
+      "matched": true
+    },
+    {
+      "title": "Unit 05 practice and check-in: Build the first usable version",
+      "dueLocal": "2027-02-14T23:59-07:00",
+      "studentViewLabel": "Feb 14, 2027 by 11:59pm",
+      "matched": true
+    },
+    {
+      "title": "Unit 06 practice and check-in: Design a fair test",
+      "dueLocal": "2027-02-21T23:59-07:00",
+      "studentViewLabel": "Feb 21, 2027 by 11:59pm",
+      "matched": true
+    },
+    {
+      "title": "Unit 07 practice and check-in: Pilot, revise, and retest",
+      "dueLocal": "2027-03-07T23:59-07:00",
+      "studentViewLabel": "Mar 7, 2027 by 11:59pm",
+      "matched": true
+    },
+    {
+      "title": "Unit 08 practice and check-in: Evaluate impact and resources",
+      "dueLocal": "2027-03-14T23:59-06:00",
+      "studentViewLabel": "Mar 14, 2027 by 11:59pm",
+      "matched": true
+    },
+    {
+      "title": "Unit 09 practice and check-in: Prepare the solution for use",
+      "dueLocal": "2027-03-28T23:59-06:00",
+      "studentViewLabel": "Mar 28, 2027 by 11:59pm",
+      "matched": true
+    },
+    {
+      "title": "Unit 10 practice and check-in: Bring the solution into use",
+      "dueLocal": "2027-04-04T23:59-06:00",
+      "studentViewLabel": "Apr 4, 2027 by 11:59pm",
+      "matched": true
+    },
+    {
+      "title": "Unit 11 practice and check-in: Make delivery dependable",
+      "dueLocal": "2027-04-18T23:59-06:00",
+      "studentViewLabel": "Apr 18, 2027 by 11:59pm",
+      "matched": true
+    },
+    {
+      "title": "Unit 12 practice and check-in: Demonstrate and defend",
+      "dueLocal": "2027-04-25T23:59-06:00",
+      "studentViewLabel": "Apr 25, 2027 by 11:59pm",
+      "matched": true
+    },
+    {
+      "title": "Milestone 1: Problem and feasible scope",
+      "dueLocal": "2027-01-31T23:59-07:00",
+      "studentViewLabel": "Jan 31, 2027 by 11:59pm",
+      "matched": true
+    },
+    {
+      "title": "Milestone 2: First usable solution",
+      "dueLocal": "2027-02-14T23:59-07:00",
+      "studentViewLabel": "Feb 14, 2027 by 11:59pm",
+      "matched": true
+    },
+    {
+      "title": "Milestone 3: Pilot and learning",
+      "dueLocal": "2027-03-07T23:59-07:00",
+      "studentViewLabel": "Mar 7, 2027 by 11:59pm",
+      "matched": true
+    },
+    {
+      "title": "Milestone 4: Impact and adoption plan",
+      "dueLocal": "2027-04-04T23:59-06:00",
+      "studentViewLabel": "Apr 4, 2027 by 11:59pm",
+      "matched": true
+    },
+    {
+      "title": "Milestone 5: Demonstration and handoff",
+      "dueLocal": "2027-04-25T23:59-06:00",
+      "studentViewLabel": "Apr 25, 2027 by 11:59pm",
+      "matched": true
+    },
+    {
+      "title": "Individual case exam: evidence, decisions, and responsible handoff",
+      "dueLocal": "2027-05-05T23:59-06:00",
+      "studentViewLabel": "May 5, 2027 by 11:59pm",
+      "matched": true
+    }
+  ],
+  "weightsVerified": [
+    15,
+    20,
+    25,
+    15,
+    25
+  ],
+  "syntheticScoresPreserved": {
+    "shared": "30/60",
+    "individualExam": "20/40",
+    "milestone5Group": "50/100"
+  },
+  "proofImages": [
+    "canvas-ai-textbook-reader.png",
+    "canvas-ai-textbook-student-view.png",
+    "canvas-business-textbook-reader.png",
+    "canvas-statistics-textbook-reader.png",
+    "canvas-textbook-ta.png"
+  ],
+  "publicReleaseEvidence": "textbook-public-release.json",
+  "limits": [
+    "Official assigned passages and course teaching claims were reviewed; this is not a review of every book page or formal publisher endorsement.",
+    "Desktop Canvas/Student View and representative nested readers verified; no new comprehensive mobile, assistive-technology, or cross-browser audit.",
+    "Timing estimates and learning effectiveness require representative-learner observation.",
+    "Course TA has course-authored explanations and reading metadata; it does not have complete textbook content or private Canvas records."
+  ]
+}

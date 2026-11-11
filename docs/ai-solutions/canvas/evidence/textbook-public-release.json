@@ -1,0 +1,802 @@
+{
+  "verified_at": "2026-11-11T19:40:12.475492+00:00",
+  "commit": "c290fd4777a6ad6f2c729c2ec5f2c9cabfd79355",
+  "deployment_id": "dpl_AFFSGSKfaaEeA6y4fRAogcRBeqUr",
+  "deployment_state": "READY",
+  "deployment_state_source": "Root independently verified the exact production deployment; this child performed public HTTP artifact verification.",
+  "base_url": "https://www.majidmemari.com/teaching/ai-solutions/",
+  "manifest_sha256": "63f010152d8537515a2fd1b515e14a585f95f714d49e04f099c4320878b5da66",
+  "file_count": 70,
+  "matched_count": 70,
+  "source_files_sha256": {
+    "site/course_content.py": "77df7882105f4173376d27129c2dab7f9af1e6eee200a73701cc697db16b68be",
+    "site/textbook_readings.py": "a5d5cad338fa1e0d48c5fc19fbe38a54b978c33aedf35b7d25bfe33f9974cd75",
+    "site/build_core.py": "8c3bcb6a359df857527bff6cfc62416f617c485d678bc3dc7b1d64471d343d4b",
+    "site/assets/site.js": "3470a71711237bf23aa24180c9432f38d4907be713e366a4cb9e5f69f92aa663",
+    "site/visual_lessons.py": "3d32ea2b9be1b077f0bc37315b9de64a8ca6b45d2d3aece8fa0848e825c3a8a9",
+    "site/assets/lesson-figures.js": "b045da17334d951228c5f3d0a5d2d5f813ba19e67030a7ba01a6a6b5016bc52b",
+    "integrations/canvas/async_guide.py": "c1ae2056bfbed5f780ee89ba16d84f2ffa5083d9759eec05690dbbaa065839dc",
+    "integrations/canvas/async_content.py": "7500ac6fd020f6714ed72cb7be74519ed59c4397871761c7bd0b1c1a851a525e",
+    "integrations/canvas/build_package.py": "e05d0bc560cab151bc6a76f18bcdb272f5c2588bf5c64a5ff651eeaa5dcde4c7"
+  },
+  "source_hash_note": "Hashes identify the local canonical source snapshot at verification time; the production commit identifies the published hosting snapshot.",
+  "ta_corpus": {
+    "sourceDigest": "204336f9391d33c78a9f8292ca4cc871d879e3b9b90ffa77a70e96ed86973c29",
+    "sourcePages": 24,
+    "simulationCount": 3,
+    "practicePages": 5,
+    "inlineFigurePages": 6,
+    "chunkCount": 177
+  },
+  "source_boundaries": {
+    "course_corpus_inputs": "24 public course HTML pages, including book metadata, exact reading directions and original course connections.",
+    "book_chapters_in_course_bundle": false,
+    "book_chapters_ingested_into_ta": false,
+    "official_readers": "Official textbook pages load only on opening the in-lesson reader; frames are marked data-kb-skip.",
+    "external_textbooks_fetched_by_this_verification": false,
+    "private_canvas_records_used_by_ta": false,
+    "parent_canvas_navigation": "Textbook sandbox omits top-navigation and popup permissions; native Canvas pages remain authoritative for submissions and grading."
+  },
+  "content_inspection": {
+    "reading_guide_names_all_three_free_textbooks": true,
+    "reading_guide_uses_required_plan": true,
+    "cash_scope_limited_to_statement_of_cash_flows": true,
+    "cash_saving_requires_actual_cash_spending_reduction": true,
+    "cash_receipts_are_a_separate_benefit": true,
+    "textbook_does_not_validate_assumed_dollar_rates": true
+  },
+  "lesson_required_reading_blocks": [
+    {
+      "unit": 1,
+      "required_blocks": 1,
+      "deferred_textbook_readers": 1,
+      "sources_not_eagerly_loaded": true
+    },
+    {
+      "unit": 2,
+      "required_blocks": 1,
+      "deferred_textbook_readers": 2,
+      "sources_not_eagerly_loaded": true
+    },
+    {
+      "unit": 3,
+      "required_blocks": 1,
+      "deferred_textbook_readers": 2,
+      "sources_not_eagerly_loaded": true
+    },
+    {
+      "unit": 4,
+      "required_blocks": 1,
+      "deferred_textbook_readers": 1,
+      "sources_not_eagerly_loaded": true
+    },
+    {
+      "unit": 5,
+      "required_blocks": 1,
+      "deferred_textbook_readers": 1,
+      "sources_not_eagerly_loaded": true
+    },
+    {
+      "unit": 6,
+      "required_blocks": 1,
+      "deferred_textbook_readers": 2,
+      "sources_not_eagerly_loaded": true
+    },
+    {
+      "unit": 7,
+      "required_blocks": 1,
+      "deferred_textbook_readers": 2,
+      "sources_not_eagerly_loaded": true
+    },
+    {
+      "unit": 8,
+      "required_blocks": 1,
+      "deferred_textbook_readers": 2,
+      "sources_not_eagerly_loaded": true
+    },
+    {
+      "unit": 9,
+      "required_blocks": 1,
+      "deferred_textbook_readers": 2,
+      "sources_not_eagerly_loaded": true
+    },
+    {
+      "unit": 10,
+      "required_blocks": 1,
+      "deferred_textbook_readers": 2,
+      "sources_not_eagerly_loaded": true
+    },
+    {
+      "unit": 11,
+      "required_blocks": 1,
+      "deferred_textbook_readers": 1,
+      "sources_not_eagerly_loaded": true
+    },
+    {
+      "unit": 12,
+      "required_blocks": 1,
+      "deferred_textbook_readers": 2,
+      "sources_not_eagerly_loaded": true
+    }
+  ],
+  "files": [
+    {
+      "path": "assessment-01.html",
+      "status": 200,
+      "bytes": 378,
+      "sha256": "a14e7439367992c492497e51a077f3075c473a91fbe5bc811d491312bda9d434",
+      "expected_bytes": 378,
+      "expected_sha256": "a14e7439367992c492497e51a077f3075c473a91fbe5bc811d491312bda9d434",
+      "matches": true
+    },
+    {
+      "path": "assessment-02.html",
+      "status": 200,
+      "bytes": 378,
+      "sha256": "a14e7439367992c492497e51a077f3075c473a91fbe5bc811d491312bda9d434",
+      "expected_bytes": 378,
+      "expected_sha256": "a14e7439367992c492497e51a077f3075c473a91fbe5bc811d491312bda9d434",
+      "matches": true
+    },
+    {
+      "path": "assessment-03.html",
+      "status": 200,
+      "bytes": 378,
+      "sha256": "bc93c0ddf75abdbc0a78baf3ed1c32b61e1aa9d5d43468b0dc7a30ed28332627",
+      "expected_bytes": 378,
+      "expected_sha256": "bc93c0ddf75abdbc0a78baf3ed1c32b61e1aa9d5d43468b0dc7a30ed28332627",
+      "matches": true
+    },
+    {
+      "path": "assessment-04.html",
+      "status": 200,
+      "bytes": 378,
+      "sha256": "bc93c0ddf75abdbc0a78baf3ed1c32b61e1aa9d5d43468b0dc7a30ed28332627",
+      "expected_bytes": 378,
+      "expected_sha256": "bc93c0ddf75abdbc0a78baf3ed1c32b61e1aa9d5d43468b0dc7a30ed28332627",
+      "matches": true
+    },
+    {
+      "path": "assessment-05.html",
+      "status": 200,
+      "bytes": 378,
+      "sha256": "1509629e6229ea30e6d700450ec7f7a29e258215fc1492ee94140061e6bfe037",
+      "expected_bytes": 378,
+      "expected_sha256": "1509629e6229ea30e6d700450ec7f7a29e258215fc1492ee94140061e6bfe037",
+      "matches": true
+    },
+    {
+      "path": "assessment-06.html",
+      "status": 200,
+      "bytes": 378,
+      "sha256": "1509629e6229ea30e6d700450ec7f7a29e258215fc1492ee94140061e6bfe037",
+      "expected_bytes": 378,
+      "expected_sha256": "1509629e6229ea30e6d700450ec7f7a29e258215fc1492ee94140061e6bfe037",
+      "matches": true
+    },
+    {
+      "path": "assessment-07.html",
+      "status": 200,
+      "bytes": 378,
+      "sha256": "7c5f22670b94292573a64940d995ac7d4d8ee363d386102b447529dd0a5ceab5",
+      "expected_bytes": 378,
+      "expected_sha256": "7c5f22670b94292573a64940d995ac7d4d8ee363d386102b447529dd0a5ceab5",
+      "matches": true
+    },
+    {
+      "path": "assessment-08.html",
+      "status": 200,
+      "bytes": 378,
+      "sha256": "7c5f22670b94292573a64940d995ac7d4d8ee363d386102b447529dd0a5ceab5",
+      "expected_bytes": 378,
+      "expected_sha256": "7c5f22670b94292573a64940d995ac7d4d8ee363d386102b447529dd0a5ceab5",
+      "matches": true
+    },
+    {
+      "path": "assessment-09.html",
+      "status": 200,
+      "bytes": 378,
+      "sha256": "17c49f0f7c684838360c5c14f667b79873162528d3e46a3aa0bfdd0a8afb9292",
+      "expected_bytes": 378,
+      "expected_sha256": "17c49f0f7c684838360c5c14f667b79873162528d3e46a3aa0bfdd0a8afb9292",
+      "matches": true
+    },
+    {
+      "path": "assessment-10.html",
+      "status": 200,
+      "bytes": 378,
+      "sha256": "17c49f0f7c684838360c5c14f667b79873162528d3e46a3aa0bfdd0a8afb9292",
+      "expected_bytes": 378,
+      "expected_sha256": "17c49f0f7c684838360c5c14f667b79873162528d3e46a3aa0bfdd0a8afb9292",
+      "matches": true
+    },
+    {
+      "path": "assets/core.css",
+      "status": 200,
+      "bytes": 20644,
+      "sha256": "bd51ed55fcf49ec23508f42162ae0f2603aa9d9e0697e5fa4fd88cc604047484",
+      "expected_bytes": 20644,
+      "expected_sha256": "bd51ed55fcf49ec23508f42162ae0f2603aa9d9e0697e5fa4fd88cc604047484",
+      "matches": true
+    },
+    {
+      "path": "assets/lesson-figures.css",
+      "status": 200,
+      "bytes": 8851,
+      "sha256": "3b2204a4f715d357201279a2a7246371abe529e88d03d81b023897d7514d2d83",
+      "expected_bytes": 8851,
+      "expected_sha256": "3b2204a4f715d357201279a2a7246371abe529e88d03d81b023897d7514d2d83",
+      "matches": true
+    },
+    {
+      "path": "assets/lesson-figures.js",
+      "status": 200,
+      "bytes": 28268,
+      "sha256": "b045da17334d951228c5f3d0a5d2d5f813ba19e67030a7ba01a6a6b5016bc52b",
+      "expected_bytes": 28268,
+      "expected_sha256": "b045da17334d951228c5f3d0a5d2d5f813ba19e67030a7ba01a6a6b5016bc52b",
+      "matches": true
+    },
+    {
+      "path": "assets/practice.css",
+      "status": 200,
+      "bytes": 25223,
+      "sha256": "7a1091e4189153cac441a07b18a35fa220038f7890dbc070b82e19c8b15bbc09",
+      "expected_bytes": 25223,
+      "expected_sha256": "7a1091e4189153cac441a07b18a35fa220038f7890dbc070b82e19c8b15bbc09",
+      "matches": true
+    },
+    {
+      "path": "assets/practice.js",
+      "status": 200,
+      "bytes": 141856,
+      "sha256": "8e25856237e377cb499ee24dd23813930cf5836b87510f0924714a0b63d43ada",
+      "expected_bytes": 141856,
+      "expected_sha256": "8e25856237e377cb499ee24dd23813930cf5836b87510f0924714a0b63d43ada",
+      "matches": true
+    },
+    {
+      "path": "assets/site.js",
+      "status": 200,
+      "bytes": 13237,
+      "sha256": "3470a71711237bf23aa24180c9432f38d4907be713e366a4cb9e5f69f92aa663",
+      "expected_bytes": 13237,
+      "expected_sha256": "3470a71711237bf23aa24180c9432f38d4907be713e366a4cb9e5f69f92aa663",
+      "matches": true
+    },
+    {
+      "path": "assets/workbook.js",
+      "status": 200,
+      "bytes": 5835,
+      "sha256": "d287e6087502faa3f4ad077c3f3b923be72d220b1499d98aa6287e84180651bf",
+      "expected_bytes": 5835,
+      "expected_sha256": "d287e6087502faa3f4ad077c3f3b923be72d220b1499d98aa6287e84180651bf",
+      "matches": true
+    },
+    {
+      "path": "business-paths.html",
+      "status": 200,
+      "bytes": 366,
+      "sha256": "e7ac19682f377b8df77d436b26cc457dfe0f15f45f82ee953a570f08f1a9943d",
+      "expected_bytes": 366,
+      "expected_sha256": "e7ac19682f377b8df77d436b26cc457dfe0f15f45f82ee953a570f08f1a9943d",
+      "matches": true
+    },
+    {
+      "path": "course.html",
+      "status": 200,
+      "bytes": 366,
+      "sha256": "e7ac19682f377b8df77d436b26cc457dfe0f15f45f82ee953a570f08f1a9943d",
+      "expected_bytes": 366,
+      "expected_sha256": "e7ac19682f377b8df77d436b26cc457dfe0f15f45f82ee953a570f08f1a9943d",
+      "matches": true
+    },
+    {
+      "path": "discussions.html",
+      "status": 200,
+      "bytes": 370,
+      "sha256": "71a5cf69152d8c7ffb2dc485c1205099858398b8125625a56ac0af7928a5b477",
+      "expected_bytes": 370,
+      "expected_sha256": "71a5cf69152d8c7ffb2dc485c1205099858398b8125625a56ac0af7928a5b477",
+      "matches": true
+    },
+    {
+      "path": "downloads/cedar-desk-packet.txt",
+      "status": 200,
+      "bytes": 7244,
+      "sha256": "469280079da422dfa83d4581f5ca23857da160df3fb7140aa51db624dad93132",
+      "expected_bytes": 7244,
+      "expected_sha256": "469280079da422dfa83d4581f5ca23857da160df3fb7140aa51db624dad93132",
+      "matches": true
+    },
+    {
+      "path": "downloads/course-site.zip",
+      "status": 200,
+      "bytes": 234983,
+      "sha256": "18326aadcb6fdc8da7a2a4f5686bc341901dd35311c9972903c7d5dcbe3ee7b4",
+      "expected_bytes": 234983,
+      "expected_sha256": "18326aadcb6fdc8da7a2a4f5686bc341901dd35311c9972903c7d5dcbe3ee7b4",
+      "matches": true
+    },
+    {
+      "path": "downloads/project-record.txt",
+      "status": 200,
+      "bytes": 2702,
+      "sha256": "eb07ea558239e4cc624ef160f8e3bc593e2c92f23e57c5e95382b60e16dc4ad5",
+      "expected_bytes": 2702,
+      "expected_sha256": "eb07ea558239e4cc624ef160f8e3bc593e2c92f23e57c5e95382b60e16dc4ad5",
+      "matches": true
+    },
+    {
+      "path": "example.html",
+      "status": 200,
+      "bytes": 12143,
+      "sha256": "1c76d87c83af6ae099ea68e1170d81c8b9a268f57842166830f4802cf8abf6ba",
+      "expected_bytes": 12143,
+      "expected_sha256": "1c76d87c83af6ae099ea68e1170d81c8b9a268f57842166830f4802cf8abf6ba",
+      "matches": true
+    },
+    {
+      "path": "finish.html",
+      "status": 200,
+      "bytes": 4524,
+      "sha256": "05d5bc5b69135a1a30312ca5b8c3b89bc1e34d8ea4f3c007aed42089408f7d93",
+      "expected_bytes": 4524,
+      "expected_sha256": "05d5bc5b69135a1a30312ca5b8c3b89bc1e34d8ea4f3c007aed42089408f7d93",
+      "matches": true
+    },
+    {
+      "path": "guide.html",
+      "status": 200,
+      "bytes": 374,
+      "sha256": "440eabba9484542cb16c21c7a0c920b811e9f518f881211e315b07ba43a8da1e",
+      "expected_bytes": 374,
+      "expected_sha256": "440eabba9484542cb16c21c7a0c920b811e9f518f881211e315b07ba43a8da1e",
+      "matches": true
+    },
+    {
+      "path": "index.html",
+      "status": 200,
+      "bytes": 9219,
+      "sha256": "b771e4a8fce04d9fa8efaf171fdd39e8355980089bbb860dd874098bab4465d0",
+      "expected_bytes": 9219,
+      "expected_sha256": "b771e4a8fce04d9fa8efaf171fdd39e8355980089bbb860dd874098bab4465d0",
+      "matches": true
+    },
+    {
+      "path": "instructor.html",
+      "status": 200,
+      "bytes": 7126,
+      "sha256": "8f3c62c0b546c5331dff6e0b44651e62c6ac60fa540999fefec4ca56ddeb33a0",
+      "expected_bytes": 7126,
+      "expected_sha256": "8f3c62c0b546c5331dff6e0b44651e62c6ac60fa540999fefec4ca56ddeb33a0",
+      "matches": true
+    },
+    {
+      "path": "labs/index.html",
+      "status": 200,
+      "bytes": 390,
+      "sha256": "53d81db8871039e0702bbd1254f5a076831429ea29188a9d6d072efd7ed5606b",
+      "expected_bytes": 390,
+      "expected_sha256": "53d81db8871039e0702bbd1254f5a076831429ea29188a9d6d072efd7ed5606b",
+      "matches": true
+    },
+    {
+      "path": "milestone-1.html",
+      "status": 200,
+      "bytes": 6473,
+      "sha256": "e0bca7f1357531a048e5d799f405783092ea901e8e3c4bb44d5fe175f39eb492",
+      "expected_bytes": 6473,
+      "expected_sha256": "e0bca7f1357531a048e5d799f405783092ea901e8e3c4bb44d5fe175f39eb492",
+      "matches": true
+    },
+    {
+      "path": "milestone-2.html",
+      "status": 200,
+      "bytes": 6524,
+      "sha256": "ce79152fe3204a2ef6cfeacfc81cd94c0d7cb94189b738890a6ef9690b3d9bd9",
+      "expected_bytes": 6524,
+      "expected_sha256": "ce79152fe3204a2ef6cfeacfc81cd94c0d7cb94189b738890a6ef9690b3d9bd9",
+      "matches": true
+    },
+    {
+      "path": "milestone-3.html",
+      "status": 200,
+      "bytes": 6231,
+      "sha256": "2575b2a53a0aa680b0bd7970ffe2b9933efb2351fad02af89cc355890ba8fcee",
+      "expected_bytes": 6231,
+      "expected_sha256": "2575b2a53a0aa680b0bd7970ffe2b9933efb2351fad02af89cc355890ba8fcee",
+      "matches": true
+    },
+    {
+      "path": "milestone-4.html",
+      "status": 200,
+      "bytes": 6922,
+      "sha256": "9061d0c0864761e55b26522f2720f53119041b3f8c2338f6f88debbe29557b06",
+      "expected_bytes": 6922,
+      "expected_sha256": "9061d0c0864761e55b26522f2720f53119041b3f8c2338f6f88debbe29557b06",
+      "matches": true
+    },
+    {
+      "path": "milestone-5.html",
+      "status": 200,
+      "bytes": 6726,
+      "sha256": "6d102dfa6353b16ffa8fdb161117ede8d5591ae9605e55240d2a593f29e4901a",
+      "expected_bytes": 6726,
+      "expected_sha256": "6d102dfa6353b16ffa8fdb161117ede8d5591ae9605e55240d2a593f29e4901a",
+      "matches": true
+    },
+    {
+      "path": "module-00.html",
+      "status": 200,
+      "bytes": 370,
+      "sha256": "9264dc1abd87896d15d9fe9a3eb669714f7d2b85e102ffee217577b39780b98f",
+      "expected_bytes": 370,
+      "expected_sha256": "9264dc1abd87896d15d9fe9a3eb669714f7d2b85e102ffee217577b39780b98f",
+      "matches": true
+    },
+    {
+      "path": "module-01.html",
+      "status": 200,
+      "bytes": 370,
+      "sha256": "9264dc1abd87896d15d9fe9a3eb669714f7d2b85e102ffee217577b39780b98f",
+      "expected_bytes": 370,
+      "expected_sha256": "9264dc1abd87896d15d9fe9a3eb669714f7d2b85e102ffee217577b39780b98f",
+      "matches": true
+    },
+    {
+      "path": "module-02.html",
+      "status": 200,
+      "bytes": 370,
+      "sha256": "db169c983a60b241ca7abfd2fa6a35926905b8b9e7326b0b383cc1de43ea2936",
+      "expected_bytes": 370,
+      "expected_sha256": "db169c983a60b241ca7abfd2fa6a35926905b8b9e7326b0b383cc1de43ea2936",
+      "matches": true
+    },
+    {
+      "path": "module-03.html",
+      "status": 200,
+      "bytes": 370,
+      "sha256": "0f5134a44df89d7d91153689fb9884c967f660cbbe3a77c67d1cf55d4cd476ca",
+      "expected_bytes": 370,
+      "expected_sha256": "0f5134a44df89d7d91153689fb9884c967f660cbbe3a77c67d1cf55d4cd476ca",
+      "matches": true
+    },
+    {
+      "path": "module-04.html",
+      "status": 200,
+      "bytes": 370,
+      "sha256": "9fb8e7cf772ae0615c4fd6c62527af629766446aa3015882be99ba710e78d3cb",
+      "expected_bytes": 370,
+      "expected_sha256": "9fb8e7cf772ae0615c4fd6c62527af629766446aa3015882be99ba710e78d3cb",
+      "matches": true
+    },
+    {
+      "path": "module-05.html",
+      "status": 200,
+      "bytes": 370,
+      "sha256": "9fb8e7cf772ae0615c4fd6c62527af629766446aa3015882be99ba710e78d3cb",
+      "expected_bytes": 370,
+      "expected_sha256": "9fb8e7cf772ae0615c4fd6c62527af629766446aa3015882be99ba710e78d3cb",
+      "matches": true
+    },
+    {
+      "path": "module-06.html",
+      "status": 200,
+      "bytes": 370,
+      "sha256": "b3561b151136c406ec23fbeae188ca10afe5f280228c82ac42d2293475a847f5",
+      "expected_bytes": 370,
+      "expected_sha256": "b3561b151136c406ec23fbeae188ca10afe5f280228c82ac42d2293475a847f5",
+      "matches": true
+    },
+    {
+      "path": "module-07.html",
+      "status": 200,
+      "bytes": 370,
+      "sha256": "db169c983a60b241ca7abfd2fa6a35926905b8b9e7326b0b383cc1de43ea2936",
+      "expected_bytes": 370,
+      "expected_sha256": "db169c983a60b241ca7abfd2fa6a35926905b8b9e7326b0b383cc1de43ea2936",
+      "matches": true
+    },
+    {
+      "path": "module-08.html",
+      "status": 200,
+      "bytes": 370,
+      "sha256": "e20e611187792201db905f3d7f366607fb6e09469570f30faf8a88df5e3d9e14",
+      "expected_bytes": 370,
+      "expected_sha256": "e20e611187792201db905f3d7f366607fb6e09469570f30faf8a88df5e3d9e14",
+      "matches": true
+    },
+    {
+      "path": "module-09.html",
+      "status": 200,
+      "bytes": 370,
+      "sha256": "dfb09a8924a9353f9b529fbab699cfcaf4676b8d1bb138ea07c8f581a0194372",
+      "expected_bytes": 370,
+      "expected_sha256": "dfb09a8924a9353f9b529fbab699cfcaf4676b8d1bb138ea07c8f581a0194372",
+      "matches": true
+    },
+    {
+      "path": "module-10.html",
+      "status": 200,
+      "bytes": 370,
+      "sha256": "68e27fd74f1ff47634cf224fc07da97adff928949e0c62acc86daddbf8a6d346",
+      "expected_bytes": 370,
+      "expected_sha256": "68e27fd74f1ff47634cf224fc07da97adff928949e0c62acc86daddbf8a6d346",
+      "matches": true
+    },
+    {
+      "path": "module-11.html",
+      "status": 200,
+      "bytes": 370,
+      "sha256": "b87f5c78f462e6e5bfda81295acd8f318e04358492eda38cb263a3c99fa49246",
+      "expected_bytes": 370,
+      "expected_sha256": "b87f5c78f462e6e5bfda81295acd8f318e04358492eda38cb263a3c99fa49246",
+      "matches": true
+    },
+    {
+      "path": "module-12.html",
+      "status": 200,
+      "bytes": 370,
+      "sha256": "1034a2e243763f9ac3babaa2a01d308cedaffbbc9211a5087e5f3a9121ee5c54",
+      "expected_bytes": 370,
+      "expected_sha256": "1034a2e243763f9ac3babaa2a01d308cedaffbbc9211a5087e5f3a9121ee5c54",
+      "matches": true
+    },
+    {
+      "path": "module-13.html",
+      "status": 200,
+      "bytes": 370,
+      "sha256": "9acedc8af692db38b28f86d80aaee90ecdbaebf4630f14390df9277fd740a38b",
+      "expected_bytes": 370,
+      "expected_sha256": "9acedc8af692db38b28f86d80aaee90ecdbaebf4630f14390df9277fd740a38b",
+      "matches": true
+    },
+    {
+      "path": "module-14.html",
+      "status": 200,
+      "bytes": 370,
+      "sha256": "dfb09a8924a9353f9b529fbab699cfcaf4676b8d1bb138ea07c8f581a0194372",
+      "expected_bytes": 370,
+      "expected_sha256": "dfb09a8924a9353f9b529fbab699cfcaf4676b8d1bb138ea07c8f581a0194372",
+      "matches": true
+    },
+    {
+      "path": "module-15.html",
+      "status": 200,
+      "bytes": 370,
+      "sha256": "9acedc8af692db38b28f86d80aaee90ecdbaebf4630f14390df9277fd740a38b",
+      "expected_bytes": 370,
+      "expected_sha256": "9acedc8af692db38b28f86d80aaee90ecdbaebf4630f14390df9277fd740a38b",
+      "matches": true
+    },
+    {
+      "path": "module-16.html",
+      "status": 200,
+      "bytes": 370,
+      "sha256": "9acedc8af692db38b28f86d80aaee90ecdbaebf4630f14390df9277fd740a38b",
+      "expected_bytes": 370,
+      "expected_sha256": "9acedc8af692db38b28f86d80aaee90ecdbaebf4630f14390df9277fd740a38b",
+      "matches": true
+    },
+    {
+      "path": "partner-challenge.html",
+      "status": 200,
+      "bytes": 370,
+      "sha256": "71a5cf69152d8c7ffb2dc485c1205099858398b8125625a56ac0af7928a5b477",
+      "expected_bytes": 370,
+      "expected_sha256": "71a5cf69152d8c7ffb2dc485c1205099858398b8125625a56ac0af7928a5b477",
+      "matches": true
+    },
+    {
+      "path": "project.html",
+      "status": 200,
+      "bytes": 24548,
+      "sha256": "0b984ad0c7e6b74c1c28de46b137af243fe00f5b43c0354e109a7882fd426531",
+      "expected_bytes": 24548,
+      "expected_sha256": "0b984ad0c7e6b74c1c28de46b137af243fe00f5b43c0354e109a7882fd426531",
+      "matches": true
+    },
+    {
+      "path": "projects.html",
+      "status": 200,
+      "bytes": 370,
+      "sha256": "71a5cf69152d8c7ffb2dc485c1205099858398b8125625a56ac0af7928a5b477",
+      "expected_bytes": 370,
+      "expected_sha256": "71a5cf69152d8c7ffb2dc485c1205099858398b8125625a56ac0af7928a5b477",
+      "matches": true
+    },
+    {
+      "path": "readings.html",
+      "status": 200,
+      "bytes": 19539,
+      "sha256": "7c6322930c2495becfbcdcae5e10f9f045924cddc14236b64fa3d1e0978a9784",
+      "expected_bytes": 19539,
+      "expected_sha256": "7c6322930c2495becfbcdcae5e10f9f045924cddc14236b64fa3d1e0978a9784",
+      "matches": true
+    },
+    {
+      "path": "resources.html",
+      "status": 200,
+      "bytes": 5142,
+      "sha256": "be35300b8f55a4a1a07f3c2cb602745efbb6ae2916869cfd3046aae3bc8ca14b",
+      "expected_bytes": 5142,
+      "expected_sha256": "be35300b8f55a4a1a07f3c2cb602745efbb6ae2916869cfd3046aae3bc8ca14b",
+      "matches": true
+    },
+    {
+      "path": "toolkit.html",
+      "status": 200,
+      "bytes": 392,
+      "sha256": "e281b2135f1b549d8a219757a553a55c7f350e30164f896f54a434120164d8f3",
+      "expected_bytes": 392,
+      "expected_sha256": "e281b2135f1b549d8a219757a553a55c7f350e30164f896f54a434120164d8f3",
+      "matches": true
+    },
+    {
+      "path": "unit-01.html",
+      "status": 200,
+      "bytes": 35600,
+      "sha256": "bb99737c40f7dd7e9f2511d9a927980ed4c3f8e89ec140ac3ca37e7d6ec8792d",
+      "expected_bytes": 35600,
+      "expected_sha256": "bb99737c40f7dd7e9f2511d9a927980ed4c3f8e89ec140ac3ca37e7d6ec8792d",
+      "matches": true
+    },
+    {
+      "path": "unit-02.html",
+      "status": 200,
+      "bytes": 20884,
+      "sha256": "edd0f3df46ed3fc8a2e93133afcdf1a449f6d58f9243361041216285012e220e",
+      "expected_bytes": 20884,
+      "expected_sha256": "edd0f3df46ed3fc8a2e93133afcdf1a449f6d58f9243361041216285012e220e",
+      "matches": true
+    },
+    {
+      "path": "unit-03.html",
+      "status": 200,
+      "bytes": 23412,
+      "sha256": "4f2bc53aceb6514ab617a0d6549d96cd61411c19280c77dc56f6138b8a0123b4",
+      "expected_bytes": 23412,
+      "expected_sha256": "4f2bc53aceb6514ab617a0d6549d96cd61411c19280c77dc56f6138b8a0123b4",
+      "matches": true
+    },
+    {
+      "path": "unit-04.html",
+      "status": 200,
+      "bytes": 21326,
+      "sha256": "1e4fde14eca816717c098960bf4900c5e75694ff7499e38fbf536c5becc8cf7f",
+      "expected_bytes": 21326,
+      "expected_sha256": "1e4fde14eca816717c098960bf4900c5e75694ff7499e38fbf536c5becc8cf7f",
+      "matches": true
+    },
+    {
+      "path": "unit-05.html",
+      "status": 200,
+      "bytes": 34806,
+      "sha256": "7e73a5836cee6e55df1b34f7f4cdd328e047bb559f18c42b537766d895a07483",
+      "expected_bytes": 34806,
+      "expected_sha256": "7e73a5836cee6e55df1b34f7f4cdd328e047bb559f18c42b537766d895a07483",
+      "matches": true
+    },
+    {
+      "path": "unit-06.html",
+      "status": 200,
+      "bytes": 22258,
+      "sha256": "f491f467df4f794dffe70a5221880eb2a92e66cf1195060c0085cfaba8b0ead1",
+      "expected_bytes": 22258,
+      "expected_sha256": "f491f467df4f794dffe70a5221880eb2a92e66cf1195060c0085cfaba8b0ead1",
+      "matches": true
+    },
+    {
+      "path": "unit-07.html",
+      "status": 200,
+      "bytes": 23486,
+      "sha256": "12a3eeb3eea580153662ef322ba11542744d640d6df201b77e13c444edbb220e",
+      "expected_bytes": 23486,
+      "expected_sha256": "12a3eeb3eea580153662ef322ba11542744d640d6df201b77e13c444edbb220e",
+      "matches": true
+    },
+    {
+      "path": "unit-08.html",
+      "status": 200,
+      "bytes": 22033,
+      "sha256": "c4606c5f74e8e279033e04fd1e65bbdf38a97979b4730e57a2074d7173f9379f",
+      "expected_bytes": 22033,
+      "expected_sha256": "c4606c5f74e8e279033e04fd1e65bbdf38a97979b4730e57a2074d7173f9379f",
+      "matches": true
+    },
+    {
+      "path": "unit-09.html",
+      "status": 200,
+      "bytes": 21686,
+      "sha256": "dd1a06254f0c6d870daa3ba5bf2f9868b28ce42e26813cc0640b18f81260fcc2",
+      "expected_bytes": 21686,
+      "expected_sha256": "dd1a06254f0c6d870daa3ba5bf2f9868b28ce42e26813cc0640b18f81260fcc2",
+      "matches": true
+    },
+    {
+      "path": "unit-10.html",
+      "status": 200,
+      "bytes": 26401,
+      "sha256": "4a7d7508c3b9034380db64ce99f89c3d452895edb580c0c94ff07504067abe7a",
+      "expected_bytes": 26401,
+      "expected_sha256": "4a7d7508c3b9034380db64ce99f89c3d452895edb580c0c94ff07504067abe7a",
+      "matches": true
+    },
+    {
+      "path": "unit-11.html",
+      "status": 200,
+      "bytes": 18609,
+      "sha256": "96100270d711fc18b49f287ee69ec77c7f0fd62a86c00f93829d09ccee347517",
+      "expected_bytes": 18609,
+      "expected_sha256": "96100270d711fc18b49f287ee69ec77c7f0fd62a86c00f93829d09ccee347517",
+      "matches": true
+    },
+    {
+      "path": "unit-12.html",
+      "status": 200,
+      "bytes": 24290,
+      "sha256": "338204215923f8d221165bfe9462d294764de7e82851d3ee61c125264ea61deb",
+      "expected_bytes": 24290,
+      "expected_sha256": "338204215923f8d221165bfe9462d294764de7e82851d3ee61c125264ea61deb",
+      "matches": true
+    },
+    {
+      "path": "venture-studio.html",
+      "status": 200,
+      "bytes": 370,
+      "sha256": "68e27fd74f1ff47634cf224fc07da97adff928949e0c62acc86daddbf8a6d346",
+      "expected_bytes": 370,
+      "expected_sha256": "68e27fd74f1ff47634cf224fc07da97adff928949e0c62acc86daddbf8a6d346",
+      "matches": true
+    }
+  ],
+  "limits": "Public HTTP and HTML/source checks do not replace the root browser test of nested readers, accessibility or learning effectiveness.",
+  "verification_scope": "The top-level commit, deployment, verification timestamp, source hashes and per-file records identify the original static textbook release. current_deployment separately identifies the later TA-only fix; its 70 unchanged course artifacts were rechecked after READY against its committed manifest, without using concurrent local worktree edits.",
+  "static_artifact_release": {
+    "commit": "c290fd4777a6ad6f2c729c2ec5f2c9cabfd79355",
+    "deployment_id": "dpl_AFFSGSKfaaEeA6y4fRAogcRBeqUr",
+    "verified_at": "2026-11-11T19:40:12.475492+00:00",
+    "manifest_sha256": "63f010152d8537515a2fd1b515e14a585f95f714d49e04f099c4320878b5da66",
+    "file_count": 70,
+    "ta_corpus_source_digest": "204336f9391d33c78a9f8292ca4cc871d879e3b9b90ffa77a70e96ed86973c29",
+    "ta_chunk_count": 177
+  },
+  "current_deployment": {
+    "commit": "56d1d1488e4bdce49fe7099150ec4351a6319b08",
+    "deployment_id": "dpl_EGv4uuGU15JxZUenVocxqa6LjqhA",
+    "deployment_state": "READY",
+    "target": "production",
+    "deployment_state_source": "Vercel get_deployment returned READY with the exact full Git SHA and production target.",
+    "production_aliases": [
+      "www.majidmemari.com",
+      "majidmemari.com",
+      "majidmemari.vercel.app"
+    ],
+    "checked_at": "2026-11-11T19:49:03.816217+00:00",
+    "manifest_sha256": "63f010152d8537515a2fd1b515e14a585f95f714d49e04f099c4320878b5da66",
+    "static_manifest_unchanged": true,
+    "static_files_http_reverified": 70,
+    "static_files_matching_original_manifest": 70,
+    "ta_corpus_unchanged": true,
+    "ta_chunk_count": 177
+  },
+  "ta_prompt_update": {
+    "commit": "56d1d1488e4bdce49fe7099150ec4351a6319b08",
+    "changed_files": [
+      "lib/course-kb/prompt.ts",
+      "scripts/test-course-kb.mjs"
+    ],
+    "source_files_sha256": {
+      "lib/course-kb/prompt.ts": "680de63bf0ead614f66e6626b7c32fa160db50641f209baca5a3a006ab84e32d",
+      "scripts/test-course-kb.mjs": "e4c4967b0bf60997bd95b924ef3a67acbc3e22e993678a44402ddb70b1f608c4"
+    },
+    "policy": "Three distinct required textbook titles with accurate AI, business and statistics roles; count distinct titles rather than sections; corpus is course-authored directions and original connections, not textbook excerpts or full chapters.",
+    "validation": {
+      "automated_tests_passed": 41,
+      "typescript_no_emit": "passed",
+      "next_production_build": "passed"
+    },
+    "live_response_acceptance": "Fresh Canvas TA conversation retest is performed separately by root; this policy regression guard does not prove all model responses obey the rule."
+  }
+}

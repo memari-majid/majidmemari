@@ -1,6 +1,6 @@
 {
   "date": "2026-11-11",
-  "edition": "v5 real-world AI capabilities and implementation, native Canvas integration, Spring 2027",
+  "edition": "v6 required free academic AI, business and statistics readings, native Canvas integration, Spring 2027",
   "canvasCourse": "https://uvu.instructure.com/courses/644965",
   "courseState": "unpublished",
   "packageSha256": "891ef92210f08cd39bd62018ddbebb9f182ba3f58d15a1401917d739aa25b11c",
@@ -787,7 +787,7 @@
   "history": "evidence/canvas-v3-installation.json",
   "packageSha256Meaning": "Last imported package; the newer reusable source package was not imported",
   "lastImportedPackageSha256": "891ef92210f08cd39bd62018ddbebb9f182ba3f58d15a1401917d739aa25b11c",
-  "currentSourcePackageSha256": "16b4366f54b28f45158ab432b3150f39cd8de0dd2db7c8ac4e5e4c8e26566563",
+  "currentSourcePackageSha256": "cd5dbe6c8a62a490d3845ca3e6eacfc7b3fefc9e40b8f7e2dbd74e3804e544c6",
   "currentSourcePackageImported": false,
   "pageLayoutUpdate": {
     "date": "2026-11-11",
@@ -1192,5 +1192,38 @@
     ],
     "viewRestored": "instructor",
     "evidence": "evidence/canvas-real-world-ai-verification.json"
-  }
+  },
+  "textbookUpdate": {
+    "verifiedAt": "2026-11-11T19:51:55.256983+00:00",
+    "nativeLessonBodiesUpdated": 12,
+    "nativeEssayFieldsUpdated": 12,
+    "supportPagesUpdated": [
+      "guide",
+      "Home",
+      "Syllabus"
+    ],
+    "textbooks": 3,
+    "readingMinutesPlanned": 189,
+    "existingProjectUpdateUsed": true,
+    "newAssignments": 0,
+    "gradingOrDateChanges": false,
+    "nativeLessonScopesAndBridgesMatched": 12,
+    "savedQuizPromptsReadBack": 12,
+    "nativeRequirements": 32,
+    "springDatesMatched": 18,
+    "courseUnpublished": true,
+    "instructorViewRestored": true,
+    "evidence": "evidence/canvas-textbook-verification.json",
+    "publicRelease": "evidence/textbook-public-release.json"
+  },
+  "textbookEvidence": [
+    "evidence/canvas-textbook-verification.json",
+    "evidence/textbook-public-release.json",
+    "evidence/canvas-ai-textbook-reader.png",
+    "evidence/canvas-ai-textbook-student-view.png",
+    "evidence/canvas-business-textbook-reader.png",
+    "evidence/canvas-statistics-textbook-reader.png",
+    "evidence/canvas-textbook-ta.png",
+    "evidence/textbook-source-reproducibility.json"
+  ]
 }

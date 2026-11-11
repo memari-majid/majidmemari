@@ -107,3 +107,8 @@ For a general course review, begin with the live learner experience as described
 `archive/` and `site/archive/` are historical. `offerings/` is operational or historical context. `domain-examples/` contains earlier technical examples. `private/`, credentials, account settings, grading records, submissions, and backups are outside the review scope. Generated `site/dist/` is ignored here; the personal-site public snapshot is intentionally tracked there.
 
 Use instructional intent to assess alignment, source to understand implementation, deployment evidence to establish what shipped, and actual learner observations to judge learning. When those disagree, report the discrepancy instead of silently choosing the most flattering account.
+
+## Academic source ownership
+
+- `site/textbook_readings.py` owns the required free reading registry, bibliographic metadata, exact passage scopes, original course bridges, reader rendering and provisional reading workload. The builder and Canvas guide import this one registry.
+- [Textbook plan](textbook-recommendation.md), [academic source policy](academic-source-policy.md), and [claim/source map](claim-source-map.md) distinguish assigned passages, factual support, original methods, checked calculations and verification limits. No book chapter text is a runtime/TA corpus input.

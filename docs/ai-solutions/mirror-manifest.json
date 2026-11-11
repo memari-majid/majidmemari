@@ -1,0 +1,610 @@
+{
+  "canonical_commit": "0c6ae40ccd53af9cfe096adf54d4a62768482078",
+  "canonical_source": "/Users/majid/Documents/GitHub/uvu_courses/courses/cs4720R",
+  "snapshot_origin": "Committed git archive; concurrent worktree changes excluded",
+  "scope": "Documentation and public review snapshots only; no runtime, deployment, import or git action",
+  "reusable_package_sha256": "cd5dbe6c8a62a490d3845ca3e6eacfc7b3fefc9e40b8f7e2dbd74e3804e544c6",
+  "validated_local_markdown_links": 258,
+  "files": [
+    {
+      "source": "README.md",
+      "mirror": "README.md",
+      "source_sha256": "24f4e7335d2ab50ff3784d66fd9b8e65a897c17876d89a3a4612f9ba5c5ec046",
+      "mirror_sha256": "ff8447d28c8fd77227fd9ec91d46694156e29b928888389d1eea15c21e87f068",
+      "markdown_links_rewritten": true
+    },
+    {
+      "source": "docs/ACADEMIC_SOURCE_POLICY.md",
+      "mirror": "academic-source-policy.md",
+      "source_sha256": "dd4f4409906085480c2566538a4e301df990159e1c5878823348dc280a1a9f64",
+      "mirror_sha256": "331f4855645e7bd66226810d8615819250e975c4031367b6a37d9f6c3236fe12",
+      "markdown_links_rewritten": true
+    },
+    {
+      "source": "integrations/canvas/ASYNC_DESIGN_PLAN.md",
+      "mirror": "canvas-async-design.md",
+      "source_sha256": "78ff42da8524a632d7457ec0a8105842d151ae6eccacecedd22c0e8814d54824",
+      "mirror_sha256": "78ff42da8524a632d7457ec0a8105842d151ae6eccacecedd22c0e8814d54824",
+      "markdown_links_rewritten": true
+    },
+    {
+      "source": "integrations/canvas/README.md",
+      "mirror": "canvas-integration.md",
+      "source_sha256": "0f1d21380c4d81489713fa795238a6b9f5a56efac479947ac7e1751383b1992a",
+      "mirror_sha256": "6c6cf89b29abdec4e6b9385ffc713328d244f95387acd573ab48916b1f7e2361",
+      "markdown_links_rewritten": true
+    },
+    {
+      "source": "integrations/canvas/LIVE_INTEGRATION.md",
+      "mirror": "canvas-live-integration.md",
+      "source_sha256": "07dbdac10488d20e025130eb3255287dec64e0790056171197eb626e66abaa09",
+      "mirror_sha256": "797165952b0439fc75887cb602536a48a440d05b8b4128b937cdc83530e30ba8",
+      "markdown_links_rewritten": true
+    },
+    {
+      "source": "integrations/canvas/CANVAS_THEME_PLAN.md",
+      "mirror": "canvas-theme-plan.md",
+      "source_sha256": "e4324d8c585ac8569d608c9f7ec7924138a0d2431b5e2fb82812ea1e55707bea",
+      "mirror_sha256": "29fab2f94f742c35262176a95ba878d2a4287849ed032e6f48ebdd434971bf31",
+      "markdown_links_rewritten": true
+    },
+    {
+      "source": "integrations/canvas/async_content.py",
+      "mirror": "canvas/async_content.py",
+      "source_sha256": "7500ac6fd020f6714ed72cb7be74519ed59c4397871761c7bd0b1c1a851a525e",
+      "mirror_sha256": "7500ac6fd020f6714ed72cb7be74519ed59c4397871761c7bd0b1c1a851a525e",
+      "markdown_links_rewritten": false
+    },
+    {
+      "source": "integrations/canvas/async_guide.py",
+      "mirror": "canvas/async_guide.py",
+      "source_sha256": "c1ae2056bfbed5f780ee89ba16d84f2ffa5083d9759eec05690dbbaa065839dc",
+      "mirror_sha256": "c1ae2056bfbed5f780ee89ba16d84f2ffa5083d9759eec05690dbbaa065839dc",
+      "markdown_links_rewritten": false
+    },
+    {
+      "source": "integrations/canvas/build_package.py",
+      "mirror": "canvas/build_package.py",
+      "source_sha256": "e05d0bc560cab151bc6a76f18bcdb272f5c2588bf5c64a5ff651eeaa5dcde4c7",
+      "mirror_sha256": "e05d0bc560cab151bc6a76f18bcdb272f5c2588bf5c64a5ff651eeaa5dcde4c7",
+      "markdown_links_rewritten": false
+    },
+    {
+      "source": "integrations/canvas/building-ai-solutions-canvas.imscc",
+      "mirror": "canvas/building-ai-solutions-canvas.imscc",
+      "source_sha256": "cd5dbe6c8a62a490d3845ca3e6eacfc7b3fefc9e40b8f7e2dbd74e3804e544c6",
+      "mirror_sha256": "cd5dbe6c8a62a490d3845ca3e6eacfc7b3fefc9e40b8f7e2dbd74e3804e544c6",
+      "markdown_links_rewritten": false
+    },
+    {
+      "source": "integrations/canvas/canvas-home.html",
+      "mirror": "canvas/canvas-home.html",
+      "source_sha256": "9411712d8ab127f1427a3d9d1954e6012f4b27ecf19fd1f4488fedfc0b7d9402",
+      "mirror_sha256": "9411712d8ab127f1427a3d9d1954e6012f4b27ecf19fd1f4488fedfc0b7d9402",
+      "markdown_links_rewritten": false
+    },
+    {
+      "source": "integrations/canvas/canvas-syllabus.html",
+      "mirror": "canvas/canvas-syllabus.html",
+      "source_sha256": "59f1ecc98f748723c18ba56d00672cc49de2f448972191659de009d1310175cc",
+      "mirror_sha256": "59f1ecc98f748723c18ba56d00672cc49de2f448972191659de009d1310175cc",
+      "markdown_links_rewritten": false
+    },
+    {
+      "source": "integrations/canvas/evidence/canvas-ai-capability-map.png",
+      "mirror": "canvas/evidence/canvas-ai-capability-map.png",
+      "source_sha256": "e891b479dec789366a311b7d39fc00793371dd81f12de423463183ac71020e00",
+      "mirror_sha256": "e891b479dec789366a311b7d39fc00793371dd81f12de423463183ac71020e00",
+      "markdown_links_rewritten": false
+    },
+    {
+      "source": "integrations/canvas/evidence/canvas-ai-capability-ta.png",
+      "mirror": "canvas/evidence/canvas-ai-capability-ta.png",
+      "source_sha256": "240fb0c7f1c91001eb995adb79e549ee46080322019fd8bfa823d16e5afccad6",
+      "mirror_sha256": "240fb0c7f1c91001eb995adb79e549ee46080322019fd8bfa823d16e5afccad6",
+      "markdown_links_rewritten": false
+    },
+    {
+      "source": "integrations/canvas/evidence/canvas-ai-textbook-reader.png",
+      "mirror": "canvas/evidence/canvas-ai-textbook-reader.png",
+      "source_sha256": "ad425dd97f31423a6146eb8ffa8f4bbaba7db66bf15041450156b756726c75ed",
+      "mirror_sha256": "ad425dd97f31423a6146eb8ffa8f4bbaba7db66bf15041450156b756726c75ed",
+      "markdown_links_rewritten": false
+    },
+    {
+      "source": "integrations/canvas/evidence/canvas-ai-textbook-student-view.png",
+      "mirror": "canvas/evidence/canvas-ai-textbook-student-view.png",
+      "source_sha256": "a5cff261665ece1e8745076699014fc71de1bdfe25aa3c179952c35ddd3716ea",
+      "mirror_sha256": "a5cff261665ece1e8745076699014fc71de1bdfe25aa3c179952c35ddd3716ea",
+      "markdown_links_rewritten": false
+    },
+    {
+      "source": "integrations/canvas/evidence/canvas-business-textbook-reader.png",
+      "mirror": "canvas/evidence/canvas-business-textbook-reader.png",
+      "source_sha256": "c497dd1c16a93cc69e390470a89a253473e37974a33046fb5e0a053fe3f62166",
+      "mirror_sha256": "c497dd1c16a93cc69e390470a89a253473e37974a33046fb5e0a053fe3f62166",
+      "markdown_links_rewritten": false
+    },
+    {
+      "source": "integrations/canvas/evidence/canvas-check-in.jpg",
+      "mirror": "canvas/evidence/canvas-check-in.jpg",
+      "source_sha256": "d41ab80ec321240950f8b8dced718f60b2e8639e95900ad7ec8f95ff16cb42ec",
+      "mirror_sha256": "d41ab80ec321240950f8b8dced718f60b2e8639e95900ad7ec8f95ff16cb42ec",
+      "markdown_links_rewritten": false
+    },
+    {
+      "source": "integrations/canvas/evidence/canvas-embedded-ta.jpg",
+      "mirror": "canvas/evidence/canvas-embedded-ta.jpg",
+      "source_sha256": "7b3f2f1e2691a3cfb6525b5ec265930ae9d4f94d89428195ed4aad8becff66b5",
+      "mirror_sha256": "7b3f2f1e2691a3cfb6525b5ec265930ae9d4f94d89428195ed4aad8becff66b5",
+      "markdown_links_rewritten": false
+    },
+    {
+      "source": "integrations/canvas/evidence/canvas-home.jpg",
+      "mirror": "canvas/evidence/canvas-home.jpg",
+      "source_sha256": "2fc0c9765321a4272007580a74a98ad5735d9fd227e7c49512ccc6dae80af2b6",
+      "mirror_sha256": "2fc0c9765321a4272007580a74a98ad5735d9fd227e7c49512ccc6dae80af2b6",
+      "markdown_links_rewritten": false
+    },
+    {
+      "source": "integrations/canvas/evidence/canvas-inline-ta-verification.json",
+      "mirror": "canvas/evidence/canvas-inline-ta-verification.json",
+      "source_sha256": "55d185b74dbdde4791304e9cf0cfe8ff7e054d878ea43c3d28ff60af9b9fa332",
+      "mirror_sha256": "55d185b74dbdde4791304e9cf0cfe8ff7e054d878ea43c3d28ff60af9b9fa332",
+      "markdown_links_rewritten": false
+    },
+    {
+      "source": "integrations/canvas/evidence/canvas-inline-ta.jpg",
+      "mirror": "canvas/evidence/canvas-inline-ta.jpg",
+      "source_sha256": "7f9d3e423ba74b713ad54bbc7cdc0fc473ee499d1d7abfba64a6d3930eb56eb9",
+      "mirror_sha256": "7f9d3e423ba74b713ad54bbc7cdc0fc473ee499d1d7abfba64a6d3930eb56eb9",
+      "markdown_links_rewritten": false
+    },
+    {
+      "source": "integrations/canvas/evidence/canvas-real-world-ai-verification.json",
+      "mirror": "canvas/evidence/canvas-real-world-ai-verification.json",
+      "source_sha256": "76eb3176d696297b3ae008cc0f2913d8fb0293a4ae6735ef32f9e8e7ef43c0a1",
+      "mirror_sha256": "76eb3176d696297b3ae008cc0f2913d8fb0293a4ae6735ef32f9e8e7ef43c0a1",
+      "markdown_links_rewritten": false
+    },
+    {
+      "source": "integrations/canvas/evidence/canvas-spring-2027-schedule.jpg",
+      "mirror": "canvas/evidence/canvas-spring-2027-schedule.jpg",
+      "source_sha256": "c4c87891e6b1637e4f7a3b4c69d1e212bf5c3316a54b8756d06a56052a3e5e74",
+      "mirror_sha256": "c4c87891e6b1637e4f7a3b4c69d1e212bf5c3316a54b8756d06a56052a3e5e74",
+      "markdown_links_rewritten": false
+    },
+    {
+      "source": "integrations/canvas/evidence/canvas-spring-2027-verification.json",
+      "mirror": "canvas/evidence/canvas-spring-2027-verification.json",
+      "source_sha256": "14602ad1115893a622c1f59dad331c5664ba40938c40ced4b9769e4da2438bba",
+      "mirror_sha256": "14602ad1115893a622c1f59dad331c5664ba40938c40ced4b9769e4da2438bba",
+      "markdown_links_rewritten": false
+    },
+    {
+      "source": "integrations/canvas/evidence/canvas-statistics-textbook-reader.png",
+      "mirror": "canvas/evidence/canvas-statistics-textbook-reader.png",
+      "source_sha256": "d08593e808c21e0793b7bb2d23fd6a3669b200c908dd2c05f78cc926df5affe8",
+      "mirror_sha256": "d08593e808c21e0793b7bb2d23fd6a3669b200c908dd2c05f78cc926df5affe8",
+      "markdown_links_rewritten": false
+    },
+    {
+      "source": "integrations/canvas/evidence/canvas-ta-async-context-verification.json",
+      "mirror": "canvas/evidence/canvas-ta-async-context-verification.json",
+      "source_sha256": "63ae32bb44470ac24f3170eeb265107bf3e0d8aa2bbadf6049663c86746f8cc3",
+      "mirror_sha256": "63ae32bb44470ac24f3170eeb265107bf3e0d8aa2bbadf6049663c86746f8cc3",
+      "markdown_links_rewritten": false
+    },
+    {
+      "source": "integrations/canvas/evidence/canvas-ta-routine-verification.json",
+      "mirror": "canvas/evidence/canvas-ta-routine-verification.json",
+      "source_sha256": "1c91d6c499a17b1a552df509757cf4ee3113312ee5df67696c6dce5ce405e001",
+      "mirror_sha256": "1c91d6c499a17b1a552df509757cf4ee3113312ee5df67696c6dce5ce405e001",
+      "markdown_links_rewritten": false
+    },
+    {
+      "source": "integrations/canvas/evidence/canvas-textbook-ta.png",
+      "mirror": "canvas/evidence/canvas-textbook-ta.png",
+      "source_sha256": "0283df911f04f582b7f27ed7f8f2750b84fb841cc9b69bd8c15d0b555b0f4baf",
+      "mirror_sha256": "0283df911f04f582b7f27ed7f8f2750b84fb841cc9b69bd8c15d0b555b0f4baf",
+      "markdown_links_rewritten": false
+    },
+    {
+      "source": "integrations/canvas/evidence/canvas-textbook-verification.json",
+      "mirror": "canvas/evidence/canvas-textbook-verification.json",
+      "source_sha256": "20358ae8312feb6514278d033eaa5394df83027c274652a68de2895399126fab",
+      "mirror_sha256": "20358ae8312feb6514278d033eaa5394df83027c274652a68de2895399126fab",
+      "markdown_links_rewritten": false
+    },
+    {
+      "source": "integrations/canvas/evidence/canvas-theme-preflight-home.jpg",
+      "mirror": "canvas/evidence/canvas-theme-preflight-home.jpg",
+      "source_sha256": "15dce20391abef351f3b2a7ba395137903ebcf9a625fea0ae9db3d8f9a302589",
+      "mirror_sha256": "15dce20391abef351f3b2a7ba395137903ebcf9a625fea0ae9db3d8f9a302589",
+      "markdown_links_rewritten": false
+    },
+    {
+      "source": "integrations/canvas/evidence/canvas-v3-installation.json",
+      "mirror": "canvas/evidence/canvas-v3-installation.json",
+      "source_sha256": "ce6de4549d50043a07303dc5f6cd8b3b685fba801ebc89ccc4529f93a7a50665",
+      "mirror_sha256": "ce6de4549d50043a07303dc5f6cd8b3b685fba801ebc89ccc4529f93a7a50665",
+      "markdown_links_rewritten": false
+    },
+    {
+      "source": "integrations/canvas/evidence/canvas-white-lesson.jpg",
+      "mirror": "canvas/evidence/canvas-white-lesson.jpg",
+      "source_sha256": "0d37e96c381a3ec220c36d35b4b6025a9403c05dbcfa8f9b8a27acd14cb0b113",
+      "mirror_sha256": "0d37e96c381a3ec220c36d35b4b6025a9403c05dbcfa8f9b8a27acd14cb0b113",
+      "markdown_links_rewritten": false
+    },
+    {
+      "source": "integrations/canvas/evidence/canvas-white-simulation.jpg",
+      "mirror": "canvas/evidence/canvas-white-simulation.jpg",
+      "source_sha256": "f4aaa84619c132182b53b8531f7ff8f82c0e50dc1b94917662fd069c6527954c",
+      "mirror_sha256": "f4aaa84619c132182b53b8531f7ff8f82c0e50dc1b94917662fd069c6527954c",
+      "markdown_links_rewritten": false
+    },
+    {
+      "source": "integrations/canvas/evidence/canvas-white-ta.jpg",
+      "mirror": "canvas/evidence/canvas-white-ta.jpg",
+      "source_sha256": "af6e252c9765288501654078f12210636e87e9e28145064f9f89cafcf654f1ca",
+      "mirror_sha256": "af6e252c9765288501654078f12210636e87e9e28145064f9f89cafcf654f1ca",
+      "markdown_links_rewritten": false
+    },
+    {
+      "source": "integrations/canvas/evidence/real-world-ai-public-release.json",
+      "mirror": "canvas/evidence/real-world-ai-public-release.json",
+      "source_sha256": "e9bf3e13bc6aee9db583d1d5d73e400f4a47ce538f2252cdabe4a8bfedd21640",
+      "mirror_sha256": "e9bf3e13bc6aee9db583d1d5d73e400f4a47ce538f2252cdabe4a8bfedd21640",
+      "markdown_links_rewritten": false
+    },
+    {
+      "source": "integrations/canvas/evidence/textbook-public-release.json",
+      "mirror": "canvas/evidence/textbook-public-release.json",
+      "source_sha256": "80f01548dc1acae0427def24df0819453d71f704b45c9cde4b31325b138677aa",
+      "mirror_sha256": "80f01548dc1acae0427def24df0819453d71f704b45c9cde4b31325b138677aa",
+      "markdown_links_rewritten": false
+    },
+    {
+      "source": "integrations/canvas/evidence/textbook-source-reproducibility.json",
+      "mirror": "canvas/evidence/textbook-source-reproducibility.json",
+      "source_sha256": "8b6b85b5c24e9553efe645cf64f1c44b05a41db3db69417352fc5955363a8c01",
+      "mirror_sha256": "8b6b85b5c24e9553efe645cf64f1c44b05a41db3db69417352fc5955363a8c01",
+      "markdown_links_rewritten": false
+    },
+    {
+      "source": "integrations/canvas/live-verification.json",
+      "mirror": "canvas/live-verification.json",
+      "source_sha256": "390c339777f95cae672d86b4ac618fc26a0125a39c135b9ab855b9bfb1770723",
+      "mirror_sha256": "390c339777f95cae672d86b4ac618fc26a0125a39c135b9ab855b9bfb1770723",
+      "markdown_links_rewritten": false
+    },
+    {
+      "source": "integrations/canvas/mapping.json",
+      "mirror": "canvas/mapping.json",
+      "source_sha256": "b9cc6d20ea8c99a9bdfd48b9dac50988686a400dad892b751a0ae4fddaa5e7b2",
+      "mirror_sha256": "b9cc6d20ea8c99a9bdfd48b9dac50988686a400dad892b751a0ae4fddaa5e7b2",
+      "markdown_links_rewritten": false
+    },
+    {
+      "source": "integrations/canvas/offerings/spring-2027/README.md",
+      "mirror": "canvas/offerings/spring-2027/README.md",
+      "source_sha256": "fb5c8a630b04c095182ceed3c734aa2bbb6b6d90f3b9c858ff416e07ab021bd1",
+      "mirror_sha256": "fb5c8a630b04c095182ceed3c734aa2bbb6b6d90f3b9c858ff416e07ab021bd1",
+      "markdown_links_rewritten": true
+    },
+    {
+      "source": "integrations/canvas/offerings/spring-2027/render_schedule.py",
+      "mirror": "canvas/offerings/spring-2027/render_schedule.py",
+      "source_sha256": "2f68519513491909c08704f913d0c84e8c4e19d2090f300152b32147dfc04c50",
+      "mirror_sha256": "2f68519513491909c08704f913d0c84e8c4e19d2090f300152b32147dfc04c50",
+      "markdown_links_rewritten": false
+    },
+    {
+      "source": "integrations/canvas/offerings/spring-2027/schedule.json",
+      "mirror": "canvas/offerings/spring-2027/schedule.json",
+      "source_sha256": "c4793163d220e86496e0212fb704b16aa5971297b489cd7d958391b4d29ed420",
+      "mirror_sha256": "c4793163d220e86496e0212fb704b16aa5971297b489cd7d958391b4d29ed420",
+      "markdown_links_rewritten": false
+    },
+    {
+      "source": "integrations/canvas/offerings/spring-2027/spring-2027-home-snippet.html",
+      "mirror": "canvas/offerings/spring-2027/spring-2027-home-snippet.html",
+      "source_sha256": "74b7963ca321d1c572abace932cc1dfe995d48f9d7a56885fb9c857d0ad1aca1",
+      "mirror_sha256": "74b7963ca321d1c572abace932cc1dfe995d48f9d7a56885fb9c857d0ad1aca1",
+      "markdown_links_rewritten": false
+    },
+    {
+      "source": "integrations/canvas/offerings/spring-2027/spring-2027-schedule.html",
+      "mirror": "canvas/offerings/spring-2027/spring-2027-schedule.html",
+      "source_sha256": "5ee43ed175f927c2ff49bfcc6562d29288b178daabf4a70443aefcc523cdc203",
+      "mirror_sha256": "5ee43ed175f927c2ff49bfcc6562d29288b178daabf4a70443aefcc523cdc203",
+      "markdown_links_rewritten": false
+    },
+    {
+      "source": "integrations/canvas/test_async_guide.py",
+      "mirror": "canvas/test_async_guide.py",
+      "source_sha256": "9ed8718d25ed3aad1d92e186d6df1495a03a318577c6bb283edadc937de8581c",
+      "mirror_sha256": "9ed8718d25ed3aad1d92e186d6df1495a03a318577c6bb283edadc937de8581c",
+      "markdown_links_rewritten": false
+    },
+    {
+      "source": "integrations/canvas/test_package.py",
+      "mirror": "canvas/test_package.py",
+      "source_sha256": "07c3385233c936bd6ac6ad5d9678d46e2a9472104a8d57e84c133a6190a986fc",
+      "mirror_sha256": "07c3385233c936bd6ac6ad5d9678d46e2a9472104a8d57e84c133a6190a986fc",
+      "markdown_links_rewritten": false
+    },
+    {
+      "source": "integrations/canvas/test_theme.py",
+      "mirror": "canvas/test_theme.py",
+      "source_sha256": "347fa8eb87d4d9b78484b7f4fdf9a152c216e65c33b713eafecb8cec1e7a7a45",
+      "mirror_sha256": "347fa8eb87d4d9b78484b7f4fdf9a152c216e65c33b713eafecb8cec1e7a7a45",
+      "markdown_links_rewritten": false
+    },
+    {
+      "source": "integrations/canvas/theme.py",
+      "mirror": "canvas/theme.py",
+      "source_sha256": "c5478d200107a0d05430441dd0ea979b9bfdae71bf480631eade4a9e4b94ce0c",
+      "mirror_sha256": "c5478d200107a0d05430441dd0ea979b9bfdae71bf480631eade4a9e4b94ce0c",
+      "markdown_links_rewritten": false
+    },
+    {
+      "source": "docs/CLAIM_SOURCE_MAP.md",
+      "mirror": "claim-source-map.md",
+      "source_sha256": "8560972c71f5c42abc7d0a999c5dd7f6f10464722c2643b349506bbba750b2ca",
+      "mirror_sha256": "8560972c71f5c42abc7d0a999c5dd7f6f10464722c2643b349506bbba750b2ca",
+      "markdown_links_rewritten": true
+    },
+    {
+      "source": "site/assets/core.css",
+      "mirror": "course-source/assets/core.css",
+      "source_sha256": "bd51ed55fcf49ec23508f42162ae0f2603aa9d9e0697e5fa4fd88cc604047484",
+      "mirror_sha256": "bd51ed55fcf49ec23508f42162ae0f2603aa9d9e0697e5fa4fd88cc604047484",
+      "markdown_links_rewritten": false
+    },
+    {
+      "source": "site/assets/lesson-figures.css",
+      "mirror": "course-source/assets/lesson-figures.css",
+      "source_sha256": "3b2204a4f715d357201279a2a7246371abe529e88d03d81b023897d7514d2d83",
+      "mirror_sha256": "3b2204a4f715d357201279a2a7246371abe529e88d03d81b023897d7514d2d83",
+      "markdown_links_rewritten": false
+    },
+    {
+      "source": "site/assets/lesson-figures.js",
+      "mirror": "course-source/assets/lesson-figures.js",
+      "source_sha256": "b045da17334d951228c5f3d0a5d2d5f813ba19e67030a7ba01a6a6b5016bc52b",
+      "mirror_sha256": "b045da17334d951228c5f3d0a5d2d5f813ba19e67030a7ba01a6a6b5016bc52b",
+      "markdown_links_rewritten": false
+    },
+    {
+      "source": "site/assets/practice.css",
+      "mirror": "course-source/assets/practice.css",
+      "source_sha256": "7a1091e4189153cac441a07b18a35fa220038f7890dbc070b82e19c8b15bbc09",
+      "mirror_sha256": "7a1091e4189153cac441a07b18a35fa220038f7890dbc070b82e19c8b15bbc09",
+      "markdown_links_rewritten": false
+    },
+    {
+      "source": "site/assets/practice.js",
+      "mirror": "course-source/assets/practice.js",
+      "source_sha256": "8e25856237e377cb499ee24dd23813930cf5836b87510f0924714a0b63d43ada",
+      "mirror_sha256": "8e25856237e377cb499ee24dd23813930cf5836b87510f0924714a0b63d43ada",
+      "markdown_links_rewritten": false
+    },
+    {
+      "source": "site/assets/site.js",
+      "mirror": "course-source/assets/site.js",
+      "source_sha256": "3470a71711237bf23aa24180c9432f38d4907be713e366a4cb9e5f69f92aa663",
+      "mirror_sha256": "3470a71711237bf23aa24180c9432f38d4907be713e366a4cb9e5f69f92aa663",
+      "markdown_links_rewritten": false
+    },
+    {
+      "source": "site/assets/workbook.js",
+      "mirror": "course-source/assets/workbook.js",
+      "source_sha256": "d287e6087502faa3f4ad077c3f3b923be72d220b1499d98aa6287e84180651bf",
+      "mirror_sha256": "d287e6087502faa3f4ad077c3f3b923be72d220b1499d98aa6287e84180651bf",
+      "markdown_links_rewritten": false
+    },
+    {
+      "source": "site/build_core.py",
+      "mirror": "course-source/build_core.py",
+      "source_sha256": "8c3bcb6a359df857527bff6cfc62416f617c485d678bc3dc7b1d64471d343d4b",
+      "mirror_sha256": "8c3bcb6a359df857527bff6cfc62416f617c485d678bc3dc7b1d64471d343d4b",
+      "markdown_links_rewritten": false
+    },
+    {
+      "source": "site/build_site.py",
+      "mirror": "course-source/build_site.py",
+      "source_sha256": "145c02d314119e17a28b10d6d3f3aaf6b8da2edb629d61760586cb18c7b5ecbc",
+      "mirror_sha256": "145c02d314119e17a28b10d6d3f3aaf6b8da2edb629d61760586cb18c7b5ecbc",
+      "markdown_links_rewritten": false
+    },
+    {
+      "source": "site/check_site.py",
+      "mirror": "course-source/check_site.py",
+      "source_sha256": "82c11ca401039b4efea732027d9feba41dcad3534d0aebfcee256e8315d78839",
+      "mirror_sha256": "82c11ca401039b4efea732027d9feba41dcad3534d0aebfcee256e8315d78839",
+      "markdown_links_rewritten": false
+    },
+    {
+      "source": "site/course_content.py",
+      "mirror": "course-source/course_content.py",
+      "source_sha256": "77df7882105f4173376d27129c2dab7f9af1e6eee200a73701cc697db16b68be",
+      "mirror_sha256": "77df7882105f4173376d27129c2dab7f9af1e6eee200a73701cc697db16b68be",
+      "markdown_links_rewritten": false
+    },
+    {
+      "source": "site/test-fixtures/workbook-backup.json",
+      "mirror": "course-source/test-fixtures/workbook-backup.json",
+      "source_sha256": "e4b672e815b1869fb796ef7c8264d201436f9324a75e3dc98d5eff254caf1244",
+      "mirror_sha256": "e4b672e815b1869fb796ef7c8264d201436f9324a75e3dc98d5eff254caf1244",
+      "markdown_links_rewritten": false
+    },
+    {
+      "source": "site/test_delivery.cjs",
+      "mirror": "course-source/test_delivery.cjs",
+      "source_sha256": "b7221964acc075d8acb3a50c50992d478e35ec715cb766e7320f8067f0025954",
+      "mirror_sha256": "b7221964acc075d8acb3a50c50992d478e35ec715cb766e7320f8067f0025954",
+      "markdown_links_rewritten": false
+    },
+    {
+      "source": "site/test_lesson_figures.cjs",
+      "mirror": "course-source/test_lesson_figures.cjs",
+      "source_sha256": "8d0b41a952b18e14064cb1a669ffbf26b76f44fc952f8d94f2db14f5bd45fb1e",
+      "mirror_sha256": "8d0b41a952b18e14064cb1a669ffbf26b76f44fc952f8d94f2db14f5bd45fb1e",
+      "markdown_links_rewritten": false
+    },
+    {
+      "source": "site/test_practice.cjs",
+      "mirror": "course-source/test_practice.cjs",
+      "source_sha256": "ad2a5a76b174759c3c4bc4d35d7ff041f0224d13705234429bca355bbcd39d2e",
+      "mirror_sha256": "ad2a5a76b174759c3c4bc4d35d7ff041f0224d13705234429bca355bbcd39d2e",
+      "markdown_links_rewritten": false
+    },
+    {
+      "source": "site/test_textbook_readers.cjs",
+      "mirror": "course-source/test_textbook_readers.cjs",
+      "source_sha256": "0137f73bbcfbb1e544f180688794a517a71aa7be6a9c90999011e95fcb27fb83",
+      "mirror_sha256": "0137f73bbcfbb1e544f180688794a517a71aa7be6a9c90999011e95fcb27fb83",
+      "markdown_links_rewritten": false
+    },
+    {
+      "source": "site/test_textbook_readings.py",
+      "mirror": "course-source/test_textbook_readings.py",
+      "source_sha256": "c183b400c3e61737961df88060350f4f15851cb3cf9144d1b21807e00aabb836",
+      "mirror_sha256": "c183b400c3e61737961df88060350f4f15851cb3cf9144d1b21807e00aabb836",
+      "markdown_links_rewritten": false
+    },
+    {
+      "source": "site/test_workbook.cjs",
+      "mirror": "course-source/test_workbook.cjs",
+      "source_sha256": "c92efd9c67fce03ccbac88398c52b632cb5464dbd74e84f789be451db7de1835",
+      "mirror_sha256": "c92efd9c67fce03ccbac88398c52b632cb5464dbd74e84f789be451db7de1835",
+      "markdown_links_rewritten": false
+    },
+    {
+      "source": "site/textbook_readings.py",
+      "mirror": "course-source/textbook_readings.py",
+      "source_sha256": "68717422dfabac73cbbe18ff4f4b1e7fa5112481aba944203868a14bd9941a12",
+      "mirror_sha256": "68717422dfabac73cbbe18ff4f4b1e7fa5112481aba944203868a14bd9941a12",
+      "markdown_links_rewritten": false
+    },
+    {
+      "source": "site/visual_lessons.py",
+      "mirror": "course-source/visual_lessons.py",
+      "source_sha256": "3d32ea2b9be1b077f0bc37315b9de64a8ca6b45d2d3aece8fa0848e825c3a8a9",
+      "mirror_sha256": "3d32ea2b9be1b077f0bc37315b9de64a8ca6b45d2d3aece8fa0848e825c3a8a9",
+      "markdown_links_rewritten": false
+    },
+    {
+      "source": "DEVELOPMENT_AND_VALIDATION.md",
+      "mirror": "development-and-validation.md",
+      "source_sha256": "b52cf6688404e4adb5c8ff3b57b34d42671acf2859ef5da796c53d1b03e949ab",
+      "mirror_sha256": "b5aa966c30cd058eadbbbdb8a96bccfd3bf4cca4eb423a4f0ce9f15a1da8cd6b",
+      "markdown_links_rewritten": true
+    },
+    {
+      "source": "docs/evidence/README.md",
+      "mirror": "evidence/README.md",
+      "source_sha256": "ef07c9e20c7d37f1d1c7dc7fd7f668b9364360c58b0d9e8a8b47e118c1d20e39",
+      "mirror_sha256": "88b5a957a4349dd394f2f6d501281c634d4ea7b6526b69dcb0e830ddcb035beb",
+      "markdown_links_rewritten": true
+    },
+    {
+      "source": "docs/evidence/course-decision-challenges-release.jpg",
+      "mirror": "evidence/course-decision-challenges-release.jpg",
+      "source_sha256": "fbf89224becc8c7d1e4483963713df5a5a44b8271cba5b84b3c4f60c47147f1d",
+      "mirror_sha256": "fbf89224becc8c7d1e4483963713df5a5a44b8271cba5b84b3c4f60c47147f1d",
+      "markdown_links_rewritten": false
+    },
+    {
+      "source": "docs/evidence/course-release.png",
+      "mirror": "evidence/course-release.png",
+      "source_sha256": "acbda814beb47a6785da809b55b27b44dac76359f93799d1f26c803e26397998",
+      "mirror_sha256": "acbda814beb47a6785da809b55b27b44dac76359f93799d1f26c803e26397998",
+      "markdown_links_rewritten": false
+    },
+    {
+      "source": "docs/evidence/course-visual-learning-release.png",
+      "mirror": "evidence/course-visual-learning-release.png",
+      "source_sha256": "c5bddf347689d938d88c561c7d8f31cf05651a5b77597329d92e832eb532e2c8",
+      "mirror_sha256": "c5bddf347689d938d88c561c7d8f31cf05651a5b77597329d92e832eb532e2c8",
+      "markdown_links_rewritten": false
+    },
+    {
+      "source": "docs/evidence/simulation-application-review.md",
+      "mirror": "evidence/simulation-application-review.md",
+      "source_sha256": "8682a9585302ca1a8f0f9a6d82487596116510a4693bac81181e26f7924950af",
+      "mirror_sha256": "90c1bdaf47b3e96e00c19e7421db8a943d364c816185faed2a0f2bddeefe3874",
+      "markdown_links_rewritten": true
+    },
+    {
+      "source": "INSTRUCTIONAL_DESIGN_PLAN.md",
+      "mirror": "instructional-design.md",
+      "source_sha256": "b3d60a5ad30fa0cea80d06df25294d7549fbb3a9452810c79c9a6e1640738ef2",
+      "mirror_sha256": "f520c31ef0303b88012a1ada17ebf74ca58cc4c341dc3d9e60ed188c8870ab1b",
+      "markdown_links_rewritten": true
+    },
+    {
+      "source": "docs/REAL_WORLD_AI_REDESIGN.md",
+      "mirror": "real-world-ai-redesign.md",
+      "source_sha256": "9a54884a123fd6a47249e174ea4c07b8c58b6e273d3a883a3c0bebcd27b62f66",
+      "mirror_sha256": "9a54884a123fd6a47249e174ea4c07b8c58b6e273d3a883a3c0bebcd27b62f66",
+      "markdown_links_rewritten": true
+    },
+    {
+      "source": "AI_REVIEW_BRIEF.md",
+      "mirror": "review-brief.md",
+      "source_sha256": "32f31c0f6fc3f7b9923fba03108b7db5cce40896cd86b523462e486b83246c91",
+      "mirror_sha256": "aadda770a8fe82c7e143ace638712ccc3f42489ddc1746aba04c85ad1d88ce39",
+      "markdown_links_rewritten": true
+    },
+    {
+      "source": "docs/SIMULATION_APPLICATION_PLAN.md",
+      "mirror": "simulation-application-plan.md",
+      "source_sha256": "bab56a855be97da9c17883afc028711d056308ead9fcebf276d7473701d1fd5c",
+      "mirror_sha256": "87d01335b127f2e9f50b5a26f8f14aeb411beac3596beec4d5b1d8a414080fa9",
+      "markdown_links_rewritten": true
+    },
+    {
+      "source": "site/README.md",
+      "mirror": "site-maintenance.md",
+      "source_sha256": "c96e9ae55df639523e14ac29010317e7e7da100b83aa64f8bfa5078340cc5b51",
+      "mirror_sha256": "6d04d7326966f991fecf94bf0f29e93a767c5bdcd38832acb9ebb6d1a7bdf5a3",
+      "markdown_links_rewritten": true
+    },
+    {
+      "source": "AGENTS.md",
+      "mirror": "source-agent-guidance.md",
+      "source_sha256": "ae0ecc617dec27e27f595bd80a5a490694a919b539a54a05c44c586a9ac121d6",
+      "mirror_sha256": "2714b1771d1c28c2fb08b002d93760fcc255b9a0270ce6234ececd0b10911677",
+      "markdown_links_rewritten": true
+    },
+    {
+      "source": "REPOSITORY_MAP.md",
+      "mirror": "source-map.md",
+      "source_sha256": "20a6db292073f6bb0d59da1868687879e7a36f66cf584feeb8ce3e1485d0e6b6",
+      "mirror_sha256": "fa2fac5acd06691466700ec72b644d9b0a675325f16ef8486ff970d8da91cdd4",
+      "markdown_links_rewritten": true
+    },
+    {
+      "source": "TEXTBOOK_RECOMMENDATION.md",
+      "mirror": "textbook-recommendation.md",
+      "source_sha256": "924ae8df8923a2bcdd0eff6c1672ee42306482f8034140415882e81b94f71d2f",
+      "mirror_sha256": "ad3782f2a63dd8c594dc789bb65b273a44e94deac7d6f2c4d5f4a3858d081912",
+      "markdown_links_rewritten": true
+    },
+    {
+      "source": "TEXTBOOK_SELECTION.md",
+      "mirror": "textbook-selection.md",
+      "source_sha256": "6c1dbc2d67ce73bd07eddd766823a304237ef018dab447395e2d7e8d7cdcd0c3",
+      "mirror_sha256": "d9669ec67ede49204ffafd38d087b7822d4e3f2309012e97f32051e5ee4b3f32",
+      "markdown_links_rewritten": true
+    }
+  ],
+  "generated_mirror_indexes": [
+    "README.md",
+    "canvas/README.md",
+    "course-source/README.md"
+  ]
+}

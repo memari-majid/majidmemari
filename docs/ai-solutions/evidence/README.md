@@ -1,7 +1,8 @@
-# Mirrored course evidence
+# Course release screenshots
 
-[Decision-challenge release screenshot](course-decision-challenges-release.jpg) records the November 10, 2026 visual-learning update. The [independent application review](../simulation-application-review.md) records source/model findings. Earlier screenshots listed in the canonical evidence directory are not duplicated here.
+- `course-release.png`: initial twelve-unit release on November 10, 2026.
+- `course-visual-learning-release.png`: subsequent visual-learning upgrade on the same day.
+- `course-decision-challenges-release.jpg`: the verified Vercel preview of the five-activity decision/challenge/revision update on November 10, 2026; matching code and public files were then verified in production.
+- [simulation-application-review.md](simulation-application-review.md): independent source/model review of that update; browser and deployment evidence is recorded separately in the validation record.
 
-Canvas has a separate [live integration record](../canvas-live-integration.md) and [artifact/evidence handoff](../canvas/README.md). Its course screenshots include the [white lesson](../canvas/evidence/canvas-white-lesson.jpg) and [white simulation](../canvas/evidence/canvas-white-simulation.jpg), plus dated earlier installation/preflight views. Use the live record for exact observation scope. No real learner record is included; approved Test Student evidence, if present, must be identified as test-session evidence.
-
-See [development and validation](../development-and-validation.md) for source/release identities and remaining limits. Screenshots are point-in-time observations, not proof of current behavior or learning effectiveness. Private instructor marking material and account-configuration evidence are excluded.
+These are point-in-time evidence, not proof of the current website. See [DEVELOPMENT_AND_VALIDATION.md](../development-and-validation.md) for exact scope and commit details. Account-configuration screenshots are intentionally outside this review folder.
