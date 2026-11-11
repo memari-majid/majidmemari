@@ -33,9 +33,9 @@ function ProjectWork({ project, papers }: { project: Project; papers: Publicatio
         {project.context && <p className="mt-2 text-xs leading-relaxed text-slate-500">{project.context}</p>}
         <ComputationMethods methods={project.computationMethods} />
         <div className="mt-4 flex flex-wrap items-center gap-x-6 gap-y-2 text-sm">
-          <a href={project.url} target="_blank" rel="noopener noreferrer" referrerPolicy="no-referrer" aria-label={`${project.publicDemo ? "Try public demo" : project.launchLabel}: ${project.name}`} className="inline-flex min-h-11 items-center gap-2 rounded-xl bg-slate-900 px-4 py-2 font-medium text-white hover:bg-blue-900">{project.publicDemo ? "Try public demo" : project.launchLabel} <span aria-hidden="true">↗</span><span className="sr-only"> (opens in a new tab)</span></a>
+          {!project.publicDemo && <a href={project.url} target="_blank" rel="noopener noreferrer" referrerPolicy="no-referrer" aria-label={`${project.publicDemo ? "Try public demo" : project.launchLabel}: ${project.name}`} className="inline-flex min-h-11 items-center gap-2 rounded-xl bg-slate-900 px-4 py-2 font-medium text-white hover:bg-blue-900">{project.publicDemo ? "Try public demo" : project.launchLabel} <span aria-hidden="true">↗</span><span className="sr-only"> (opens in a new tab)</span></a>}
           <Link href={`/projects/${project.slug}`} className="inline-flex min-h-11 items-center text-teal-800 underline decoration-teal-800/30 underline-offset-4 hover:decoration-teal-800">About the {project.group === "learning" && !project.publicDemo ? "course" : "project"} →</Link>
-          <span className="text-xs text-slate-500">{project.access}</span>
+          {!project.publicDemo && <span className="text-xs text-slate-500">{project.access}</span>}
         </div>
       </article>
       {papers.length > 0 && <div role="group" aria-label={`Publications connected to ${project.name}`} className="border-t border-slate-200 px-6 sm:px-7">
