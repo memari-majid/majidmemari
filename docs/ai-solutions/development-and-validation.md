@@ -160,3 +160,13 @@ Verification before publishing:
 - The synchronized website contains 70 public files and 149 TA chunks from 24 current HTML pages. The TA prompt now describes the decision/revision cycle and explicitly denies access to saved choices or live controls. All 35 course/workshop TA tests passed, including natural-language retrieval of the rework, downside, and authority explanations. TypeScript and the production Next.js build passed.
 
 These are technical and source-based checks. Representative-learner usability, time on task, and learning effectiveness still need the pilot described above. The documented design does not turn fictional comparisons into business-partner evidence. Production verification is recorded separately below after release.
+
+### Decision-challenge production release
+
+- Canonical implementation commit: `54556d3`. Hosting implementation commit: `2e456a10551bcb4767902d4229de394ba5ff35b8`, preserving the personal site's concurrent changes through `6b0fec0`.
+- Exact-commit preview `dpl_4bLEyvUi3objxpEpQMmP4Xs5SmpX` reached READY. Browser verification exercised the committed Unit 6 comparison and the embedded Unit 8 TA. The TA returned the complete 50%/30% table, separated −$96 net capacity value from −$240 recurring cash expense, cited the course, and correctly denied access to saved activity state.
+- Production deployment `dpl_2e2HNz7BxpUXhWjGwixSLfeG2uTV` reached READY for the same hosting commit and was aliased to `www.majidmemari.com`. The live course index, all five changed unit pages, both practice assets, and portable ZIP matched local release hashes. The public learning path loaded successfully.
+- A live production TA request returned the 86.4-minute maximum, 90-minute challenged effort, 6.25% reduction, held-fixed 12/12 quality, and a bounded revision/retest next step, with current Unit 6 citations and a normal stream finish.
+- Visual evidence: [the updated in-lesson comparison](evidence/course-decision-challenges-release.jpg), captured from the verified exact-commit preview. The documentation mirror in the hosting repository includes the application plan, independent review, and full original reference-study package. It is not part of the learner runtime or the TA corpus.
+
+No student records, existing offering settings, inquiry configuration, or unrelated personal-site features were changed by this release. No messages or inquiry emails were sent to other people.
