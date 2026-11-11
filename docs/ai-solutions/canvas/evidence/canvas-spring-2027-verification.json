@@ -1,0 +1,484 @@
+{
+  "date": "2026-11-11",
+  "offering": "Spring 2027",
+  "canvasCourse": "https://uvu.instructure.com/courses/644965",
+  "calendarSource": "https://www.uvu.edu/schedule/spring/index.html",
+  "timeZoneObserved": "Mountain Time (US & Canada) (-07:00/-06:00)",
+  "configuredTimezone": "America/Denver",
+  "coursePublication": "unpublished",
+  "saveReceipt": "Assignment dates saved successfully.",
+  "nativeChangedRows": 18,
+  "nativeDeadlineObservations": [
+    {
+      "href": "https://uvu.instructure.com/courses/644965/assignments/9370463",
+      "times": [
+        "2027-01-18T06:59:00.000Z"
+      ],
+      "title": "Unit 01 practice and check-in: AI and a useful business task"
+    },
+    {
+      "href": "https://uvu.instructure.com/courses/644965/assignments/9370469",
+      "times": [
+        "2027-01-25T06:59:00.000Z"
+      ],
+      "title": "Unit 02 practice and check-in: Discover the need"
+    },
+    {
+      "href": "https://uvu.instructure.com/courses/644965/assignments/9370465",
+      "times": [
+        "2027-02-01T06:59:00.000Z"
+      ],
+      "title": "Unit 03 practice and check-in: Choose and scope a solution"
+    },
+    {
+      "href": "https://uvu.instructure.com/courses/644965/assignments/9370473",
+      "times": [
+        "2027-02-08T06:59:00.000Z"
+      ],
+      "title": "Unit 04 practice and check-in: Design the workflow"
+    },
+    {
+      "href": "https://uvu.instructure.com/courses/644965/assignments/9370470",
+      "times": [
+        "2027-02-15T06:59:00.000Z"
+      ],
+      "title": "Unit 05 practice and check-in: Build the first usable version"
+    },
+    {
+      "href": "https://uvu.instructure.com/courses/644965/assignments/9370462",
+      "times": [
+        "2027-02-22T06:59:00.000Z"
+      ],
+      "title": "Unit 06 practice and check-in: Design a fair test"
+    },
+    {
+      "href": "https://uvu.instructure.com/courses/644965/assignments/9370467",
+      "times": [
+        "2027-03-08T06:59:00.000Z"
+      ],
+      "title": "Unit 07 practice and check-in: Pilot, revise, and retest"
+    },
+    {
+      "href": "https://uvu.instructure.com/courses/644965/assignments/9370468",
+      "times": [
+        "2027-03-15T05:59:00.000Z"
+      ],
+      "title": "Unit 08 practice and check-in: Calculate value and capacity"
+    },
+    {
+      "href": "https://uvu.instructure.com/courses/644965/assignments/9370472",
+      "times": [
+        "2027-03-29T05:59:00.000Z"
+      ],
+      "title": "Unit 09 practice and check-in: Shape the offer"
+    },
+    {
+      "href": "https://uvu.instructure.com/courses/644965/assignments/9370466",
+      "times": [
+        "2027-04-05T05:59:00.000Z"
+      ],
+      "title": "Unit 10 practice and check-in: Find users and sell or secure adoption"
+    },
+    {
+      "href": "https://uvu.instructure.com/courses/644965/assignments/9370471",
+      "times": [
+        "2027-04-19T05:59:00.000Z"
+      ],
+      "title": "Unit 11 practice and check-in: Make delivery dependable"
+    },
+    {
+      "href": "https://uvu.instructure.com/courses/644965/assignments/9370464",
+      "times": [
+        "2027-04-26T05:59:00.000Z"
+      ],
+      "title": "Unit 12 practice and check-in: Demonstrate and defend"
+    },
+    {
+      "href": "https://uvu.instructure.com/courses/644965/assignments/9370389",
+      "times": [
+        "2027-02-01T06:59:00.000Z"
+      ],
+      "title": "Milestone 1: Problem and feasible scope"
+    },
+    {
+      "href": "https://uvu.instructure.com/courses/644965/assignments/9370390",
+      "times": [
+        "2027-02-15T06:59:00.000Z"
+      ],
+      "title": "Milestone 2: First usable solution"
+    },
+    {
+      "href": "https://uvu.instructure.com/courses/644965/assignments/9370391",
+      "times": [
+        "2027-03-08T06:59:00.000Z"
+      ],
+      "title": "Milestone 3: Pilot and learning"
+    },
+    {
+      "href": "https://uvu.instructure.com/courses/644965/assignments/9370392",
+      "times": [
+        "2027-04-05T05:59:00.000Z"
+      ],
+      "title": "Milestone 4: Viability and route to users"
+    },
+    {
+      "href": "https://uvu.instructure.com/courses/644965/assignments/9370393",
+      "times": [
+        "2027-04-26T05:59:00.000Z"
+      ],
+      "title": "Milestone 5: Demonstration and handoff"
+    },
+    {
+      "href": "https://uvu.instructure.com/courses/644965/assignments/9370474",
+      "times": [
+        "2027-04-29T06:00:00.000Z",
+        "2027-05-06T05:59:00.000Z"
+      ],
+      "title": "Individual case exam: evidence, decisions, and responsible handoff"
+    }
+  ],
+  "studentDeadlineObservations": [
+    {
+      "times": [
+        {
+          "text": "Jan 17 at 11:59pmJan 17 at 11:59pm",
+          "utc": "2027-01-18T06:59:00.000Z"
+        }
+      ],
+      "title": "Unit 01 practice and check-in: AI and a useful business task"
+    },
+    {
+      "times": [
+        {
+          "text": "Jan 24 at 11:59pmJan 24 at 11:59pm",
+          "utc": "2027-01-25T06:59:00.000Z"
+        }
+      ],
+      "title": "Unit 02 practice and check-in: Discover the need"
+    },
+    {
+      "times": [
+        {
+          "text": "Jan 31 at 11:59pmJan 31 at 11:59pm",
+          "utc": "2027-02-01T06:59:00.000Z"
+        }
+      ],
+      "title": "Milestone 1: Problem and feasible scope"
+    },
+    {
+      "times": [
+        {
+          "text": "Jan 31 at 11:59pmJan 31 at 11:59pm",
+          "utc": "2027-02-01T06:59:00.000Z"
+        }
+      ],
+      "title": "Unit 03 practice and check-in: Choose and scope a solution"
+    },
+    {
+      "times": [
+        {
+          "text": "Feb 7 at 11:59pmFeb 7 at 11:59pm",
+          "utc": "2027-02-08T06:59:00.000Z"
+        }
+      ],
+      "title": "Unit 04 practice and check-in: Design the workflow"
+    },
+    {
+      "times": [
+        {
+          "text": "Feb 14 at 11:59pmFeb 14 at 11:59pm",
+          "utc": "2027-02-15T06:59:00.000Z"
+        }
+      ],
+      "title": "Milestone 2: First usable solution"
+    },
+    {
+      "times": [
+        {
+          "text": "Feb 14 at 11:59pmFeb 14 at 11:59pm",
+          "utc": "2027-02-15T06:59:00.000Z"
+        }
+      ],
+      "title": "Unit 05 practice and check-in: Build the first usable version"
+    },
+    {
+      "times": [
+        {
+          "text": "Feb 21 at 11:59pmFeb 21 at 11:59pm",
+          "utc": "2027-02-22T06:59:00.000Z"
+        }
+      ],
+      "title": "Unit 06 practice and check-in: Design a fair test"
+    },
+    {
+      "times": [
+        {
+          "text": "Mar 7 at 11:59pmMar 7 at 11:59pm",
+          "utc": "2027-03-08T06:59:00.000Z"
+        }
+      ],
+      "title": "Milestone 3: Pilot and learning"
+    },
+    {
+      "times": [
+        {
+          "text": "Mar 7 at 11:59pmMar 7 at 11:59pm",
+          "utc": "2027-03-08T06:59:00.000Z"
+        }
+      ],
+      "title": "Unit 07 practice and check-in: Pilot, revise, and retest"
+    },
+    {
+      "times": [
+        {
+          "text": "Mar 14 at 11:59pmMar 14 at 11:59pm",
+          "utc": "2027-03-15T05:59:00.000Z"
+        }
+      ],
+      "title": "Unit 08 practice and check-in: Calculate value and capacity"
+    },
+    {
+      "times": [
+        {
+          "text": "Mar 28 at 11:59pmMar 28 at 11:59pm",
+          "utc": "2027-03-29T05:59:00.000Z"
+        }
+      ],
+      "title": "Unit 09 practice and check-in: Shape the offer"
+    },
+    {
+      "times": [
+        {
+          "text": "Apr 4 at 11:59pmApr 4 at 11:59pm",
+          "utc": "2027-04-05T05:59:00.000Z"
+        }
+      ],
+      "title": "Milestone 4: Viability and route to users"
+    },
+    {
+      "times": [
+        {
+          "text": "Apr 4 at 11:59pmApr 4 at 11:59pm",
+          "utc": "2027-04-05T05:59:00.000Z"
+        }
+      ],
+      "title": "Unit 10 practice and check-in: Find users and sell or secure adoption"
+    },
+    {
+      "times": [
+        {
+          "text": "Apr 18 at 11:59pmApr 18 at 11:59pm",
+          "utc": "2027-04-19T05:59:00.000Z"
+        }
+      ],
+      "title": "Unit 11 practice and check-in: Make delivery dependable"
+    },
+    {
+      "times": [
+        {
+          "text": "Apr 25 at 11:59pmApr 25 at 11:59pm",
+          "utc": "2027-04-26T05:59:00.000Z"
+        }
+      ],
+      "title": "Milestone 5: Demonstration and handoff"
+    },
+    {
+      "times": [
+        {
+          "text": "Apr 25 at 11:59pmApr 25 at 11:59pm",
+          "utc": "2027-04-26T05:59:00.000Z"
+        }
+      ],
+      "title": "Unit 12 practice and check-in: Demonstrate and defend"
+    },
+    {
+      "times": [
+        {
+          "text": "Apr 29 at 12:00amApr 29 at 12:00am",
+          "utc": "2027-04-29T06:00:00.000Z"
+        },
+        {
+          "text": "May 5 at 11:59pmMay 5 at 11:59pm",
+          "utc": "2027-05-06T05:59:00.000Z"
+        }
+      ],
+      "title": "Individual case exam: evidence, decisions, and responsible handoff"
+    }
+  ],
+  "nativeAvailabilityFields": [
+    {
+      "title": "Unit 01 practice and check-in: AI and a useful business task",
+      "values": [
+        "Sun, Jan 17, 2027, 11:59 PM",
+        "",
+        ""
+      ]
+    },
+    {
+      "title": "Unit 02 practice and check-in: Discover the need",
+      "values": [
+        "Sun, Jan 24, 2027, 11:59 PM",
+        "",
+        ""
+      ]
+    },
+    {
+      "title": "Unit 03 practice and check-in: Choose and scope a solution",
+      "values": [
+        "Sun, Jan 31, 2027, 11:59 PM",
+        "",
+        ""
+      ]
+    },
+    {
+      "title": "Milestone 1: Problem and feasible scope",
+      "values": [
+        "Sun, Jan 31, 2027, 11:59 PM",
+        "",
+        ""
+      ]
+    },
+    {
+      "title": "Unit 04 practice and check-in: Design the workflow",
+      "values": [
+        "Sun, Feb 7, 2027, 11:59 PM",
+        "",
+        ""
+      ]
+    },
+    {
+      "title": "Unit 05 practice and check-in: Build the first usable version",
+      "values": [
+        "Sun, Feb 14, 2027, 11:59 PM",
+        "",
+        ""
+      ]
+    },
+    {
+      "title": "Milestone 2: First usable solution",
+      "values": [
+        "Sun, Feb 14, 2027, 11:59 PM",
+        "",
+        ""
+      ]
+    },
+    {
+      "title": "Unit 06 practice and check-in: Design a fair test",
+      "values": [
+        "Sun, Feb 21, 2027, 11:59 PM",
+        "",
+        ""
+      ]
+    },
+    {
+      "title": "Unit 07 practice and check-in: Pilot, revise, and retest",
+      "values": [
+        "Sun, Mar 7, 2027, 11:59 PM",
+        "",
+        ""
+      ]
+    },
+    {
+      "title": "Milestone 3: Pilot and learning",
+      "values": [
+        "Sun, Mar 7, 2027, 11:59 PM",
+        "",
+        ""
+      ]
+    },
+    {
+      "title": "Unit 08 practice and check-in: Calculate value and capacity",
+      "values": [
+        "Sun, Mar 14, 2027, 11:59 PM",
+        "",
+        ""
+      ]
+    },
+    {
+      "title": "Unit 09 practice and check-in: Shape the offer",
+      "values": [
+        "Sun, Mar 28, 2027, 11:59 PM",
+        "",
+        ""
+      ]
+    },
+    {
+      "title": "Unit 10 practice and check-in: Find users and sell or secure adoption",
+      "values": [
+        "Sun, Apr 4, 2027, 11:59 PM",
+        "",
+        ""
+      ]
+    },
+    {
+      "title": "Milestone 4: Viability and route to users",
+      "values": [
+        "Sun, Apr 4, 2027, 11:59 PM",
+        "",
+        ""
+      ]
+    },
+    {
+      "title": "Unit 11 practice and check-in: Make delivery dependable",
+      "values": [
+        "Sun, Apr 18, 2027, 11:59 PM",
+        "",
+        ""
+      ]
+    },
+    {
+      "title": "Unit 12 practice and check-in: Demonstrate and defend",
+      "values": [
+        "Sun, Apr 25, 2027, 11:59 PM",
+        "",
+        ""
+      ]
+    },
+    {
+      "title": "Milestone 5: Demonstration and handoff",
+      "values": [
+        "Sun, Apr 25, 2027, 11:59 PM",
+        "",
+        ""
+      ]
+    },
+    {
+      "title": "Individual case exam: evidence, decisions, and responsible handoff",
+      "values": [
+        "Wed, May 5, 2027, 11:59 PM",
+        "Thu, Apr 29, 2027, 12:00 AM",
+        ""
+      ]
+    }
+  ],
+  "examReleaseObservedInStudentView": "This assignment is locked until Apr 29, 2027 at 12am.",
+  "homeObserved": "Spring 2027 \u00b7 January 11\u2013May 5 \u00b7 Asynchronous",
+  "syllabusScheduleRows": 18,
+  "syllabusAnchor": "spring-2027-schedule",
+  "syllabusBackground": "rgb(255, 255, 255)",
+  "suggestedExchangeDatesOnly": [
+    "2027-01-29",
+    "2027-03-05",
+    "2027-04-23"
+  ],
+  "locksUntilAdded": false,
+  "otherAvailabilityFromAdded": false,
+  "gradeOrRubricMutations": false,
+  "legacyExampleUnchanged": {
+    "title": "Business Case Brief 1: Problem and Opportunity",
+    "dueAt": "2026-09-12T05:59:00.000Z"
+  },
+  "administrativeLabels": {
+    "courseName": "ODS_CS-4720R_Memari_2026",
+    "term": "ODS Term",
+    "editability": "Name, code and term are read-only in the observed settings form; no administrative settings changed"
+  },
+  "instructorViewRestored": true,
+  "screenshot": "canvas-spring-2027-schedule.jpg",
+  "notes": [
+    "Only the actual individual case exam has an available-from date; there are no new available-until dates.",
+    "Suggested Friday exchanges are displayed in the syllabus and are not additional native graded due dates.",
+    "The source schedule is offering-specific; portable Vercel lessons and the core cartridge remain undated.",
+    "No real student responses or grade values are included in this evidence."
+  ]
+}

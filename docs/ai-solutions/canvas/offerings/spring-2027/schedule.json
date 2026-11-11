@@ -1,0 +1,414 @@
+{
+  "schemaVersion": 1,
+  "course": "Building AI Solutions",
+  "owner": "Majid Memari",
+  "offering": "Spring 2027",
+  "canvasCourseId": 644965,
+  "delivery": "Asynchronous",
+  "timeZone": "America/Denver",
+  "sourceCalendar": {
+    "url": "https://www.uvu.edu/schedule/spring/index.html",
+    "calendarLastUpdated": "2026-06-30",
+    "checkedDate": "2026-11-11",
+    "scope": "Full-semester dates only; authored learning deadlines are the instructor course plan."
+  },
+  "term": {
+    "instructionStartDate": "2027-01-11",
+    "lastClassDate": "2027-04-27",
+    "interimDate": "2027-04-28",
+    "examStartDate": "2027-04-29",
+    "termEndDate": "2027-05-05",
+    "facultyGradeDeadlineDate": "2027-05-10"
+  },
+  "calendarNotes": [
+    {
+      "date": "2027-01-18",
+      "label": "Martin Luther King Jr. Day; no live attendance or holiday response expected"
+    },
+    {
+      "date": "2027-02-15",
+      "label": "Presidents Day; no live attendance or holiday response expected"
+    },
+    {
+      "startDate": "2027-03-15",
+      "endDate": "2027-03-21",
+      "label": "Spring break; no new unit or due item"
+    }
+  ],
+  "deadlinePolicy": {
+    "weeklyTime": "23:59",
+    "weeklyDay": "Sunday",
+    "appliesTo": "Twelve formative quizzes/project updates and five milestone snapshots",
+    "locksAdded": false,
+    "releaseRule": "Only the individual case exam has an offering-specific available-from date. Other items retain no release or lock date.",
+    "lateWork": "Retain the existing offering late-work policy; this schedule does not add or alter a penalty.",
+    "holidayNote": "Sunday deadlines preceding Monday closures remain; no live meeting or holiday response is required.",
+    "recordAuthority": "Native Canvas due dates and instructor feedback are the official offering record."
+  },
+  "units": [
+    {
+      "number": 1,
+      "title": "AI and a useful business task",
+      "startDate": "2027-01-11",
+      "endDate": "2027-01-17",
+      "quizTitle": "Unit 01 practice and check-in: AI and a useful business task",
+      "quizModuleItemId": 16726625,
+      "dueAt": {
+        "local": "2027-01-17T23:59-07:00",
+        "utc": "2027-01-18T06:59:00Z",
+        "timeZone": "America/Denver"
+      },
+      "availableFrom": null,
+      "lockAt": null
+    },
+    {
+      "number": 2,
+      "title": "Discover the need",
+      "startDate": "2027-01-18",
+      "endDate": "2027-01-24",
+      "quizTitle": "Unit 02 practice and check-in: Discover the need",
+      "quizModuleItemId": 16726626,
+      "dueAt": {
+        "local": "2027-01-24T23:59-07:00",
+        "utc": "2027-01-25T06:59:00Z",
+        "timeZone": "America/Denver"
+      },
+      "availableFrom": null,
+      "lockAt": null
+    },
+    {
+      "number": 3,
+      "title": "Choose and scope a solution",
+      "startDate": "2027-01-25",
+      "endDate": "2027-01-31",
+      "quizTitle": "Unit 03 practice and check-in: Choose and scope a solution",
+      "quizModuleItemId": 16726627,
+      "dueAt": {
+        "local": "2027-01-31T23:59-07:00",
+        "utc": "2027-02-01T06:59:00Z",
+        "timeZone": "America/Denver"
+      },
+      "availableFrom": null,
+      "lockAt": null
+    },
+    {
+      "number": 4,
+      "title": "Design the workflow",
+      "startDate": "2027-02-01",
+      "endDate": "2027-02-07",
+      "quizTitle": "Unit 04 practice and check-in: Design the workflow",
+      "quizModuleItemId": 16726628,
+      "dueAt": {
+        "local": "2027-02-07T23:59-07:00",
+        "utc": "2027-02-08T06:59:00Z",
+        "timeZone": "America/Denver"
+      },
+      "availableFrom": null,
+      "lockAt": null
+    },
+    {
+      "number": 5,
+      "title": "Build the first usable version",
+      "startDate": "2027-02-08",
+      "endDate": "2027-02-14",
+      "quizTitle": "Unit 05 practice and check-in: Build the first usable version",
+      "quizModuleItemId": 16726629,
+      "dueAt": {
+        "local": "2027-02-14T23:59-07:00",
+        "utc": "2027-02-15T06:59:00Z",
+        "timeZone": "America/Denver"
+      },
+      "availableFrom": null,
+      "lockAt": null
+    },
+    {
+      "number": 6,
+      "title": "Design a fair test",
+      "startDate": "2027-02-15",
+      "endDate": "2027-02-21",
+      "quizTitle": "Unit 06 practice and check-in: Design a fair test",
+      "quizModuleItemId": 16726630,
+      "dueAt": {
+        "local": "2027-02-21T23:59-07:00",
+        "utc": "2027-02-22T06:59:00Z",
+        "timeZone": "America/Denver"
+      },
+      "availableFrom": null,
+      "lockAt": null
+    },
+    {
+      "number": 7,
+      "title": "Pilot, revise, and retest",
+      "startDate": "2027-03-01",
+      "endDate": "2027-03-07",
+      "quizTitle": "Unit 07 practice and check-in: Pilot, revise, and retest",
+      "quizModuleItemId": 16726631,
+      "dueAt": {
+        "local": "2027-03-07T23:59-07:00",
+        "utc": "2027-03-08T06:59:00Z",
+        "timeZone": "America/Denver"
+      },
+      "availableFrom": null,
+      "lockAt": null
+    },
+    {
+      "number": 8,
+      "title": "Calculate value and capacity",
+      "startDate": "2027-03-08",
+      "endDate": "2027-03-14",
+      "quizTitle": "Unit 08 practice and check-in: Calculate value and capacity",
+      "quizModuleItemId": 16726632,
+      "dueAt": {
+        "local": "2027-03-14T23:59-06:00",
+        "utc": "2027-03-15T05:59:00Z",
+        "timeZone": "America/Denver"
+      },
+      "availableFrom": null,
+      "lockAt": null
+    },
+    {
+      "number": 9,
+      "title": "Shape the offer",
+      "startDate": "2027-03-22",
+      "endDate": "2027-03-28",
+      "quizTitle": "Unit 09 practice and check-in: Shape the offer",
+      "quizModuleItemId": 16726633,
+      "dueAt": {
+        "local": "2027-03-28T23:59-06:00",
+        "utc": "2027-03-29T05:59:00Z",
+        "timeZone": "America/Denver"
+      },
+      "availableFrom": null,
+      "lockAt": null
+    },
+    {
+      "number": 10,
+      "title": "Find users and sell or secure adoption",
+      "startDate": "2027-03-29",
+      "endDate": "2027-04-04",
+      "quizTitle": "Unit 10 practice and check-in: Find users and sell or secure adoption",
+      "quizModuleItemId": 16726634,
+      "dueAt": {
+        "local": "2027-04-04T23:59-06:00",
+        "utc": "2027-04-05T05:59:00Z",
+        "timeZone": "America/Denver"
+      },
+      "availableFrom": null,
+      "lockAt": null
+    },
+    {
+      "number": 11,
+      "title": "Make delivery dependable",
+      "startDate": "2027-04-12",
+      "endDate": "2027-04-18",
+      "quizTitle": "Unit 11 practice and check-in: Make delivery dependable",
+      "quizModuleItemId": 16726635,
+      "dueAt": {
+        "local": "2027-04-18T23:59-06:00",
+        "utc": "2027-04-19T05:59:00Z",
+        "timeZone": "America/Denver"
+      },
+      "availableFrom": null,
+      "lockAt": null
+    },
+    {
+      "number": 12,
+      "title": "Demonstrate and defend",
+      "startDate": "2027-04-19",
+      "endDate": "2027-04-25",
+      "quizTitle": "Unit 12 practice and check-in: Demonstrate and defend",
+      "quizModuleItemId": 16726636,
+      "dueAt": {
+        "local": "2027-04-25T23:59-06:00",
+        "utc": "2027-04-26T05:59:00Z",
+        "timeZone": "America/Denver"
+      },
+      "availableFrom": null,
+      "lockAt": null
+    }
+  ],
+  "milestones": [
+    {
+      "number": 1,
+      "title": "Milestone 1: Problem and feasible scope",
+      "afterUnit": 3,
+      "assignmentId": 9370389,
+      "points": 100,
+      "groupWeightPercent": 15,
+      "componentCourseWeightPercent": 15,
+      "dueAt": {
+        "local": "2027-01-31T23:59-07:00",
+        "utc": "2027-02-01T06:59:00Z",
+        "timeZone": "America/Denver"
+      },
+      "feedbackTargetDate": "2027-02-05",
+      "availableFrom": null,
+      "lockAt": null
+    },
+    {
+      "number": 2,
+      "title": "Milestone 2: First usable solution",
+      "afterUnit": 5,
+      "assignmentId": 9370390,
+      "points": 100,
+      "groupWeightPercent": 20,
+      "componentCourseWeightPercent": 20,
+      "dueAt": {
+        "local": "2027-02-14T23:59-07:00",
+        "utc": "2027-02-15T06:59:00Z",
+        "timeZone": "America/Denver"
+      },
+      "feedbackTargetDate": "2027-02-22",
+      "availableFrom": null,
+      "lockAt": null
+    },
+    {
+      "number": 3,
+      "title": "Milestone 3: Pilot and learning",
+      "afterUnit": 7,
+      "assignmentId": 9370391,
+      "points": 100,
+      "groupWeightPercent": 25,
+      "componentCourseWeightPercent": 25,
+      "dueAt": {
+        "local": "2027-03-07T23:59-07:00",
+        "utc": "2027-03-08T06:59:00Z",
+        "timeZone": "America/Denver"
+      },
+      "feedbackTargetDate": "2027-03-12",
+      "availableFrom": null,
+      "lockAt": null
+    },
+    {
+      "number": 4,
+      "title": "Milestone 4: Viability and route to users",
+      "afterUnit": 10,
+      "assignmentId": 9370392,
+      "points": 100,
+      "groupWeightPercent": 15,
+      "componentCourseWeightPercent": 15,
+      "dueAt": {
+        "local": "2027-04-04T23:59-06:00",
+        "utc": "2027-04-05T05:59:00Z",
+        "timeZone": "America/Denver"
+      },
+      "feedbackTargetDate": "2027-04-09",
+      "availableFrom": null,
+      "lockAt": null
+    },
+    {
+      "number": 5,
+      "title": "Milestone 5: Demonstration and handoff",
+      "afterUnit": 12,
+      "assignmentId": 9370393,
+      "points": 60,
+      "groupWeightPercent": 25,
+      "componentCourseWeightPercent": 15,
+      "dueAt": {
+        "local": "2027-04-25T23:59-06:00",
+        "utc": "2027-04-26T05:59:00Z",
+        "timeZone": "America/Denver"
+      },
+      "feedbackTargetDate": "2027-04-30",
+      "availableFrom": null,
+      "lockAt": null
+    }
+  ],
+  "projectExchanges": [
+    {
+      "unit": 3,
+      "title": "Project exchange: a need worth solving",
+      "suggestedInitialPostAt": {
+        "local": "2027-01-29T23:59-07:00",
+        "utc": "2027-01-30T06:59:00Z",
+        "timeZone": "America/Denver"
+      },
+      "nativeDueAt": null,
+      "graded": false,
+      "alternative": "Critique the supplied sample in the unit quiz project response; no required forum-post gate."
+    },
+    {
+      "unit": 7,
+      "title": "Project exchange: what the pilot actually shows",
+      "suggestedInitialPostAt": {
+        "local": "2027-03-05T23:59-07:00",
+        "utc": "2027-03-06T06:59:00Z",
+        "timeZone": "America/Denver"
+      },
+      "nativeDueAt": null,
+      "graded": false,
+      "alternative": "Critique the supplied sample in the unit quiz project response; no required forum-post gate."
+    },
+    {
+      "unit": 12,
+      "title": "Project exchange: defend the next decision",
+      "suggestedInitialPostAt": {
+        "local": "2027-04-23T23:59-06:00",
+        "utc": "2027-04-24T05:59:00Z",
+        "timeZone": "America/Denver"
+      },
+      "nativeDueAt": null,
+      "graded": false,
+      "alternative": "Critique the supplied sample in the unit quiz project response; no required forum-post gate."
+    }
+  ],
+  "additionalBlocks": [
+    {
+      "startDate": "2027-02-22",
+      "endDate": "2027-02-28",
+      "title": "Pilot preparation and feedback clinic",
+      "notes": "No new unit quiz. Apply Milestone 2 feedback and arrange the actual user attempt before the Unit 7 pilot."
+    },
+    {
+      "startDate": "2027-04-05",
+      "endDate": "2027-04-11",
+      "title": "Implementation and handoff clinic",
+      "notes": "No new unit quiz. Apply Milestone 4 feedback and strengthen operating access/instructions."
+    },
+    {
+      "startDate": "2027-04-26",
+      "endDate": "2027-04-27",
+      "title": "Course closeout and exam preparation",
+      "notes": "Review handoff access, pending actions, and individual reasoning. No new unit quiz."
+    }
+  ],
+  "individualExam": {
+    "title": "Individual case exam: evidence, decisions, and responsible handoff",
+    "assignmentId": 9370474,
+    "points": 40,
+    "groupNumber": 5,
+    "groupWeightPercent": 25,
+    "componentCourseWeightPercent": 10,
+    "availableFrom": {
+      "local": "2027-04-29T00:00-06:00",
+      "utc": "2027-04-29T06:00:00Z",
+      "timeZone": "America/Denver"
+    },
+    "dueAt": {
+      "local": "2027-05-05T23:59-06:00",
+      "utc": "2027-05-06T05:59:00Z",
+      "timeZone": "America/Denver"
+    },
+    "lockAt": null,
+    "optionalInitialSubmissionAt": {
+      "local": "2027-05-02T23:59-06:00",
+      "utc": "2027-05-03T05:59:00Z",
+      "timeZone": "America/Denver"
+    },
+    "optionalInitialFeedbackTargetDate": "2027-05-04",
+    "finalFeedbackTargetDate": "2027-05-10",
+    "initialSubmissionPolicy": "May 2 is an optional early-feedback checkpoint, not an extra graded or Canvas due date.",
+    "revisionPolicy": "Revisions through the actual May 5 due date use the same assignment and are not late because they follow the optional checkpoint. Existing late-work rules otherwise remain."
+  },
+  "feedbackPolicy": {
+    "questionsWorkingDays": 2,
+    "milestonesWorkingDays": 5,
+    "holidayExclusions": [
+      "2027-01-18",
+      "2027-02-15"
+    ],
+    "finalAssessmentException": "Final exam feedback target is May 10, not five working days after May 5. Optional submissions by May 2 have a May 4 feedback target.",
+    "facultyGradingDeadline": "2027-05-10",
+    "note": "These are facilitated-offering targets; do not promise instant or holiday service."
+  }
+}

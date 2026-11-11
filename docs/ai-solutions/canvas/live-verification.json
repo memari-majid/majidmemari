@@ -1,6 +1,6 @@
 {
   "date": "2026-11-11",
-  "edition": "v4 asynchronous delivery, white Canvas profile and native inline TA",
+  "edition": "v4 asynchronous delivery, native inline TA and Spring 2027 Canvas offering",
   "canvasCourse": "https://uvu.instructure.com/courses/644965",
   "courseState": "unpublished",
   "packageSha256": "891ef92210f08cd39bd62018ddbebb9f182ba3f58d15a1401917d739aa25b11c",
@@ -450,7 +450,7 @@
       "url": "https://uvu.instructure.com/courses/644965/assignments/9370389?module_item_id=16726537",
       "omittedFromFinalGrade": false,
       "points": 100,
-      "noDueDate": true,
+      "noDueDate": false,
       "submissionTypes": [
         "file",
         "text",
@@ -463,14 +463,22 @@
         15
       ],
       "rubricTotal": 100,
-      "weight": 15
+      "weight": 15,
+      "dueAt": {
+        "local": "2027-01-31T23:59-07:00",
+        "utc": "2027-02-01T06:59:00Z",
+        "timeZone": "America/Denver"
+      },
+      "availableFrom": null,
+      "lockAt": null,
+      "feedbackTargetDate": "2027-02-05"
     },
     {
       "number": 2,
       "url": "https://uvu.instructure.com/courses/644965/assignments/9370390?module_item_id=16726540",
       "omittedFromFinalGrade": false,
       "points": 100,
-      "noDueDate": true,
+      "noDueDate": false,
       "submissionTypes": [
         "file",
         "text",
@@ -483,14 +491,22 @@
         15
       ],
       "rubricTotal": 100,
-      "weight": 20
+      "weight": 20,
+      "dueAt": {
+        "local": "2027-02-14T23:59-07:00",
+        "utc": "2027-02-15T06:59:00Z",
+        "timeZone": "America/Denver"
+      },
+      "availableFrom": null,
+      "lockAt": null,
+      "feedbackTargetDate": "2027-02-22"
     },
     {
       "number": 3,
       "url": "https://uvu.instructure.com/courses/644965/assignments/9370391?module_item_id=16726543",
       "omittedFromFinalGrade": false,
       "points": 100,
-      "noDueDate": true,
+      "noDueDate": false,
       "submissionTypes": [
         "file",
         "text",
@@ -503,14 +519,22 @@
         20
       ],
       "rubricTotal": 100,
-      "weight": 25
+      "weight": 25,
+      "dueAt": {
+        "local": "2027-03-07T23:59-07:00",
+        "utc": "2027-03-08T06:59:00Z",
+        "timeZone": "America/Denver"
+      },
+      "availableFrom": null,
+      "lockAt": null,
+      "feedbackTargetDate": "2027-03-12"
     },
     {
       "number": 4,
       "url": "https://uvu.instructure.com/courses/644965/assignments/9370392?module_item_id=16726547",
       "omittedFromFinalGrade": false,
       "points": 100,
-      "noDueDate": true,
+      "noDueDate": false,
       "submissionTypes": [
         "file",
         "text",
@@ -523,14 +547,22 @@
         20
       ],
       "rubricTotal": 100,
-      "weight": 15
+      "weight": 15,
+      "dueAt": {
+        "local": "2027-04-04T23:59-06:00",
+        "utc": "2027-04-05T05:59:00Z",
+        "timeZone": "America/Denver"
+      },
+      "availableFrom": null,
+      "lockAt": null,
+      "feedbackTargetDate": "2027-04-09"
     },
     {
       "number": 5,
       "url": "https://uvu.instructure.com/courses/644965/assignments/9370393?module_item_id=16726550",
       "omittedFromFinalGrade": false,
       "points": 60,
-      "noDueDate": true,
+      "noDueDate": false,
       "submissionTypes": [
         "file",
         "text",
@@ -542,7 +574,15 @@
         15
       ],
       "rubricTotal": 60,
-      "weight": 25
+      "weight": 25,
+      "dueAt": {
+        "local": "2027-04-25T23:59-06:00",
+        "utc": "2027-04-26T05:59:00Z",
+        "timeZone": "America/Denver"
+      },
+      "availableFrom": null,
+      "lockAt": null,
+      "feedbackTargetDate": "2027-04-30"
     }
   ],
   "individualExam": {
@@ -555,7 +595,18 @@
     "weightWithinMilestone5Points": 40,
     "groupCourseWeight": 25,
     "manualInstructorAssessment": true,
-    "noDueDate": true
+    "noDueDate": false,
+    "dueAt": {
+      "local": "2027-05-05T23:59-06:00",
+      "utc": "2027-05-06T05:59:00Z",
+      "timeZone": "America/Denver"
+    },
+    "availableFrom": {
+      "local": "2027-04-29T00:00-06:00",
+      "utc": "2027-04-29T06:00:00Z",
+      "timeZone": "America/Denver"
+    },
+    "lockAt": null
   },
   "grading": {
     "milestoneGroupWeights": [
@@ -652,11 +703,16 @@
     "Instructor view restored; course remains unpublished",
     "All twelve native lesson pages saved/read back with matching lesson and TA frames, followed by text reading",
     "Unit 12 Student View inline TA answered final-demonstration question with Unit 12 sources; only QA chat was cleared afterward",
-    "Canvas Next present, embedded header hidden, white background, bottom help absent; no reimport or assessment changes in this follow-up"
+    "Canvas Next present, embedded header hidden, white background, bottom help absent; no reimport or assessment changes in this follow-up",
+    "Spring 2027 Home/Syllabus offering blocks saved, including 18 chronological schedule rows",
+    "All 18 current native due dates saved successfully and confirmed in Student View; exact ISO timestamps reflect America/Denver daylight-saving transition",
+    "Individual exam unavailable until April 29, 2027 at 00:00 Mountain Time; due May 5 at 23:59, with no Until date",
+    "Read-only administrative name/code/term remain ODS/2026; no course-settings mutation",
+    "Only offering date fields and Home/Syllabus blocks changed; grades, rubric weights, late policy, legacy dates and portable runtime/package unchanged"
   ],
   "limits": [
     "Only clearly labeled Test Student QA work was submitted and graded; no real learner record changed",
-    "Calendar and facilitated response/revision dates remain to be confirmed before enrollment",
+    "Spring 2027 schedule and feedback targets are saved; facilitator coverage and reviewer availability still require confirmation before enrollment",
     "Desktop browser/Student View verified; no new Canvas mobile-app or full cross-browser/accessibility audit",
     "Student effectiveness and workload are not established by technical checks",
     "Raw simulation inputs and TA conversation are not automatically sent to Canvas; submitted quiz/project evidence is the official record",
@@ -667,7 +723,9 @@
     "evidence/canvas-white-simulation.jpg",
     "evidence/canvas-white-ta.jpg",
     "evidence/canvas-inline-ta.jpg",
-    "evidence/canvas-inline-ta-verification.json"
+    "evidence/canvas-inline-ta-verification.json",
+    "evidence/canvas-spring-2027-schedule.jpg",
+    "evidence/canvas-spring-2027-verification.json"
   ],
   "history": "evidence/canvas-v3-installation.json",
   "packageSha256Meaning": "Last imported package; the newer reusable source package was not imported",
@@ -696,5 +754,203 @@
       "embeddedHeaderDisplay": "none",
       "embeddedBackground": "rgb(255, 255, 255)"
     }
+  },
+  "offering": {
+    "name": "Spring 2027",
+    "timeZone": "America/Denver",
+    "courseTimeZoneObserved": "Mountain Time (US & Canada) (-07:00/-06:00)",
+    "source": "offerings/spring-2027/schedule.json",
+    "guide": "offerings/spring-2027/README.md",
+    "verificationDate": "2026-11-11",
+    "nativeDueDatesSaved": 18,
+    "saveReceipt": "Assignment dates saved successfully.",
+    "studentViewDatesConfirmed": 18,
+    "nativeQuizDueDates": [
+      {
+        "unit": 1,
+        "dueAt": {
+          "local": "2027-01-17T23:59-07:00",
+          "utc": "2027-01-18T06:59:00Z",
+          "timeZone": "America/Denver"
+        }
+      },
+      {
+        "unit": 2,
+        "dueAt": {
+          "local": "2027-01-24T23:59-07:00",
+          "utc": "2027-01-25T06:59:00Z",
+          "timeZone": "America/Denver"
+        }
+      },
+      {
+        "unit": 3,
+        "dueAt": {
+          "local": "2027-01-31T23:59-07:00",
+          "utc": "2027-02-01T06:59:00Z",
+          "timeZone": "America/Denver"
+        }
+      },
+      {
+        "unit": 4,
+        "dueAt": {
+          "local": "2027-02-07T23:59-07:00",
+          "utc": "2027-02-08T06:59:00Z",
+          "timeZone": "America/Denver"
+        }
+      },
+      {
+        "unit": 5,
+        "dueAt": {
+          "local": "2027-02-14T23:59-07:00",
+          "utc": "2027-02-15T06:59:00Z",
+          "timeZone": "America/Denver"
+        }
+      },
+      {
+        "unit": 6,
+        "dueAt": {
+          "local": "2027-02-21T23:59-07:00",
+          "utc": "2027-02-22T06:59:00Z",
+          "timeZone": "America/Denver"
+        }
+      },
+      {
+        "unit": 7,
+        "dueAt": {
+          "local": "2027-03-07T23:59-07:00",
+          "utc": "2027-03-08T06:59:00Z",
+          "timeZone": "America/Denver"
+        }
+      },
+      {
+        "unit": 8,
+        "dueAt": {
+          "local": "2027-03-14T23:59-06:00",
+          "utc": "2027-03-15T05:59:00Z",
+          "timeZone": "America/Denver"
+        }
+      },
+      {
+        "unit": 9,
+        "dueAt": {
+          "local": "2027-03-28T23:59-06:00",
+          "utc": "2027-03-29T05:59:00Z",
+          "timeZone": "America/Denver"
+        }
+      },
+      {
+        "unit": 10,
+        "dueAt": {
+          "local": "2027-04-04T23:59-06:00",
+          "utc": "2027-04-05T05:59:00Z",
+          "timeZone": "America/Denver"
+        }
+      },
+      {
+        "unit": 11,
+        "dueAt": {
+          "local": "2027-04-18T23:59-06:00",
+          "utc": "2027-04-19T05:59:00Z",
+          "timeZone": "America/Denver"
+        }
+      },
+      {
+        "unit": 12,
+        "dueAt": {
+          "local": "2027-04-25T23:59-06:00",
+          "utc": "2027-04-26T05:59:00Z",
+          "timeZone": "America/Denver"
+        }
+      }
+    ],
+    "examAvailableFrom": {
+      "local": "2027-04-29T00:00-06:00",
+      "utc": "2027-04-29T06:00:00Z",
+      "timeZone": "America/Denver"
+    },
+    "examUnavailableBeforeStartObserved": true,
+    "examUntil": null,
+    "newNativeForumDueDates": 0,
+    "exchangeSuggestions": [
+      {
+        "unit": 3,
+        "suggestedInitialPostAt": {
+          "local": "2027-01-29T23:59-07:00",
+          "utc": "2027-01-30T06:59:00Z",
+          "timeZone": "America/Denver"
+        },
+        "nativeDueAt": null
+      },
+      {
+        "unit": 7,
+        "suggestedInitialPostAt": {
+          "local": "2027-03-05T23:59-07:00",
+          "utc": "2027-03-06T06:59:00Z",
+          "timeZone": "America/Denver"
+        },
+        "nativeDueAt": null
+      },
+      {
+        "unit": 12,
+        "suggestedInitialPostAt": {
+          "local": "2027-04-23T23:59-06:00",
+          "utc": "2027-04-24T05:59:00Z",
+          "timeZone": "America/Denver"
+        },
+        "nativeDueAt": null
+      }
+    ],
+    "springBreak": {
+      "startDate": "2027-03-15",
+      "endDate": "2027-03-21",
+      "newDueItems": 0
+    },
+    "clinicBlocks": [
+      {
+        "startDate": "2027-02-22",
+        "endDate": "2027-02-28",
+        "title": "Pilot preparation and feedback clinic",
+        "notes": "No new unit quiz. Apply Milestone 2 feedback and arrange the actual user attempt before the Unit 7 pilot."
+      },
+      {
+        "startDate": "2027-04-05",
+        "endDate": "2027-04-11",
+        "title": "Implementation and handoff clinic",
+        "notes": "No new unit quiz. Apply Milestone 4 feedback and strengthen operating access/instructions."
+      }
+    ],
+    "feedbackPolicy": {
+      "questionsWorkingDays": 2,
+      "milestonesWorkingDays": 5,
+      "holidayExclusions": [
+        "2027-01-18",
+        "2027-02-15"
+      ],
+      "finalAssessmentException": "Final exam feedback target is May 10, not five working days after May 5. Optional submissions by May 2 have a May 4 feedback target.",
+      "facultyGradingDeadline": "2027-05-10",
+      "note": "These are facilitated-offering targets; do not promise instant or holiday service."
+    },
+    "optionalExamSubmission": {
+      "local": "2027-05-02T23:59-06:00",
+      "utc": "2027-05-03T05:59:00Z",
+      "timeZone": "America/Denver"
+    },
+    "optionalExamFeedbackTarget": "2027-05-04",
+    "finalExamFeedbackTarget": "2027-05-10",
+    "homeAndSyllabusSaved": true,
+    "syllabusChronologicalRows": 18,
+    "administrativeCourseMetadata": {
+      "nameCodeAndTerm": "Existing ODS/2026 metadata; fields read-only",
+      "changed": false
+    },
+    "sourcePackageChanged": false,
+    "cartridgeReimported": false,
+    "runtimeChanged": false,
+    "gradeWeightRubricLatePolicyChanged": false,
+    "legacyUnpublishedDatesChanged": false,
+    "instructorViewRestored": true,
+    "sourceCommit": "8070d09",
+    "evidence": "evidence/canvas-spring-2027-verification.json",
+    "nativeAndStudentDatesMatchedSource": 18
   }
 }
