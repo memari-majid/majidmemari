@@ -1,6 +1,6 @@
 # Building AI Solutions
 
-> Documentation mirror in the personal-site hosting repository. Canonical source: `/Users/majid/Documents/GitHub/uvu_courses/courses/cs4720R/`. Edit canonical curriculum and documentation first; then refresh these copies. Source paths below refer to that checkout unless identified as hosting paths. See [source-agent guidance](source-agent-guidance.md) and the [Canvas artifact handoff](canvas/README.md).
+> Documentation mirror in the personal-site hosting repository, refreshed from canonical commit `7d65c12`. Canonical source: `/Users/majid/Documents/GitHub/uvu_courses/courses/cs4720R/`. Edit canonical curriculum and documentation first; then refresh these copies. Source paths below refer to that checkout unless identified as hosting paths. See [source-agent guidance](source-agent-guidance.md) and the [Canvas artifact handoff](canvas/README.md).
 
 **Practical AI problem-solving for everyone.** An independent course owned and taught by **Majid Memari**, open to students from any discipline with **no prerequisites**. Learners follow **12 units, one capstone, and five milestones**, using **Learn → Try → Build → Finish**. They discover a need, build a usable AI-assisted solution, test and revise it, develop an offer or adoption case, bring it to users, and hand it over. No programming, prior AI or business knowledge, specific-tool experience, or paid AI access is required.
 

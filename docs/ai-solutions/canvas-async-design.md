@@ -1,7 +1,8 @@
 # Building AI Solutions — asynchronous delivery plan
 
-**Owner and sole instructor:** Majid Memari  
-**Date:** November 11, 2026  
+**Owner and sole instructor:** Majid Memari
+
+**Date:** November 11, 2026
 **Status:** Planning specification before implementation. This document does not establish that the live course is ready for asynchronous teaching.
 
 **Framing:** Practical AI problem-solving for everyone. Students from any discipline can participate with no prerequisites. Do not assume programming, prior AI or business knowledge, experience with a particular tool, or paid AI access. Explain necessary vocabulary, calculations, and tool steps; retain a supplied-output route.

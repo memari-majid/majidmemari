@@ -1,6 +1,6 @@
 # Canvas handoff artifacts
 
-This documentation and artifact mirror is maintained from `/Users/majid/Documents/GitHub/uvu_courses/courses/cs4720R/integrations/canvas/`. It is not an input to the personal website build, public course snapshot, or TA knowledge base. Edit canonical source first; never maintain a second course generator here.
+This documentation and artifact mirror is maintained from canonical commit `7d65c12` at `/Users/majid/Documents/GitHub/uvu_courses/courses/cs4720R/integrations/canvas/`. It is not an input to the personal website build, public course snapshot, or TA knowledge base. Edit canonical source first; never maintain a second course generator here.
 
 - [Integration guide](../canvas-integration.md), [asynchronous design](../canvas-async-design.md), and [theme plan](../canvas-theme-plan.md) explain delivery, assessment, source ownership, and validation boundaries.
 - [Cartridge](building-ai-solutions-canvas.imscc) and [mapping](mapping.json) contain the portable asynchronous structure: twelve modules, 15 pages, twelve quizzes with 36 choice questions and twelve zero-point project responses, five milestones plus the individual exam, six rubrics, four discussions, six editable files, and 32 progress requirements. The fifth milestone group preserves 60 shared + 40 individual points within its 25% weight.
