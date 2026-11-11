@@ -38,7 +38,7 @@ python3 -m http.server 8765 --bind 127.0.0.1 --directory dist
 
 Open http://127.0.0.1:8765/. Python's standard library builds the static course without credentials or network access. A suitable Node.js runtime runs the pure-data tests; students do not need Node or programming tools. Run the listed commands for the current test counts. The source suite covers workbook, practice, inline figures, delivery profiles, required-reading metadata, and deferred official-reader loading; counts in historical release records describe those versions.
 
-The builder replaces only `dist/`, which is generated and ignored by Git. Current output includes 24 main content pages, 36 compatibility redirects, seven maintained assets, two text downloads, and the portable ZIP. Retired `module-*`, `assessment-*`, and `labs/index.html` routes are redirects, not another learner path.
+The builder replaces only `dist/`, which is generated and ignored by Git. Current output includes 24 main content pages, 36 compatibility redirects, seven maintained JS/CSS assets plus the public decision-lab JSON, two text downloads, and the portable ZIP. Retired `module-*`, `assessment-*`, and `labs/index.html` routes are redirects, not another learner path.
 
 Browser verification should cover Start/Continue/Finish, all four lesson stages, changed inputs, wrong-answer explanations, figure/table agreement, source-linked cases, keyboard focus, reduced motion, mobile width, local save/reload, backup/restore, and printing. Pure-data tests cannot establish usability, accessibility certification, or learning effectiveness.
 
@@ -108,3 +108,11 @@ For another static host, copy the contents of `dist/`, preserving relative paths
 The portable course links to the online TA and external readings. It does not include server routes, credentials, model access, or an offline assistant. Personal-site synchronization changes TA links in hosted HTML to the same deployment; the portable ZIP retains the absolute public TA address.
 
 Keep environment files, deployment credentials, private operations evidence, offering records, student data, and archived material outside `dist/` and release uploads. The public course uses Building AI Solutions and Majid Memari only, with no institution-specific identity, course number, public email address, or fixed offering calendar.
+
+## Decision labs and AI coaching
+
+`ta_activities.json` is the public authored activity source for twelve TA decision labs. The builder places each rehearsal in Try, including a complete nested reading route with choices, evidence, challenge, worked reasoning and project transfer. It copies only this allowlisted public JSON to `assets/ta-activities.json`; it contains no learner state. The hosting app imports that same snapshot for the lab UI and server-side coaching context.
+
+The default TA experience is Decide → Investigate → Revise → Apply. A committed initial choice is kept distinct from later reasoning. The AI coach receives only the current unit, phase, selected choice, written lab responses and conversation when the learner sends a coaching question. It does not read the workbook or live simulation settings. Course questions remain available separately.
+
+Practice responses and coaching history are isolated by unit in browser session storage; exports preserve the initial reason, revision and project action. An activity record marks self-reported practice, not mastery, a Canvas submission or a grade. Students reuse relevant reasoning in the existing project update. The twelve labs do not add assignments or change completion requirements.

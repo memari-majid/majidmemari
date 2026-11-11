@@ -347,3 +347,12 @@ The owner authorized development after the plan was made clear. The twelve-unit 
 Implementation follows this blueprint: one capstone, five milestone snapshots, Learn → Try → Build → Finish, three embedded practice families, a course-specific TA, and a separate website assistant. The previous 24-concept studio draft is not part of the required course. Technical test results and release status belong in `DEVELOPMENT_AND_VALIDATION.md`; learner timing and learning outcomes must not be called validated before a real pilot.
 
 The [simulation application plan](simulation-application-plan.md) specifies the next refinement from the completed reference study: preserve the learner's first decision, reveal a linked evidence challenge, invite a reasoned revision, and carry the result into the same capstone. It applies to the five existing practice placements in Units 2, 4, 6, 7, and 8. It does not add a second course route. Release evidence remains in the validation record.
+
+
+## TA decision labs within the planned lesson
+
+Each unit’s Try includes a short, authored decision rehearsal using the course TA: Decide → Investigate → Revise → Apply. The student first commits to a choice and an assumption, opens evidence that may challenge it, retains or revises the decision with a reason, and writes one action for the same project. The twelve roles range from capability detective and discovery interviewer to test designer, impact analyst, operations owner and decision defender. Each activity maps to its current unit outcome; `site/ta_activities.json` owns the scenarios, choice consequences, evidence, worked reasoning and project-transfer prompts.
+
+AI coaching responds to the current step and the attempt the student has shared. Before evidence is revealed, it offers a hint; during revision it identifies a specific strength or misconception and asks one focused question; during application it helps narrow the next project action. The first decision remains separate from the later explanation. This creates opportunities to observe reasoning, but a saved response alone does not establish understanding.
+
+The complete reading route supports the same reasoning without an AI service. Students reuse relevant reasoning in their existing project update rather than making another submission. Canvas remains responsible for assignments, instructor feedback and grades. The labs are part of guided practice, with browser records used only for resuming and exporting study work. Pilot timing, learning outcomes and the effect of coaching remain unvalidated.

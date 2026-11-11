@@ -1,6 +1,12 @@
 # Verified Canvas delivery — November 11, 2026
 
 
+## November 11: decision-lab review completed
+
+The [functional review](ai-ta-review.md) is the latest decision-lab acceptance record. Twelve native lesson bodies now contain the full no-AI lab route inside Try, preserving the two course iframes, assigned textbook readings and zero outbound native anchors. All twelve scenarios/choices/evidence/challenges/worked routes/transfers were read back. No cartridge import, new assignment, grade entry or quiz attempt occurred. The rebuilt reusable package is `3c693767d7be2a33446b05cb5552cce5032bb11463b22f79865243af47988c4c`, not imported.
+
+The reviewed public runtime repairs interrupted coaching recovery, phase-specific facts and labels, saved evidence cards, unit/milestone entry context, Canvas exchange-before-quiz advice, long-text wrapping and a conditional Unit 12 quality claim. Native Canvas Student View verified Unit 8 numerical coaching, evidence-card reload and a complete selectable reasoning record. The embedded file download was not observed in the test browser; the interface now reports a request and offers the verified copy fallback. See [browser checks](canvas/evidence/ta-review-2026-11-11/browser-checks.json), [production checks](canvas/evidence/ta-review-2026-11-11/production-checks.json), and [native readbacks](canvas/evidence/ta-review-2026-11-11/native-reading-checks.json). Instructor view is restored; overall course remains unpublished. Earlier dated sections below are historical checks of their named releases.
+
 ## November 11: required AI and business textbook readings verified
 
 Required selected passages now come from three free academic textbooks: Poole and Mackworth's Cambridge AI text (3e, 2023), OpenStax *Entrepreneurship* (2020), and *Introductory Statistics 2e* (2023). The single twelve-unit registry supplies exact stopping points, purpose, original connections and application questions. Business principles support any real-world solution; company formation and commercialization remain optional. The [source policy](academic-source-policy.md) and [claim/source map](claim-source-map.md) record the passage checks, numerical recalculations and excluded inaccurate/dated material.
@@ -96,3 +102,10 @@ The Spring 2027 calendar and dated feedback targets are now saved. Confirm facil
 This was a desktop-browser/Student View check, not a new Canvas mobile-app, full accessibility, cross-browser or learner-effectiveness study. There is no LTI identity exchange or automatic grade passback. The course TA and site chatbot remain separate.
 
 See [live-verification.json](canvas/live-verification.json) for structured operational evidence, [ASYNC_DESIGN_PLAN.md](canvas-async-design.md) for the instructional design, [CANVAS_THEME_PLAN.md](canvas-theme-plan.md) for theme constraints, and [README.md](canvas-integration.md) for safe rebuilding and reuse. Destination-specific [Home](canvas/canvas-home.html) and [syllabus](canvas/canvas-syllabus.html) links must be adapted for another shell. The [textbook recommendation](textbook-recommendation.md) documents the adopted free academic reading plan and its source boundaries.
+
+
+## 2026-11-11 — TA decision labs
+
+All twelve existing lesson-page bodies now identify the Course TA as a decision lab within Try. The native disclosure explains the four-step reasoning cycle and use of the same project update. Saved body readback confirmed every page. The embedded assistant URLs already supply exact unit and Canvas context, so the new Vercel interface appeared without a cartridge import. Unit 8 was opened in Student View and displayed the production lab; instructor view was restored. Only lesson-body instructions changed. No new assessment, submission, grade, date or course-publication change was made.
+
+Runtime, commit, public-file hash checks, browser observations, test counts and limitations are in `../../docs/evidence/ta-decision-lab-release.json`. The current rebuilt reusable package remains unimported; native content was patched in place. The complete reading route inside each interactive lesson works without AI calls. Local practice responses remain separate from Canvas submissions and instructor evaluation.

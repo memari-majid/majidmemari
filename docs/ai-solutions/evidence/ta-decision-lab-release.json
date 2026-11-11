@@ -1,0 +1,392 @@
+{
+  "date": "2026-11-11",
+  "course": "https://www.majidmemari.com/teaching/ai-solutions/",
+  "canvas_course": "https://uvu.instructure.com/courses/644965",
+  "feature_commit": "d0d6e572934f7f80cb7ae105b0201dd95678fded",
+  "production_commit": "8e920c313834731d8350cdf982e5d6c180b5130b",
+  "deployment": "dpl_2g76kPec4bnNKUeKHWWqjwg1tFcn",
+  "status": "READY",
+  "public_manifest_checks": [
+    {
+      "path": "assessment-01.html",
+      "matches": true,
+      "sha256": "a14e7439367992c492497e51a077f3075c473a91fbe5bc811d491312bda9d434"
+    },
+    {
+      "path": "assessment-02.html",
+      "matches": true,
+      "sha256": "a14e7439367992c492497e51a077f3075c473a91fbe5bc811d491312bda9d434"
+    },
+    {
+      "path": "assessment-03.html",
+      "matches": true,
+      "sha256": "bc93c0ddf75abdbc0a78baf3ed1c32b61e1aa9d5d43468b0dc7a30ed28332627"
+    },
+    {
+      "path": "assessment-04.html",
+      "matches": true,
+      "sha256": "bc93c0ddf75abdbc0a78baf3ed1c32b61e1aa9d5d43468b0dc7a30ed28332627"
+    },
+    {
+      "path": "assessment-05.html",
+      "matches": true,
+      "sha256": "1509629e6229ea30e6d700450ec7f7a29e258215fc1492ee94140061e6bfe037"
+    },
+    {
+      "path": "assessment-06.html",
+      "matches": true,
+      "sha256": "1509629e6229ea30e6d700450ec7f7a29e258215fc1492ee94140061e6bfe037"
+    },
+    {
+      "path": "assessment-07.html",
+      "matches": true,
+      "sha256": "7c5f22670b94292573a64940d995ac7d4d8ee363d386102b447529dd0a5ceab5"
+    },
+    {
+      "path": "assessment-08.html",
+      "matches": true,
+      "sha256": "7c5f22670b94292573a64940d995ac7d4d8ee363d386102b447529dd0a5ceab5"
+    },
+    {
+      "path": "assessment-09.html",
+      "matches": true,
+      "sha256": "17c49f0f7c684838360c5c14f667b79873162528d3e46a3aa0bfdd0a8afb9292"
+    },
+    {
+      "path": "assessment-10.html",
+      "matches": true,
+      "sha256": "17c49f0f7c684838360c5c14f667b79873162528d3e46a3aa0bfdd0a8afb9292"
+    },
+    {
+      "path": "assets/core.css",
+      "matches": true,
+      "sha256": "3066a94ce122fbad318917fe48c5c8e243505ca40421ddabbcb5170ee5525923"
+    },
+    {
+      "path": "assets/lesson-figures.css",
+      "matches": true,
+      "sha256": "3b2204a4f715d357201279a2a7246371abe529e88d03d81b023897d7514d2d83"
+    },
+    {
+      "path": "assets/lesson-figures.js",
+      "matches": true,
+      "sha256": "b045da17334d951228c5f3d0a5d2d5f813ba19e67030a7ba01a6a6b5016bc52b"
+    },
+    {
+      "path": "assets/practice.css",
+      "matches": true,
+      "sha256": "7a1091e4189153cac441a07b18a35fa220038f7890dbc070b82e19c8b15bbc09"
+    },
+    {
+      "path": "assets/practice.js",
+      "matches": true,
+      "sha256": "8e25856237e377cb499ee24dd23813930cf5836b87510f0924714a0b63d43ada"
+    },
+    {
+      "path": "assets/site.js",
+      "matches": true,
+      "sha256": "3470a71711237bf23aa24180c9432f38d4907be713e366a4cb9e5f69f92aa663"
+    },
+    {
+      "path": "assets/ta-activities.json",
+      "matches": true,
+      "sha256": "f4d55290998abb7f8d39d6e2789cfc7470b340bf8c314b0c047b040e2631106d"
+    },
+    {
+      "path": "assets/workbook.js",
+      "matches": true,
+      "sha256": "d287e6087502faa3f4ad077c3f3b923be72d220b1499d98aa6287e84180651bf"
+    },
+    {
+      "path": "business-paths.html",
+      "matches": true,
+      "sha256": "e7ac19682f377b8df77d436b26cc457dfe0f15f45f82ee953a570f08f1a9943d"
+    },
+    {
+      "path": "course.html",
+      "matches": true,
+      "sha256": "e7ac19682f377b8df77d436b26cc457dfe0f15f45f82ee953a570f08f1a9943d"
+    },
+    {
+      "path": "discussions.html",
+      "matches": true,
+      "sha256": "71a5cf69152d8c7ffb2dc485c1205099858398b8125625a56ac0af7928a5b477"
+    },
+    {
+      "path": "downloads/cedar-desk-packet.txt",
+      "matches": true,
+      "sha256": "469280079da422dfa83d4581f5ca23857da160df3fb7140aa51db624dad93132"
+    },
+    {
+      "path": "downloads/course-site.zip",
+      "matches": true,
+      "sha256": "e4ce7be09b722dab3e0e384cbf9066697fc6b3eab3a09c5714101cf49781dc4b"
+    },
+    {
+      "path": "downloads/project-record.txt",
+      "matches": true,
+      "sha256": "eb07ea558239e4cc624ef160f8e3bc593e2c92f23e57c5e95382b60e16dc4ad5"
+    },
+    {
+      "path": "example.html",
+      "matches": true,
+      "sha256": "775a64ee164c85039df1119723b52bb3e1ebe28f9a04fca973267a681d350a48"
+    },
+    {
+      "path": "finish.html",
+      "matches": true,
+      "sha256": "e78661babede2d1977e96ebb768e8e82a8f55f100216358179626e9a6cb557d3"
+    },
+    {
+      "path": "guide.html",
+      "matches": true,
+      "sha256": "440eabba9484542cb16c21c7a0c920b811e9f518f881211e315b07ba43a8da1e"
+    },
+    {
+      "path": "index.html",
+      "matches": true,
+      "sha256": "fc397c65a6e9af76eb3a2a8bcf12e8ac208d02849b9725b96f24bf90adf4b437"
+    },
+    {
+      "path": "instructor.html",
+      "matches": true,
+      "sha256": "14d08b8cb585a7fa3012d286d6b855f392a8078ed0a47d33d93f514bc5d48967"
+    },
+    {
+      "path": "labs/index.html",
+      "matches": true,
+      "sha256": "53d81db8871039e0702bbd1254f5a076831429ea29188a9d6d072efd7ed5606b"
+    },
+    {
+      "path": "milestone-1.html",
+      "matches": true,
+      "sha256": "fe44fcab2d4bda59e6c5963b6b58962930b747db333dc05b4269417e1aeb12a0"
+    },
+    {
+      "path": "milestone-2.html",
+      "matches": true,
+      "sha256": "120da7d97a9834c1b7543dfbc02b1d4a6c9478ad8da0c25037331251bb397391"
+    },
+    {
+      "path": "milestone-3.html",
+      "matches": true,
+      "sha256": "1c2d3ca5e409b70755bae13c8b60aacfd24bf2e1f04a8838131bd3d8e98f16e0"
+    },
+    {
+      "path": "milestone-4.html",
+      "matches": true,
+      "sha256": "18d111e36d50f20d349f823f9ab0f25281d632a470fc7d31c009b64984a39559"
+    },
+    {
+      "path": "milestone-5.html",
+      "matches": true,
+      "sha256": "d20e003f20419c0a00a9e664e5e159ad0f639698b65dc3331c42c7da5ea5818c"
+    },
+    {
+      "path": "module-00.html",
+      "matches": true,
+      "sha256": "9264dc1abd87896d15d9fe9a3eb669714f7d2b85e102ffee217577b39780b98f"
+    },
+    {
+      "path": "module-01.html",
+      "matches": true,
+      "sha256": "9264dc1abd87896d15d9fe9a3eb669714f7d2b85e102ffee217577b39780b98f"
+    },
+    {
+      "path": "module-02.html",
+      "matches": true,
+      "sha256": "db169c983a60b241ca7abfd2fa6a35926905b8b9e7326b0b383cc1de43ea2936"
+    },
+    {
+      "path": "module-03.html",
+      "matches": true,
+      "sha256": "0f5134a44df89d7d91153689fb9884c967f660cbbe3a77c67d1cf55d4cd476ca"
+    },
+    {
+      "path": "module-04.html",
+      "matches": true,
+      "sha256": "9fb8e7cf772ae0615c4fd6c62527af629766446aa3015882be99ba710e78d3cb"
+    },
+    {
+      "path": "module-05.html",
+      "matches": true,
+      "sha256": "9fb8e7cf772ae0615c4fd6c62527af629766446aa3015882be99ba710e78d3cb"
+    },
+    {
+      "path": "module-06.html",
+      "matches": true,
+      "sha256": "b3561b151136c406ec23fbeae188ca10afe5f280228c82ac42d2293475a847f5"
+    },
+    {
+      "path": "module-07.html",
+      "matches": true,
+      "sha256": "db169c983a60b241ca7abfd2fa6a35926905b8b9e7326b0b383cc1de43ea2936"
+    },
+    {
+      "path": "module-08.html",
+      "matches": true,
+      "sha256": "e20e611187792201db905f3d7f366607fb6e09469570f30faf8a88df5e3d9e14"
+    },
+    {
+      "path": "module-09.html",
+      "matches": true,
+      "sha256": "dfb09a8924a9353f9b529fbab699cfcaf4676b8d1bb138ea07c8f581a0194372"
+    },
+    {
+      "path": "module-10.html",
+      "matches": true,
+      "sha256": "68e27fd74f1ff47634cf224fc07da97adff928949e0c62acc86daddbf8a6d346"
+    },
+    {
+      "path": "module-11.html",
+      "matches": true,
+      "sha256": "b87f5c78f462e6e5bfda81295acd8f318e04358492eda38cb263a3c99fa49246"
+    },
+    {
+      "path": "module-12.html",
+      "matches": true,
+      "sha256": "1034a2e243763f9ac3babaa2a01d308cedaffbbc9211a5087e5f3a9121ee5c54"
+    },
+    {
+      "path": "module-13.html",
+      "matches": true,
+      "sha256": "9acedc8af692db38b28f86d80aaee90ecdbaebf4630f14390df9277fd740a38b"
+    },
+    {
+      "path": "module-14.html",
+      "matches": true,
+      "sha256": "dfb09a8924a9353f9b529fbab699cfcaf4676b8d1bb138ea07c8f581a0194372"
+    },
+    {
+      "path": "module-15.html",
+      "matches": true,
+      "sha256": "9acedc8af692db38b28f86d80aaee90ecdbaebf4630f14390df9277fd740a38b"
+    },
+    {
+      "path": "module-16.html",
+      "matches": true,
+      "sha256": "9acedc8af692db38b28f86d80aaee90ecdbaebf4630f14390df9277fd740a38b"
+    },
+    {
+      "path": "partner-challenge.html",
+      "matches": true,
+      "sha256": "71a5cf69152d8c7ffb2dc485c1205099858398b8125625a56ac0af7928a5b477"
+    },
+    {
+      "path": "project.html",
+      "matches": true,
+      "sha256": "8c8e524dec2d237570d436e9bfe935a5a096f6d9ca31f4688edab563f7913c26"
+    },
+    {
+      "path": "projects.html",
+      "matches": true,
+      "sha256": "71a5cf69152d8c7ffb2dc485c1205099858398b8125625a56ac0af7928a5b477"
+    },
+    {
+      "path": "readings.html",
+      "matches": true,
+      "sha256": "c34eaaca50d392c96e5adf55fc9d31eab035a3bbaa5d58fd5cbd7b4d079d27fd"
+    },
+    {
+      "path": "resources.html",
+      "matches": true,
+      "sha256": "e0aed76e0f29118a629af3ad0b32111ec19b7717832a56be924873801764aedd"
+    },
+    {
+      "path": "toolkit.html",
+      "matches": true,
+      "sha256": "e281b2135f1b549d8a219757a553a55c7f350e30164f896f54a434120164d8f3"
+    },
+    {
+      "path": "unit-01.html",
+      "matches": true,
+      "sha256": "59b178e0b6b8da6671b85b5f8af16653b4b42473f00622cc88fd7ea3b5671aec"
+    },
+    {
+      "path": "unit-02.html",
+      "matches": true,
+      "sha256": "2c8fd0d02b37f18f2fa3042ac278d20b9ff51d8a747ab781ad5124bf92041f49"
+    },
+    {
+      "path": "unit-03.html",
+      "matches": true,
+      "sha256": "5adf4d6f52ac4ad049ff1a95c53a8bec73f6c30fb2ac0f796056cdf8c4835a78"
+    },
+    {
+      "path": "unit-04.html",
+      "matches": true,
+      "sha256": "a4c7dbaa0e53b67c5ae30841b0427b657bfa6c46e5c80bb272abf784425935b8"
+    },
+    {
+      "path": "unit-05.html",
+      "matches": true,
+      "sha256": "1fd5401a981c7eeb98861b0c22966822a4181cfb508268f4fe7ee046bdde8e9a"
+    },
+    {
+      "path": "unit-06.html",
+      "matches": true,
+      "sha256": "7dcec1329cac359933e4b44ced0db0286f4e9cd711db20013ad806a67e5c2644"
+    },
+    {
+      "path": "unit-07.html",
+      "matches": true,
+      "sha256": "8a51ba12d15193fd5afebc86ddd0ca0fec4d119fd554e858fd917f73e619659b"
+    },
+    {
+      "path": "unit-08.html",
+      "matches": true,
+      "sha256": "9535bb28de2ceddc39b0b44e96cbc23b0a8021a5a05841bedf057c8ef73f7dc5"
+    },
+    {
+      "path": "unit-09.html",
+      "matches": true,
+      "sha256": "0ba7cdf84cf8ebcbffbd17e6e2dde91c6e55c82990f676b5e96040c0f67b8c1c"
+    },
+    {
+      "path": "unit-10.html",
+      "matches": true,
+      "sha256": "b2412402bfd53a0e2741aab96e937e8e08e2187e39c20af6df305b56ec6e5918"
+    },
+    {
+      "path": "unit-11.html",
+      "matches": true,
+      "sha256": "7356b4299a5da4fc4b7f9c70749be33b7a0779a747c30ba52d23feae832155f4"
+    },
+    {
+      "path": "unit-12.html",
+      "matches": true,
+      "sha256": "fbc9e1ae018764d9a1bb9801cc0de7096e5c24e736900d73d0d24d9dd103fcf2"
+    },
+    {
+      "path": "venture-studio.html",
+      "matches": true,
+      "sha256": "68e27fd74f1ff47634cf224fc07da97adff928949e0c62acc86daddbf8a6d346"
+    }
+  ],
+  "canvas": {
+    "lesson_wrappers_updated": 12,
+    "changed_fields": [
+      "page body instructions and TA disclosure description"
+    ],
+    "readback_all_twelve": true,
+    "student_view": "Unit 8 lab displayed from production iframe; instructor view restored",
+    "package_reimported": false
+  },
+  "verification": {
+    "course_model_and_delivery_tests": 71,
+    "course_textbook_python_tests": 6,
+    "ta_and_workshop_tests": 45,
+    "canvas_package_guide_theme_tests": 23,
+    "typescript": "passed",
+    "next_production_build": "passed",
+    "mobile_css_width": 390,
+    "mobile_document_scroll_width": 390,
+    "save_reload_export": "Unit 8 initial mistake, evidence inspection, revision, project action and readable export verified",
+    "live_coaching": "Preview API correctly distinguished $240 capacity value, $0 net capacity value and -$240 cash change for unchanged payroll, with one focused revision question"
+  },
+  "limits": [
+    "Browser records are self-reported practice, not grades or Canvas submissions.",
+    "No learner-effectiveness study was performed.",
+    "No full accessibility or cross-browser certification was performed."
+  ]
+}

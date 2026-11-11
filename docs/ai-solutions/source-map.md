@@ -18,6 +18,7 @@ The maintained audience is students from any discipline, with no prerequisites: 
 | HTML structure and authored supporting-page text, optional book list, resources, instructor guidance, course map, redirects, downloads | `site/build_core.py`, invoked by `site/build_site.py` | `site/dist/` |
 | Six inline figure explanations and static fallbacks | `site/visual_lessons.py` | Learn sections in Units 3, 5, 9, 10, 11, and 12 |
 | Inline figure models and enhancement | `site/assets/lesson-figures.js`, `lesson-figures.css` | Same six in-lesson figures |
+| Authored TA decision rehearsals | `site/ta_activities.json`, rendered by `site/build_core.py` | Twelve Try activities, complete reading routes and hosted per-unit coaching context |
 | Guided practice models and linked visualizations | `site/assets/practice.js`, `practice.css` | Try activities in Units 2, 4, 6, 7, and 8 |
 | Shared course presentation | `site/assets/core.css` | Course layout, theme, responsive and print rules |
 | Navigation, checks, progress, standalone embedded TA panel | `site/assets/site.js` | Learn/Try/Build/Finish and saved study state |
@@ -33,7 +34,7 @@ The maintained audience is students from any discipline, with no prerequisites: 
 | Dated receiving offerings | [Spring 2027](canvas/offerings/spring-2027/README.md), with `schedule.json` and `render_schedule.py` | Native Canvas dates and Home/Syllabus offering blocks; separate from undated cartridge, Vercel runtime and TA corpus |
 | Actual Canvas installation and verification | `integrations/canvas/LIVE_INTEGRATION.md`, `live-verification.json` | Destination-specific IDs, policies, screenshots, observed Student View behavior and limits; not TA input |
 
-The builder uses only current course sources and its seven explicit assets. It does not read historical offering JSON, Canvas records, old studios, private screenshots, or external textbook files. Student-facing text does not come from the old course plans.
+The builder uses only current course sources and its seven JS/CSS assets and authored TA activity data. It does not read historical offering JSON, Canvas records, old studios, private screenshots, or external textbook files. Student-facing text does not come from the old course plans.
 
 ## Online pages
 

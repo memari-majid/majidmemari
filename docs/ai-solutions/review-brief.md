@@ -115,3 +115,7 @@ Lead with the **three highest-value improvements**, then provide:
 8. **A small learner-pilot plan:** learners from different disciplines, including learners with no prior AI or business knowledge; observable tasks; success criteria; data to collect; and what findings would trigger revision. AI review and technical checks cannot establish improved learning.
 
 Be demanding and fair. Prefer changes that improve understanding, independent performance, and ease of teaching. If a recommendation conflicts with the no-programming scope, single path, ownership, or adaptable capstone, explain the tradeoff explicitly rather than silently redesigning the course for another audience.
+
+## Decision-lab regression baseline
+
+Use the [November 11 AI TA review](ai-ta-review.md) as a dated regression baseline. Exercise current-step coaching, collapse or mode changes during a pending response, phase labels, saved evidence cards, generic/milestone entry context, native no-AI fallback and copy/export recovery. Distinguish a download request from a received file, and local practice completion from a Canvas submission or grade. Preserve prior learner records and use only fictional test attempts.

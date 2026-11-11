@@ -2,7 +2,8 @@
 from pathlib import Path
 from html.parser import HTMLParser
 from urllib.parse import urlsplit,unquote
-import re,zipfile
+import re,zipfile,json
+from html import escape
 from course_content import UNITS,MILESTONES
 ROOT=Path(__file__).resolve().parent/'dist'
 class Page(HTMLParser):
@@ -47,9 +48,18 @@ for u in UNITS:
   if not u.get('try_worked_html') or '<table>' not in u['try_worked_html']:errors.append(f'Unit {n}: static worked comparison is missing')
   if '<noscript><p>Interactive controls require JavaScript.' not in text:errors.append(f'Unit {n}: reading fallback is missing')
   if 'Carry forward:' not in u['try_worked_html']:errors.append(f'Unit {n}: worked comparison has no project transfer')
+activities=json.loads((ROOT/'assets/ta-activities.json').read_text())
+assert len(activities)==12
+for a in activities:
+ text=(ROOT/a['page']).read_text()
+ start=text.index('class="ta-learning-activity"')
+ assert text.index('id="step-1"')<start<text.index('id="step-2"')
+ for value in [a['goal'],a['scenario'],a['challenge'],a['worked'],a['transfer']]:
+  assert escape(value) in text, (a['unit'],value)
+ assert 'Complete reading route' in text and 'data-open-ta' in text
 with zipfile.ZipFile(ROOT/'downloads/course-site.zip') as z:
  assert z.testzip() is None
  assert 'unit-12.html' in z.namelist() and 'assets/practice.js' in z.namelist()
- assert not any(n.endswith('.json') or n.startswith('.') for n in z.namelist())
+ assert not any((n.endswith('.json') and n != 'assets/ta-activities.json') or n.startswith('.') for n in z.namelist())
 if errors:raise SystemExit('\n'.join(errors))
-print(f'PASS: {len(pages)} HTML pages; 12 units, 5 rubrics, 5 inline practice/worked comparisons, links/anchors, branding, portable archive.')
+print(f'PASS: {len(pages)} HTML pages; 12 units, 5 rubrics, 5 inline practice/worked comparisons, 12 decision labs and complete reading routes, links/anchors, branding, portable archive.')

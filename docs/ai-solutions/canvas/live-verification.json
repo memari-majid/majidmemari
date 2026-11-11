@@ -1,6 +1,6 @@
 {
   "date": "2026-11-11",
-  "edition": "v6 required free academic AI, business and statistics readings, native Canvas integration, Spring 2027",
+  "edition": "v7 reviewed decision labs, academic readings, native Canvas integration, Spring 2027",
   "canvasCourse": "https://uvu.instructure.com/courses/644965",
   "courseState": "unpublished",
   "packageSha256": "891ef92210f08cd39bd62018ddbebb9f182ba3f58d15a1401917d739aa25b11c",
@@ -787,7 +787,7 @@
   "history": "evidence/canvas-v3-installation.json",
   "packageSha256Meaning": "Last imported package; the newer reusable source package was not imported",
   "lastImportedPackageSha256": "891ef92210f08cd39bd62018ddbebb9f182ba3f58d15a1401917d739aa25b11c",
-  "currentSourcePackageSha256": "cd5dbe6c8a62a490d3845ca3e6eacfc7b3fefc9e40b8f7e2dbd74e3804e544c6",
+  "currentSourcePackageSha256": "3c693767d7be2a33446b05cb5552cce5032bb11463b22f79865243af47988c4c",
   "currentSourcePackageImported": false,
   "pageLayoutUpdate": {
     "date": "2026-11-11",
@@ -1225,5 +1225,21 @@
     "evidence/canvas-statistics-textbook-reader.png",
     "evidence/canvas-textbook-ta.png",
     "evidence/textbook-source-reproducibility.json"
-  ]
+  ],
+  "decisionLabReview": {
+    "date": "2026-11-11",
+    "report": "../../docs/AI_TA_REVIEW_2026-11-11.md",
+    "runtimeCommit": "a87c5a4ada8bc1a7a84471f0f2f2f6ab8b412de4",
+    "deployment": "dpl_5zHrQ2iXLJaCkxwjCXszKDw7XRXj",
+    "deploymentState": "READY",
+    "nativeLabReadbacks": 12,
+    "framesPerLesson": 2,
+    "newAssignments": 0,
+    "newQuizAttempts": 0,
+    "gradeMutations": false,
+    "packageImported": false,
+    "instructorViewRestored": true,
+    "courseUnpublished": true,
+    "evidence": "evidence/ta-review-2026-11-11/browser-checks.json"
+  }
 }

@@ -1,11 +1,12 @@
 # Course source for local review
 
-Public maintained source/test snapshots from canonical commit `0c6ae40ccd53af9cfe096adf54d4a62768482078`. Canonical ownership: `/Users/majid/Documents/GitHub/uvu_courses/courses/cs4720R/site/`. These copies support reading and review from the hosting repository; they are not inputs to its runtime build, public course snapshot, or TA corpus. Edit and run the full course/Canvas release workflow in the canonical checkout.
+Public maintained source/test snapshots from canonical commit `2401790fb5c85435461268af9e780ee975126d12`. Canonical ownership: `/Users/majid/Documents/GitHub/uvu_courses/courses/cs4720R/site/`. These copies support reading and review from the hosting repository; they are not inputs to its runtime build, public course snapshot, or TA corpus. Edit and run the full course/Canvas release workflow in the canonical checkout.
 
 - [build_core.py](build_core.py)
 - [build_site.py](build_site.py)
 - [check_site.py](check_site.py)
 - [course_content.py](course_content.py)
+- [ta_activities.json](ta_activities.json)
 - [test_delivery.cjs](test_delivery.cjs)
 - [test_lesson_figures.cjs](test_lesson_figures.cjs)
 - [test_practice.cjs](test_practice.cjs)

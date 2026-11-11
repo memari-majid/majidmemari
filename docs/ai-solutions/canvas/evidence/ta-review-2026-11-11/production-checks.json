@@ -1,0 +1,878 @@
+{
+  "verifiedAt": "2026-11-11T21:08:54.532199+00:00",
+  "commit": "4b300f700b8abc97a20bc7199794f203f88aecce",
+  "deployment": {
+    "id": "dpl_CTUGRbHkvg3u11VMSYJrLHK1qes8",
+    "state": "READY",
+    "target": "production",
+    "source": "Exact SHA and state verified using Vercel MCP before checks"
+  },
+  "base": "https://www.majidmemari.com",
+  "manifestSha256": "b140a3efbdd9485be5c201b79831ffea2b4696c324115fff81829e01bd8c0ed7",
+  "courseCorpus": {
+    "sourceDigest": "692fd25143aaacf4802e39c36d9ebe14a0afab660372d55b3b5f676642ed9a82",
+    "sourcePages": 24,
+    "simulationCount": 3,
+    "practicePages": 5,
+    "inlineFigurePages": 6,
+    "chunkCount": 190
+  },
+  "staticFiles": [
+    {
+      "path": "assessment-01.html",
+      "expectedBytes": 378,
+      "expectedSha256": "a14e7439367992c492497e51a077f3075c473a91fbe5bc811d491312bda9d434",
+      "status": 200,
+      "bytes": 378,
+      "sha256": "a14e7439367992c492497e51a077f3075c473a91fbe5bc811d491312bda9d434",
+      "matched": true
+    },
+    {
+      "path": "assessment-02.html",
+      "expectedBytes": 378,
+      "expectedSha256": "a14e7439367992c492497e51a077f3075c473a91fbe5bc811d491312bda9d434",
+      "status": 200,
+      "bytes": 378,
+      "sha256": "a14e7439367992c492497e51a077f3075c473a91fbe5bc811d491312bda9d434",
+      "matched": true
+    },
+    {
+      "path": "assessment-03.html",
+      "expectedBytes": 378,
+      "expectedSha256": "bc93c0ddf75abdbc0a78baf3ed1c32b61e1aa9d5d43468b0dc7a30ed28332627",
+      "status": 200,
+      "bytes": 378,
+      "sha256": "bc93c0ddf75abdbc0a78baf3ed1c32b61e1aa9d5d43468b0dc7a30ed28332627",
+      "matched": true
+    },
+    {
+      "path": "assessment-04.html",
+      "expectedBytes": 378,
+      "expectedSha256": "bc93c0ddf75abdbc0a78baf3ed1c32b61e1aa9d5d43468b0dc7a30ed28332627",
+      "status": 200,
+      "bytes": 378,
+      "sha256": "bc93c0ddf75abdbc0a78baf3ed1c32b61e1aa9d5d43468b0dc7a30ed28332627",
+      "matched": true
+    },
+    {
+      "path": "assessment-05.html",
+      "expectedBytes": 378,
+      "expectedSha256": "1509629e6229ea30e6d700450ec7f7a29e258215fc1492ee94140061e6bfe037",
+      "status": 200,
+      "bytes": 378,
+      "sha256": "1509629e6229ea30e6d700450ec7f7a29e258215fc1492ee94140061e6bfe037",
+      "matched": true
+    },
+    {
+      "path": "assessment-06.html",
+      "expectedBytes": 378,
+      "expectedSha256": "1509629e6229ea30e6d700450ec7f7a29e258215fc1492ee94140061e6bfe037",
+      "status": 200,
+      "bytes": 378,
+      "sha256": "1509629e6229ea30e6d700450ec7f7a29e258215fc1492ee94140061e6bfe037",
+      "matched": true
+    },
+    {
+      "path": "assessment-07.html",
+      "expectedBytes": 378,
+      "expectedSha256": "7c5f22670b94292573a64940d995ac7d4d8ee363d386102b447529dd0a5ceab5",
+      "status": 200,
+      "bytes": 378,
+      "sha256": "7c5f22670b94292573a64940d995ac7d4d8ee363d386102b447529dd0a5ceab5",
+      "matched": true
+    },
+    {
+      "path": "assessment-08.html",
+      "expectedBytes": 378,
+      "expectedSha256": "7c5f22670b94292573a64940d995ac7d4d8ee363d386102b447529dd0a5ceab5",
+      "status": 200,
+      "bytes": 378,
+      "sha256": "7c5f22670b94292573a64940d995ac7d4d8ee363d386102b447529dd0a5ceab5",
+      "matched": true
+    },
+    {
+      "path": "assessment-09.html",
+      "expectedBytes": 378,
+      "expectedSha256": "17c49f0f7c684838360c5c14f667b79873162528d3e46a3aa0bfdd0a8afb9292",
+      "status": 200,
+      "bytes": 378,
+      "sha256": "17c49f0f7c684838360c5c14f667b79873162528d3e46a3aa0bfdd0a8afb9292",
+      "matched": true
+    },
+    {
+      "path": "assessment-10.html",
+      "expectedBytes": 378,
+      "expectedSha256": "17c49f0f7c684838360c5c14f667b79873162528d3e46a3aa0bfdd0a8afb9292",
+      "status": 200,
+      "bytes": 378,
+      "sha256": "17c49f0f7c684838360c5c14f667b79873162528d3e46a3aa0bfdd0a8afb9292",
+      "matched": true
+    },
+    {
+      "path": "assets/core.css",
+      "expectedBytes": 20964,
+      "expectedSha256": "3066a94ce122fbad318917fe48c5c8e243505ca40421ddabbcb5170ee5525923",
+      "status": 200,
+      "bytes": 20964,
+      "sha256": "3066a94ce122fbad318917fe48c5c8e243505ca40421ddabbcb5170ee5525923",
+      "matched": true
+    },
+    {
+      "path": "assets/lesson-figures.css",
+      "expectedBytes": 8851,
+      "expectedSha256": "3b2204a4f715d357201279a2a7246371abe529e88d03d81b023897d7514d2d83",
+      "status": 200,
+      "bytes": 8851,
+      "sha256": "3b2204a4f715d357201279a2a7246371abe529e88d03d81b023897d7514d2d83",
+      "matched": true
+    },
+    {
+      "path": "assets/lesson-figures.js",
+      "expectedBytes": 28268,
+      "expectedSha256": "b045da17334d951228c5f3d0a5d2d5f813ba19e67030a7ba01a6a6b5016bc52b",
+      "status": 200,
+      "bytes": 28268,
+      "sha256": "b045da17334d951228c5f3d0a5d2d5f813ba19e67030a7ba01a6a6b5016bc52b",
+      "matched": true
+    },
+    {
+      "path": "assets/practice.css",
+      "expectedBytes": 25223,
+      "expectedSha256": "7a1091e4189153cac441a07b18a35fa220038f7890dbc070b82e19c8b15bbc09",
+      "status": 200,
+      "bytes": 25223,
+      "sha256": "7a1091e4189153cac441a07b18a35fa220038f7890dbc070b82e19c8b15bbc09",
+      "matched": true
+    },
+    {
+      "path": "assets/practice.js",
+      "expectedBytes": 141856,
+      "expectedSha256": "8e25856237e377cb499ee24dd23813930cf5836b87510f0924714a0b63d43ada",
+      "status": 200,
+      "bytes": 141856,
+      "sha256": "8e25856237e377cb499ee24dd23813930cf5836b87510f0924714a0b63d43ada",
+      "matched": true
+    },
+    {
+      "path": "assets/site.js",
+      "expectedBytes": 13237,
+      "expectedSha256": "3470a71711237bf23aa24180c9432f38d4907be713e366a4cb9e5f69f92aa663",
+      "status": 200,
+      "bytes": 13237,
+      "sha256": "3470a71711237bf23aa24180c9432f38d4907be713e366a4cb9e5f69f92aa663",
+      "matched": true
+    },
+    {
+      "path": "assets/ta-activities.json",
+      "expectedBytes": 25442,
+      "expectedSha256": "bbe716d11af1c1df9f5181bace556ac9f4b6e47963cc15416178734f885f83f7",
+      "status": 200,
+      "bytes": 25442,
+      "sha256": "bbe716d11af1c1df9f5181bace556ac9f4b6e47963cc15416178734f885f83f7",
+      "matched": true
+    },
+    {
+      "path": "assets/workbook.js",
+      "expectedBytes": 5835,
+      "expectedSha256": "d287e6087502faa3f4ad077c3f3b923be72d220b1499d98aa6287e84180651bf",
+      "status": 200,
+      "bytes": 5835,
+      "sha256": "d287e6087502faa3f4ad077c3f3b923be72d220b1499d98aa6287e84180651bf",
+      "matched": true
+    },
+    {
+      "path": "business-paths.html",
+      "expectedBytes": 366,
+      "expectedSha256": "e7ac19682f377b8df77d436b26cc457dfe0f15f45f82ee953a570f08f1a9943d",
+      "status": 200,
+      "bytes": 366,
+      "sha256": "e7ac19682f377b8df77d436b26cc457dfe0f15f45f82ee953a570f08f1a9943d",
+      "matched": true
+    },
+    {
+      "path": "course.html",
+      "expectedBytes": 366,
+      "expectedSha256": "e7ac19682f377b8df77d436b26cc457dfe0f15f45f82ee953a570f08f1a9943d",
+      "status": 200,
+      "bytes": 366,
+      "sha256": "e7ac19682f377b8df77d436b26cc457dfe0f15f45f82ee953a570f08f1a9943d",
+      "matched": true
+    },
+    {
+      "path": "discussions.html",
+      "expectedBytes": 370,
+      "expectedSha256": "71a5cf69152d8c7ffb2dc485c1205099858398b8125625a56ac0af7928a5b477",
+      "status": 200,
+      "bytes": 370,
+      "sha256": "71a5cf69152d8c7ffb2dc485c1205099858398b8125625a56ac0af7928a5b477",
+      "matched": true
+    },
+    {
+      "path": "downloads/cedar-desk-packet.txt",
+      "expectedBytes": 7244,
+      "expectedSha256": "469280079da422dfa83d4581f5ca23857da160df3fb7140aa51db624dad93132",
+      "status": 200,
+      "bytes": 7244,
+      "sha256": "469280079da422dfa83d4581f5ca23857da160df3fb7140aa51db624dad93132",
+      "matched": true
+    },
+    {
+      "path": "downloads/course-site.zip",
+      "expectedBytes": 252712,
+      "expectedSha256": "96f8c01c27812ec3332383924958f282b8c160e00100e86faa98c287be80da23",
+      "status": 200,
+      "bytes": 252712,
+      "sha256": "96f8c01c27812ec3332383924958f282b8c160e00100e86faa98c287be80da23",
+      "matched": true
+    },
+    {
+      "path": "downloads/project-record.txt",
+      "expectedBytes": 2702,
+      "expectedSha256": "eb07ea558239e4cc624ef160f8e3bc593e2c92f23e57c5e95382b60e16dc4ad5",
+      "status": 200,
+      "bytes": 2702,
+      "sha256": "eb07ea558239e4cc624ef160f8e3bc593e2c92f23e57c5e95382b60e16dc4ad5",
+      "matched": true
+    },
+    {
+      "path": "example.html",
+      "expectedBytes": 12155,
+      "expectedSha256": "775a64ee164c85039df1119723b52bb3e1ebe28f9a04fca973267a681d350a48",
+      "status": 200,
+      "bytes": 12155,
+      "sha256": "775a64ee164c85039df1119723b52bb3e1ebe28f9a04fca973267a681d350a48",
+      "matched": true
+    },
+    {
+      "path": "finish.html",
+      "expectedBytes": 4536,
+      "expectedSha256": "e78661babede2d1977e96ebb768e8e82a8f55f100216358179626e9a6cb557d3",
+      "status": 200,
+      "bytes": 4536,
+      "sha256": "e78661babede2d1977e96ebb768e8e82a8f55f100216358179626e9a6cb557d3",
+      "matched": true
+    },
+    {
+      "path": "guide.html",
+      "expectedBytes": 374,
+      "expectedSha256": "440eabba9484542cb16c21c7a0c920b811e9f518f881211e315b07ba43a8da1e",
+      "status": 200,
+      "bytes": 374,
+      "sha256": "440eabba9484542cb16c21c7a0c920b811e9f518f881211e315b07ba43a8da1e",
+      "matched": true
+    },
+    {
+      "path": "index.html",
+      "expectedBytes": 9231,
+      "expectedSha256": "fc397c65a6e9af76eb3a2a8bcf12e8ac208d02849b9725b96f24bf90adf4b437",
+      "status": 200,
+      "bytes": 9231,
+      "sha256": "fc397c65a6e9af76eb3a2a8bcf12e8ac208d02849b9725b96f24bf90adf4b437",
+      "matched": true
+    },
+    {
+      "path": "instructor.html",
+      "expectedBytes": 7138,
+      "expectedSha256": "14d08b8cb585a7fa3012d286d6b855f392a8078ed0a47d33d93f514bc5d48967",
+      "status": 200,
+      "bytes": 7138,
+      "sha256": "14d08b8cb585a7fa3012d286d6b855f392a8078ed0a47d33d93f514bc5d48967",
+      "matched": true
+    },
+    {
+      "path": "labs/index.html",
+      "expectedBytes": 390,
+      "expectedSha256": "53d81db8871039e0702bbd1254f5a076831429ea29188a9d6d072efd7ed5606b",
+      "status": 200,
+      "bytes": 390,
+      "sha256": "53d81db8871039e0702bbd1254f5a076831429ea29188a9d6d072efd7ed5606b",
+      "matched": true
+    },
+    {
+      "path": "milestone-1.html",
+      "expectedBytes": 6485,
+      "expectedSha256": "fe44fcab2d4bda59e6c5963b6b58962930b747db333dc05b4269417e1aeb12a0",
+      "status": 200,
+      "bytes": 6485,
+      "sha256": "fe44fcab2d4bda59e6c5963b6b58962930b747db333dc05b4269417e1aeb12a0",
+      "matched": true
+    },
+    {
+      "path": "milestone-2.html",
+      "expectedBytes": 6536,
+      "expectedSha256": "120da7d97a9834c1b7543dfbc02b1d4a6c9478ad8da0c25037331251bb397391",
+      "status": 200,
+      "bytes": 6536,
+      "sha256": "120da7d97a9834c1b7543dfbc02b1d4a6c9478ad8da0c25037331251bb397391",
+      "matched": true
+    },
+    {
+      "path": "milestone-3.html",
+      "expectedBytes": 6243,
+      "expectedSha256": "1c2d3ca5e409b70755bae13c8b60aacfd24bf2e1f04a8838131bd3d8e98f16e0",
+      "status": 200,
+      "bytes": 6243,
+      "sha256": "1c2d3ca5e409b70755bae13c8b60aacfd24bf2e1f04a8838131bd3d8e98f16e0",
+      "matched": true
+    },
+    {
+      "path": "milestone-4.html",
+      "expectedBytes": 6934,
+      "expectedSha256": "18d111e36d50f20d349f823f9ab0f25281d632a470fc7d31c009b64984a39559",
+      "status": 200,
+      "bytes": 6934,
+      "sha256": "18d111e36d50f20d349f823f9ab0f25281d632a470fc7d31c009b64984a39559",
+      "matched": true
+    },
+    {
+      "path": "milestone-5.html",
+      "expectedBytes": 6738,
+      "expectedSha256": "d20e003f20419c0a00a9e664e5e159ad0f639698b65dc3331c42c7da5ea5818c",
+      "status": 200,
+      "bytes": 6738,
+      "sha256": "d20e003f20419c0a00a9e664e5e159ad0f639698b65dc3331c42c7da5ea5818c",
+      "matched": true
+    },
+    {
+      "path": "module-00.html",
+      "expectedBytes": 370,
+      "expectedSha256": "9264dc1abd87896d15d9fe9a3eb669714f7d2b85e102ffee217577b39780b98f",
+      "status": 200,
+      "bytes": 370,
+      "sha256": "9264dc1abd87896d15d9fe9a3eb669714f7d2b85e102ffee217577b39780b98f",
+      "matched": true
+    },
+    {
+      "path": "module-01.html",
+      "expectedBytes": 370,
+      "expectedSha256": "9264dc1abd87896d15d9fe9a3eb669714f7d2b85e102ffee217577b39780b98f",
+      "status": 200,
+      "bytes": 370,
+      "sha256": "9264dc1abd87896d15d9fe9a3eb669714f7d2b85e102ffee217577b39780b98f",
+      "matched": true
+    },
+    {
+      "path": "module-02.html",
+      "expectedBytes": 370,
+      "expectedSha256": "db169c983a60b241ca7abfd2fa6a35926905b8b9e7326b0b383cc1de43ea2936",
+      "status": 200,
+      "bytes": 370,
+      "sha256": "db169c983a60b241ca7abfd2fa6a35926905b8b9e7326b0b383cc1de43ea2936",
+      "matched": true
+    },
+    {
+      "path": "module-03.html",
+      "expectedBytes": 370,
+      "expectedSha256": "0f5134a44df89d7d91153689fb9884c967f660cbbe3a77c67d1cf55d4cd476ca",
+      "status": 200,
+      "bytes": 370,
+      "sha256": "0f5134a44df89d7d91153689fb9884c967f660cbbe3a77c67d1cf55d4cd476ca",
+      "matched": true
+    },
+    {
+      "path": "module-04.html",
+      "expectedBytes": 370,
+      "expectedSha256": "9fb8e7cf772ae0615c4fd6c62527af629766446aa3015882be99ba710e78d3cb",
+      "status": 200,
+      "bytes": 370,
+      "sha256": "9fb8e7cf772ae0615c4fd6c62527af629766446aa3015882be99ba710e78d3cb",
+      "matched": true
+    },
+    {
+      "path": "module-05.html",
+      "expectedBytes": 370,
+      "expectedSha256": "9fb8e7cf772ae0615c4fd6c62527af629766446aa3015882be99ba710e78d3cb",
+      "status": 200,
+      "bytes": 370,
+      "sha256": "9fb8e7cf772ae0615c4fd6c62527af629766446aa3015882be99ba710e78d3cb",
+      "matched": true
+    },
+    {
+      "path": "module-06.html",
+      "expectedBytes": 370,
+      "expectedSha256": "b3561b151136c406ec23fbeae188ca10afe5f280228c82ac42d2293475a847f5",
+      "status": 200,
+      "bytes": 370,
+      "sha256": "b3561b151136c406ec23fbeae188ca10afe5f280228c82ac42d2293475a847f5",
+      "matched": true
+    },
+    {
+      "path": "module-07.html",
+      "expectedBytes": 370,
+      "expectedSha256": "db169c983a60b241ca7abfd2fa6a35926905b8b9e7326b0b383cc1de43ea2936",
+      "status": 200,
+      "bytes": 370,
+      "sha256": "db169c983a60b241ca7abfd2fa6a35926905b8b9e7326b0b383cc1de43ea2936",
+      "matched": true
+    },
+    {
+      "path": "module-08.html",
+      "expectedBytes": 370,
+      "expectedSha256": "e20e611187792201db905f3d7f366607fb6e09469570f30faf8a88df5e3d9e14",
+      "status": 200,
+      "bytes": 370,
+      "sha256": "e20e611187792201db905f3d7f366607fb6e09469570f30faf8a88df5e3d9e14",
+      "matched": true
+    },
+    {
+      "path": "module-09.html",
+      "expectedBytes": 370,
+      "expectedSha256": "dfb09a8924a9353f9b529fbab699cfcaf4676b8d1bb138ea07c8f581a0194372",
+      "status": 200,
+      "bytes": 370,
+      "sha256": "dfb09a8924a9353f9b529fbab699cfcaf4676b8d1bb138ea07c8f581a0194372",
+      "matched": true
+    },
+    {
+      "path": "module-10.html",
+      "expectedBytes": 370,
+      "expectedSha256": "68e27fd74f1ff47634cf224fc07da97adff928949e0c62acc86daddbf8a6d346",
+      "status": 200,
+      "bytes": 370,
+      "sha256": "68e27fd74f1ff47634cf224fc07da97adff928949e0c62acc86daddbf8a6d346",
+      "matched": true
+    },
+    {
+      "path": "module-11.html",
+      "expectedBytes": 370,
+      "expectedSha256": "b87f5c78f462e6e5bfda81295acd8f318e04358492eda38cb263a3c99fa49246",
+      "status": 200,
+      "bytes": 370,
+      "sha256": "b87f5c78f462e6e5bfda81295acd8f318e04358492eda38cb263a3c99fa49246",
+      "matched": true
+    },
+    {
+      "path": "module-12.html",
+      "expectedBytes": 370,
+      "expectedSha256": "1034a2e243763f9ac3babaa2a01d308cedaffbbc9211a5087e5f3a9121ee5c54",
+      "status": 200,
+      "bytes": 370,
+      "sha256": "1034a2e243763f9ac3babaa2a01d308cedaffbbc9211a5087e5f3a9121ee5c54",
+      "matched": true
+    },
+    {
+      "path": "module-13.html",
+      "expectedBytes": 370,
+      "expectedSha256": "9acedc8af692db38b28f86d80aaee90ecdbaebf4630f14390df9277fd740a38b",
+      "status": 200,
+      "bytes": 370,
+      "sha256": "9acedc8af692db38b28f86d80aaee90ecdbaebf4630f14390df9277fd740a38b",
+      "matched": true
+    },
+    {
+      "path": "module-14.html",
+      "expectedBytes": 370,
+      "expectedSha256": "dfb09a8924a9353f9b529fbab699cfcaf4676b8d1bb138ea07c8f581a0194372",
+      "status": 200,
+      "bytes": 370,
+      "sha256": "dfb09a8924a9353f9b529fbab699cfcaf4676b8d1bb138ea07c8f581a0194372",
+      "matched": true
+    },
+    {
+      "path": "module-15.html",
+      "expectedBytes": 370,
+      "expectedSha256": "9acedc8af692db38b28f86d80aaee90ecdbaebf4630f14390df9277fd740a38b",
+      "status": 200,
+      "bytes": 370,
+      "sha256": "9acedc8af692db38b28f86d80aaee90ecdbaebf4630f14390df9277fd740a38b",
+      "matched": true
+    },
+    {
+      "path": "module-16.html",
+      "expectedBytes": 370,
+      "expectedSha256": "9acedc8af692db38b28f86d80aaee90ecdbaebf4630f14390df9277fd740a38b",
+      "status": 200,
+      "bytes": 370,
+      "sha256": "9acedc8af692db38b28f86d80aaee90ecdbaebf4630f14390df9277fd740a38b",
+      "matched": true
+    },
+    {
+      "path": "partner-challenge.html",
+      "expectedBytes": 370,
+      "expectedSha256": "71a5cf69152d8c7ffb2dc485c1205099858398b8125625a56ac0af7928a5b477",
+      "status": 200,
+      "bytes": 370,
+      "sha256": "71a5cf69152d8c7ffb2dc485c1205099858398b8125625a56ac0af7928a5b477",
+      "matched": true
+    },
+    {
+      "path": "project.html",
+      "expectedBytes": 24560,
+      "expectedSha256": "8c8e524dec2d237570d436e9bfe935a5a096f6d9ca31f4688edab563f7913c26",
+      "status": 200,
+      "bytes": 24560,
+      "sha256": "8c8e524dec2d237570d436e9bfe935a5a096f6d9ca31f4688edab563f7913c26",
+      "matched": true
+    },
+    {
+      "path": "projects.html",
+      "expectedBytes": 370,
+      "expectedSha256": "71a5cf69152d8c7ffb2dc485c1205099858398b8125625a56ac0af7928a5b477",
+      "status": 200,
+      "bytes": 370,
+      "sha256": "71a5cf69152d8c7ffb2dc485c1205099858398b8125625a56ac0af7928a5b477",
+      "matched": true
+    },
+    {
+      "path": "readings.html",
+      "expectedBytes": 19551,
+      "expectedSha256": "c34eaaca50d392c96e5adf55fc9d31eab035a3bbaa5d58fd5cbd7b4d079d27fd",
+      "status": 200,
+      "bytes": 19551,
+      "sha256": "c34eaaca50d392c96e5adf55fc9d31eab035a3bbaa5d58fd5cbd7b4d079d27fd",
+      "matched": true
+    },
+    {
+      "path": "resources.html",
+      "expectedBytes": 5154,
+      "expectedSha256": "e0aed76e0f29118a629af3ad0b32111ec19b7717832a56be924873801764aedd",
+      "status": 200,
+      "bytes": 5154,
+      "sha256": "e0aed76e0f29118a629af3ad0b32111ec19b7717832a56be924873801764aedd",
+      "matched": true
+    },
+    {
+      "path": "toolkit.html",
+      "expectedBytes": 392,
+      "expectedSha256": "e281b2135f1b549d8a219757a553a55c7f350e30164f896f54a434120164d8f3",
+      "status": 200,
+      "bytes": 392,
+      "sha256": "e281b2135f1b549d8a219757a553a55c7f350e30164f896f54a434120164d8f3",
+      "matched": true
+    },
+    {
+      "path": "unit-01.html",
+      "expectedBytes": 38281,
+      "expectedSha256": "59b178e0b6b8da6671b85b5f8af16653b4b42473f00622cc88fd7ea3b5671aec",
+      "status": 200,
+      "bytes": 38281,
+      "sha256": "59b178e0b6b8da6671b85b5f8af16653b4b42473f00622cc88fd7ea3b5671aec",
+      "matched": true
+    },
+    {
+      "path": "unit-02.html",
+      "expectedBytes": 23441,
+      "expectedSha256": "2c8fd0d02b37f18f2fa3042ac278d20b9ff51d8a747ab781ad5124bf92041f49",
+      "status": 200,
+      "bytes": 23441,
+      "sha256": "2c8fd0d02b37f18f2fa3042ac278d20b9ff51d8a747ab781ad5124bf92041f49",
+      "matched": true
+    },
+    {
+      "path": "unit-03.html",
+      "expectedBytes": 26096,
+      "expectedSha256": "5adf4d6f52ac4ad049ff1a95c53a8bec73f6c30fb2ac0f796056cdf8c4835a78",
+      "status": 200,
+      "bytes": 26096,
+      "sha256": "5adf4d6f52ac4ad049ff1a95c53a8bec73f6c30fb2ac0f796056cdf8c4835a78",
+      "matched": true
+    },
+    {
+      "path": "unit-04.html",
+      "expectedBytes": 23892,
+      "expectedSha256": "a4c7dbaa0e53b67c5ae30841b0427b657bfa6c46e5c80bb272abf784425935b8",
+      "status": 200,
+      "bytes": 23892,
+      "sha256": "a4c7dbaa0e53b67c5ae30841b0427b657bfa6c46e5c80bb272abf784425935b8",
+      "matched": true
+    },
+    {
+      "path": "unit-05.html",
+      "expectedBytes": 37416,
+      "expectedSha256": "1fd5401a981c7eeb98861b0c22966822a4181cfb508268f4fe7ee046bdde8e9a",
+      "status": 200,
+      "bytes": 37416,
+      "sha256": "1fd5401a981c7eeb98861b0c22966822a4181cfb508268f4fe7ee046bdde8e9a",
+      "matched": true
+    },
+    {
+      "path": "unit-06.html",
+      "expectedBytes": 24908,
+      "expectedSha256": "7dcec1329cac359933e4b44ced0db0286f4e9cd711db20013ad806a67e5c2644",
+      "status": 200,
+      "bytes": 24908,
+      "sha256": "7dcec1329cac359933e4b44ced0db0286f4e9cd711db20013ad806a67e5c2644",
+      "matched": true
+    },
+    {
+      "path": "unit-07.html",
+      "expectedBytes": 26087,
+      "expectedSha256": "8a51ba12d15193fd5afebc86ddd0ca0fec4d119fd554e858fd917f73e619659b",
+      "status": 200,
+      "bytes": 26087,
+      "sha256": "8a51ba12d15193fd5afebc86ddd0ca0fec4d119fd554e858fd917f73e619659b",
+      "matched": true
+    },
+    {
+      "path": "unit-08.html",
+      "expectedBytes": 24793,
+      "expectedSha256": "9535bb28de2ceddc39b0b44e96cbc23b0a8021a5a05841bedf057c8ef73f7dc5",
+      "status": 200,
+      "bytes": 24793,
+      "sha256": "9535bb28de2ceddc39b0b44e96cbc23b0a8021a5a05841bedf057c8ef73f7dc5",
+      "matched": true
+    },
+    {
+      "path": "unit-09.html",
+      "expectedBytes": 24351,
+      "expectedSha256": "0ba7cdf84cf8ebcbffbd17e6e2dde91c6e55c82990f676b5e96040c0f67b8c1c",
+      "status": 200,
+      "bytes": 24351,
+      "sha256": "0ba7cdf84cf8ebcbffbd17e6e2dde91c6e55c82990f676b5e96040c0f67b8c1c",
+      "matched": true
+    },
+    {
+      "path": "unit-10.html",
+      "expectedBytes": 29081,
+      "expectedSha256": "b2412402bfd53a0e2741aab96e937e8e08e2187e39c20af6df305b56ec6e5918",
+      "status": 200,
+      "bytes": 29081,
+      "sha256": "b2412402bfd53a0e2741aab96e937e8e08e2187e39c20af6df305b56ec6e5918",
+      "matched": true
+    },
+    {
+      "path": "unit-11.html",
+      "expectedBytes": 21364,
+      "expectedSha256": "7356b4299a5da4fc4b7f9c70749be33b7a0779a747c30ba52d23feae832155f4",
+      "status": 200,
+      "bytes": 21364,
+      "sha256": "7356b4299a5da4fc4b7f9c70749be33b7a0779a747c30ba52d23feae832155f4",
+      "matched": true
+    },
+    {
+      "path": "unit-12.html",
+      "expectedBytes": 27469,
+      "expectedSha256": "69c99ace1405fa3ce692f04209facc2e6f37cd7b76ef4b3e12cfd252e703df22",
+      "status": 200,
+      "bytes": 27469,
+      "sha256": "69c99ace1405fa3ce692f04209facc2e6f37cd7b76ef4b3e12cfd252e703df22",
+      "matched": true
+    },
+    {
+      "path": "venture-studio.html",
+      "expectedBytes": 370,
+      "expectedSha256": "68e27fd74f1ff47634cf224fc07da97adff928949e0c62acc86daddbf8a6d346",
+      "status": 200,
+      "bytes": 370,
+      "sha256": "68e27fd74f1ff47634cf224fc07da97adff928949e0c62acc86daddbf8a6d346",
+      "matched": true
+    }
+  ],
+  "apiChecks": [
+    {
+      "name": "Unit6 Decide hint before evidence",
+      "request": {
+        "lesson": "unit-06.html",
+        "delivery": "canvas",
+        "messages": [
+          {
+            "id": "quality-review-1",
+            "role": "user",
+            "parts": [
+              {
+                "type": "text",
+                "text": "Give me one conceptual hint about my recorded initial choice at this step. Do not reveal the later evidence or worked answer."
+              }
+            ]
+          }
+        ],
+        "learning": {
+          "phase": "decide",
+          "choice": "1",
+          "attempt": "I choose the lowest draft time because AI writes answers quickly. I have not compared review or repair effort.",
+          "revision": "",
+          "transfer": ""
+        }
+      },
+      "status": 200,
+      "streamHeader": "v1",
+      "response": "Your note that you haven't compared review or repair effort is a good instinct. It points at the gap in choice 1.\n\n**Conceptual hint:** A draft time only tells you how long the first output took. It doesn't tell you what happened next. Ask yourself: after the draft appears, what work might still be needed before the answer is usable? Someone might need to check facts, fix errors, rewrite weak parts, or redo an answer that misses the quality bar. A method that finishes first could still take the most total effort.\n\nYour choice is recorded, and you can keep or revise it once the lab reveals more. For now, think about this question:\n\n**If both methods produce drafts for the same twelve questions, what would you need to measure about each answer before you could say one method saved time?**",
+      "sources": [
+        {
+          "sourceId": "unit-06.html:6:0",
+          "url": "/teaching/ai-solutions/unit-06.html#ta-lab-6",
+          "title": "Unit 6: Design a fair test \u2014 The speed trophy"
+        },
+        {
+          "sourceId": "unit-06.html:3:0",
+          "url": "/teaching/ai-solutions/unit-06.html#required-reading-heading-6",
+          "title": "Unit 6: Design a fair test \u2014 Read, then apply one idea"
+        }
+      ],
+      "startMetadata": [
+        {
+          "learningPhase": "decide"
+        }
+      ],
+      "finishMetadata": [
+        {
+          "finishReason": "stop",
+          "learningPhase": "decide"
+        }
+      ],
+      "errors": [],
+      "streamFinished": true,
+      "phaseMetadataMatched": true,
+      "elapsedSeconds": 3.89,
+      "assessment": {
+        "passed": true,
+        "basis": "Provides one conceptual hint about review/repair and full effort, with one measurement question; does not disclose the later numeric evidence or worked result.",
+        "lateNumericEvidenceAbsent": true
+      },
+      "responseWordCount": 141
+    },
+    {
+      "name": "Unit8 Revise actual capacity versus cash misconception",
+      "request": {
+        "lesson": "unit-08.html",
+        "delivery": "canvas",
+        "messages": [
+          {
+            "id": "quality-review-2",
+            "role": "user",
+            "parts": [
+              {
+                "type": "text",
+                "text": "Check the reasoning in my recorded revision: is -$96/month the cash change at 30% use when payroll stays unchanged? Explain the distinction and ask one focused question."
+              }
+            ]
+          }
+        ],
+        "learning": {
+          "phase": "revise",
+          "choice": "1",
+          "attempt": "At 50% use I valued 10 saved hours at $24 and called $240 cash savings. I thought the $240 tool expense made the cash result zero.",
+          "revision": "At 30% use I get 6 hours released and $144 value, minus $240 expense. I now think the monthly cash change is -$96.",
+          "transfer": ""
+        }
+      },
+      "status": 200,
+      "streamHeader": "v1",
+      "response": "Your arithmetic is correct: 30% of 1,200 is 360 replies, which releases 6 hours, valued at $144. The misconception is the last step. The -$96 is a **net capacity value**, which compares valued time with the new expense. It is not a cash change.\n\nCash moves only when actual spending or receipts change. Here payroll is unchanged, so no one is paid less, and the released time is only potential capacity. The $240 recurring tool and support cost is a real cash outflow. The monthly cash change is therefore **-$240**, and the $144 is a value estimate, not money.\n\nThis also affects your 50% answer: the saving was $0 net capacity value, and the cash change was -$240, not a $240 saving. The decision implication still holds: at 30% use the value case is weaker, so a bounded test should measure actual use and complete effort before any broader commitment. Your course reading on cash flows is in the [unit lab](/teaching/ai-solutions/unit-08.html#ta-lab-8).\n\n**Question:** If the operation later cut $144 a month of overtime because of the released hours, which of your three numbers would change, and what would the monthly cash change become?",
+      "sources": [
+        {
+          "sourceId": "unit-08.html:5:0",
+          "url": "/teaching/ai-solutions/unit-08.html#ta-lab-8",
+          "title": "Unit 8: Evaluate impact and resources \u2014 The savings that never reach payroll"
+        },
+        {
+          "sourceId": "unit-08.html:3:0",
+          "url": "/teaching/ai-solutions/unit-08.html#required-reading-heading-8",
+          "title": "Unit 8: Evaluate impact and resources \u2014 Read, then apply one idea"
+        }
+      ],
+      "startMetadata": [
+        {
+          "learningPhase": "revise"
+        }
+      ],
+      "finishMetadata": [
+        {
+          "finishReason": "stop",
+          "learningPhase": "revise"
+        }
+      ],
+      "errors": [],
+      "streamFinished": true,
+      "phaseMetadataMatched": true,
+      "elapsedSeconds": 6.8,
+      "assessment": {
+        "passed": true,
+        "basis": "Addresses the actual learner revision: 30% gives 6 released hours/$144 capacity value, -$96 net capacity value, and -$240 actual monthly cash change with unchanged payroll. Corrects the original 50% mistake and asks one focused conditional-cash question.",
+        "cashAndCapacityDistinguished": true,
+        "phaseMetadataMatched": true
+      },
+      "responseWordCount": 192
+    },
+    {
+      "name": "Unit3 normal Canvas Finish sequence",
+      "request": {
+        "lesson": "unit-03.html",
+        "delivery": "canvas",
+        "messages": [
+          {
+            "id": "quality-review-3",
+            "role": "user",
+            "parts": [
+              {
+                "type": "text",
+                "text": "I just finished the Unit 3 lesson. What is the exact order of Canvas items before and after the quiz? Does the decision lab require a separate upload? Keep it concise."
+              }
+            ]
+          }
+        ]
+      },
+      "status": 200,
+      "streamHeader": "v1",
+      "response": "**Canvas order for Unit 3:**\n\n1. **Unit 3 lesson and reading**, including the decision lab's reasoning steps (you've finished this).\n2. **Project exchange**, since Unit 3 has one. Use the peer-post or supplied-sample critique option in the Canvas prompt. No live peer is required.\n3. **Practice quiz and project update.** It has three choice questions (1 raw point each, with immediate feedback) and a zero-point written question. Put your project update in the written question, then submit.\n4. **Milestone 1** (problem and feasible scope), when it's due. Check your Canvas dates for the deadline.\n\n**After the quiz:** Use **Canvas Next** to follow this order. Don't skip to the milestone.\n\n**Decision lab upload:** No separate upload. Write your initial choice, evidence-based revision, and project action in your own document. Then carry the project evidence into the zero-point written question of the Unit 3 quiz. Practice records are not grades or Canvas submissions, so the quiz response is the only place this work goes into Canvas.\n\nI can't see your submission status or any feedback. Submitting the quiz counts toward module completion, even while the written question awaits instructor review.\n\nCourse reference: [Unit 3: Choose and scope a solution](/teaching/ai-solutions/unit-03.html#ta-lab-3)",
+      "sources": [
+        {
+          "sourceId": "unit-03.html:5:0",
+          "url": "/teaching/ai-solutions/unit-03.html#ta-lab-3",
+          "title": "Unit 3: Choose and scope a solution \u2014 The scope negotiation"
+        },
+        {
+          "sourceId": "unit-03.html:4:0",
+          "url": "/teaching/ai-solutions/unit-03.html#section-2",
+          "title": "Unit 3: Choose and scope a solution \u2014 Find the assumption that changes the recommendation"
+        },
+        {
+          "sourceId": "unit-03.html:7:0",
+          "url": "/teaching/ai-solutions/unit-03.html#section-3",
+          "title": "Unit 3: Choose and scope a solution \u2014 Prepare Milestone 1: problem and feasible scope"
+        },
+        {
+          "sourceId": "unit-03.html:2:0",
+          "url": "/teaching/ai-solutions/unit-03.html#section-1",
+          "title": "Unit 3: Choose and scope a solution \u2014 Choose a learning investment before a large commitment"
+        },
+        {
+          "sourceId": "unit-11.html:5:0",
+          "url": "/teaching/ai-solutions/unit-11.html#ta-lab-11",
+          "title": "Unit 11: Make delivery dependable \u2014 The queue at closing time"
+        },
+        {
+          "sourceId": "unit-06.html:5:1",
+          "url": "/teaching/ai-solutions/unit-06.html#section-2",
+          "title": "Unit 6: Design a fair test \u2014 Commit a policy before testing its resilience"
+        }
+      ],
+      "startMetadata": [
+        null
+      ],
+      "finishMetadata": [
+        {
+          "finishReason": "stop"
+        }
+      ],
+      "errors": [],
+      "streamFinished": true,
+      "elapsedSeconds": 4.94,
+      "assessment": {
+        "passed": true,
+        "basis": "Lists lesson/readings -> Unit 3 exchange -> practice quiz/project update -> Milestone 1. Explicitly states no separate lab upload and uses the existing zero-point written quiz response. Normal-mode response remains ungated by lab progress.",
+        "exchangeBeforeQuiz": true,
+        "milestoneAfterQuiz": true,
+        "noExtraLabUpload": true
+      },
+      "responseWordCount": 197
+    }
+  ],
+  "scope": "Current public artifacts and three fresh bounded AI conversations. No Canvas API/UI, private records, code/config changes, or decision-lab learner effectiveness claim.",
+  "staticMatched": 71,
+  "staticCount": 71,
+  "assessment": {
+    "staticArtifactsPassed": true,
+    "sampledApiContractsPassed": true,
+    "samplingLimit": "Three fresh bounded conversations; not a guarantee of every future response or a learner-effectiveness result.",
+    "canvasUi": "Not exercised by this child; root is checking Canvas Student View separately.",
+    "responseLengthObservation": "The Unit 8 detailed correction exceeds the approximate 180-word coaching target; factual and phase contracts pass. No extra API calls made to optimize wording."
+  },
+  "finalUiRelease": {
+    "commit": "a87c5a4ada8bc1a7a84471f0f2f2f6ab8b412de4",
+    "deployment": "dpl_5zHrQ2iXLJaCkxwjCXszKDw7XRXj",
+    "state": "READY",
+    "onlyChangeFromApiVerifiedRelease": "LearningLab.tsx: truthful download attempt and selectable record fallback; server and static course artifacts unchanged",
+    "browserCopyFallback": "1118-character readonly record, selectionStart=0 and selectionEnd=1118, stays inside Canvas"
+  }
+}

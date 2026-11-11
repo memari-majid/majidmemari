@@ -1,16 +1,16 @@
 {
-  "canonical_commit": "0c6ae40ccd53af9cfe096adf54d4a62768482078",
+  "canonical_commit": "2401790fb5c85435461268af9e780ee975126d12",
   "canonical_source": "/Users/majid/Documents/GitHub/uvu_courses/courses/cs4720R",
   "snapshot_origin": "Committed git archive; concurrent worktree changes excluded",
   "scope": "Documentation and public review snapshots only; no runtime, deployment, import or git action",
-  "reusable_package_sha256": "cd5dbe6c8a62a490d3845ca3e6eacfc7b3fefc9e40b8f7e2dbd74e3804e544c6",
-  "validated_local_markdown_links": 258,
+  "reusable_package_sha256": "3c693767d7be2a33446b05cb5552cce5032bb11463b22f79865243af47988c4c",
+  "validated_local_markdown_links": 277,
   "files": [
     {
       "source": "README.md",
       "mirror": "README.md",
-      "source_sha256": "24f4e7335d2ab50ff3784d66fd9b8e65a897c17876d89a3a4612f9ba5c5ec046",
-      "mirror_sha256": "ff8447d28c8fd77227fd9ec91d46694156e29b928888389d1eea15c21e87f068",
+      "source_sha256": "eaf13b431058a26a9afbc56a028ae6a80f5a13e16cefc4e11fb02d3227e9b6cc",
+      "mirror_sha256": "fa3f9d389f27193d6c3ec82bd6d7479e862b216fc286036b5ff64f17eb37fea9",
       "markdown_links_rewritten": true
     },
     {
@@ -18,6 +18,13 @@
       "mirror": "academic-source-policy.md",
       "source_sha256": "dd4f4409906085480c2566538a4e301df990159e1c5878823348dc280a1a9f64",
       "mirror_sha256": "331f4855645e7bd66226810d8615819250e975c4031367b6a37d9f6c3236fe12",
+      "markdown_links_rewritten": true
+    },
+    {
+      "source": "docs/AI_TA_REVIEW_2026-11-11.md",
+      "mirror": "ai-ta-review.md",
+      "source_sha256": "5bf75dea22e023b01db0ab15bddcc134caeea88e36df026e7352718fd58d8015",
+      "mirror_sha256": "136f689996b5e9f1ab64e2bb10e25bbf56e209e6d43d4ca6a18c94394192c822",
       "markdown_links_rewritten": true
     },
     {
@@ -30,15 +37,15 @@
     {
       "source": "integrations/canvas/README.md",
       "mirror": "canvas-integration.md",
-      "source_sha256": "0f1d21380c4d81489713fa795238a6b9f5a56efac479947ac7e1751383b1992a",
-      "mirror_sha256": "6c6cf89b29abdec4e6b9385ffc713328d244f95387acd573ab48916b1f7e2361",
+      "source_sha256": "4190d61386031cd33dc25033b85d7808e4c16addf4c9cd38f3a4a0db98c016ab",
+      "mirror_sha256": "4235a1cce37c1b28c5180ffadee7e63cffc295a74ce5e8cf2a048367db086bf8",
       "markdown_links_rewritten": true
     },
     {
       "source": "integrations/canvas/LIVE_INTEGRATION.md",
       "mirror": "canvas-live-integration.md",
-      "source_sha256": "07dbdac10488d20e025130eb3255287dec64e0790056171197eb626e66abaa09",
-      "mirror_sha256": "797165952b0439fc75887cb602536a48a440d05b8b4128b937cdc83530e30ba8",
+      "source_sha256": "5cbf5006ab5b22585ab72133167157aa87aad335d364c7a9ddcf7b0b8ff02dfc",
+      "mirror_sha256": "7dd50ad473be805643ce57753aec1583f98ac676354f644e308f014917106514",
       "markdown_links_rewritten": true
     },
     {
@@ -65,15 +72,15 @@
     {
       "source": "integrations/canvas/build_package.py",
       "mirror": "canvas/build_package.py",
-      "source_sha256": "e05d0bc560cab151bc6a76f18bcdb272f5c2588bf5c64a5ff651eeaa5dcde4c7",
-      "mirror_sha256": "e05d0bc560cab151bc6a76f18bcdb272f5c2588bf5c64a5ff651eeaa5dcde4c7",
+      "source_sha256": "f416130d019159e1bbd009ebbd28ab6a45ad9118f8cf6b033e45cfcb1e526624",
+      "mirror_sha256": "f416130d019159e1bbd009ebbd28ab6a45ad9118f8cf6b033e45cfcb1e526624",
       "markdown_links_rewritten": false
     },
     {
       "source": "integrations/canvas/building-ai-solutions-canvas.imscc",
       "mirror": "canvas/building-ai-solutions-canvas.imscc",
-      "source_sha256": "cd5dbe6c8a62a490d3845ca3e6eacfc7b3fefc9e40b8f7e2dbd74e3804e544c6",
-      "mirror_sha256": "cd5dbe6c8a62a490d3845ca3e6eacfc7b3fefc9e40b8f7e2dbd74e3804e544c6",
+      "source_sha256": "3c693767d7be2a33446b05cb5552cce5032bb11463b22f79865243af47988c4c",
+      "mirror_sha256": "3c693767d7be2a33446b05cb5552cce5032bb11463b22f79865243af47988c4c",
       "markdown_links_rewritten": false
     },
     {
@@ -259,6 +266,90 @@
       "markdown_links_rewritten": false
     },
     {
+      "source": "integrations/canvas/evidence/ta-review-2026-11-11/browser-checks.json",
+      "mirror": "canvas/evidence/ta-review-2026-11-11/browser-checks.json",
+      "source_sha256": "55509e6f2c906b74c22b6dd4ba7980c630a47b6ee80b1dc26622557eb4d1e507",
+      "mirror_sha256": "55509e6f2c906b74c22b6dd4ba7980c630a47b6ee80b1dc26622557eb4d1e507",
+      "markdown_links_rewritten": false
+    },
+    {
+      "source": "integrations/canvas/evidence/ta-review-2026-11-11/canvas-copyable-record.png",
+      "mirror": "canvas/evidence/ta-review-2026-11-11/canvas-copyable-record.png",
+      "source_sha256": "33ff25da731154326f15212dbe556f0adb37a2710d1eaf850a535fa1e0ece070",
+      "mirror_sha256": "33ff25da731154326f15212dbe556f0adb37a2710d1eaf850a535fa1e0ece070",
+      "markdown_links_rewritten": false
+    },
+    {
+      "source": "integrations/canvas/evidence/ta-review-2026-11-11/canvas-live-coaching.png",
+      "mirror": "canvas/evidence/ta-review-2026-11-11/canvas-live-coaching.png",
+      "source_sha256": "8d2fa02c7883f23e364543be8b78f4dd657e09def5bdd9ab06c80275a0e9186f",
+      "mirror_sha256": "8d2fa02c7883f23e364543be8b78f4dd657e09def5bdd9ab06c80275a0e9186f",
+      "markdown_links_rewritten": false
+    },
+    {
+      "source": "integrations/canvas/evidence/ta-review-2026-11-11/canvas-no-ai-lab.png",
+      "mirror": "canvas/evidence/ta-review-2026-11-11/canvas-no-ai-lab.png",
+      "source_sha256": "1c3d66763c00564fa2806802090c61cbbfff38ca47c91b0479abd701600f002d",
+      "mirror_sha256": "1c3d66763c00564fa2806802090c61cbbfff38ca47c91b0479abd701600f002d",
+      "markdown_links_rewritten": false
+    },
+    {
+      "source": "integrations/canvas/evidence/ta-review-2026-11-11/canvas-quality-assumption.png",
+      "mirror": "canvas/evidence/ta-review-2026-11-11/canvas-quality-assumption.png",
+      "source_sha256": "2dac937f153e17d6d24e0d5760070dd2970208cf77f9f7ddd962ebb5abeb2fda",
+      "mirror_sha256": "2dac937f153e17d6d24e0d5760070dd2970208cf77f9f7ddd962ebb5abeb2fda",
+      "markdown_links_rewritten": false
+    },
+    {
+      "source": "integrations/canvas/evidence/ta-review-2026-11-11/content-build-checks.json",
+      "mirror": "canvas/evidence/ta-review-2026-11-11/content-build-checks.json",
+      "source_sha256": "3a3380d4c3f0cddb74294279e276d9d356eeeaace715ed80fa7de1fa9b36e33b",
+      "mirror_sha256": "3a3380d4c3f0cddb74294279e276d9d356eeeaace715ed80fa7de1fa9b36e33b",
+      "markdown_links_rewritten": false
+    },
+    {
+      "source": "integrations/canvas/evidence/ta-review-2026-11-11/copy-ui-check.json",
+      "mirror": "canvas/evidence/ta-review-2026-11-11/copy-ui-check.json",
+      "source_sha256": "7e7962ac83a99f5836796515da67361c6567b6025928a1d4868032c9c139b407",
+      "mirror_sha256": "7e7962ac83a99f5836796515da67361c6567b6025928a1d4868032c9c139b407",
+      "markdown_links_rewritten": false
+    },
+    {
+      "source": "integrations/canvas/evidence/ta-review-2026-11-11/final-canvas-state.json",
+      "mirror": "canvas/evidence/ta-review-2026-11-11/final-canvas-state.json",
+      "source_sha256": "e6f6d52916af7d409234a2fe1725f534530bcb9e83d2fff7c05d66fc5b2cafe3",
+      "mirror_sha256": "e6f6d52916af7d409234a2fe1725f534530bcb9e83d2fff7c05d66fc5b2cafe3",
+      "markdown_links_rewritten": false
+    },
+    {
+      "source": "integrations/canvas/evidence/ta-review-2026-11-11/mobile-long-reason.png",
+      "mirror": "canvas/evidence/ta-review-2026-11-11/mobile-long-reason.png",
+      "source_sha256": "7c85916dfe322c12e5160a38c06c7a3af73ca27da1ba5606f0e8a0498babace9",
+      "mirror_sha256": "7c85916dfe322c12e5160a38c06c7a3af73ca27da1ba5606f0e8a0498babace9",
+      "markdown_links_rewritten": false
+    },
+    {
+      "source": "integrations/canvas/evidence/ta-review-2026-11-11/native-reading-checks.json",
+      "mirror": "canvas/evidence/ta-review-2026-11-11/native-reading-checks.json",
+      "source_sha256": "8609b64c2b491964fecb6de91e8a736c1df24322199afa72b54bea70c546903e",
+      "mirror_sha256": "8609b64c2b491964fecb6de91e8a736c1df24322199afa72b54bea70c546903e",
+      "markdown_links_rewritten": false
+    },
+    {
+      "source": "integrations/canvas/evidence/ta-review-2026-11-11/production-checks.json",
+      "mirror": "canvas/evidence/ta-review-2026-11-11/production-checks.json",
+      "source_sha256": "d1fd63ebaa0516888342057bc52857dec4f2a95048ef255705a0cdda4423ff7e",
+      "mirror_sha256": "d1fd63ebaa0516888342057bc52857dec4f2a95048ef255705a0cdda4423ff7e",
+      "markdown_links_rewritten": false
+    },
+    {
+      "source": "integrations/canvas/evidence/textbook-final-release-check.json",
+      "mirror": "canvas/evidence/textbook-final-release-check.json",
+      "source_sha256": "7ce61b7dab878ecf677b349eb8f0f15aba4f674db9170d07b81241a158d45028",
+      "mirror_sha256": "7ce61b7dab878ecf677b349eb8f0f15aba4f674db9170d07b81241a158d45028",
+      "markdown_links_rewritten": false
+    },
+    {
       "source": "integrations/canvas/evidence/textbook-public-release.json",
       "mirror": "canvas/evidence/textbook-public-release.json",
       "source_sha256": "80f01548dc1acae0427def24df0819453d71f704b45c9cde4b31325b138677aa",
@@ -275,15 +366,15 @@
     {
       "source": "integrations/canvas/live-verification.json",
       "mirror": "canvas/live-verification.json",
-      "source_sha256": "390c339777f95cae672d86b4ac618fc26a0125a39c135b9ab855b9bfb1770723",
-      "mirror_sha256": "390c339777f95cae672d86b4ac618fc26a0125a39c135b9ab855b9bfb1770723",
+      "source_sha256": "fd3c031cbbfbdd573ddb7a7a61db0d2f1e57d0f7d069be5e04a5eefc527e2a67",
+      "mirror_sha256": "fd3c031cbbfbdd573ddb7a7a61db0d2f1e57d0f7d069be5e04a5eefc527e2a67",
       "markdown_links_rewritten": false
     },
     {
       "source": "integrations/canvas/mapping.json",
       "mirror": "canvas/mapping.json",
-      "source_sha256": "b9cc6d20ea8c99a9bdfd48b9dac50988686a400dad892b751a0ae4fddaa5e7b2",
-      "mirror_sha256": "b9cc6d20ea8c99a9bdfd48b9dac50988686a400dad892b751a0ae4fddaa5e7b2",
+      "source_sha256": "344a1bdf667771ba491d8b3edcb9a3c24f4685809c6bb77cb4c9ec69c7bc6255",
+      "mirror_sha256": "344a1bdf667771ba491d8b3edcb9a3c24f4685809c6bb77cb4c9ec69c7bc6255",
       "markdown_links_rewritten": false
     },
     {
@@ -331,8 +422,8 @@
     {
       "source": "integrations/canvas/test_package.py",
       "mirror": "canvas/test_package.py",
-      "source_sha256": "07c3385233c936bd6ac6ad5d9678d46e2a9472104a8d57e84c133a6190a986fc",
-      "mirror_sha256": "07c3385233c936bd6ac6ad5d9678d46e2a9472104a8d57e84c133a6190a986fc",
+      "source_sha256": "1ff279f715e3e439a1ea65c9c94088e9319fa4f8241119af34894207e08eff20",
+      "mirror_sha256": "1ff279f715e3e439a1ea65c9c94088e9319fa4f8241119af34894207e08eff20",
       "markdown_links_rewritten": false
     },
     {
@@ -359,8 +450,8 @@
     {
       "source": "site/assets/core.css",
       "mirror": "course-source/assets/core.css",
-      "source_sha256": "bd51ed55fcf49ec23508f42162ae0f2603aa9d9e0697e5fa4fd88cc604047484",
-      "mirror_sha256": "bd51ed55fcf49ec23508f42162ae0f2603aa9d9e0697e5fa4fd88cc604047484",
+      "source_sha256": "3066a94ce122fbad318917fe48c5c8e243505ca40421ddabbcb5170ee5525923",
+      "mirror_sha256": "3066a94ce122fbad318917fe48c5c8e243505ca40421ddabbcb5170ee5525923",
       "markdown_links_rewritten": false
     },
     {
@@ -408,8 +499,8 @@
     {
       "source": "site/build_core.py",
       "mirror": "course-source/build_core.py",
-      "source_sha256": "8c3bcb6a359df857527bff6cfc62416f617c485d678bc3dc7b1d64471d343d4b",
-      "mirror_sha256": "8c3bcb6a359df857527bff6cfc62416f617c485d678bc3dc7b1d64471d343d4b",
+      "source_sha256": "fc55bf106c593721fe857e04bf4282907b9e61b7ae3ae90548561e57828a168b",
+      "mirror_sha256": "fc55bf106c593721fe857e04bf4282907b9e61b7ae3ae90548561e57828a168b",
       "markdown_links_rewritten": false
     },
     {
@@ -422,8 +513,8 @@
     {
       "source": "site/check_site.py",
       "mirror": "course-source/check_site.py",
-      "source_sha256": "82c11ca401039b4efea732027d9feba41dcad3534d0aebfcee256e8315d78839",
-      "mirror_sha256": "82c11ca401039b4efea732027d9feba41dcad3534d0aebfcee256e8315d78839",
+      "source_sha256": "93a93be05c53828149777c01b69b482688a0171d5ae4b20359178a73a4f604b2",
+      "mirror_sha256": "93a93be05c53828149777c01b69b482688a0171d5ae4b20359178a73a4f604b2",
       "markdown_links_rewritten": false
     },
     {
@@ -431,6 +522,13 @@
       "mirror": "course-source/course_content.py",
       "source_sha256": "77df7882105f4173376d27129c2dab7f9af1e6eee200a73701cc697db16b68be",
       "mirror_sha256": "77df7882105f4173376d27129c2dab7f9af1e6eee200a73701cc697db16b68be",
+      "markdown_links_rewritten": false
+    },
+    {
+      "source": "site/ta_activities.json",
+      "mirror": "course-source/ta_activities.json",
+      "source_sha256": "bbe716d11af1c1df9f5181bace556ac9f4b6e47963cc15416178734f885f83f7",
+      "mirror_sha256": "bbe716d11af1c1df9f5181bace556ac9f4b6e47963cc15416178734f885f83f7",
       "markdown_links_rewritten": false
     },
     {
@@ -499,8 +597,8 @@
     {
       "source": "DEVELOPMENT_AND_VALIDATION.md",
       "mirror": "development-and-validation.md",
-      "source_sha256": "b52cf6688404e4adb5c8ff3b57b34d42671acf2859ef5da796c53d1b03e949ab",
-      "mirror_sha256": "b5aa966c30cd058eadbbbdb8a96bccfd3bf4cca4eb423a4f0ce9f15a1da8cd6b",
+      "source_sha256": "4bedd16fdf7724e6ec3652732f0b965d5e7aee330481cf37194e69a6486da19b",
+      "mirror_sha256": "afb76ca5e5fb7a6872e25c714fa196f4605de1678708be9d98ec73d04536ee8f",
       "markdown_links_rewritten": true
     },
     {
@@ -509,6 +607,13 @@
       "source_sha256": "ef07c9e20c7d37f1d1c7dc7fd7f668b9364360c58b0d9e8a8b47e118c1d20e39",
       "mirror_sha256": "88b5a957a4349dd394f2f6d501281c634d4ea7b6526b69dcb0e830ddcb035beb",
       "markdown_links_rewritten": true
+    },
+    {
+      "source": "docs/evidence/canvas-ta-decision-lab.png",
+      "mirror": "evidence/canvas-ta-decision-lab.png",
+      "source_sha256": "b6e4b24c0a42c66c6edf6839fa0d6b672f87ecbd22c0f24030c93de463a3b9be",
+      "mirror_sha256": "b6e4b24c0a42c66c6edf6839fa0d6b672f87ecbd22c0f24030c93de463a3b9be",
+      "markdown_links_rewritten": false
     },
     {
       "source": "docs/evidence/course-decision-challenges-release.jpg",
@@ -539,10 +644,17 @@
       "markdown_links_rewritten": true
     },
     {
+      "source": "docs/evidence/ta-decision-lab-release.json",
+      "mirror": "evidence/ta-decision-lab-release.json",
+      "source_sha256": "9665e4101cc49d57ab190c7db84f38de8aaf684d0bed669aa63738c60a4fe659",
+      "mirror_sha256": "9665e4101cc49d57ab190c7db84f38de8aaf684d0bed669aa63738c60a4fe659",
+      "markdown_links_rewritten": false
+    },
+    {
       "source": "INSTRUCTIONAL_DESIGN_PLAN.md",
       "mirror": "instructional-design.md",
-      "source_sha256": "b3d60a5ad30fa0cea80d06df25294d7549fbb3a9452810c79c9a6e1640738ef2",
-      "mirror_sha256": "f520c31ef0303b88012a1ada17ebf74ca58cc4c341dc3d9e60ed188c8870ab1b",
+      "source_sha256": "ed76f444854f2ea8960c174f90e301e09944b79742ed3cd96acf75de3aa59e0f",
+      "mirror_sha256": "01f9279dbf5bd0f84302c76af096d10335e94cbbe717407266081ce5efb1a9db",
       "markdown_links_rewritten": true
     },
     {
@@ -555,8 +667,8 @@
     {
       "source": "AI_REVIEW_BRIEF.md",
       "mirror": "review-brief.md",
-      "source_sha256": "32f31c0f6fc3f7b9923fba03108b7db5cce40896cd86b523462e486b83246c91",
-      "mirror_sha256": "aadda770a8fe82c7e143ace638712ccc3f42489ddc1746aba04c85ad1d88ce39",
+      "source_sha256": "b80aef769e8cd59aca5fcd40895c4c7f328b98970ed4e048b49b6095bee2f6d2",
+      "mirror_sha256": "cb6ac7a47ae4c9dff04f2526fbd73f8f57b2a514e08cf76d787458791b22a0a6",
       "markdown_links_rewritten": true
     },
     {
@@ -569,8 +681,8 @@
     {
       "source": "site/README.md",
       "mirror": "site-maintenance.md",
-      "source_sha256": "c96e9ae55df639523e14ac29010317e7e7da100b83aa64f8bfa5078340cc5b51",
-      "mirror_sha256": "6d04d7326966f991fecf94bf0f29e93a767c5bdcd38832acb9ebb6d1a7bdf5a3",
+      "source_sha256": "652164ca7dc73d09e6428922e6a87c939ac38d913b3d8a42e16a6bbd81c828fb",
+      "mirror_sha256": "f00d0f6844178b001590c54bb7293850ebca663f76c1405eed60dd006d8a866b",
       "markdown_links_rewritten": true
     },
     {
@@ -583,8 +695,8 @@
     {
       "source": "REPOSITORY_MAP.md",
       "mirror": "source-map.md",
-      "source_sha256": "20a6db292073f6bb0d59da1868687879e7a36f66cf584feeb8ce3e1485d0e6b6",
-      "mirror_sha256": "fa2fac5acd06691466700ec72b644d9b0a675325f16ef8486ff970d8da91cdd4",
+      "source_sha256": "743478dd4c1bdfa9bfae0e9625b924064ec456138956d6812aa177ac2ff0a185",
+      "mirror_sha256": "155f1e02c3bfd0d18885017466a8c53a365a2511c92e2067c0f7962b5ce1a636",
       "markdown_links_rewritten": true
     },
     {

@@ -1,6 +1,6 @@
 # Canvas handoff artifacts
 
-This documentation and public-artifact mirror is maintained from canonical commit `0c6ae40ccd53af9cfe096adf54d4a62768482078` at `/private/tmp/verified-textbook-source-0c6ae40c/courses/cs4720R/integrations/canvas/`. It is not an input to the personal website build, public course snapshot, or TA corpus. Edit canonical source first; do not maintain another course generator here.
+This documentation and public-artifact mirror is maintained from canonical commit `2401790fb5c85435461268af9e780ee975126d12` at `/private/tmp/reviewed-ta-source-2401790f/courses/cs4720R/integrations/canvas/`. It is not an input to the personal website build, public course snapshot, or TA corpus. Edit canonical source first; do not maintain another course generator here.
 
 - [Integration guide](../canvas-integration.md), [asynchronous design](../canvas-async-design.md), [theme plan](../canvas-theme-plan.md), and [live installation record](../canvas-live-integration.md) describe source intent and actual receiving-instance evidence separately.
 - [Required textbook plan](../textbook-recommendation.md), [academic source policy](../academic-source-policy.md), and [claim/source map](../claim-source-map.md) document the free AI/business/quantitative foundation, exact scopes, and limits.
@@ -12,7 +12,7 @@ This documentation and public-artifact mirror is maintained from canonical commi
 
 ## Current reusable package
 
-The package copied with this mirror has SHA-256 `cd5dbe6c8a62a490d3845ca3e6eacfc7b3fefc9e40b8f7e2dbd74e3804e544c6`. Its source commit and checksum identify the portable artifact; they do not establish import, a native UI update, grading behavior, or a production release. Use the [live record](../canvas-live-integration.md) for whether the package was imported or native content was updated in place, historical import notices, preserved grades and settings, current release identities, and the limits of actual tests.
+The package copied with this mirror has SHA-256 `3c693767d7be2a33446b05cb5552cce5032bb11463b22f79865243af47988c4c`. Its source commit and checksum identify the portable artifact; they do not establish import, a native UI update, grading behavior, or a production release. Use the [live record](../canvas-live-integration.md) for whether the package was imported or native content was updated in place, historical import notices, preserved grades and settings, current release identities, and the limits of actual tests.
 
 ## Textbook delivery evidence
 
@@ -22,6 +22,7 @@ The package copied with this mirror has SHA-256 `cd5dbe6c8a62a490d3845ca3e6eacfc
 - [canvas-statistics-textbook-reader.png](evidence/canvas-statistics-textbook-reader.png)
 - [canvas-textbook-ta.png](evidence/canvas-textbook-ta.png)
 - [canvas-textbook-verification.json](evidence/canvas-textbook-verification.json)
+- [textbook-final-release-check.json](evidence/textbook-final-release-check.json)
 - [textbook-public-release.json](evidence/textbook-public-release.json)
 - [textbook-source-reproducibility.json](evidence/textbook-source-reproducibility.json)
 

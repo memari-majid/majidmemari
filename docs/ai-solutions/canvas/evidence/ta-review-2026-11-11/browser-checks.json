@@ -1,0 +1,70 @@
+{
+  "checkedDate": "2026-11-11",
+  "delivery": "Canvas Student View and standalone browser",
+  "initialFailureReproduced": "Pending coaching question disappeared after collapse/reopen",
+  "recoveryRetest": {
+    "pendingQuestionPreserved": true,
+    "retryAvailable": true,
+    "phaseChangeAbortsOlderRequest": true,
+    "originalPhaseLabelsRetained": true,
+    "evidenceCardProgressAfterReload": true,
+    "completedPracticeAfterReload": true
+  },
+  "liveCoaching": {
+    "unit1": "Corrected confidence-as-policy assumption using the approved-sheet gap and unsupported exception; asked one next question",
+    "canvasUnit8": {
+      "assistedReplies": 600,
+      "releasedHours": 10,
+      "capacityValue": 240,
+      "netCapacityValue": 0,
+      "cashChange": -240,
+      "fictionalScenarioQualified": true,
+      "sourcesRemainInsideCanvas": true
+    }
+  },
+  "entryContext": {
+    "genericUnit8ToQuestionsRetainedUnit": true,
+    "explicitMilestone3DefaultsToQuestions": true
+  },
+  "responsiveBrowser": {
+    "viewportWidth": 390,
+    "viewportHeight": 844,
+    "documentWidth": 375,
+    "longReasonCharacters": 300,
+    "horizontalOverflow": false,
+    "keyboardEvidenceOpened": true,
+    "viewportReset": true
+  },
+  "export": {
+    "standaloneUnit1FileDownloadedAndInspected": true,
+    "canvasDownloadReceiptObserved": false,
+    "canvasCopyFallback": {
+      "checkedAt": "2026-11-11T21:18:25.426Z",
+      "commit": "a87c5a4ada8bc1a7a84471f0f2f2f6ab8b412de4",
+      "canvasURL": "https://uvu.instructure.com/courses/644965/pages/unit-08-lesson-evaluate-impact-and-resources",
+      "copySelection": {
+        "end": 1118,
+        "length": 1118,
+        "selectedAll": true,
+        "start": 0
+      },
+      "snapshotFieldsVerified": true,
+      "standaloneDownloadVerified": true,
+      "embeddedDownloadObserved": false,
+      "embeddedCopyFallbackVerified": true
+    },
+    "qaRecordsAreFictional": true
+  },
+  "finalCanvasState": {
+    "instructorView": true,
+    "courseUnpublished": true,
+    "noGradeMutations": true,
+    "noNewQuizAttempt": true
+  },
+  "scopeLimits": [
+    "Representative sampled browser flows, not all browser/assistive-technology combinations",
+    "Partial-response checkpointing has deterministic regression coverage; live before-first-token interruption and phase abort were exercised",
+    "No grade entry or new quiz attempt; browser practice does not submit or grade work",
+    "Learning effectiveness still needs a representative student pilot"
+  ]
+}

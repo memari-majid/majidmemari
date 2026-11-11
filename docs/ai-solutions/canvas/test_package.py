@@ -76,5 +76,35 @@ class NativeReferenceTests(unittest.TestCase):
                     self.assertIn(reading["section"], text)
         self.assertEqual(assessments.FINAL_EXAM["max"], 40)
 
+    def test_complete_decision_lab_is_available_in_every_native_text_fallback(self):
+        units, _ = package.load_content()
+        package.VISUALS = package.load_visuals()
+        for unit, activity in zip(units, package.DECISION_LABS):
+            with self.subTest(unit=unit["number"]):
+                rendered = package.lesson_body_html(unit)
+                lab = package.decision_lab_reading_html(unit["number"])
+                reader = Reader(); reader.feed(lab)
+                text = " ".join(reader.text)
+                marker = f'data-decision-lab-text="{unit["number"]}"'
+                self.assertIn(marker, rendered)
+                for field in ("title", "goal", "role", "scenario", "challenge", "worked", "transfer"):
+                    self.assertIn(activity[field], text)
+                for choice in activity["choices"]:
+                    self.assertIn(choice["label"], text)
+                for item in activity["evidence"]:
+                    self.assertIn(item["detail"], text)
+                self.assertFalse(reader.frames or reader.links)
+                self.assertIn("no AI service or interactive frame needed", text)
+                self.assertIn("project update you already submit", text)
+                self.assertLess(rendered.index(marker), rendered.index('Build the same project'))
+                whole = Reader(); whole.feed(rendered)
+                self.assertEqual(len(whole.frames), 2)
+                self.assertTrue(all(not href.startswith(("http:", "https:")) for href in whole.links))
+
+    def test_final_lab_does_not_assume_omitted_quality_results(self):
+        activity = package.DECISION_LABS[11]
+        self.assertIn("acceptable-output counts are not provided", activity["worked"])
+        self.assertIn("confirming that both methods met the same quality threshold", activity["worked"])
+
 
 if __name__ == "__main__": unittest.main()

@@ -10,7 +10,8 @@
   "source_fingerprints": {
     "site/course_content.py": "77df7882105f4173376d27129c2dab7f9af1e6eee200a73701cc697db16b68be",
     "site/visual_lessons.py": "3d32ea2b9be1b077f0bc37315b9de64a8ca6b45d2d3aece8fa0848e825c3a8a9",
-    "site/assets/core.css": "bd51ed55fcf49ec23508f42162ae0f2603aa9d9e0697e5fa4fd88cc604047484",
+    "site/ta_activities.json": "bbe716d11af1c1df9f5181bace556ac9f4b6e47963cc15416178734f885f83f7",
+    "site/assets/core.css": "3066a94ce122fbad318917fe48c5c8e243505ca40421ddabbcb5170ee5525923",
     "integrations/canvas/async_content.py": "7500ac6fd020f6714ed72cb7be74519ed59c4397871761c7bd0b1c1a851a525e",
     "integrations/canvas/async_guide.py": "c1ae2056bfbed5f780ee89ba16d84f2ffa5083d9759eec05690dbbaa065839dc",
     "integrations/canvas/theme.py": "c5478d200107a0d05430441dd0ea979b9bfdae71bf480631eade4a9e4b94ce0c"
@@ -407,5 +408,5 @@
     "course_weight_percent": 10,
     "completion_requirement": "must_submit"
   },
-  "package_sha256": "cd5dbe6c8a62a490d3845ca3e6eacfc7b3fefc9e40b8f7e2dbd74e3804e544c6"
+  "package_sha256": "3c693767d7be2a33446b05cb5552cce5032bb11463b22f79865243af47988c4c"
 }

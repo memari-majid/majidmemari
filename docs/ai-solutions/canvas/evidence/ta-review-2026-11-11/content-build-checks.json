@@ -1,0 +1,45 @@
+{
+  "scope": "Content, canonical site/Canvas build, hosted static sync and corpus generation only; no hosted typecheck/full build, UI, commit or deploy.",
+  "canonical_root": "/Users/majid/Documents/GitHub/uvu_courses/courses/cs4720R",
+  "hosting_root": "/Users/majid/Documents/GitHub/.worktrees/majidmemari-visual-learning",
+  "tests": {
+    "site_html_pages": 60,
+    "site_node_tests": 71,
+    "reading_python_tests": 6,
+    "canvas_python_tests": 25,
+    "site_check": "PASS",
+    "canvas_package_validation": "PASS"
+  },
+  "artifacts": {
+    "public_files": 71,
+    "all_public_files_match_manifest": true,
+    "lab_units": 12,
+    "native_lesson_bodies": 12,
+    "native_frames_per_lesson": 2,
+    "cartridge_sha256": "3c693767d7be2a33446b05cb5552cce5032bb11463b22f79865243af47988c4c",
+    "manifest_sha256": "b140a3efbdd9485be5c201b79831ffea2b4696c324115fff81829e01bd8c0ed7",
+    "lab_json_sha256": "bbe716d11af1c1df9f5181bace556ac9f4b6e47963cc15416178734f885f83f7",
+    "package_entries": 83,
+    "canvas_payload": "/tmp/lab-reviewed-canvas-pages.json",
+    "ta_corpus": {
+      "sourceDigest": "692fd25143aaacf4802e39c36d9ebe14a0afab660372d55b3b5f676642ed9a82",
+      "sourcePages": 24,
+      "simulationCount": 3,
+      "practicePages": 5,
+      "inlineFigurePages": 6,
+      "chunkCount": 190
+    }
+  },
+  "source_sha256": {
+    "site/ta_activities.json": "bbe716d11af1c1df9f5181bace556ac9f4b6e47963cc15416178734f885f83f7",
+    "site/build_core.py": "fc55bf106c593721fe857e04bf4282907b9e61b7ae3ae90548561e57828a168b",
+    "site/check_site.py": "93a93be05c53828149777c01b69b482688a0171d5ae4b20359178a73a4f604b2",
+    "site/textbook_readings.py": "68717422dfabac73cbbe18ff4f4b1e7fa5112481aba944203868a14bd9941a12",
+    "integrations/canvas/build_package.py": "f416130d019159e1bbd009ebbd28ab6a45ad9118f8cf6b033e45cfcb1e526624",
+    "integrations/canvas/test_package.py": "1ff279f715e3e439a1ea65c9c94088e9319fa4f8241119af34894207e08eff20"
+  },
+  "repairs": [
+    "Unit 12 quality check is conditional because acceptable-output counts are omitted.",
+    "All 12 native Canvas text fallbacks include a complete no-AI decision lab from the same canonical JSON."
+  ]
+}

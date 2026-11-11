@@ -1,0 +1,506 @@
+[
+  {
+    "unit": 1,
+    "page": "unit-01.html",
+    "title": "The confident wrong answer",
+    "role": "Capability detective",
+    "goal": "Match an AI capability to a bounded task and identify what a person must verify.",
+    "scenario": "A fictional campus workshop desk wants help answering questions from an approved information sheet. A visitor asks for a detail missing from that sheet. Choose the first version you would build.",
+    "choices": [
+      {
+        "id": "1",
+        "label": "A fluent answer generator",
+        "consequence": "It can produce useful language, but fluency alone cannot establish the missing fact."
+      },
+      {
+        "id": "2",
+        "label": "A source-based draft with human review",
+        "consequence": "It can locate supported facts and flag gaps. A reviewer still owns the reply."
+      },
+      {
+        "id": "3",
+        "label": "An autonomous desk agent",
+        "consequence": "It could take consequential actions before anyone checks a missing fact."
+      }
+    ],
+    "evidence": [
+      {
+        "label": "Approved source",
+        "detail": "The sheet describes ordinary workshop information. It does not specify the requested exception."
+      },
+      {
+        "label": "Candidate output",
+        "detail": "The candidate confidently supplies an exception rule without citing any approved source."
+      },
+      {
+        "label": "Simpler alternative",
+        "detail": "A searchable FAQ can answer ordinary questions and route exceptions to a person."
+      }
+    ],
+    "challenge": "What should the assistant do when the source is silent? Explain one useful output, one human check, and why a simpler FAQ might win.",
+    "worked": "A source-based draft can support this task, but retrieval does not make an absent rule true. Identify the gap and route the question to the responsible person. Compare the draft workflow with the simpler FAQ using the same task. This is a fictional mini-case, not an actual desk policy.",
+    "transfer": "Name your project’s input, AI capability, useful output, and one fact or action that a person must check."
+  },
+  {
+    "unit": 2,
+    "page": "unit-02.html",
+    "title": "The interview that agrees with you",
+    "role": "Discovery interviewer",
+    "goal": "Distinguish compliments from evidence of an observed need.",
+    "scenario": "You are exploring a fictional workshop-support problem. Someone says, “An AI helper sounds great.” Choose the next question.",
+    "choices": [
+      {
+        "id": "1",
+        "label": "Would you use my amazing AI helper?",
+        "consequence": "The wording encourages agreement and leaves actual behavior unknown."
+      },
+      {
+        "id": "2",
+        "label": "Tell me about the last time you needed help.",
+        "consequence": "A recent concrete event can reveal the task, friction, and workaround."
+      },
+      {
+        "id": "3",
+        "label": "How much would you pay for it?",
+        "consequence": "An imagined price is weak evidence before you understand the need."
+      }
+    ],
+    "evidence": [
+      {
+        "label": "Recent event",
+        "detail": "The participant describes searching three pages for a room location yesterday."
+      },
+      {
+        "label": "Workaround",
+        "detail": "They asked a classmate and found the room; the problem took about five minutes."
+      },
+      {
+        "label": "Counterexample",
+        "detail": "They say registration questions are rare and their saved confirmation usually works."
+      }
+    ],
+    "challenge": "Write one neutral follow-up and a narrower need statement. Which claim is still unsupported?",
+    "worked": "The observed story supports investigating information-finding friction, not demand for a broad AI product. Ask what they checked, where they got stuck, and what resolved the task. One fictional story does not establish frequency across users, willingness to pay, or adoption.",
+    "transfer": "Write one non-leading discovery question, the behavior you need to observe, and a claim you will avoid until you have evidence."
+  },
+  {
+    "unit": 3,
+    "page": "unit-03.html",
+    "title": "The scope negotiation",
+    "role": "Scope negotiator",
+    "goal": "Define a feasible task, a quality threshold, and a simpler comparison.",
+    "scenario": "A fictional partner requests “an AI that handles all workshop support.” You have time to test one bounded task. What do you propose?",
+    "choices": [
+      {
+        "id": "1",
+        "label": "Handle every question and exception",
+        "consequence": "The broad scope makes errors difficult to locate and responsibility unclear."
+      },
+      {
+        "id": "2",
+        "label": "Draft answers to ordinary questions from approved sources",
+        "consequence": "A bounded input, output, and review point can be tested against a simpler template."
+      },
+      {
+        "id": "3",
+        "label": "Make a polished concept deck only",
+        "consequence": "The deck can communicate an idea but does not perform the intended task."
+      }
+    ],
+    "evidence": [
+      {
+        "label": "Available information",
+        "detail": "Only approved ordinary-question information is available; exceptions require an owner."
+      },
+      {
+        "label": "Baseline",
+        "detail": "A person can answer the same ordinary questions using a template and the source sheet."
+      },
+      {
+        "label": "Quality threshold",
+        "detail": "The teaching team sets a hypothetical threshold: every critical policy claim must be supported, and missing facts must be flagged."
+      }
+    ],
+    "challenge": "Negotiate a one-sentence scope. Include an excluded task, a measurable quality check, and the baseline.",
+    "worked": "A testable scope is a reviewed draft for ordinary questions using a named source version. Exclude exception decisions and sending replies. Compare complete effort with the manual template while requiring supported policy claims. A narrower scope is useful when it preserves a real task and makes evidence inspectable.",
+    "transfer": "Define what your version does, what it refuses or escalates, the simpler alternative, and one quality threshold."
+  },
+  {
+    "unit": 4,
+    "page": "unit-04.html",
+    "title": "The missing-source trap",
+    "role": "Workflow designer",
+    "goal": "Place source checking and human authority before a consequential action.",
+    "scenario": "A fictional reply workflow finds no approved answer to an exception question. Choose what happens next.",
+    "choices": [
+      {
+        "id": "1",
+        "label": "Send the most plausible answer",
+        "consequence": "A guessed rule can become an unsupported promise."
+      },
+      {
+        "id": "2",
+        "label": "Flag the gap and route it to the responsible person",
+        "consequence": "The missing-source case has an explicit safe route and an accountable owner."
+      },
+      {
+        "id": "3",
+        "label": "Ask another AI until two answers agree",
+        "consequence": "Agreement between models does not supply an authoritative source."
+      }
+    ],
+    "evidence": [
+      {
+        "label": "Source gap",
+        "detail": "No exception rule appears in the approved information."
+      },
+      {
+        "label": "Authority",
+        "detail": "The service owner can decide an exception; the drafting tool cannot grant one."
+      },
+      {
+        "label": "Ordinary path",
+        "detail": "Supported drafts can still be reviewed against the source before sending."
+      }
+    ],
+    "challenge": "Describe the ordinary path and the exception path. Where does the human decision occur, and what gets recorded?",
+    "worked": "The workflow separates drafting from authority: input → approved source → draft or gap flag → human check → permitted action → record. Missing information routes to the owner rather than repeated guessing. The record should identify the source version, issue, and decision without exposing unnecessary personal data.",
+    "transfer": "Add one stop condition and its responsible owner to your project workflow. Say what happens while the issue is unresolved."
+  },
+  {
+    "unit": 5,
+    "page": "unit-05.html",
+    "title": "The demo that needs its author",
+    "role": "Usability observer",
+    "goal": "Distinguish a usable artifact from a demonstration that depends on hidden help.",
+    "scenario": "A fictional classmate tries your first usable version. They pause at the first instruction. Choose your next move.",
+    "choices": [
+      {
+        "id": "1",
+        "label": "Take over and finish the task for them",
+        "consequence": "The completed output would hide the usability barrier."
+      },
+      {
+        "id": "2",
+        "label": "Observe, record the pause, and offer only necessary help",
+        "consequence": "The record can distinguish independent completion from assisted completion."
+      },
+      {
+        "id": "3",
+        "label": "Replace the task with a slide presentation",
+        "consequence": "A presentation does not establish that the artifact performs the task."
+      }
+    ],
+    "evidence": [
+      {
+        "label": "Observed attempt",
+        "detail": "The user cannot locate the approved source without your verbal direction."
+      },
+      {
+        "label": "Repair",
+        "detail": "A visible source link and a short example input remove that obstacle in a later attempt."
+      },
+      {
+        "label": "Remaining limit",
+        "detail": "The later attempt uses the same person; familiarity may also explain improvement."
+      }
+    ],
+    "challenge": "Name one repair, one thing to observe in the retest, and a claim the current evidence cannot establish.",
+    "worked": "Record where the user paused and the assistance supplied. Repair the source-location step and retest the intended task, preferably with a fresh user when practical. The repaired attempt suggests a usability improvement under these conditions; it does not establish broad adoption or isolate the repair from familiarity.",
+    "transfer": "Write the next user task, how you will record assistance, and the specific change you will test."
+  },
+  {
+    "unit": 6,
+    "page": "unit-06.html",
+    "title": "The speed trophy",
+    "role": "Test designer",
+    "goal": "Compare complete effort on matched tasks while preserving a quality threshold.",
+    "scenario": "Three fictional methods each handle the same twelve questions. The fast draft method advertises only its generation time. Choose how you would compare them.",
+    "choices": [
+      {
+        "id": "1",
+        "label": "Pick the lowest draft time",
+        "consequence": "Review, repair, and unacceptable outputs can reverse the result."
+      },
+      {
+        "id": "2",
+        "label": "Compare complete effort and acceptable outputs on the same cases",
+        "consequence": "A matched task set and a common quality threshold make the comparison interpretable."
+      },
+      {
+        "id": "3",
+        "label": "Give the fast method easier questions",
+        "consequence": "Changing the task set confounds method with case difficulty."
+      }
+    ],
+    "evidence": [
+      {
+        "label": "Manual baseline",
+        "detail": "96 total minutes; 12 of 12 outputs acceptable."
+      },
+      {
+        "label": "Fast draft",
+        "detail": "24 draft + 48 review + 36 repair = 108 total minutes; 9 of 12 acceptable."
+      },
+      {
+        "label": "Reviewed workflow",
+        "detail": "36 draft + 36 review + 12 repair = 84 total minutes; 12 of 12 acceptable."
+      }
+    ],
+    "challenge": "Which method would you take to a bounded next test? Calculate its effort difference from baseline and state the quality condition.",
+    "worked": "The reviewed workflow uses 84 rather than 96 minutes: 12 minutes less, or 12/96 = 12.5% less complete effort, with 12/12 acceptable in this supplied set. Fast drafting uses 108 minutes and has only 9/12 acceptable outputs. These fictional cases do not prove performance on new tasks. Keep cases, criteria, assistance, and timing definitions consistent.",
+    "transfer": "Define your matched case set, complete-effort measurement, and quality threshold before you compare methods."
+  },
+  {
+    "unit": 7,
+    "page": "unit-07.html",
+    "title": "The retest illusion",
+    "role": "Evidence auditor",
+    "goal": "Keep pilot and retest cohorts separate and explain what a repair does not prove.",
+    "scenario": "A fictional pilot has 6 acceptable results from 10 attempts. After a repair, a retest has 4 acceptable results from 5 attempts. Choose the headline.",
+    "choices": [
+      {
+        "id": "1",
+        "label": "Success rose to 10 out of 10",
+        "consequence": "Combining successes while keeping the old denominator invents a result."
+      },
+      {
+        "id": "2",
+        "label": "Pilot 6/10; retest 4/5; investigate the improvement",
+        "consequence": "Separate counts preserve what happened and the limits of the comparison."
+      },
+      {
+        "id": "3",
+        "label": "The repair caused a 20-point improvement everywhere",
+        "consequence": "A small unmatched retest cannot isolate causality or establish broad performance."
+      }
+    ],
+    "evidence": [
+      {
+        "label": "Pilot",
+        "detail": "6/10 = 60% acceptable; four failures identify a recurring instruction problem."
+      },
+      {
+        "label": "Retest",
+        "detail": "4/5 = 80% acceptable on the retest cases after the instruction repair."
+      },
+      {
+        "label": "Design limit",
+        "detail": "Different cases and familiarity may affect the result; the samples are small."
+      }
+    ],
+    "challenge": "Explain the 20 percentage-point difference without claiming the repair caused it. What case would you test next?",
+    "worked": "Report the cohorts separately: 60% in the pilot and 80% in the retest, a 20 percentage-point observed difference. If reporting all attempts together, 10/15 is about 66.7%, not a retest rate. Examine remaining failures and test fresh matched cases. This is supplied teaching evidence, not a learner’s own pilot.",
+    "transfer": "Name one repair, the version and cohort for the retest, and what result would make you revise again."
+  },
+  {
+    "unit": 8,
+    "page": "unit-08.html",
+    "title": "The savings that never reach payroll",
+    "role": "Impact analyst",
+    "goal": "Separate released capacity, net capacity value, and actual cash change.",
+    "scenario": "A fictional operation handles 1,200 replies per month. At 50% use, the reviewed workflow saves one complete-effort minute per assisted reply. Staff value is $24/hour, recurring tools/support cost $240/month, and payroll is unchanged. Choose the claim.",
+    "choices": [
+      {
+        "id": "1",
+        "label": "It saves $240 cash each month",
+        "consequence": "Valued staff time is not a payroll reduction."
+      },
+      {
+        "id": "2",
+        "label": "It releases capacity; cash must be calculated separately",
+        "consequence": "Time, valued capacity, and cash are different quantities."
+      },
+      {
+        "id": "3",
+        "label": "All 1,200 replies receive the benefit",
+        "consequence": "The stated use rate applies to only 600 replies."
+      }
+    ],
+    "evidence": [
+      {
+        "label": "Time",
+        "detail": "1,200 × 50% = 600 replies; 600 minutes = 10 hours released."
+      },
+      {
+        "label": "Capacity value",
+        "detail": "10 hours × $24 = $240; minus $240 recurring expense = $0 net capacity value."
+      },
+      {
+        "label": "Cash",
+        "detail": "Unchanged payroll and $240 new recurring expense give −$240 monthly cash change."
+      }
+    ],
+    "challenge": "Now change use to 30%. Recalculate released hours, net capacity value, and cash change. What decision follows?",
+    "worked": "At 30%, 360 replies release 360 minutes = 6 hours, valued at $144. Net capacity value is $144 − $240 = −$96/month; recurring cash change stays −$240/month if payroll and other cash flows stay unchanged. The lower-use scenario weakens this value case. A bounded next test should check actual use and complete effort before a broader commitment.",
+    "transfer": "Label one project benefit as time, capacity value, or cash, and identify the assumption most likely to change your recommendation."
+  },
+  {
+    "unit": 9,
+    "page": "unit-09.html",
+    "title": "The release budget meeting",
+    "role": "Release planner",
+    "goal": "Account for money, staff effort, and capacity before committing to release.",
+    "scenario": "A separate fictional mini-case offers a $300 planning allowance expressed in resource value. Release needs $120 in tools and 5 staff hours valued at $24/hour. Choose what you report.",
+    "choices": [
+      {
+        "id": "1",
+        "label": "$180 profit after tools",
+        "consequence": "It omits staff effort and treats a planning allowance as revenue."
+      },
+      {
+        "id": "2",
+        "label": "$60 unallocated resource-value allowance",
+        "consequence": "Total resources are $120 + $120 = $240, leaving $60 of the $300 allowance."
+      },
+      {
+        "id": "3",
+        "label": "$60 cash in the bank",
+        "consequence": "A resource-value allowance does not establish an actual bank balance."
+      }
+    ],
+    "evidence": [
+      {
+        "label": "Resources",
+        "detail": "Tools: $120 cash. Staff time: 5 × $24 = $120 in valued effort."
+      },
+      {
+        "label": "Allowance",
+        "detail": "The $300 is a planning limit in resource value, not a sales receipt or cash account."
+      },
+      {
+        "label": "Capacity challenge",
+        "detail": "A separate workload check finds only 3 staff hours available before the proposed release date."
+      }
+    ],
+    "challenge": "The resource arithmetic fits the allowance, but capacity does not fit the date. What would you narrow, delay, or reassign?",
+    "worked": "Total resource value is $240, leaving $60 unallocated. Actual new tool spending is $120; staff time valuation is not automatically another cash payment. The 5-hour need exceeds 3 available hours by 2 hours. Narrow scope, delay, or obtain approved capacity, then recheck quality and ownership. Budget fit alone does not establish release readiness.",
+    "transfer": "Name a release resource, its cash or time unit, its owner, and a capacity constraint you must resolve."
+  },
+  {
+    "unit": 10,
+    "page": "unit-10.html",
+    "title": "The adoption funnel surprise",
+    "role": "Adoption investigator",
+    "goal": "Measure observed first-task success and account for support resources.",
+    "scenario": "A separate fictional outreach trial invites 20 people. Eight agree to try; three actually complete their first task. Outreach and support cost $180 in resource value. Choose the denominator for resources per observed successful first task.",
+    "choices": [
+      {
+        "id": "1",
+        "label": "20 invitations",
+        "consequence": "This measures resource value per invitation, not successful use."
+      },
+      {
+        "id": "2",
+        "label": "8 agreements",
+        "consequence": "Agreement is an earlier step and does not establish task completion."
+      },
+      {
+        "id": "3",
+        "label": "3 observed first-task completions",
+        "consequence": "This denominator matches the stated outcome; sustained use remains unknown."
+      }
+    ],
+    "evidence": [
+      {
+        "label": "Funnel",
+        "detail": "20 invited → 8 agreed → 3 observed first-task completions."
+      },
+      {
+        "label": "Resource calculation",
+        "detail": "$180/3 = $60 per observed successful first task, not $22.50 per agreement."
+      },
+      {
+        "label": "Challenge",
+        "detail": "Two completers needed direct help; continued independent use has not been observed."
+      }
+    ],
+    "challenge": "What would you change before expanding outreach? Distinguish first-task success, assistance, and continued use.",
+    "worked": "The observed outcome costs $60 in resource value per successful first task in this tiny fictional trial. Keep the two assisted completions visible. Improve onboarding and test independent use and support effort before increasing invitations. Three first tasks do not establish retention, paid demand, profitability, or a generalizable conversion rate.",
+    "transfer": "Define one observable adoption step, its denominator, the assistance you will record, and the next follow-up."
+  },
+  {
+    "unit": 11,
+    "page": "unit-11.html",
+    "title": "The queue at closing time",
+    "role": "Operations owner",
+    "goal": "Plan for review capacity, exceptions, and a stopping rule.",
+    "scenario": "A separate fictional workflow receives 18 drafts per day, but its owner can review only 12 per day. All consequential replies require review. Choose the operating response.",
+    "choices": [
+      {
+        "id": "1",
+        "label": "Auto-send the excess six drafts",
+        "consequence": "This bypasses the required authority and quality check."
+      },
+      {
+        "id": "2",
+        "label": "Cap or pause intake and route urgent exceptions to an owner",
+        "consequence": "The service can match commitments to available review capacity."
+      },
+      {
+        "id": "3",
+        "label": "Keep accepting work without a warning",
+        "consequence": "The queue grows and users cannot judge the actual delay."
+      }
+    ],
+    "evidence": [
+      {
+        "label": "Queue arithmetic",
+        "detail": "18 arrivals − 12 reviews = 6 additional unreviewed drafts per day while those rates persist."
+      },
+      {
+        "label": "Capacity limit",
+        "detail": "After three such days, 18 additional drafts are waiting, assuming an initially empty queue and no other changes."
+      },
+      {
+        "label": "Source change",
+        "detail": "The approved source version changes during the backlog; pending drafts need a source check before release."
+      }
+    ],
+    "challenge": "Write a stop rule and recovery step. Who owns the queue, the source update, and communication about delays?",
+    "worked": "At unchanged rates the backlog grows by six per day. Cap intake or add approved review capacity; route urgent cases and communicate delays. After a source change, check pending drafts against the new approved version before sending. Name an owner, a queue limit, a fallback, and a restart check. AI drafting speed does not create human review capacity.",
+    "transfer": "Write your project’s review capacity, one pause trigger, its owner, and the evidence needed to restart."
+  },
+  {
+    "unit": 12,
+    "page": "unit-12.html",
+    "title": "The skeptical handoff",
+    "role": "Decision defender",
+    "goal": "Defend a proportionate recommendation with calculations, limits, and an operating owner.",
+    "scenario": "A fictional team shows 96-to-84-minute complete effort on twelve supplied cases and asks to claim “autonomous, profitable, ready for everyone.” Choose the recommendation.",
+    "choices": [
+      {
+        "id": "1",
+        "label": "Approve the headline because the demo works",
+        "consequence": "One successful demonstration cannot establish autonomy, profit, or wider adoption."
+      },
+      {
+        "id": "2",
+        "label": "Recommend a bounded next test with explicit limits and ownership",
+        "consequence": "The recommendation can preserve observed strengths while testing unresolved assumptions."
+      },
+      {
+        "id": "3",
+        "label": "Hide the unfavorable scenario",
+        "consequence": "Removing relevant evidence makes the decision harder to inspect."
+      }
+    ],
+    "evidence": [
+      {
+        "label": "Performance",
+        "detail": "84 vs 96 minutes is 12 minutes less, a 12.5% reduction on these twelve supplied cases; quality must be shown alongside it."
+      },
+      {
+        "label": "Value challenge",
+        "detail": "At 30% of 1,200 monthly replies and one minute saved, six hours are valued at $144. Less $240 recurring expense gives −$96 net capacity value; unchanged payroll means −$240 recurring cash change."
+      },
+      {
+        "label": "Handoff challenge",
+        "detail": "A reviewer is required. The next owner must locate the source version, instructions, exception route, and stop conditions."
+      }
+    ],
+    "challenge": "Give a three-sentence defense: recommendation, strongest evidence with its limit, and the next test with an owner. What would change your recommendation?",
+    "worked": "A defensible recommendation is a bounded next test of a reviewed workflow. The supplied comparison shows 12.5% lower complete effort on these twelve cases. Proceeding depends on confirming that both methods met the same quality threshold: acceptable-output counts are not provided here. The changed-use scenario weakens the value case. These are fictional course data, not the team’s observed deployment. A handoff needs an accessible artifact, approved sources, review and exception ownership, support boundaries, and a decision trigger.",
+    "transfer": "Write your own recommendation, one traceable calculation, one evidence limit, and the person or role owning the next decision."
+  }
+]

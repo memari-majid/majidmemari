@@ -47,6 +47,52 @@ def load_textbook_readings():
 TEXTBOOK_READINGS = load_textbook_readings()
 
 
+def load_decision_labs():
+    """Use the same authored practice data as the public lesson and course TA."""
+    activities = json.loads((COURSE / "site" / "ta_activities.json").read_text())
+    assert [activity["unit"] for activity in activities] == list(range(1, 13))
+    for activity in activities:
+        assert activity["page"] == f'unit-{activity["unit"]:02d}.html'
+        assert all(activity[field].strip() for field in
+                   ("title", "role", "goal", "scenario", "challenge", "worked", "transfer"))
+        assert len(activity["choices"]) == len(activity["evidence"]) == 3
+    return activities
+
+
+DECISION_LABS = load_decision_labs()
+
+
+def decision_lab_reading_html(unit):
+    """Keep the entire no-AI lab route available when either frame cannot load."""
+    activity = DECISION_LABS[unit - 1]
+    choices = ''.join(f'<li>{escape(choice["label"])}</li>'
+                      for choice in activity["choices"])
+    evidence = ''.join(f'<li><strong>{escape(item["label"])}:</strong> '
+                       f'{escape(item["detail"])}</li>' for item in activity["evidence"])
+    return (
+        f'<section data-decision-lab-text="{unit}">'
+        f'<h3>Decision lab: {escape(activity["title"])}</h3>'
+        '<p><strong>Complete reading route — no AI service or interactive frame needed.</strong> '
+        'This fictional practice adds no assignment or grade. Reuse relevant reasoning '
+        'in the project update you already submit.</p>'
+        f'<p><strong>Goal:</strong> {escape(activity["goal"])} '
+        f'<strong>Your role:</strong> {escape(activity["role"])}.</p>'
+        f'<h4>Decide</h4><p>{escape(activity["scenario"])}</p><ol>{choices}</ol>'
+        '<p>Choose one and record your reason before revealing the evidence. '
+        'Keep that first answer so you can explain what changed.</p>'
+        '<details><summary>Investigate — reveal evidence and challenge</summary>'
+        f'<ul>{evidence}</ul><h4>Revise</h4><p>{escape(activity["challenge"])}</p>'
+        '<p>Write whether you would keep or revise your decision, using a specific '
+        'fact and a remaining uncertainty.</p>'
+        '<details><summary>Compare with the worked reasoning</summary>'
+        f'<p>{escape(activity["worked"])}</p></details></details>'
+        f'<h4>Apply to your project</h4><p>{escape(activity["transfer"])}</p>'
+        '<p>Keep your initial choice, evidence-based revision and project action '
+        'in your own record. This practice record is not a Canvas submission; '
+        'add relevant reasoning to the existing Canvas project update.</p></section>'
+    )
+
+
 def child(parent, tag, value=None, **attributes):
     el = ET.SubElement(parent, tag, attributes)
     if value is not None:
@@ -220,7 +266,7 @@ def lesson_body_html(unit, *, templates_href=None, guide_href=None):
     frame_title = f'Unit {n:02d}: {unit["title"]} — interactive lesson'
     body = (
         '<p>Work through <strong>Learn → Try → Build → Finish</strong> in the lesson below. '
-        'Open the <strong>Course TA</strong> section on this Canvas page when you want to work through a question. '
+        'Open the <strong>Course TA</strong> decision lab during Try: commit to a choice, investigate evidence, revise, and apply one idea to your project. '
         'Then use <strong>Canvas Next</strong> to continue through this module and submit '
         'your practice quiz and project response. Keep improving the same project record.</p>'
         + required_reading_intro_html(n)
@@ -233,9 +279,11 @@ def lesson_body_html(unit, *, templates_href=None, guide_href=None):
     )
     assistant_title = f'Course teaching assistant for Unit {n:02d}: {unit["title"]}'
     assistant = (
-        '<details data-course-ta="inline"><summary>Course TA — work through a question</summary>'
-        '<p>Ask for a simpler explanation, help with the numbers, or a hint for your next step. '
-        'This assistant uses the course material for this unit. Submit work and read instructor feedback in Canvas.</p>'
+        '<details data-course-ta="inline"><summary>Course TA — decision lab and coaching</summary>'
+        '<p>Practice this unit through <strong>Decide → Investigate → Revise → Apply</strong>. '
+        'Make a choice, uncover evidence, explain what changes, and carry one action into Build. '
+        'The AI coach responds to your current attempt; the complete reading route in Try works without an AI service. '
+        'Reuse relevant reasoning in your existing project update. Submit work and read instructor feedback in Canvas.</p>'
         f'<iframe src="{BASE}assistant?lesson=unit-{n:02d}.html&amp;embed=1&amp;delivery=canvas" '
         f'title="{escape(assistant_title, quote=True)}" '
         'width="100%" height="760" loading="lazy" style="border:0;"></iframe></details>'
@@ -252,6 +300,7 @@ def lesson_body_html(unit, *, templates_href=None, guide_href=None):
         + unit["learn_html"] + VISUALS.render_lesson_figure(n)
         + '<h3>Try the reasoning</h3>' + unit["try_html"]
         + (unit.get("try_worked_html", ""))
+        + decision_lab_reading_html(n)
         + '<h3>Build the same project</h3>' + unit["build_html"]
         + f'<h3>Finish: explain the decision</h3><p>{escape(q["question"])}</p>'
         + f'<p><strong>Worked reasoning:</strong> {escape(q["explanation"])}</p>'
@@ -607,6 +656,7 @@ def build():
                "theme_version": THEME_VERSION,
                "source_fingerprints": {str(p.relative_to(COURSE)): hashlib.sha256(p.read_bytes()).hexdigest()
                                        for p in [SOURCE, COURSE / "site" / "visual_lessons.py",
+                                                 COURSE / "site" / "ta_activities.json",
                                                  COURSE / "site" / "assets" / "core.css",
                                                  SOURCE_DIR / "async_content.py", SOURCE_DIR / "async_guide.py",
                                                  SOURCE_DIR / "theme.py"] if p.exists()},
