@@ -25,8 +25,8 @@ const WORK_GROUP_DEFINITIONS = [
     id: "computer-vision",
     title: "Computer Vision",
     description: "Generating, recognizing, and interpreting images, with applications in OCR and engineering inspection.",
-    subtopics: ["Image generation", "OCR", "Visual inspection"],
-    projectSlugs: ["wind-turbine-inspection", "synthetic-image-evaluation", "grideye"],
+    subtopics: ["Image generation", "OCR", "Visual inspection", "Medical imaging"],
+    projectSlugs: ["wind-turbine-inspection", "synthetic-image-evaluation", "chest-xray-classification", "grideye"],
     publicationIds: [
       "infrared-blade-testing-2025",
       "pedestal-fan-inspection-2024",

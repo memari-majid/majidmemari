@@ -13,6 +13,7 @@ export type Project = {
   access: string;
   accessNote: string;
   historical?: boolean;
+  unpublished?: boolean;
   publicDemo?: boolean;
   context?: string;
   computationMethods?: readonly string[];
@@ -21,6 +22,25 @@ export type Project = {
 
 /** Public experiences use sample or public material; private account capabilities are not demo features. */
 export const PROJECTS: readonly Project[] = [
+  {
+    slug: "chest-xray-classification",
+    kind: "Unpublished doctoral research",
+    group: "research",
+    unpublished: true,
+    historical: true,
+    name: "Chest X-ray image classification",
+    category: "Computer vision & medical imaging",
+    summary: "Unpublished Ph.D. research exploring computer vision for COVID-19 detection from chest X-ray images.",
+    context: "Research undertaken during doctoral study · Unpublished",
+    purpose: "Explore medical-image classification as a computer-vision research problem, focusing on COVID-19 detection from chest X-ray images.",
+    capabilities: ["Investigate chest X-ray image classification.", "Explore AI methods for medical-image analysis."],
+    limit: "Unpublished doctoral research. No experimental results or clinically validated diagnostic tool are presented here. The linked Scientific Reports article is related literature by Enas M. F. El Houby, not a publication from this project.",
+    url: "https://www.nature.com/articles/s41598-024-61693-0",
+    launchLabel: "Read related literature",
+    access: "Unpublished research",
+    accessNote: "This work was undertaken during Majid’s Ph.D. and was not published. The linked 2024 article by Enas M. F. El Houby provides related background on chest X-ray classification using transfer learning.",
+    sources: [{ title: "Related literature: COVID-19 detection from chest X-ray images using transfer learning — Enas M. F. El Houby, Scientific Reports (2024)", url: "https://www.nature.com/articles/s41598-024-61693-0" }],
+  },
   {
     slug: "building-ai-solutions",
     kind: "Interactive course",
