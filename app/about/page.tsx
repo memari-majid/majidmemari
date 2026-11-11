@@ -69,7 +69,7 @@ export default function AboutPage() {
                 </li>
               </ul>
               <h3 className="mt-6 text-sm font-medium">Research</h3>
-              <Link className={`mt-1 inline-flex min-h-11 items-center text-sm ${linkClass}`} href="/publications">Research &amp; publications →</Link>
+              <Link className={`mt-1 inline-flex min-h-11 items-center text-sm ${linkClass}`} href="/projects?view=publications">Research &amp; publications →</Link>
             </div>
           </div>
         </section>

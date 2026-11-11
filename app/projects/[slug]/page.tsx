@@ -69,7 +69,7 @@ export default async function ProjectPage({ params }: Props) {
           <h2 id="research-connections" className="text-2xl font-semibold">Research connections</h2>
           <ul className="mt-4 divide-y divide-slate-200">{researchConnections.map(({ publication, relationship }) => <li key={publication.id} className="py-5">
             <p className="text-xs font-medium text-slate-500">{publication.year} · {publicationKindLabel(publication)} · {relationship === "direct" ? "Project publication" : "Related research"}</p>
-            <h3 className="mt-2 text-base font-semibold leading-relaxed"><a href={`/publications#${publication.id}`} className="text-teal-800 underline decoration-teal-800/30 underline-offset-4 hover:decoration-teal-800">{publication.title} →</a></h3>
+            <h3 className="mt-2 text-base font-semibold leading-relaxed"><a href={`/projects?view=publications#${publication.id}`} className="text-teal-800 underline decoration-teal-800/30 underline-offset-4 hover:decoration-teal-800">{publication.title} →</a></h3>
             <a href={publication.href} target="_blank" rel="noopener noreferrer" referrerPolicy="no-referrer" className="mt-2 inline-flex min-h-8 items-center text-sm text-teal-800 underline underline-offset-4">Publication record ↗<span className="sr-only"> (opens in a new tab)</span></a>
           </li>)}</ul>
         </section>}
