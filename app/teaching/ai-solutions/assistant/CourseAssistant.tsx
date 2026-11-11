@@ -6,7 +6,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import ReactMarkdown, { type Components } from "react-markdown";
 import { prepareCourseHistory } from "@/lib/course-kb/history";
 import { courseCompletionNotice } from "@/lib/course-kb/completion";
-import { courseEvidenceLink, coursePageLabel, normalizeCoursePage } from "@/lib/course-kb/context";
+import { courseEvidenceLink, courseEvidenceNavigation, coursePageLabel, normalizeCoursePage } from "@/lib/course-kb/context";
 import { COURSE_SESSION_KEY, parseCourseSession, serializeCourseSession, shouldPersistCourseSession } from "@/lib/course-kb/session";
 import type { CourseChatMessage } from "@/lib/course-kb/types";
 import remarkGfm from "remark-gfm";
@@ -30,16 +30,16 @@ const markdownComponents: Components = {
   },
 };
 
-function groundedMarkdownComponents(sources: ReadonlySet<string>): Components {
+function groundedMarkdownComponents(sources: ReadonlySet<string>, canvasDelivery: boolean): Components {
   return { ...markdownComponents, a({ href, children }) {
-    const safe = courseLink(href);
+    const safe = canvasDelivery ? undefined : courseLink(href);
     // Inline citations must match this answer's server-selected evidence, not
     // merely a plausible course URL invented in model prose.
     return safe && (safe === "/?chat=open" || sources.has(safe)) ? <a href={safe} target="_top">{children}</a> : <span>{children}</span>;
   } };
 }
 
-export function CourseAssistant({ embedded = false, lesson = "" }: { embedded?: boolean; lesson?: string }) {
+export function CourseAssistant({ embedded = false, lesson = "", canvasDelivery = false }: { embedded?: boolean; lesson?: string; canvasDelivery?: boolean }) {
   const currentLesson = normalizeCoursePage(lesson);
   const [sessionReady, setSessionReady] = useState(false);
   const [storageAvailable, setStorageAvailable] = useState(true);
@@ -50,7 +50,7 @@ export function CourseAssistant({ embedded = false, lesson = "" }: { embedded?: 
   const questionRef = useRef<HTMLTextAreaElement>(null);
   const transport = useMemo(() => new DefaultChatTransport<CourseChatMessage>({
     api: "/api/course-chat",
-    prepareSendMessagesRequest: ({ messages }) => ({ body: { messages: prepareCourseHistory(messages, { lesson: currentLesson }), lesson: currentLesson } }),
+    prepareSendMessagesRequest: ({ messages }) => ({ body: { messages: prepareCourseHistory(messages, { lesson: currentLesson, ...(canvasDelivery ? { delivery: "canvas" as const } : {}) }), lesson: currentLesson, ...(canvasDelivery ? { delivery: "canvas" } : {}) } }),
     fetch: async (url, init) => {
       const headers = new Headers(init?.headers);
       if (codeRef.current.trim()) headers.set("x-course-code", codeRef.current.trim());
@@ -65,7 +65,7 @@ export function CourseAssistant({ embedded = false, lesson = "" }: { embedded?: 
       }
       return response;
     },
-  }), [currentLesson]);
+  }), [currentLesson, canvasDelivery]);
   const { messages, sendMessage, status, stop, error, regenerate, setMessages, clearError } = useChat<CourseChatMessage>({
     transport,
     onFinish: ({ message, isAbort, isDisconnect, isError }) => {
@@ -129,6 +129,7 @@ export function CourseAssistant({ embedded = false, lesson = "" }: { embedded?: 
       {embedded && <h1 className="sr-only">Course teaching assistant</h1>}
       {!embedded && <header className="mb-8 border-b border-zinc-200 pb-6"><a href="/teaching/ai-solutions/index.html" className="text-sm font-semibold text-teal-800">← Building AI Solutions · Majid Memari</a><h1 className="mt-5 text-4xl">Your course teaching assistant.</h1><p className="mt-3 text-zinc-600">Study support grounded in the course materials. Open it from any lesson to keep your place.</p></header>}
       {currentLesson && <p className="mb-4 text-xs font-medium text-teal-800">Helping with {coursePageLabel(currentLesson)}</p>}
+      {canvasDelivery && <p className="mb-4 rounded-lg bg-teal-50 p-3 text-xs leading-relaxed text-teal-900">Stay in Canvas while you study. Source titles below identify the material used; ask the TA to explain a source here. Submit your check-in and review instructor feedback in Canvas.</p>}
       <div>
         <section aria-label="Conversation with the course teaching assistant" className="min-w-0">
           <div className="flex items-center justify-between gap-3 border-b border-zinc-200 pb-3">
@@ -146,7 +147,7 @@ export function CourseAssistant({ embedded = false, lesson = "" }: { embedded?: 
               return <article key={message.id} aria-label={message.role === "user" ? "Your question" : "Assistant response"} className={message.role === "user" ? "ml-4 rounded-xl bg-slate-950 p-4 text-white" : "rounded-xl border border-zinc-200 bg-white p-4"}>
                 <p className={`mb-3 text-xs font-semibold uppercase tracking-wider ${message.role === "user" ? "text-sky-200" : "text-teal-800"}`}>{message.role === "user" ? "You" : "Course teaching assistant"}</p>
                 <div className="min-w-0 break-words text-sm leading-7 [&_a]:text-teal-800 [&_a]:underline [&_blockquote]:border-l-2 [&_blockquote]:border-teal-600 [&_blockquote]:pl-3 [&_h1]:my-3 [&_h1]:text-xl [&_h2]:my-3 [&_h2]:text-lg [&_h3]:my-3 [&_h3]:font-semibold [&_ol]:my-3 [&_ol]:list-decimal [&_ol]:pl-5 [&_p]:my-2 [&_pre]:overflow-auto [&_ul]:my-3 [&_ul]:list-disc [&_ul]:pl-5">
-                  {message.role === "user" ? <p className="whitespace-pre-wrap">{text}</p> : <ReactMarkdown remarkPlugins={[remarkGfm]} components={groundedMarkdownComponents(new Set(sources.map(source => source.type === "source-url" ? courseEvidenceLink(source.url) ?? "" : "")))}>{text}</ReactMarkdown>}
+                  {message.role === "user" ? <p className="whitespace-pre-wrap">{text}</p> : <ReactMarkdown remarkPlugins={[remarkGfm]} components={groundedMarkdownComponents(new Set(sources.map(source => source.type === "source-url" ? courseEvidenceLink(source.url) ?? "" : "")), canvasDelivery)}>{text}</ReactMarkdown>}
                 </div>
                 {completionNotice && <p role="status" className="mt-4 rounded-lg border border-amber-300 bg-amber-50 p-3 text-sm leading-relaxed text-amber-950">{completionNotice}</p>}
                 {sources.length > 0 && <div className="mt-5 border-t border-zinc-200 pt-4"><p className="text-xs font-semibold uppercase tracking-wider text-zinc-600">Course material consulted</p><ul className="mt-2 space-y-2">{sources.map(source => {
@@ -154,7 +155,9 @@ export function CourseAssistant({ embedded = false, lesson = "" }: { embedded?: 
                   const href = courseEvidenceLink(source.url);
                   if (!href || seen.has(href)) return null;
                   seen.add(href);
-                  return <li key={href}><a href={href} target="_top" className="text-sm text-teal-800 underline underline-offset-4">{source.title || "Read the course source"}<span className="sr-only"> (opens in the course)</span></a></li>;
+                  const destination = courseEvidenceNavigation(source.url, canvasDelivery);
+                  if (!destination) return <li key={href}><span className="text-sm text-zinc-600">{source.title || "Course source"}</span></li>;
+                  return <li key={href}><a href={destination} target="_top" className="text-sm text-teal-800 underline underline-offset-4">{source.title || "Read the course source"}<span className="sr-only"> (opens in the course)</span></a></li>;
                 })}</ul></div>}
               </article>;
             })}

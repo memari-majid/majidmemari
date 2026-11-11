@@ -6,7 +6,7 @@ import { COURSE_LIMITS, CourseRequestError, readCourseRequest, validateCourseMes
 import type { CourseChatMessage } from "./types";
 import { normalizeCoursePage } from "./context";
 
-const UNAVAILABLE = "The teaching assistant is temporarily unavailable. Your course lessons and workbook remain available; please try again later.";
+const UNAVAILABLE = "The teaching assistant is temporarily unavailable. Your course lessons remain available; please try again later.";
 const errorResponse = (status: number, error: string) => Response.json({ error }, { status, headers: { "Cache-Control": "no-store", ...(status === 429 ? { "Retry-After": "600" } : {}) } });
 
 type CourseChatConfig = { code?: string; model?: string; environment?: string };
@@ -29,6 +29,7 @@ export function createCourseChatHandler(options: {
       const body = await readCourseRequest(req);
       const messages = validateCourseMessages(body);
       const lesson = normalizeCoursePage(body && typeof body === "object" && "lesson" in body ? body.lesson : "");
+      const canvasDelivery = !!(body && typeof body === "object" && "delivery" in body && body.delivery === "canvas");
       const chunks = retrieveCourseChunks(courseRetrievalQuery(messages), 6, lesson);
       const sources = courseSources(chunks);
       if (!chunks.length) {
@@ -52,7 +53,7 @@ export function createCourseChatHandler(options: {
           writer.write({ type: "start" });
           for (const source of sources) writer.write({ type: "source-url", ...source });
           const result = streamText({
-            model: getModel(modelId), system: buildCourseSystemPrompt(chunks, lesson), messages,
+            model: getModel(modelId), system: buildCourseSystemPrompt(chunks, lesson, canvasDelivery), messages,
             maxOutputTokens: COURSE_LIMITS.outputTokens, maxRetries: 0, abortSignal: signal,
             onFinish: release, onAbort: release, onError: () => { release(); },
             providerOptions: { gateway: { tags: ["site:majidmemari", "feature:course-ta", `env:${settings.environment ?? "dev"}`] } },

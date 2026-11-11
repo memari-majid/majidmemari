@@ -10,9 +10,10 @@ export const metadata: Metadata = {
   robots: { index: false, follow: true },
 };
 
-export default async function CourseAssistantPage({ searchParams }: { searchParams: Promise<{ embed?: string; lesson?: string }> }) {
+export default async function CourseAssistantPage({ searchParams }: { searchParams: Promise<{ embed?: string; lesson?: string; delivery?: string }> }) {
   const query = await searchParams;
-  const embedded = query.embed === "1";
+  const canvasDelivery = query.delivery === "canvas";
+  const embedded = query.embed === "1" || canvasDelivery;
   const lesson = normalizeCoursePage(query.lesson);
-  return <div className="min-h-dvh bg-zinc-50 text-zinc-900"><CourseAssistant embedded={embedded} lesson={lesson} /></div>;
+  return <div className="min-h-dvh bg-zinc-50 text-zinc-900"><CourseAssistant embedded={embedded} lesson={lesson} canvasDelivery={canvasDelivery} /></div>;
 }

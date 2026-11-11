@@ -14,7 +14,7 @@ import { createCourseChatHandler } from "./chat";
 import { prepareCourseHistory } from "./history";
 import { courseCompletionNotice } from "./completion";
 import type { CourseChatMessage, CourseChunk } from "./types";
-import { normalizeCoursePage, coursePageLabel, courseEvidenceLink } from "./context";
+import { normalizeCoursePage, coursePageLabel, courseEvidenceLink, courseEvidenceNavigation } from "./context";
 import { parseCourseSession, serializeCourseSession, shouldPersistCourseSession } from "./session";
 
 const text = (role: string, content: string) => ({ role, parts: [{ type: "text", text: content }] });
@@ -149,7 +149,7 @@ test("optional code and bounded access reject overload and recover after expirat
   assert(limit.acquire("c", 105)); // expired rate entries and lease are cleared
 });
 
-const request = (messages: unknown[], headers: Record<string, string> = {}, lesson = "") => new Request("https://example.test/api/course-chat", { method: "POST", headers: { "content-type": "application/json", ...headers }, body: JSON.stringify({ messages, lesson }) });
+const request = (messages: unknown[], headers: Record<string, string> = {}, lesson = "", delivery = "") => new Request("https://example.test/api/course-chat", { method: "POST", headers: { "content-type": "application/json", ...headers }, body: JSON.stringify({ messages, lesson, delivery }) });
 test("API streams actual SDK text with only server-selected persistent source parts", async () => {
   const model = new MockLanguageModelV3({ doStream: async () => ({ stream: simulateReadableStream({ initialDelayInMs: null, chunkDelayInMs: null, chunks: [
     { type: "text-start", id: "answer" }, { type: "text-delta", id: "answer", delta: "Start by stating your business question." }, { type: "text-end", id: "answer" },
@@ -324,6 +324,11 @@ test("API passes the open unit as context and emits sources from that unit", asy
   assert(system.includes("Design a fair test"));
   assert(system.includes('CURRENT COURSE PAGE'));
   assert(!system.includes('Internal Module 00 is learner-facing'));
+  const canvasResponse = await handler(request([text("user", "Where do I submit this unit's check-in?")], {}, "unit-06.html", "canvas"));
+  await canvasResponse.text();
+  const canvasSystem = JSON.stringify(model.doStreamCalls[1].prompt[0]);
+  assert(canvasSystem.includes("CANVAS DELIVERY:"));
+  assert(canvasSystem.includes("Canvas Next after Finish"));
 });
 
 
@@ -349,4 +354,23 @@ test("committed-decision challenges retain their numerical boundaries in TA evid
   assert.match(authorityText, /owner/i);
   assert.match(authorityText, /handoff/i);
   assert.match(authorityText, /not.*(authoriz|refund|perform|process)|no.*(authoriz|refund|perform|process)/i);
+});
+
+
+test("Canvas source citations never navigate out of the LMS frame", () => {
+  const source = "https://www.majidmemari.com/teaching/ai-solutions/unit-06.html#practice-worked-6";
+  assert.equal(courseEvidenceNavigation(source, true), undefined);
+  assert.equal(courseEvidenceNavigation(source, false), "/teaching/ai-solutions/unit-06.html#practice-worked-6");
+  assert.equal(courseEvidenceNavigation("https://elsewhere.example", false), undefined);
+});
+
+
+test("Canvas TA context keeps check-ins and progression in the LMS", () => {
+  const embedded = buildCourseSystemPrompt([], "unit-06.html", true);
+  const standalone = buildCourseSystemPrompt([], "unit-06.html", false);
+  assert.match(embedded, /CANVAS DELIVERY:/);
+  assert.match(embedded, /Canvas Next after Finish/);
+  assert.match(embedded, /never tell them to mark a website unit complete/);
+  assert.match(standalone, /STANDALONE DELIVERY:/);
+  assert(!standalone.includes("CANVAS DELIVERY:"));
 });

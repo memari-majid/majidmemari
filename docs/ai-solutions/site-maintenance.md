@@ -30,11 +30,11 @@ Run from this directory:
 ```sh
 python3 build_site.py
 python3 check_site.py
-node --test test_workbook.cjs test_practice.cjs test_lesson_figures.cjs
+node --test test_workbook.cjs test_practice.cjs test_lesson_figures.cjs test_delivery.cjs
 python3 -m http.server 8765 --bind 127.0.0.1 --directory dist
 ```
 
-Open http://127.0.0.1:8765/. Python's standard library builds the static course without credentials or network access. A suitable Node.js runtime runs the pure-data tests; students do not need Node or programming tools. The current test set contains 63 checks: 13 workbook, 41 practice, and 9 inline-figure tests.
+Open http://127.0.0.1:8765/. Python's standard library builds the static course without credentials or network access. A suitable Node.js runtime runs the pure-data tests; students do not need Node or programming tools. The current test set contains 68 checks: 13 workbook, 41 practice, 9 inline-figure tests, and 5 delivery-profile tests.
 
 The builder replaces only `dist/`, which is generated and ignored by Git. Current output includes 24 main content pages, 36 compatibility redirects, seven maintained assets, two text downloads, and the portable ZIP. Retired `module-*`, `assessment-*`, and `labs/index.html` routes are redirects, not another learner path.
 
@@ -47,6 +47,16 @@ Guided practice appears in Units 2, 4, 6, 7, and 8: discovery evidence, source c
 The [simulation application plan](simulation-application-plan.md) defines the decision cycle: record a prediction, explore linked evidence, commit a recommendation and its settings, reveal a fixed worked challenge, then retain or revise with a reason and a capstone implication. The challenge comparison is labeled separately from the learner's live settings. A complete worked table and explanation follows each practice in an optional disclosure; it remains available to printing, static readers, and the course TA.
 
 Inline figures appear in Units 3, 5, 9, 10, 11, and 12: complete effort, repair/retest, offer scope, acquisition, review queues, and misleading chart origins. Keep static explanations, dynamic calculations, tables, and evidence limits consistent. Fictional supplied observations, hypothetical changes, and actual learner evidence are distinct.
+
+## Canvas delivery profile
+
+Append `?delivery=canvas` to a unit URL when embedding the lesson in Canvas. This is an opt-in presentation profile; public standalone URLs retain the normal website navigation and workbook.
+
+The profile keeps Learn → Try → Build → Finish, linked figures, simulations, practice exports, and the integrated course TA. It hides the personal website header links/footer, learning-path and unit-continuation links, milestone submission callouts, standalone knowledge-check form, and local workbook/progress controls. Finish directs the learner to the Canvas check-in and Canvas Next. The standalone workbook is neither read nor overwritten in this mode; existing notes are preserved. Practice interactions remain learning aids, not Canvas submissions, grade records, or evidence that a module requirement was completed.
+
+Supporting case/project/reading/resource pages stay in the frame and retain `delivery=canvas` plus a validated `canvasLesson` return context. External references become readable source titles, not links that open another website. The embedded course TA receives the Canvas delivery context, explains sources inside its conversation, and renders source citations as labels. It does not expose a separate assistant-page link in this mode. Canvas owns the authoritative sequence, check-ins, submissions, instructor feedback, completion, and grades; this profile is not an LTI grade-passback integration.
+
+The course and TA need JavaScript for this embedded interactive experience. Canvas embedding, iframe permission, page height, native module requirements, and assessment setup are configured and verified separately by the Canvas integration workflow.
 
 ## Workbook and printing
 

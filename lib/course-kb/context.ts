@@ -31,3 +31,8 @@ export function courseEvidenceLink(value: unknown): string | undefined {
     return `${url.pathname}${url.hash}`;
   } catch { return undefined; }
 }
+
+/** Canvas keeps navigation inside its learning path; citations remain readable labels. */
+export function courseEvidenceNavigation(value: unknown, canvasDelivery = false): string | undefined {
+  return canvasDelivery ? undefined : courseEvidenceLink(value);
+}
