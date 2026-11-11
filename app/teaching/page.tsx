@@ -10,12 +10,12 @@ import { FEATURED_PROJECT_SLUGS, PROJECTS } from "@/lib/projects";
 export const metadata: Metadata = {
   title: "AI Courses & Workshops",
   description:
-    "AI courses and workshops by Majid Memari. Explore Building AI Solutions: interactive business lessons, simulations, and a practical capstone with no coding required.",
+    "AI courses and workshops by Majid Memari. Explore Building AI Solutions: practical AI problem-solving for everyone, with interactive lessons, simulations, a capstone, and no prerequisites.",
   alternates: { canonical: "/teaching" },
   openGraph: {
     title: "Majid Memari — AI Courses & Workshops",
     description:
-      "Learn AI through real problems, interactive lessons, and practical workshops. Explore Building AI Solutions, an independent business course by Majid Memari.",
+      "Learn AI through real problems, interactive lessons, and practical workshops. Explore Building AI Solutions, an independent course for everyone by Majid Memari. No prerequisites.",
     url: "/teaching",
   },
 };

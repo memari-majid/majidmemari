@@ -65,7 +65,7 @@ export function HomePageContent() {
                 <Link href="/teaching/agentic-llm" className={`mt-3 inline-flex min-h-11 items-center text-sm ${linkClass}`}>Explore the workshop →</Link>
               </article>
               <article>
-                <h3 className="text-lg font-semibold">AI for teams and business learners</h3>
+                <h3 className="text-lg font-semibold">AI for teams and learners</h3>
                 <p className="mt-2 text-sm leading-relaxed text-slate-600">A focused session shaped around your audience, practical problems, and learning goals.</p>
                 <a href="#contact" className={`mt-3 inline-flex min-h-11 items-center text-sm ${linkClass}`}>Discuss a workshop →</a>
               </article>

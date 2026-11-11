@@ -29,7 +29,7 @@ export function BuildingAiSolutionsCard({
           Independent course · Majid Memari
         </p>
         <span className="rounded-full border border-amber-300/30 bg-amber-300/10 px-3 py-1 text-xs font-medium text-amber-200">
-          No coding required
+          No prerequisites
         </span>
       </div>
 
@@ -40,7 +40,7 @@ export function BuildingAiSolutionsCard({
         Building AI Solutions
       </Heading>
       <p className="mt-3 max-w-2xl text-lg leading-relaxed text-slate-200">
-        Turn a real business need into an AI solution people will use.
+        Practical AI problem-solving for everyone.
       </p>
       <p className="mt-4 max-w-2xl text-sm leading-relaxed text-slate-300">
         Follow one path through twelve lessons, with simulations inside each relevant lesson and a capstone shaped by
@@ -63,8 +63,8 @@ export function BuildingAiSolutionsCard({
       </ol>
 
       <p className="mt-5 text-sm leading-relaxed text-slate-300">
-        For all business disciplines, including finance, marketing, MBA, and MIS. Work with
-        statistics, tables, figures, and business decisions throughout.
+        Open to students from any discipline. No prior AI, programming, statistics, or business
+        background is required. Learn through real-world examples, figures, and practical decisions.
       </p>
       <div className="mt-7 flex flex-wrap items-center gap-3">
         <a
