@@ -1,6 +1,6 @@
 # Building AI Solutions
 
-> Documentation mirror in the personal-site hosting repository, refreshed from canonical course commit `0ffb052`, with the final Canvas review brief from `14560a2`. The canonical source is `/Users/majid/Documents/GitHub/uvu_courses/courses/cs4720R/`. Source-file paths below refer to that checkout unless explicitly identified as hosting paths. Edit canonical curriculum and documentation first; then refresh these mirrors. [Source-agent guidance](source-agent-guidance.md) describes work in that canonical repository.
+> Documentation mirror in the personal-site hosting repository. Canonical source: `/Users/majid/Documents/GitHub/uvu_courses/courses/cs4720R/`. Edit canonical curriculum and documentation first; then refresh these copies. Source paths below refer to that checkout unless identified as hosting paths. See [source-agent guidance](source-agent-guidance.md) and the [Canvas artifact handoff](canvas/README.md).
 
 **Practical AI problem-solving for everyone.** An independent course owned and taught by **Majid Memari**, open to students from any discipline with **no prerequisites**. Learners follow **12 units, one capstone, and five milestones**, using **Learn → Try → Build → Finish**. They discover a need, build a usable AI-assisted solution, test and revise it, develop an offer or adoption case, bring it to users, and hand it over. No programming, prior AI or business knowledge, specific-tool experience, or paid AI access is required.
 
@@ -17,10 +17,10 @@ The directory name is historical. It does not identify the public course, impose
 | Find the owning files or connect local and online content | [Repository map](source-map.md) | Source ownership, routes, hosting handoff, and review boundaries |
 | Edit, build, or validate course content | [Site maintenance guide](site-maintenance.md) | Current Python sources, seven assets, and workbook, practice, figure and delivery tests |
 | Check what was actually tested and released | [Development and validation](development-and-validation.md) | Dated evidence, exact release commits, and remaining learner validation |
-| Review readings or design influences | [Textbook research](textbook-selection.md), [reference analysis](reference-analysis.md) | Current assigned readings in `site/course_content.py`; external sources may change |
+| Review readings or design influences | [Current textbook recommendation](textbook-recommendation.md), [earlier textbook research](textbook-selection.md), [reference analysis](reference-analysis.md) | Original core reading remains available in Canvas; optional sources and book selections require access/fit checks |
 | Build interactive lessons after reference-course access ends | [Reference study and build handbook](reference-study/README.md) | Six case studies, visual/animation rules, original worked example, review prompt and exact inspection coverage |
 | See how the reference patterns are applied to this course | [Simulation application plan](simulation-application-plan.md) | Five embedded decision challenges, authored explanations, state boundaries, and capstone transfer |
-| Deliver the course through Canvas | [Canvas integration guide](canvas-integration.md) | Reusable cartridge builder, native pages/check-ins/rubrics, approved grading weights, and the [verified installation record](canvas-live-integration.md) |
+| Deliver the course asynchronously through Canvas | [Canvas integration guide](canvas-integration.md), [asynchronous design](canvas-async-design.md) | Native reading alternatives, quizzes/project updates, exchanges, milestones/exam, editable templates, and the separate [installation record](canvas-live-integration.md) |
 
 For an independent review, inspect the live learner experience before reading earlier judgments or test results. Source code, a preview, production, and a learner study establish different things.
 
@@ -30,7 +30,9 @@ For an independent review, inspect the live learner experience before reading ea
 
 `site/dist/` is generated and ignored in this source repository. The separate personal website repository intentionally versions its public course snapshot, release manifest, and generated TA corpus. Do not edit those snapshots to change the course. The [repository map](source-map.md) shows the complete handoff.
 
-The verified November 11, 2026 website release is personal-site commit `8ac13228ccc4415e90040ec7c327c42772e1eca6`. It includes the Canvas display profile and the audience framing for everyone with no prerequisites, building on the earlier decision-challenge release. The Canvas installation uses native pages, twelve formative check-ins, five milestone submissions/rubrics, a discussion, and module requirements. Technical and Student View checks passed; representative-learner timing and learning effectiveness remain unvalidated. The validation record identifies exact deployments and their limits.
+Website releases and Canvas installations are verified separately; [the validation record](development-and-validation.md) identifies exact releases and what each check established. The current asynchronous Canvas package has twelve native quizzes, each containing three choice questions and a zero-point project update, in a zero-weight formative group. These replace the earlier standalone check-ins. Three project exchanges precede the corresponding quizzes in Units 3, 7, and 12; a separate optional help forum remains available.
+
+The five milestone groups retain 15/20/25/15/25% weights. Milestone 5 contains a 60-point shared demonstration/handoff and a separate 40-point individual case exam in the same group. Native original readings, six editable templates, a complete classroom case, and an explicit start/feedback/completion guide support the asynchronous route. The Canvas theme and embedded display profile share a native white background with the course's navy, teal, typography, and meaningful figure colors; standalone website presentation remains separately controlled. Source tests and package checks do not establish receiving-instance behavior, learner timing, or learning effectiveness; consult the installation record for actual live observations and limits.
 
 The optional course TA is embedded in lessons and uses public course evidence. It is distinct from the website chatbot and the workshop assistant. The portable lessons work without the TA; assistant use and external readings require internet access.
 
@@ -42,10 +44,10 @@ The optional course TA is embedded in lessons and uses public course evidence. I
 - **Offering operations:** `offerings/`. Dates, enrollment, Canvas identifiers, grades, old assessments, and research configurations do not define this independent course. Do not scan or run those scripts for a general course review.
 - **Legacy technical examples:** `domain-examples/`. Optional historical reference, not required student work.
 - **Public visual evidence:** [docs/evidence](evidence/README.md).
-- **Private operations evidence:** ignored `private/`. Account screenshots and configuration records are not reviewer inputs.
+- **Private operations and instructor assessment material:** ignored `private/`. Account screenshots, configuration records, and the instructor-only exam marking guide are not reviewer inputs, student-cartridge resources, public mirrors, or TA evidence.
 
 The surrounding repository contains other courses and pre-existing work. A clean course review does not require resetting, deleting, staging, or publishing that material. This repository currently has local Git history and no configured remote; the personal website has its own Git and deployment workflow.
 
 ## Hosting repository handoff
 
-The hosting repository owns [course synchronization](../../scripts/sync-ai-course.mjs), the [generated public snapshot](../../public/teaching/ai-solutions/), its [release manifest](../../content/ai-solutions-release.json), and the [TA maintenance guide](../../lib/course-kb/README.md). These documents and the Canvas handoff folder are not TA corpus inputs or public runtime assets. The [portable Canvas package and source reference](canvas/README.md) are separate from the destination-specific [live installation record](canvas-live-integration.md).
+The hosting repository owns [course synchronization](../../scripts/sync-ai-course.mjs), the [generated public snapshot](../../public/teaching/ai-solutions/), its [release manifest](../../content/ai-solutions-release.json), and the [TA maintenance guide](../../lib/course-kb/README.md). These documentation and Canvas artifact mirrors are not TA corpus inputs or runtime assets. The instructor-only exam marking guide is excluded.

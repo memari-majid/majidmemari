@@ -1,6 +1,6 @@
 # Working on Building AI Solutions
 
-> Mirrored guidance for the canonical course-source repository. This file is documentation, not an AGENTS.md policy for the hosting checkout. See [source ownership](README.md).
+> Mirrored guidance for the canonical course source, not an AGENTS.md policy for this hosting repository. Follow the owning repository instructions for implementation.
 
 Read [README.md](README.md) for scope and [REPOSITORY_MAP.md](source-map.md) for ownership. For a review, follow [AI_REVIEW_BRIEF.md](review-brief.md), inspect the actual course, and distinguish observed behavior from source intent and historical claims.
 

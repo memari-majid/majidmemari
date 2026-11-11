@@ -4,9 +4,21 @@
 
 **Date:** November 11, 2026
 
-**Status:** The owner authorized development on November 10, 2026. The twelve-unit course and visual-learning upgrade have been implemented and released. Technical evidence is recorded in [DEVELOPMENT_AND_VALIDATION.md](development-and-validation.md); representative-learner testing is still required.
+**Status:** The owner authorized development on November 10, 2026. The twelve-unit public course and visual-learning upgrade have been implemented and released. The November 11 asynchronous Canvas supplement is implemented in source and package form; its current delivery contract is summarized below and detailed in [ASYNC_DESIGN_PLAN.md](canvas-async-design.md). Technical evidence is recorded in [DEVELOPMENT_AND_VALIDATION.md](development-and-validation.md), while actual LMS observations belong in [LIVE_INTEGRATION.md](canvas-live-integration.md). Representative-learner testing is still required.
 
 This is the current planning document. It takes precedence over the proposed learning sequence and interface direction in the earlier `COURSE_PLAN.md` and `COURSE_DESIGN_AND_DEVELOPMENT.md`. It does not change a live offering's grades, deadlines, enrollment, or submission arrangements. The actual website and local implementation are evidence to evaluate against this blueprint. Archived implementations do not define current requirements.
+
+### Current asynchronous Canvas delivery
+
+The common curriculum remains twelve units, one continuing capstone and Learn → Try → Build → Finish. Native Canvas modules provide **Lesson → Exchange when listed → Practice quiz/project update → Milestone when due**. Exchanges appear before quizzes in Units 3, 7, and 12; a supplied sample permits critique without waiting for a peer or imposing a forum-post gate. A separate general-help discussion is optional.
+
+Each of twelve quizzes contains three choice questions with explanatory feedback and one zero-point project-update essay. The technical quiz score is out of three, omitted from final grading and in a 0%-weight group. It replaces the earlier standalone check-in. Choice feedback and a manually reviewed essay are different states; neither a submission mark nor an automatically scored choice establishes mastery.
+
+The five milestone groups remain **15/20/25/15/25%**. In the final group, the shared demonstration/handoff is **60 points** and an individually authored, open-materials case exam is **40 points**, contributing 15 and 10 percentage points of the course. The instructor assesses the exam; disclosed AI assistance does not replace the learner's own verified reasoning. Earlier individual explanations are preparation, not a second numerical grade. Unit 12 ends with the exam and a completion checklist.
+
+Native original readings and worked tables, a full classroom case, six editable templates, a seven-step first setup, glossary, and explicit support/revision guidance keep the route usable without coding, paid AI access, an AI account, or an external partner. Another person's actual task attempt still supplies user-testing evidence; the supplied case does not fabricate that observation. The guide offers an asynchronous classroom-reviewer request through Canvas when necessary.
+
+The Canvas-authored theme and embedded display profile use a native white background with the shared navy/teal type and figure language. Semantic heading emphasis survives the receiving sanitizer; account-wide Canvas controls remain native. Source/package checks and shared colors do not prove complete live or accessibility compatibility. The standalone website's presentation and self-study behavior remain distinct from enrolled Canvas assessment.
 
 ## 1. The central design decision
 
@@ -123,16 +135,16 @@ Keep a single project folder/dossier: problem and evidence; solution and workflo
 
 The final synthesis can be a concise 4–6-page decision brief with linked evidence and a 6–8-slide presentation. The usable artifact, observations, calculations, and operating instructions live in supporting files. These are proposed limits to be tested with learners, not existing policies.
 
-| Milestone | At unit | Proposed weight for a new full offering | Main evidence |
+| Milestone | At unit | Design weight / authorized Canvas group | Main evidence |
 |---|---:|---:|---|
 | 1. Problem and feasible scope | 3 | 15% | Need, baseline, evidence quality, alternatives, bounded task |
 | 2. First usable solution | 5 | 20% | Usability, source checks, AI contribution, bench tests, revision |
 | 3. Pilot and learning | 7 | 25% | Test design, observed task, quantitative interpretation, revision/retest |
 | 4. Viability and route to users | 10 | 15% | Economics, capacity, offer, channel, selling or adoption, onboarding |
-| 5. Demonstration and handoff | 12 | 25% | 15% final demonstration/handoff; 10% individual explanation of evidence and decisions |
-| **Total** | | **100%** | One cumulative project; no separate individual-mastery upload |
+| 5. Demonstration and handoff | 12 | 25% | 60-point shared artifact/handoff (15% of course) plus 40-point individual case exam (10%) in Canvas |
+| **Total** | | **100%** | One cumulative project plus the individual case assessment; formative work adds no percentage |
 
-Weights are proposals for a new course configuration. Existing offering grades are unchanged. Instructor-led teams may share artifacts, but every learner must explain a calculation, a design decision, and a limitation. Individual study uses the same evidence and self-checks; the website must not imply instructor grading or a credential.
+These weights have been authorized for the current Canvas configuration; other offerings must publish their own approved arrangements. Existing learner grades are not rewritten by this design document. Teams may share artifacts, but every learner must explain a calculation, a design decision, and a limitation. Independent website self-study uses the same evidence and self-checks without implying instructor grading or a credential. Canvas's separate exam implementation is defined by its asynchronous supplement, not by old public-page wording about two individual checks.
 
 Use a short common rubric vocabulary: **problem fit, evidence, usability, evaluation, economics, judgment, communication**. Score the criteria relevant to the milestone. Give feedback on the next consequential improvement.
 
@@ -246,6 +258,8 @@ A case packet should include approved source facts, sample inputs, baseline data
 
 Use short assigned readings to support the next decision. Do not make several textbooks or a broad technical survey the course structure. Keep the free core route and original examples.
 
+For asynchronous Canvas delivery, the original core explanation and worked examples within the native lesson page are the required reading; external references and books remain optional. The [November 11 textbook recommendation](textbook-recommendation.md) selects Marily Nika's *Building AI-Powered Products* as a selective reference and IDEO.org's free field guide as a methods companion, based on public publisher/resource descriptions and contents rather than a full-text review. It changes no current reading requirement or purchase expectation. The earlier candidates below remain useful role-specific research.
+
 - **AI foundation:** selected material from Ethan Mollick's *Co-Intelligence*, with current original examples and tool evaluation. The [publisher's educator page](https://penguinrandomhousehighereducation.com/book/?isbn=9780593716717) is the verified source for the book; it is not a full implementation manual.
 - **Testing and evidence:** *Testing Business Ideas* for instructor preparation and selected experimentation activities. Its [official description](https://www.strategyzer.com/library/testing-business-ideas-book) organizes experiments by factors including time, cost, and evidence strength. Write original activities and use appropriate licensed access.
 - **Business development:** selected parts of *Disciplined Entrepreneurship*, adapted to both external customers and internal sponsors. The [author's edition page](https://www.d-eship.com/books/) supplies edition information and sample chapters. Do not require all 24 steps as extra milestones.
@@ -257,9 +271,9 @@ The detailed earlier [textbook selection memo](textbook-selection.md) remains us
 
 Proposed planning assumption: 30 learners in ten teams of three. This is not known enrollment. Team size, meeting hours, individual delivery, and academic-credit requirements are offering choices.
 
-The two individual checks are scheduled around Milestones 3 and 5 and together supply the proposed 10% individual component. Each learner explains a calculation, a decision, and an evidence limit across those checks. Final team questions may clarify that evidence; the team presentation is not expected to replace all individual checks.
+In the asynchronous Canvas version, individual explanation near Milestone 3 prepares the learner for the separately submitted 40-point case exam within Milestone 5. The exam supplies the 10% individual course component. Earlier explanation is supporting/formative evidence and is not scored twice. The shared demonstration does not substitute for individual reasoning.
 
-Five milestone reviews × ten teams × 15 minutes = **12.5 hours** of milestone review across the course. Two five-minute individual checks × 30 learners = **5 hours**. Ten demonstrations at 7 minutes plus 3 minutes questions and 2 minutes transition = **120 minutes**. These estimates exclude preparation, teaching, ordinary coaching, moderation, and resubmissions; test them before promising workload.
+The earlier facilitated-team staffing sketch estimated five milestone reviews × ten teams × 15 minutes = **12.5 hours**, two five-minute individual checks × 30 learners = **5 hours**, and ten live demonstrations with questions/transitions = **120 minutes**. Those are historical planning assumptions, not a validated asynchronous staffing model. The current version needs capacity for manually reviewing project essays, the individual exam, revisions, and bounded classroom attempts in addition to milestone feedback. Measure that work before committing enrollment or turnaround.
 
 Provisional learner-workload budget for the full twelve-unit core:
 
@@ -274,7 +288,7 @@ Provisional learner-workload budget for the full twelve-unit core:
 
 Twelve guided lessons at 65–115 minutes contribute **13–23 hours**, giving a provisional core total of **37–63 learner hours**. This is a design estimate, not a claim of academic-credit equivalence or observed effort. If guided work happens in a class meeting, count that time once. Optional reading is not silently required. A formal offering must map its actual contact and independent workload to its own requirements before enrollment; any added practice must serve a stated outcome. Test this estimate with representative learners and inspect whether a project can be completed within the agreed scope.
 
-**Feedback dependency:** propose milestone feedback within five working days and before the next dependent graded decision. Provide a scheduled revision opportunity. Scope feedback must precede substantial building, first-version feedback must precede external piloting, and pilot feedback must precede the final business recommendation. Set actual dates in each offering. When feedback is pending, learners can practice with the supplied case instead of treating silence or a TA response as approval. Self-paced learners use authored examples and rubric checks; no instructor turnaround is implied.
+**Feedback dependency:** the asynchronous guide publishes planning targets of two working days for questions and five for milestone/exam feedback while the facilitated offering is active. Confirm the working-day calendar, staffing, and revision windows before enrollment. Scope feedback must precede consequential external building/piloting, and pilot feedback should inform the final recommendation. When feedback is pending, learners can practice with the supplied case instead of treating silence or a TA response as approval. Independent self-study uses authored examples and rubric checks; no instructor turnaround is implied.
 
 Use one rubric vocabulary, one submission location per offering, brief change logs, a strong and flawed example for each milestone, and a small feedback bank. Give classwide explanations for common misconceptions, then targeted team feedback. Partners do not grade. The TA does not replace instructor assessment.
 

@@ -10,6 +10,7 @@ The maintained audience is students from any discipline, with no prerequisites: 
 |---|---|---|
 | Learner experience and review requirements | `README.md`, `AI_REVIEW_BRIEF.md` | Review of the live course |
 | Educational intent and assessment alignment | `INSTRUCTIONAL_DESIGN_PLAN.md` | Twelve-unit sequence and five milestone design |
+| Optional textbook decision | `TEXTBOOK_RECOMMENDATION.md`, with earlier research in `TEXTBOOK_SELECTION.md` | Selective reference mapping; no book-purchase or required-reading change |
 | Reference-course design research and reconstruction guidance | `docs/reference-study/README.md` | Six case studies, build/visual handbooks, coverage ledgers, worked example and independent review instructions; not public runtime or TA input |
 | Application of the reference patterns to current lessons | `docs/SIMULATION_APPLICATION_PLAN.md` | Five decision/challenge/revision contracts inside existing Try activities |
 | Lesson prose, objectives, checks, readings, cases, rubrics | `site/course_content.py` | Unit, milestone, case, and reading pages |
@@ -22,7 +23,11 @@ The maintained audience is students from any discipline, with no prerequisites: 
 | Portable workbook format and safe merge | `site/assets/workbook.js` | Local notes and JSON backup/restore |
 | Static, model and delivery checks | `site/check_site.py`, `test_workbook.cjs`, `test_practice.cjs`, `test_lesson_figures.cjs`, `test_delivery.cjs` | Link/alignment checks and 68 workbook/model/delivery tests in the Canvas-profile release |
 | Build and browser evidence | `DEVELOPMENT_AND_VALIDATION.md`, `VISUAL_QA_REVIEW.md` | Dated results and remaining validation |
-| Canvas delivery, native assessment and progress | `integrations/canvas/README.md`, `build_package.py`, `mapping.json` | Reproducible cartridge with twelve native pages/check-ins, five rubrics and weighted milestones, discussion and 29 requirements |
+| Canvas asynchronous design and packaging | `integrations/canvas/README.md`, `ASYNC_DESIGN_PLAN.md`, `build_package.py`, `mapping.json` | Twelve modules, 15 native pages, 12 quizzes, five milestone snapshots plus individual exam, six rubrics, four discussions, six editable files and 32 requirements |
+| Native quiz questions, explanatory feedback, exchanges, public individual-exam case/rubric | `integrations/canvas/async_content.py` | 36 choice questions plus 12 zero-point project-update essays; three exchanges before the corresponding quizzes; 40-point manually assessed case exam |
+| Asynchronous orientation, classroom packet, templates, Home and Syllabus rendering | `integrations/canvas/async_guide.py`, `test_async_guide.py` | Start/support/completion pages, six editable text downloads, canonical full case, fictional worked examples, receiving-course HTML fragments |
+| Shared Canvas authored theme | `integrations/canvas/theme.py`, `test_theme.py`, `CANVAS_THEME_PLAN.md` | Inline styles derived from the course CSS and its white Canvas profile; semantic heading emphasis retained through Canvas sanitization |
+| Receiving-offering Home and Syllabus sources | `integrations/canvas/canvas-home.html`, `canvas-syllabus.html` | Saved rendered fragments with destination-specific routes and separately retained policies; outside the portable cartridge |
 | Actual Canvas installation and verification | `integrations/canvas/LIVE_INTEGRATION.md`, `live-verification.json` | Destination-specific IDs, policies, screenshots, observed Student View behavior and limits; not TA input |
 
 The builder uses only current course sources and its seven explicit assets. It does not read historical offering JSON, Canvas records, old studios, private screenshots, or external textbook files. Student-facing text does not come from the old course plans.
@@ -51,7 +56,7 @@ There are 24 current HTML content pages and 36 legacy redirect pages in the reco
 
 The separate repository is `memari-majid/majidmemari` on GitHub. Its source checkout commonly lives beside this repository as `../majidmemari`, but a working directory may contain older or concurrent changes. Inspect `git status`, `git log -1`, `git worktree list`, and the remote branch before using it as release evidence. Do not reset that checkout to match a course release.
 
-The verified visual-learning release was prepared in `/Users/majid/Documents/GitHub/.worktrees/majidmemari-visual-learning`, at commit `1dbee0c6c988d412999d83a95d6ebbfea27ccc68`. Use the exact commit and validation record to identify that snapshot; future releases may differ.
+Visual-learning and Canvas-profile releases have been prepared in `/Users/majid/Documents/GitHub/.worktrees/majidmemari-visual-learning`. Use the exact commits and deployments in the validation record to identify each snapshot; a worktree path alone does not identify the latest release.
 
 Within a current personal-site checkout:
 
@@ -72,6 +77,8 @@ Within a current personal-site checkout:
 The course KB builder extracts the 24 allowlisted HTML pages, preserving public table values, explanations, rubrics, and section links. It hashes the public practice and lesson-figure scripts for change tracking, but does not execute or convert their dynamic models into evidence chunks. Essential reasoning must therefore remain in the authored HTML. It excludes note inputs and does not ingest this review brief, private records, or historical folders.
 
 The course TA's current conversation storage is session-scoped and can survive a reload. The learner workbook and guided practice use separate local storage and exports. None is an instructor submission system. Verify live storage and privacy behavior when reviewing rather than treating these statements as a permanent guarantee.
+
+The Canvas package is a separate source-to-LMS pipeline. Its original readings are generated from canonical curriculum, while its native assessment/guide modules own asynchronous instructions. The package does not import a private marking guide or feed Canvas submissions into the TA. The instructor-only guide remains ignored under `private/`; exclude it from all public documentation mirrors and student artifacts. The public course corpus is not evidence that the TA knows newly added Canvas-specific exam or feedback details.
 
 ## Build and release flow
 

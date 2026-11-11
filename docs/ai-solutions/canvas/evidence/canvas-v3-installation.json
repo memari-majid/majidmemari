@@ -1,0 +1,390 @@
+{
+  "date": "2026-11-11",
+  "canvasCourse": "https://uvu.instructure.com/courses/644965",
+  "courseState": "unpublished",
+  "packageSha256": "8ebd1cc93cb3dbdba386fe12225e5962547262d4be2b55e3d8af9737f5e4dbac",
+  "nativeLessonLinks": [
+    {
+      "href": "/courses/644965/modules/items/16726534",
+      "title": "Unit 01 lesson: AI and a useful business task"
+    },
+    {
+      "href": "/courses/644965/modules/items/16726535",
+      "title": "Unit 02 lesson: Discover the need"
+    },
+    {
+      "href": "/courses/644965/modules/items/16726536",
+      "title": "Unit 03 lesson: Choose and scope a solution"
+    },
+    {
+      "href": "/courses/644965/modules/items/16726538",
+      "title": "Unit 04 lesson: Design the workflow"
+    },
+    {
+      "href": "/courses/644965/modules/items/16726539",
+      "title": "Unit 05 lesson: Build the first usable version"
+    },
+    {
+      "href": "/courses/644965/modules/items/16726541",
+      "title": "Unit 06 lesson: Design a fair test"
+    },
+    {
+      "href": "/courses/644965/modules/items/16726542",
+      "title": "Unit 07 lesson: Pilot, revise, and retest"
+    },
+    {
+      "href": "/courses/644965/modules/items/16726544",
+      "title": "Unit 08 lesson: Calculate value and capacity"
+    },
+    {
+      "href": "/courses/644965/modules/items/16726545",
+      "title": "Unit 09 lesson: Shape the offer"
+    },
+    {
+      "href": "/courses/644965/modules/items/16726546",
+      "title": "Unit 10 lesson: Find users and sell or secure adoption"
+    },
+    {
+      "href": "/courses/644965/modules/items/16726548",
+      "title": "Unit 11 lesson: Make delivery dependable"
+    },
+    {
+      "href": "/courses/644965/modules/items/16726549",
+      "title": "Unit 12 lesson: Demonstrate and defend"
+    }
+  ],
+  "nativeCheckinChecks": [
+    {
+      "number": 1,
+      "url": "https://uvu.instructure.com/courses/644965/assignments/9370430?module_item_id=16726625",
+      "points": 0,
+      "omitted": true,
+      "submissionTypes": [
+        "file",
+        "text",
+        "url"
+      ],
+      "noDueDate": true
+    },
+    {
+      "number": 2,
+      "url": "https://uvu.instructure.com/courses/644965/assignments/9370431?module_item_id=16726626",
+      "points": 0,
+      "omitted": true,
+      "submissionTypes": [
+        "file",
+        "text",
+        "url"
+      ],
+      "noDueDate": true
+    },
+    {
+      "number": 3,
+      "url": "https://uvu.instructure.com/courses/644965/assignments/9370432?module_item_id=16726627",
+      "points": 0,
+      "omitted": true,
+      "submissionTypes": [
+        "file",
+        "text",
+        "url"
+      ],
+      "noDueDate": true
+    },
+    {
+      "number": 4,
+      "url": "https://uvu.instructure.com/courses/644965/assignments/9370433?module_item_id=16726628",
+      "points": 0,
+      "omitted": true,
+      "submissionTypes": [
+        "file",
+        "text",
+        "url"
+      ],
+      "noDueDate": true
+    },
+    {
+      "number": 5,
+      "url": "https://uvu.instructure.com/courses/644965/assignments/9370434?module_item_id=16726629",
+      "points": 0,
+      "omitted": true,
+      "submissionTypes": [
+        "file",
+        "text",
+        "url"
+      ],
+      "noDueDate": true
+    },
+    {
+      "number": 6,
+      "url": "https://uvu.instructure.com/courses/644965/assignments/9370435?module_item_id=16726630",
+      "points": 0,
+      "omitted": true,
+      "submissionTypes": [
+        "file",
+        "text",
+        "url"
+      ],
+      "noDueDate": true
+    },
+    {
+      "number": 7,
+      "url": "https://uvu.instructure.com/courses/644965/assignments/9370436?module_item_id=16726631",
+      "points": 0,
+      "omitted": true,
+      "submissionTypes": [
+        "file",
+        "text",
+        "url"
+      ],
+      "noDueDate": true
+    },
+    {
+      "number": 8,
+      "url": "https://uvu.instructure.com/courses/644965/assignments/9370437?module_item_id=16726632",
+      "points": 0,
+      "omitted": true,
+      "submissionTypes": [
+        "file",
+        "text",
+        "url"
+      ],
+      "noDueDate": true
+    },
+    {
+      "number": 9,
+      "url": "https://uvu.instructure.com/courses/644965/assignments/9370438?module_item_id=16726633",
+      "points": 0,
+      "omitted": true,
+      "submissionTypes": [
+        "file",
+        "text",
+        "url"
+      ],
+      "noDueDate": true
+    },
+    {
+      "number": 10,
+      "url": "https://uvu.instructure.com/courses/644965/assignments/9370439?module_item_id=16726634",
+      "points": 0,
+      "omitted": true,
+      "submissionTypes": [
+        "file",
+        "text",
+        "url"
+      ],
+      "noDueDate": true
+    },
+    {
+      "number": 11,
+      "url": "https://uvu.instructure.com/courses/644965/assignments/9370440?module_item_id=16726635",
+      "points": 0,
+      "omitted": true,
+      "submissionTypes": [
+        "file",
+        "text",
+        "url"
+      ],
+      "noDueDate": true
+    },
+    {
+      "number": 12,
+      "url": "https://uvu.instructure.com/courses/644965/assignments/9370441?module_item_id=16726636",
+      "points": 0,
+      "omitted": true,
+      "submissionTypes": [
+        "file",
+        "text",
+        "url"
+      ],
+      "noDueDate": true
+    }
+  ],
+  "milestones": [
+    {
+      "number": 1,
+      "url": "https://uvu.instructure.com/courses/644965/assignments/9370389?module_item_id=16726537",
+      "omittedFromFinalGrade": false,
+      "points": 100,
+      "noDueDate": true,
+      "submissionTypes": [
+        "file",
+        "text",
+        "url"
+      ],
+      "rubricCriteria": [
+        25,
+        30,
+        30,
+        15
+      ],
+      "rubricTotal": 100,
+      "weight": 15
+    },
+    {
+      "number": 2,
+      "url": "https://uvu.instructure.com/courses/644965/assignments/9370390?module_item_id=16726540",
+      "omittedFromFinalGrade": false,
+      "points": 100,
+      "noDueDate": true,
+      "submissionTypes": [
+        "file",
+        "text",
+        "url"
+      ],
+      "rubricCriteria": [
+        35,
+        25,
+        25,
+        15
+      ],
+      "rubricTotal": 100,
+      "weight": 20
+    },
+    {
+      "number": 3,
+      "url": "https://uvu.instructure.com/courses/644965/assignments/9370391?module_item_id=16726543",
+      "omittedFromFinalGrade": false,
+      "points": 100,
+      "noDueDate": true,
+      "submissionTypes": [
+        "file",
+        "text",
+        "url"
+      ],
+      "rubricCriteria": [
+        25,
+        30,
+        25,
+        20
+      ],
+      "rubricTotal": 100,
+      "weight": 25
+    },
+    {
+      "number": 4,
+      "url": "https://uvu.instructure.com/courses/644965/assignments/9370392?module_item_id=16726547",
+      "omittedFromFinalGrade": false,
+      "points": 100,
+      "noDueDate": true,
+      "submissionTypes": [
+        "file",
+        "text",
+        "url"
+      ],
+      "rubricCriteria": [
+        35,
+        20,
+        25,
+        20
+      ],
+      "rubricTotal": 100,
+      "weight": 15
+    },
+    {
+      "number": 5,
+      "url": "https://uvu.instructure.com/courses/644965/assignments/9370393?module_item_id=16726550",
+      "omittedFromFinalGrade": false,
+      "points": 100,
+      "noDueDate": true,
+      "submissionTypes": [
+        "file",
+        "text",
+        "url"
+      ],
+      "rubricCriteria": [
+        25,
+        20,
+        15,
+        20,
+        20
+      ],
+      "rubricTotal": 100,
+      "weight": 25
+    }
+  ],
+  "forum": "https://uvu.instructure.com/courses/644965/discussion_topics/4589663?module_item_id=16726624",
+  "weightedGroups": [
+    {
+      "name": "Business Application Briefs (5)_group_weight",
+      "value": "0"
+    },
+    {
+      "name": "Building AI Solutions \u2014 Unit check-ins_group_weight",
+      "value": "0"
+    },
+    {
+      "name": "Milestone 1 \u2014 Problem and feasible scope_group_weight",
+      "value": "15"
+    },
+    {
+      "name": "Opportunity Portfolio and Pilot Plan_group_weight",
+      "value": "0"
+    },
+    {
+      "name": "Milestone 2 \u2014 First usable solution_group_weight",
+      "value": "20"
+    },
+    {
+      "name": "Business Proposal and Customer Evidence_group_weight",
+      "value": "0"
+    },
+    {
+      "name": "Milestone 3 \u2014 Pilot and learning_group_weight",
+      "value": "25"
+    },
+    {
+      "name": "Business Report: Value and Economics_group_weight",
+      "value": "0"
+    },
+    {
+      "name": "Milestone 4 \u2014 Viability and route to users_group_weight",
+      "value": "15"
+    },
+    {
+      "name": "Executive Strategy Presentation_group_weight",
+      "value": "0"
+    },
+    {
+      "name": "Milestone 5 \u2014 Demonstration and handoff_group_weight",
+      "value": "25"
+    },
+    {
+      "name": "Weekly Discussions and Participation_group_weight",
+      "value": "0"
+    }
+  ],
+  "activeStudentModules": 12,
+  "activeStudentAssignments": {
+    "checkins": 12,
+    "milestones": 5
+  },
+  "requirements": {
+    "lessonViews": 12,
+    "checkinSubmissions": 12,
+    "milestoneSubmissions": 5
+  },
+  "archivedUnpublished": {
+    "modules": 18,
+    "assessments": 26
+  },
+  "observed": [
+    "student view shows only current modules and assignments",
+    "lesson view completed indicator; check-in still requires submission",
+    "Canvas Next opens native check-in",
+    "native Text editor and file/text/URL submission choices",
+    "native milestone rubric visible to student, criteria total 100",
+    "group weighting enabled, legacy weights zero, total 100",
+    "Vercel simulation calculation 6 extra minutes: 90 total, 6.25% reduction",
+    "Canvas-mode Finish directs to Canvas check-in",
+    "course TA answers inside Canvas and source labels have no outbound links",
+    "Canvas home and syllabus audience all disciplines, no prerequisites"
+  ],
+  "limits": [
+    "No student assignment was submitted or graded in verification",
+    "No student records or existing grades were edited",
+    "No native due dates added; instructor calendar remains to be set",
+    "Canvas desktop browser checked; no full Canvas mobile-app or cross-browser audit",
+    "TA conversations and raw simulation interactions are not automatically stored in Canvas; submitted check-in evidence is the Canvas record"
+  ],
+  "historicalEdition": "v3, before asynchronous quizzes and individual exam; superseded"
+}

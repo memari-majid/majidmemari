@@ -1,0 +1,47 @@
+{
+  "commit": "b368513a7f39227f0cb3bd6dd6377b3bd7428f93",
+  "deployment": "dpl_BX9hjkpL1AeTBnXf4fETCfJC8w15",
+  "status": 200,
+  "answer": "**Short answer:** In Canvas, you enter practice answers and your project update in the quiz for the current unit, reached with **Canvas Next** after **Finish**. Written feedback comes from your instructor, and I can't see when it will arrive. Check your Canvas Course Guide for timing.\n\n**Where things go**\n- **Practice answers:** the Canvas practice and check-in quiz for each unit. Each quiz has 3 choice questions (1 raw point each) and a 0-point written project update.\n- **Project update:** the written question in that quiz. Unit 3 says to add project evidence and reflection \"to the check-in in Canvas.\" Around Units 3, 7, and 12, follow the Canvas prompt for any peer-post or supplied-sample critique.\n- **Formative status:** these quizzes are omitted from the final grade and sit in a 0% group. Submitting records receipt, not correctness or mastery.\n\n**When feedback appears**\n- Choice questions show immediate explanatory feedback.\n- The written update needs instructor review, so it may show as pending. The public course materials don't set a response time, so use the Canvas instructions or your Course Guide.\n\n**How the individual exam fits Milestone 5**\n- In this edition's final 25% group, the shared demonstration/handoff is **60 points** and the individual applied case exam is **40 points**, totaling 100.\n- The exam is the individual component. It is not an extra percentage, and earlier formative individual checks shouldn't be counted twice.\n- It is open-materials with disclosed AI assistance. You'll need to show your own calculations, sources, corrections, and judgment.\n\n**Edition layout vs. your offering**\n- The layout above describes this public asynchronous edition. Public standalone pages also describe a proposed full-course model (for example, a 60/40 internal rubric contributing 15 and 10 points). Don't treat those as the settings of your Canvas offering.\n- Your Canvas assignment, rubric, and Course Guide control actual weights, deadlines, permitted assistance, and feedback windows. If they differ from what I've described, follow Canvas and tell me what it says so I can help you work from it.\n\n**Next step:** Open the current unit's practice and check-in quiz using Canvas Next after Finish, and compare its written prompt with your Course Guide before you draft your update.",
+  "sources": [
+    {
+      "type": "source-url",
+      "sourceId": "milestone-5.html:0:0",
+      "title": "Milestone 5 \u2014 Overview",
+      "url": "/teaching/ai-solutions/milestone-5.html#main"
+    },
+    {
+      "type": "source-url",
+      "sourceId": "unit-03.html:5:0",
+      "title": "Unit 3: Choose and scope a solution \u2014 Prepare Milestone 1: problem and feasible scope",
+      "url": "/teaching/ai-solutions/unit-03.html#section-3"
+    },
+    {
+      "type": "source-url",
+      "sourceId": "project.html:6:0",
+      "title": "The capstone \u2014 Your individual explanation",
+      "url": "/teaching/ai-solutions/project.html#section-6"
+    },
+    {
+      "type": "source-url",
+      "sourceId": "milestone-3.html:0:0",
+      "title": "Milestone 3 \u2014 Overview",
+      "url": "/teaching/ai-solutions/milestone-3.html#main"
+    },
+    {
+      "type": "source-url",
+      "sourceId": "unit-02.html:5:0",
+      "title": "Unit 2: Discover the need \u2014 Make an evidence log you can update",
+      "url": "/teaching/ai-solutions/unit-02.html#section-3"
+    }
+  ],
+  "finish": [
+    {
+      "type": "finish",
+      "finishReason": "stop",
+      "messageMetadata": {
+        "finishReason": "stop"
+      }
+    }
+  ]
+}

@@ -1,204 +1,449 @@
 {
   "date": "2026-11-11",
+  "edition": "v4 asynchronous delivery, white Canvas profile",
   "canvasCourse": "https://uvu.instructure.com/courses/644965",
   "courseState": "unpublished",
-  "packageSha256": "8ebd1cc93cb3dbdba386fe12225e5962547262d4be2b55e3d8af9737f5e4dbac",
-  "nativeLessonLinks": [
+  "packageSha256": "891ef92210f08cd39bd62018ddbebb9f182ba3f58d15a1401917d739aa25b11c",
+  "import": {
+    "time": "Nov 11 at 10:33am",
+    "status": "Partially Completed",
+    "issues": [
+      "Rubric - Building AI Solutions \u2014 Milestone 5: Demonstration and handoff",
+      "Rubric - Building AI Solutions \u2014 Individual case exam: evidence, decisions, and responsible handoff"
+    ],
+    "disposition": "Both rubrics had Test Student assessments. Their criteria, point totals, and identifiers were byte-identical to the previously imported package. The retained native rubrics, scores, criterion feedback, and combined grade arithmetic were verified after import. No content/rubric mismatch remains; the import-history warnings are retained."
+  },
+  "activeStructure": {
+    "modules": 12,
+    "moduleItems": 37,
+    "nativePages": 15,
+    "practiceQuizzes": 12,
+    "multipleChoiceQuestions": 36,
+    "projectResponseFields": 12,
+    "milestoneSnapshots": 5,
+    "individualExams": 1,
+    "nativeRubrics": 6,
+    "discussions": 4,
+    "editableTemplates": 6,
+    "completionRequirements": 32
+  },
+  "modules": [
     {
-      "href": "/courses/644965/modules/items/16726534",
-      "title": "Unit 01 lesson: AI and a useful business task"
+      "id": "context_module_2219785",
+      "items": [
+        {
+          "href": "/courses/644965/modules/items/16726666",
+          "id": "context_module_item_16726666",
+          "required": true,
+          "title": "Course guide: start, submit, and get help",
+          "type": [
+            "wiki_page"
+          ]
+        },
+        {
+          "href": "/courses/644965/modules/items/16726667",
+          "id": "context_module_item_16726667",
+          "required": false,
+          "title": "Cedar Desk case and project templates",
+          "type": [
+            "wiki_page"
+          ]
+        },
+        {
+          "href": "/courses/644965/modules/items/16726534",
+          "id": "context_module_item_16726534",
+          "required": true,
+          "title": "Unit 01 lesson: AI and a useful business task",
+          "type": [
+            "wiki_page"
+          ]
+        },
+        {
+          "href": "/courses/644965/modules/items/16726625",
+          "id": "context_module_item_16726625",
+          "required": true,
+          "title": "Unit 01 practice and check-in: AI and a useful business task",
+          "type": [
+            "quiz"
+          ]
+        },
+        {
+          "href": "/courses/644965/modules/items/16726624",
+          "id": "context_module_item_16726624",
+          "required": false,
+          "title": "Course questions and project exchange",
+          "type": [
+            "discussion_topic"
+          ]
+        }
+      ],
+      "title": "Unit 01: AI and a useful business task"
     },
     {
-      "href": "/courses/644965/modules/items/16726535",
-      "title": "Unit 02 lesson: Discover the need"
+      "id": "context_module_2219786",
+      "items": [
+        {
+          "href": "/courses/644965/modules/items/16726535",
+          "id": "context_module_item_16726535",
+          "required": true,
+          "title": "Unit 02 lesson: Discover the need",
+          "type": [
+            "wiki_page"
+          ]
+        },
+        {
+          "href": "/courses/644965/modules/items/16726626",
+          "id": "context_module_item_16726626",
+          "required": true,
+          "title": "Unit 02 practice and check-in: Discover the need",
+          "type": [
+            "quiz"
+          ]
+        }
+      ],
+      "title": "Unit 02: Discover the need"
     },
     {
-      "href": "/courses/644965/modules/items/16726536",
-      "title": "Unit 03 lesson: Choose and scope a solution"
+      "id": "context_module_2219787",
+      "items": [
+        {
+          "href": "/courses/644965/modules/items/16726536",
+          "id": "context_module_item_16726536",
+          "required": true,
+          "title": "Unit 03 lesson: Choose and scope a solution",
+          "type": [
+            "wiki_page"
+          ]
+        },
+        {
+          "href": "/courses/644965/modules/items/16726668",
+          "id": "context_module_item_16726668",
+          "required": false,
+          "title": "Project exchange: a need worth solving",
+          "type": [
+            "discussion_topic"
+          ]
+        },
+        {
+          "href": "/courses/644965/modules/items/16726627",
+          "id": "context_module_item_16726627",
+          "required": true,
+          "title": "Unit 03 practice and check-in: Choose and scope a solution",
+          "type": [
+            "quiz"
+          ]
+        },
+        {
+          "href": "/courses/644965/modules/items/16726537",
+          "id": "context_module_item_16726537",
+          "required": true,
+          "title": "Milestone 1: Problem and feasible scope",
+          "type": [
+            "assignment"
+          ]
+        }
+      ],
+      "title": "Unit 03: Choose and scope a solution"
     },
     {
-      "href": "/courses/644965/modules/items/16726538",
-      "title": "Unit 04 lesson: Design the workflow"
+      "id": "context_module_2219788",
+      "items": [
+        {
+          "href": "/courses/644965/modules/items/16726538",
+          "id": "context_module_item_16726538",
+          "required": true,
+          "title": "Unit 04 lesson: Design the workflow",
+          "type": [
+            "wiki_page"
+          ]
+        },
+        {
+          "href": "/courses/644965/modules/items/16726628",
+          "id": "context_module_item_16726628",
+          "required": true,
+          "title": "Unit 04 practice and check-in: Design the workflow",
+          "type": [
+            "quiz"
+          ]
+        }
+      ],
+      "title": "Unit 04: Design the workflow"
     },
     {
-      "href": "/courses/644965/modules/items/16726539",
-      "title": "Unit 05 lesson: Build the first usable version"
+      "id": "context_module_2219789",
+      "items": [
+        {
+          "href": "/courses/644965/modules/items/16726539",
+          "id": "context_module_item_16726539",
+          "required": true,
+          "title": "Unit 05 lesson: Build the first usable version",
+          "type": [
+            "wiki_page"
+          ]
+        },
+        {
+          "href": "/courses/644965/modules/items/16726629",
+          "id": "context_module_item_16726629",
+          "required": true,
+          "title": "Unit 05 practice and check-in: Build the first usable version",
+          "type": [
+            "quiz"
+          ]
+        },
+        {
+          "href": "/courses/644965/modules/items/16726540",
+          "id": "context_module_item_16726540",
+          "required": true,
+          "title": "Milestone 2: First usable solution",
+          "type": [
+            "assignment"
+          ]
+        }
+      ],
+      "title": "Unit 05: Build the first usable version"
     },
     {
-      "href": "/courses/644965/modules/items/16726541",
-      "title": "Unit 06 lesson: Design a fair test"
+      "id": "context_module_2219790",
+      "items": [
+        {
+          "href": "/courses/644965/modules/items/16726541",
+          "id": "context_module_item_16726541",
+          "required": true,
+          "title": "Unit 06 lesson: Design a fair test",
+          "type": [
+            "wiki_page"
+          ]
+        },
+        {
+          "href": "/courses/644965/modules/items/16726630",
+          "id": "context_module_item_16726630",
+          "required": true,
+          "title": "Unit 06 practice and check-in: Design a fair test",
+          "type": [
+            "quiz"
+          ]
+        }
+      ],
+      "title": "Unit 06: Design a fair test"
     },
     {
-      "href": "/courses/644965/modules/items/16726542",
-      "title": "Unit 07 lesson: Pilot, revise, and retest"
+      "id": "context_module_2219791",
+      "items": [
+        {
+          "href": "/courses/644965/modules/items/16726542",
+          "id": "context_module_item_16726542",
+          "required": true,
+          "title": "Unit 07 lesson: Pilot, revise, and retest",
+          "type": [
+            "wiki_page"
+          ]
+        },
+        {
+          "href": "/courses/644965/modules/items/16726669",
+          "id": "context_module_item_16726669",
+          "required": false,
+          "title": "Project exchange: what the pilot actually shows",
+          "type": [
+            "discussion_topic"
+          ]
+        },
+        {
+          "href": "/courses/644965/modules/items/16726631",
+          "id": "context_module_item_16726631",
+          "required": true,
+          "title": "Unit 07 practice and check-in: Pilot, revise, and retest",
+          "type": [
+            "quiz"
+          ]
+        },
+        {
+          "href": "/courses/644965/modules/items/16726543",
+          "id": "context_module_item_16726543",
+          "required": true,
+          "title": "Milestone 3: Pilot and learning",
+          "type": [
+            "assignment"
+          ]
+        }
+      ],
+      "title": "Unit 07: Pilot, revise, and retest"
     },
     {
-      "href": "/courses/644965/modules/items/16726544",
-      "title": "Unit 08 lesson: Calculate value and capacity"
+      "id": "context_module_2219792",
+      "items": [
+        {
+          "href": "/courses/644965/modules/items/16726544",
+          "id": "context_module_item_16726544",
+          "required": true,
+          "title": "Unit 08 lesson: Calculate value and capacity",
+          "type": [
+            "wiki_page"
+          ]
+        },
+        {
+          "href": "/courses/644965/modules/items/16726632",
+          "id": "context_module_item_16726632",
+          "required": true,
+          "title": "Unit 08 practice and check-in: Calculate value and capacity",
+          "type": [
+            "quiz"
+          ]
+        }
+      ],
+      "title": "Unit 08: Calculate value and capacity"
     },
     {
-      "href": "/courses/644965/modules/items/16726545",
-      "title": "Unit 09 lesson: Shape the offer"
+      "id": "context_module_2219793",
+      "items": [
+        {
+          "href": "/courses/644965/modules/items/16726545",
+          "id": "context_module_item_16726545",
+          "required": true,
+          "title": "Unit 09 lesson: Shape the offer",
+          "type": [
+            "wiki_page"
+          ]
+        },
+        {
+          "href": "/courses/644965/modules/items/16726633",
+          "id": "context_module_item_16726633",
+          "required": true,
+          "title": "Unit 09 practice and check-in: Shape the offer",
+          "type": [
+            "quiz"
+          ]
+        }
+      ],
+      "title": "Unit 09: Shape the offer"
     },
     {
-      "href": "/courses/644965/modules/items/16726546",
-      "title": "Unit 10 lesson: Find users and sell or secure adoption"
+      "id": "context_module_2219794",
+      "items": [
+        {
+          "href": "/courses/644965/modules/items/16726546",
+          "id": "context_module_item_16726546",
+          "required": true,
+          "title": "Unit 10 lesson: Find users and sell or secure adoption",
+          "type": [
+            "wiki_page"
+          ]
+        },
+        {
+          "href": "/courses/644965/modules/items/16726634",
+          "id": "context_module_item_16726634",
+          "required": true,
+          "title": "Unit 10 practice and check-in: Find users and sell or secure adoption",
+          "type": [
+            "quiz"
+          ]
+        },
+        {
+          "href": "/courses/644965/modules/items/16726547",
+          "id": "context_module_item_16726547",
+          "required": true,
+          "title": "Milestone 4: Viability and route to users",
+          "type": [
+            "assignment"
+          ]
+        }
+      ],
+      "title": "Unit 10: Find users and sell or secure adoption"
     },
     {
-      "href": "/courses/644965/modules/items/16726548",
-      "title": "Unit 11 lesson: Make delivery dependable"
+      "id": "context_module_2219795",
+      "items": [
+        {
+          "href": "/courses/644965/modules/items/16726548",
+          "id": "context_module_item_16726548",
+          "required": true,
+          "title": "Unit 11 lesson: Make delivery dependable",
+          "type": [
+            "wiki_page"
+          ]
+        },
+        {
+          "href": "/courses/644965/modules/items/16726635",
+          "id": "context_module_item_16726635",
+          "required": true,
+          "title": "Unit 11 practice and check-in: Make delivery dependable",
+          "type": [
+            "quiz"
+          ]
+        }
+      ],
+      "title": "Unit 11: Make delivery dependable"
     },
     {
-      "href": "/courses/644965/modules/items/16726549",
-      "title": "Unit 12 lesson: Demonstrate and defend"
+      "id": "context_module_2219796",
+      "items": [
+        {
+          "href": "/courses/644965/modules/items/16726549",
+          "id": "context_module_item_16726549",
+          "required": true,
+          "title": "Unit 12 lesson: Demonstrate and defend",
+          "type": [
+            "wiki_page"
+          ]
+        },
+        {
+          "href": "/courses/644965/modules/items/16726670",
+          "id": "context_module_item_16726670",
+          "required": false,
+          "title": "Project exchange: defend the next decision",
+          "type": [
+            "discussion_topic"
+          ]
+        },
+        {
+          "href": "/courses/644965/modules/items/16726636",
+          "id": "context_module_item_16726636",
+          "required": true,
+          "title": "Unit 12 practice and check-in: Demonstrate and defend",
+          "type": [
+            "quiz"
+          ]
+        },
+        {
+          "href": "/courses/644965/modules/items/16726550",
+          "id": "context_module_item_16726550",
+          "required": true,
+          "title": "Milestone 5: Demonstration and handoff",
+          "type": [
+            "assignment"
+          ]
+        },
+        {
+          "href": "/courses/644965/modules/items/16726671",
+          "id": "context_module_item_16726671",
+          "required": true,
+          "title": "Individual case exam: evidence, decisions, and responsible handoff",
+          "type": [
+            "assignment"
+          ]
+        },
+        {
+          "href": "/courses/644965/modules/items/16726672",
+          "id": "context_module_item_16726672",
+          "required": true,
+          "title": "Course completion and next steps",
+          "type": [
+            "wiki_page"
+          ]
+        }
+      ],
+      "title": "Unit 12: Demonstrate and defend"
     }
   ],
-  "nativeCheckinChecks": [
-    {
-      "number": 1,
-      "url": "https://uvu.instructure.com/courses/644965/assignments/9370430?module_item_id=16726625",
-      "points": 0,
-      "omitted": true,
-      "submissionTypes": [
-        "file",
-        "text",
-        "url"
-      ],
-      "noDueDate": true
-    },
-    {
-      "number": 2,
-      "url": "https://uvu.instructure.com/courses/644965/assignments/9370431?module_item_id=16726626",
-      "points": 0,
-      "omitted": true,
-      "submissionTypes": [
-        "file",
-        "text",
-        "url"
-      ],
-      "noDueDate": true
-    },
-    {
-      "number": 3,
-      "url": "https://uvu.instructure.com/courses/644965/assignments/9370432?module_item_id=16726627",
-      "points": 0,
-      "omitted": true,
-      "submissionTypes": [
-        "file",
-        "text",
-        "url"
-      ],
-      "noDueDate": true
-    },
-    {
-      "number": 4,
-      "url": "https://uvu.instructure.com/courses/644965/assignments/9370433?module_item_id=16726628",
-      "points": 0,
-      "omitted": true,
-      "submissionTypes": [
-        "file",
-        "text",
-        "url"
-      ],
-      "noDueDate": true
-    },
-    {
-      "number": 5,
-      "url": "https://uvu.instructure.com/courses/644965/assignments/9370434?module_item_id=16726629",
-      "points": 0,
-      "omitted": true,
-      "submissionTypes": [
-        "file",
-        "text",
-        "url"
-      ],
-      "noDueDate": true
-    },
-    {
-      "number": 6,
-      "url": "https://uvu.instructure.com/courses/644965/assignments/9370435?module_item_id=16726630",
-      "points": 0,
-      "omitted": true,
-      "submissionTypes": [
-        "file",
-        "text",
-        "url"
-      ],
-      "noDueDate": true
-    },
-    {
-      "number": 7,
-      "url": "https://uvu.instructure.com/courses/644965/assignments/9370436?module_item_id=16726631",
-      "points": 0,
-      "omitted": true,
-      "submissionTypes": [
-        "file",
-        "text",
-        "url"
-      ],
-      "noDueDate": true
-    },
-    {
-      "number": 8,
-      "url": "https://uvu.instructure.com/courses/644965/assignments/9370437?module_item_id=16726632",
-      "points": 0,
-      "omitted": true,
-      "submissionTypes": [
-        "file",
-        "text",
-        "url"
-      ],
-      "noDueDate": true
-    },
-    {
-      "number": 9,
-      "url": "https://uvu.instructure.com/courses/644965/assignments/9370438?module_item_id=16726633",
-      "points": 0,
-      "omitted": true,
-      "submissionTypes": [
-        "file",
-        "text",
-        "url"
-      ],
-      "noDueDate": true
-    },
-    {
-      "number": 10,
-      "url": "https://uvu.instructure.com/courses/644965/assignments/9370439?module_item_id=16726634",
-      "points": 0,
-      "omitted": true,
-      "submissionTypes": [
-        "file",
-        "text",
-        "url"
-      ],
-      "noDueDate": true
-    },
-    {
-      "number": 11,
-      "url": "https://uvu.instructure.com/courses/644965/assignments/9370440?module_item_id=16726635",
-      "points": 0,
-      "omitted": true,
-      "submissionTypes": [
-        "file",
-        "text",
-        "url"
-      ],
-      "noDueDate": true
-    },
-    {
-      "number": 12,
-      "url": "https://uvu.instructure.com/courses/644965/assignments/9370441?module_item_id=16726636",
-      "points": 0,
-      "omitted": true,
-      "submissionTypes": [
-        "file",
-        "text",
-        "url"
-      ],
-      "noDueDate": true
-    }
-  ],
+  "requirements": {
+    "guideView": 1,
+    "lessonViews": 12,
+    "quizSubmissions": 12,
+    "milestoneSubmissions": 5,
+    "examSubmission": 1,
+    "completionView": 1,
+    "scoreGates": 0,
+    "prerequisiteLocks": 0
+  },
   "milestones": [
     {
       "number": 1,
@@ -284,7 +529,7 @@
       "number": 5,
       "url": "https://uvu.instructure.com/courses/644965/assignments/9370393?module_item_id=16726550",
       "omittedFromFinalGrade": false,
-      "points": 100,
+      "points": 60,
       "noDueDate": true,
       "submissionTypes": [
         "file",
@@ -294,96 +539,127 @@
       "rubricCriteria": [
         25,
         20,
-        15,
-        20,
-        20
+        15
       ],
-      "rubricTotal": 100,
+      "rubricTotal": 60,
       "weight": 25
     }
   ],
-  "forum": "https://uvu.instructure.com/courses/644965/discussion_topics/4589663?module_item_id=16726624",
-  "weightedGroups": [
-    {
-      "name": "Business Application Briefs (5)_group_weight",
-      "value": "0"
-    },
-    {
-      "name": "Building AI Solutions — Unit check-ins_group_weight",
-      "value": "0"
-    },
-    {
-      "name": "Milestone 1 — Problem and feasible scope_group_weight",
-      "value": "15"
-    },
-    {
-      "name": "Opportunity Portfolio and Pilot Plan_group_weight",
-      "value": "0"
-    },
-    {
-      "name": "Milestone 2 — First usable solution_group_weight",
-      "value": "20"
-    },
-    {
-      "name": "Business Proposal and Customer Evidence_group_weight",
-      "value": "0"
-    },
-    {
-      "name": "Milestone 3 — Pilot and learning_group_weight",
-      "value": "25"
-    },
-    {
-      "name": "Business Report: Value and Economics_group_weight",
-      "value": "0"
-    },
-    {
-      "name": "Milestone 4 — Viability and route to users_group_weight",
-      "value": "15"
-    },
-    {
-      "name": "Executive Strategy Presentation_group_weight",
-      "value": "0"
-    },
-    {
-      "name": "Milestone 5 — Demonstration and handoff_group_weight",
-      "value": "25"
-    },
-    {
-      "name": "Weekly Discussions and Participation_group_weight",
-      "value": "0"
-    }
-  ],
-  "activeStudentModules": 12,
-  "activeStudentAssignments": {
-    "checkins": 12,
-    "milestones": 5
+  "individualExam": {
+    "url": "https://uvu.instructure.com/courses/644965/assignments/9370474?module_item_id=16726671",
+    "points": 40,
+    "rubricCriteria": [
+      20,
+      20
+    ],
+    "weightWithinMilestone5Points": 40,
+    "groupCourseWeight": 25,
+    "manualInstructorAssessment": true,
+    "noDueDate": true
   },
-  "requirements": {
-    "lessonViews": 12,
-    "checkinSubmissions": 12,
-    "milestoneSubmissions": 5
+  "grading": {
+    "milestoneGroupWeights": [
+      15,
+      20,
+      25,
+      15,
+      25
+    ],
+    "sum": 100,
+    "formativeGroupWeight": 0,
+    "practiceQuizzesOmitted": true,
+    "legacyGroupWeights": 0,
+    "milestone5Points": {
+      "shared": 60,
+      "individual": 40
+    },
+    "testStudentOnly": {
+      "sharedRubricScore": 30,
+      "sharedPossible": 60,
+      "examRubricScore": 20,
+      "examPossible": 40,
+      "milestone5Combined": "50/100 = 50%",
+      "runningGradeOnlyGraded": 50,
+      "gradeIncludingUngraded": 12.5,
+      "revision": "Shared handoff Attempt 2 receipt at 10:39am, first version and criterion feedback retained"
+    }
+  },
+  "quizWorkflowObserved": {
+    "unit": 6,
+    "quizId": 2364017,
+    "assignmentId": 9370462,
+    "firstAttempt": "2/3, one deliberately incorrect choice",
+    "retry": "3/3, highest kept, 2 attempts",
+    "feedback": "Selected-choice explanation, correct answer, general worked rationale visible",
+    "essay": "0 points, Pending Review",
+    "progress": "Completed module-item icon after submission while essay remained pending",
+    "continuation": "Canvas Next on first result; Modules fallback available after retry"
+  },
+  "communication": {
+    "generalForum": "https://uvu.instructure.com/courses/644965/discussion_topics/4589663",
+    "structuredExchangeUnits": [
+      3,
+      7,
+      12
+    ],
+    "private": "Canvas Inbox",
+    "courseTA": "Embedded public-course assistant; no access to private learner records"
   },
   "archivedUnpublished": {
-    "modules": 18,
-    "assessments": 26
+    "legacyModules": 18,
+    "legacyAssessments": 26,
+    "supersededCheckinAssignments": 12
+  },
+  "canvasTheme": {
+    "version": "building-ai-solutions-2",
+    "nativeContentBackground": "#ffffff",
+    "embeddedBodyBackground": "#ffffff",
+    "paperToken": "#ffffff",
+    "surfaceToken": "#ffffff",
+    "outerLessonBorder": "0px",
+    "outerLessonShadow": "none",
+    "authoredWrapperWidthPixels": 960,
+    "bodyFont": "system-ui",
+    "headingFont": "Georgia",
+    "source": "site/assets/core.css Canvas profile, read by integrations/canvas/theme.py",
+    "scope": "Authored Canvas content and embedded lessons/TA; institutional chrome and native Canvas controls remain platform-native"
+  },
+  "vercel": {
+    "commit": "32a1a8073d2477fe3550233e086404594c6b4621",
+    "deployment": "dpl_Fbhy2Nq6N5XFQFrZchf6hpYBknGf",
+    "status": "READY",
+    "url": "https://www.majidmemari.com/teaching/ai-solutions/",
+    "manifestSha256": "9202bb753d49e224dfee4370e8eaa7da2578d3aa63da271dce2fbc4af6adc743",
+    "staticFilesVerified": 70,
+    "tests": {
+      "course": 68,
+      "TAAndWorkshop": 40,
+      "typecheck": "pass",
+      "productionBuild": "pass"
+    }
   },
   "observed": [
-    "student view shows only current modules and assignments",
-    "lesson view completed indicator; check-in still requires submission",
-    "Canvas Next opens native check-in",
-    "native Text editor and file/text/URL submission choices",
-    "native milestone rubric visible to student, criteria total 100",
-    "group weighting enabled, legacy weights zero, total 100",
-    "Vercel simulation calculation 6 extra minutes: 90 total, 6.25% reduction",
-    "Canvas-mode Finish directs to Canvas check-in",
-    "course TA answers inside Canvas and source labels have no outbound links",
-    "Canvas home and syllabus audience all disciplines, no prerequisites"
+    "Native complete text reading opened within Unit 6 page",
+    "Six same-Canvas template download routes present; first template download/BOM verified before white-only import",
+    "Home, syllabus, case packet, lesson wrapper and embedded lesson use white backgrounds",
+    "Unit 6 rework control: 6 extra minutes -> 90 total -> 6.25% reduction; restored to zero",
+    "Nested course TA visible within Canvas with white surface and contained source labels",
+    "Exact pending-review question verified against production TA API after prompt clarification",
+    "Test Student native submissions, rubric assessment, student criterion feedback, retry and resubmission receipts",
+    "Instructor view restored; course remains unpublished"
   ],
   "limits": [
-    "No student assignment was submitted or graded in verification",
-    "No student records or existing grades were edited",
-    "No native due dates added; instructor calendar remains to be set",
-    "Canvas desktop browser checked; no full Canvas mobile-app or cross-browser audit",
-    "TA conversations and raw simulation interactions are not automatically stored in Canvas; submitted check-in evidence is the Canvas record"
-  ]
+    "Only clearly labeled Test Student QA work was submitted and graded; no real learner record changed",
+    "Calendar and facilitated response/revision dates remain to be confirmed before enrollment",
+    "Desktop browser/Student View verified; no new Canvas mobile-app or full cross-browser/accessibility audit",
+    "Student effectiveness and workload are not established by technical checks",
+    "Raw simulation inputs and TA conversation are not automatically sent to Canvas; submitted quiz/project evidence is the official record",
+    "There is no LTI identity exchange or grade passback"
+  ],
+  "evidence": [
+    "evidence/canvas-white-lesson.jpg",
+    "evidence/canvas-white-simulation.jpg",
+    "evidence/canvas-white-ta.jpg"
+  ],
+  "history": "evidence/canvas-v3-installation.json"
 }

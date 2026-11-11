@@ -1,6 +1,6 @@
 # Simulation application: independent source and model review
 
-This is a mirror of the canonical course review. Python source links lead to the source map because the editable generator lives in the separate local course repository. Public JavaScript links identify generated release copies.
+This is a mirror of the canonical course review. Python source links lead to the source map because the editable generator lives in the separate local course repository. Public asset links identify generated release copies.
 
 Reviewed November 10, 2026, against the implementation that applies the [simulation design study](reference-study/README.md) to the five existing guided practices. The [application plan](simulation-application-plan.md) defines the learning contracts. This report records source inspection and executed model checks; it does not substitute for the release owner's browser checks or a learner pilot.
 
@@ -13,8 +13,8 @@ The original prediction and decision/settings are preserved when learners explor
 ## Evidence inspected
 
 - [Practice state, models, rendering, and export](../../public/teaching/ai-solutions/assets/practice.js), including schema version 3 and the `cedar-desk-1` dataset identifier.
-- [Practice styles](../../public/teaching/ai-solutions/assets/practice.css), [authored lesson content](source-map.md), and [lesson assembly](source-map.md).
-- [Structural checker](source-map.md), plus the existing print handlers in [site.js](../../public/teaching/ai-solutions/assets/site.js).
+- [Practice styles](../../public/teaching/ai-solutions/assets/practice.css), [authored lesson content](source-map.md#source-ownership), and [lesson assembly](source-map.md#source-ownership).
+- [Structural checker](source-map.md#source-ownership), plus the existing print handlers in [site.js](../../public/teaching/ai-solutions/assets/site.js).
 - The authored and executable challenge contracts for Units 2, 4, 6, 7, and 8.
 
 | Unit | Independently checked comparison | Interpretation boundary |

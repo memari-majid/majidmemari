@@ -6,7 +6,7 @@
 
 **Status:** Recommendations for course planning; no new student purchase requirement or live reading-list change.
 
-> This is a research catalog, not the current assignment list. Any earlier module map below is historical. Current unit readings live in site/course_content.py (canonical local file `site/course_content.py`; see [source map](source-map.md)) and the [live reading guide](https://www.majidmemari.com/teaching/ai-solutions/readings.html).
+> This is a research catalog, not the current assignment list. Any earlier module map below is historical. Current unit readings live in [site/course_content.py](source-map.md#source-ownership) and the [live reading guide](https://www.majidmemari.com/teaching/ai-solutions/readings.html).
 
 ## Recommendation
 
