@@ -1,0 +1,9 @@
+# Textbook delivery follow-up — 11 November 2026
+
+The subsequent decision-lab update is present in production commit `8e920c313834731d8350cdf982e5d6c180b5130b`, READY deployment `dpl_2g76kPec4bnNKUeKHWWqjwg1tFcn`. This follow-up checks preservation of the academic textbook integration in that exact edition. The earlier textbook release and frozen source/mirror records remain point-in-time evidence for their named commits.
+
+All 71 public artifacts returned HTTP 200 and match committed manifest `8d9b67a5323c9fdc1608c926616c00e5600432f6b6f77f6dc3e90a91cc269ac3`. All twelve required-reading fragments are byte-identical to the verified textbook edition. The three-title inventory, exact section boundaries, course-authored evidence boundary and regression guard remain present. The expanded course corpus now contains 190 chunks; remote textbook chapters remain outside the corpus.
+
+Three fresh normal-mode Canvas-delivery API checks returned the three textbook roles, the exact Unit 1 opening §1.1 scope stopping at §1.1.1 with its existing Canvas written response, and accurate complete-book access limits. The broad inventory answer was unnecessarily uncertain about unit-specific passages; the explicit Unit 1 follow-up retrieved and explained them correctly. Do not treat these sampled responses as a guarantee of every future answer. The decision labs' new pedagogy and UI were outside this preservation check. Native Canvas book readers and response fields are documented in the preceding UI evidence; no new Canvas mutation occurred in this follow-up.
+
+See [the final release report](canvas/evidence/textbook-final-release-check.json) for the exact public-file and chatbot checks. The foundational reading plan remains free, short, no-code, and open to any discipline; business creation is optional.

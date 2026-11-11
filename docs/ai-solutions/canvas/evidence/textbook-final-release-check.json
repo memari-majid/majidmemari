@@ -1,0 +1,618 @@
+{
+  "checked_at": "2026-11-11T20:00:23.858827+00:00",
+  "commit": "8e920c313834731d8350cdf982e5d6c180b5130b",
+  "deployment_id": "dpl_2g76kPec4bnNKUeKHWWqjwg1tFcn",
+  "deployment_state": "READY",
+  "deployment_metadata_source": "Vercel get_deployment independently returned exact SHA, READY, production and www.majidmemari.com alias.",
+  "base_url": "https://www.majidmemari.com/teaching/ai-solutions/",
+  "manifest_sha256": "8d9b67a5323c9fdc1608c926616c00e5600432f6b6f77f6dc3e90a91cc269ac3",
+  "file_count": 71,
+  "matched_count": 71,
+  "previous_textbook_prompt_commit": "56d1d1488e4bdce49fe7099150ec4351a6319b08",
+  "required_reading_fragments_unchanged": 12,
+  "book_policy_source_guards": {
+    "three_titles_and_roles": true,
+    "three_title_inventory_policy": true,
+    "distinct_title_count_policy": true,
+    "course_authored_evidence_policy": true,
+    "regression_guard_retained": true,
+    "ordinary_questions_without_learning_context": true
+  },
+  "current_ta_corpus_metadata": {
+    "sourceDigest": "ffcf540d293f2f279a6f68c5ba9b5c7273549b1374fe6ea207867b290060d983",
+    "sourcePages": 24,
+    "simulationCount": 3,
+    "practicePages": 5,
+    "inlineFigurePages": 6,
+    "chunkCount": 190
+  },
+  "chat_responses": [
+    {
+      "case": "textbook_inventory",
+      "question": "Which required textbooks support this course? Count distinct textbook titles, give each title and its role, and explain whether every unit assigns all three.",
+      "request_mode": "fresh conversation; Canvas delivery; lesson unit-01.html; no learning field",
+      "status": 200,
+      "content_type": "text/event-stream",
+      "answer": "The course's required free reading plan uses **3 distinct textbook titles**, each with a separate role:\n\n| Title | Role in the course |\n|---|---|\n| *Artificial Intelligence: Foundations of Computational Agents*, 3rd ed., by David L. Poole and Alan K. Mackworth (Cambridge University Press) | AI foundation |\n| *Entrepreneurship*, 1st ed., by Michael Laverty and Chris Littel (OpenStax) | Business foundation |\n| *Introductory Statistics 2e*, 2nd ed., by Barbara Illowsky and Susan Dean (OpenStax) | Statistics companion |\n\n**Does every unit assign all three?** No. Each unit assigns only its listed short passages, not the whole of all three books. For example, the Unit 10 and Unit 8 pages each show a \"Required textbook reading\" block with a short time estimate ([Unit 10: Support the first real task](/teaching/ai-solutions/unit-10.html#section-1)). The course material I can see does not name the specific title or passage for each unit's reading, so I can't tell you from here which titles a given unit uses. For a unit-specific answer, count the distinct titles in that unit's current reading metadata. Two sections from one book count as one textbook.\n\n**Important limit:** I have only the course-authored directions and explanations for these readings. I don't have the textbook text itself, so I can't quote the books or give page numbers. If a passage's content matters to your question, paste a short relevant excerpt and I'll explain how it connects to the unit.\n\n**Next step:** Open your current unit's reading in Canvas, note the title and section listed there, and tell me the unit number and the passage you're reading. I'll help you connect that passage to the unit's task.",
+      "source_titles": [
+        "Unit 1: AI capabilities and useful tasks \u2014 Choose a capability, then inspect its output",
+        "Unit 1: AI capabilities and useful tasks \u2014 Your continuing case: Cedar Desk",
+        "Unit 1: AI capabilities and useful tasks \u2014 What will you carry forward?",
+        "Unit 10: Bring the solution into use \u2014 Support the first real task",
+        "Unit 8: Evaluate impact and resources \u2014 Connect a measured task result to a realistic impact estimate"
+      ],
+      "error_events": [],
+      "stream_finished": true
+    },
+    {
+      "case": "unit_1_scope",
+      "question": "For Unit 1, what exact required textbook sections and reading scope should I read? Where do I submit the applied reading connection in Canvas?",
+      "request_mode": "fresh conversation; Canvas delivery; lesson unit-01.html; no learning field",
+      "status": 200,
+      "content_type": "text/event-stream",
+      "answer": "**Required reading for Unit 1: one textbook, one short section**\n\n- **Book:** Artificial Intelligence: Foundations of Computational Agents, 3rd edition, by David L. Poole and Alan K. Mackworth (Cambridge University Press, 2023)\n- **Section:** 1.1, What is Artificial Intelligence?\n- **Scope:** Read only the opening of section 1.1. Stop at the heading **1.1.1 Artificial and Natural Intelligence**. Don't follow links or read later subsections.\n\nUnit 1 assigns no other textbook sections. The AI Fluency Framework one-page guide is optional further reading, not a textbook assignment. The Unit 1 page has the official section link.\n\nI can't see the book's wording, so I can't summarize it for you. The course explains why this section matters: a useful AI capability is a task you can observe and check, and a fluent answer alone doesn't show the task was done correctly.\n\n**Where to submit the connection in Canvas**\n\n1. Finish the lesson and reading.\n2. Click **Canvas Next** to open the Unit 1 practice and check-in quiz.\n3. Answer the three choice questions.\n4. Put your project update in the final written question. This is the zero-point written question, so it doesn't add to your grade.\n5. Click **Submit Quiz**.\n\nThe reading connection belongs in that same project update. It should name the book and section, explain one idea in your own words, and state the decision it informs. It isn't a separate assignment.\n\nWould you like to draft your one-idea explanation here first? Share it and I'll point out where it's clear and where it needs a specific decision.",
+      "source_titles": [
+        "Unit 1: AI capabilities and useful tasks \u2014 Read, then apply one idea",
+        "Unit 1: AI capabilities and useful tasks \u2014 Start one project record and make a capability choice",
+        "Unit 1: AI capabilities and useful tasks \u2014 What will you carry forward?",
+        "Unit 1: AI capabilities and useful tasks \u2014 Begin with the work someone needs done",
+        "Reading guide \u2014 Your free textbook reading plan",
+        "Unit 3: Choose and scope a solution \u2014 Read, then apply one idea"
+      ],
+      "error_events": [],
+      "stream_finished": true
+    },
+    {
+      "case": "textbook_access_boundary",
+      "question": "Can you read and quote the complete textbooks? What textbook text is actually available to you, and how can you help if I have a question about one paragraph?",
+      "request_mode": "fresh conversation; Canvas delivery; lesson unit-01.html; no learning field",
+      "status": 200,
+      "content_type": "text/event-stream",
+      "answer": "No. I can't read or quote complete textbooks, and I don't have textbook text in my course materials. What I have is course-authored material: which sections to read and where to stop, short explanations of how each section connects to the course, and worked examples. I have no book excerpts, chapters, or page numbers, and I can't claim access to full books.\n\nFor Unit 1, the assigned reading is only the opening of section 1.1 of Poole and Mackworth's *Artificial Intelligence: Foundations of Computational Agents* (3rd edition). Stop at the heading \"1.1.1 Artificial and Natural Intelligence.\" That is the only textbook title assigned in this unit. You can find the scope on the [Unit 1 reading page](/teaching/ai-solutions/unit-01.html#required-reading-heading-1).\n\nFor a question about one paragraph, paste the short passage here. I'll treat it as text you provided, not as something from the course materials. I can then help you:\n- restate the idea in plain language,\n- connect it to your project task, and\n- check whether your reading matches what the passage actually says.\n\nPlease keep pastes to a short passage and leave out confidential information.\n\nYour next step: read the assigned scope in the official reader, then write one idea from it in your own words and name the decision it informs for your project update. Share that with me, and I'll give you feedback.",
+      "source_titles": [
+        "Unit 1: AI capabilities and useful tasks \u2014 Read, then apply one idea",
+        "Unit 1: AI capabilities and useful tasks \u2014 Begin with the work someone needs done",
+        "Unit 1: AI capabilities and useful tasks \u2014 Your continuing case: Cedar Desk",
+        "Unit 11: Make delivery dependable \u2014 Read, then apply one idea",
+        "Unit 4: Design the workflow \u2014 Read, then apply one idea"
+      ],
+      "error_events": [],
+      "stream_finished": true
+    }
+  ],
+  "files": [
+    {
+      "path": "assessment-01.html",
+      "status": 200,
+      "bytes": 378,
+      "sha256": "a14e7439367992c492497e51a077f3075c473a91fbe5bc811d491312bda9d434",
+      "matches": true
+    },
+    {
+      "path": "assessment-02.html",
+      "status": 200,
+      "bytes": 378,
+      "sha256": "a14e7439367992c492497e51a077f3075c473a91fbe5bc811d491312bda9d434",
+      "matches": true
+    },
+    {
+      "path": "assessment-03.html",
+      "status": 200,
+      "bytes": 378,
+      "sha256": "bc93c0ddf75abdbc0a78baf3ed1c32b61e1aa9d5d43468b0dc7a30ed28332627",
+      "matches": true
+    },
+    {
+      "path": "assessment-04.html",
+      "status": 200,
+      "bytes": 378,
+      "sha256": "bc93c0ddf75abdbc0a78baf3ed1c32b61e1aa9d5d43468b0dc7a30ed28332627",
+      "matches": true
+    },
+    {
+      "path": "assessment-05.html",
+      "status": 200,
+      "bytes": 378,
+      "sha256": "1509629e6229ea30e6d700450ec7f7a29e258215fc1492ee94140061e6bfe037",
+      "matches": true
+    },
+    {
+      "path": "assessment-06.html",
+      "status": 200,
+      "bytes": 378,
+      "sha256": "1509629e6229ea30e6d700450ec7f7a29e258215fc1492ee94140061e6bfe037",
+      "matches": true
+    },
+    {
+      "path": "assessment-07.html",
+      "status": 200,
+      "bytes": 378,
+      "sha256": "7c5f22670b94292573a64940d995ac7d4d8ee363d386102b447529dd0a5ceab5",
+      "matches": true
+    },
+    {
+      "path": "assessment-08.html",
+      "status": 200,
+      "bytes": 378,
+      "sha256": "7c5f22670b94292573a64940d995ac7d4d8ee363d386102b447529dd0a5ceab5",
+      "matches": true
+    },
+    {
+      "path": "assessment-09.html",
+      "status": 200,
+      "bytes": 378,
+      "sha256": "17c49f0f7c684838360c5c14f667b79873162528d3e46a3aa0bfdd0a8afb9292",
+      "matches": true
+    },
+    {
+      "path": "assessment-10.html",
+      "status": 200,
+      "bytes": 378,
+      "sha256": "17c49f0f7c684838360c5c14f667b79873162528d3e46a3aa0bfdd0a8afb9292",
+      "matches": true
+    },
+    {
+      "path": "assets/core.css",
+      "status": 200,
+      "bytes": 20964,
+      "sha256": "3066a94ce122fbad318917fe48c5c8e243505ca40421ddabbcb5170ee5525923",
+      "matches": true
+    },
+    {
+      "path": "assets/lesson-figures.css",
+      "status": 200,
+      "bytes": 8851,
+      "sha256": "3b2204a4f715d357201279a2a7246371abe529e88d03d81b023897d7514d2d83",
+      "matches": true
+    },
+    {
+      "path": "assets/lesson-figures.js",
+      "status": 200,
+      "bytes": 28268,
+      "sha256": "b045da17334d951228c5f3d0a5d2d5f813ba19e67030a7ba01a6a6b5016bc52b",
+      "matches": true
+    },
+    {
+      "path": "assets/practice.css",
+      "status": 200,
+      "bytes": 25223,
+      "sha256": "7a1091e4189153cac441a07b18a35fa220038f7890dbc070b82e19c8b15bbc09",
+      "matches": true
+    },
+    {
+      "path": "assets/practice.js",
+      "status": 200,
+      "bytes": 141856,
+      "sha256": "8e25856237e377cb499ee24dd23813930cf5836b87510f0924714a0b63d43ada",
+      "matches": true
+    },
+    {
+      "path": "assets/site.js",
+      "status": 200,
+      "bytes": 13237,
+      "sha256": "3470a71711237bf23aa24180c9432f38d4907be713e366a4cb9e5f69f92aa663",
+      "matches": true
+    },
+    {
+      "path": "assets/ta-activities.json",
+      "status": 200,
+      "bytes": 25312,
+      "sha256": "f4d55290998abb7f8d39d6e2789cfc7470b340bf8c314b0c047b040e2631106d",
+      "matches": true
+    },
+    {
+      "path": "assets/workbook.js",
+      "status": 200,
+      "bytes": 5835,
+      "sha256": "d287e6087502faa3f4ad077c3f3b923be72d220b1499d98aa6287e84180651bf",
+      "matches": true
+    },
+    {
+      "path": "business-paths.html",
+      "status": 200,
+      "bytes": 366,
+      "sha256": "e7ac19682f377b8df77d436b26cc457dfe0f15f45f82ee953a570f08f1a9943d",
+      "matches": true
+    },
+    {
+      "path": "course.html",
+      "status": 200,
+      "bytes": 366,
+      "sha256": "e7ac19682f377b8df77d436b26cc457dfe0f15f45f82ee953a570f08f1a9943d",
+      "matches": true
+    },
+    {
+      "path": "discussions.html",
+      "status": 200,
+      "bytes": 370,
+      "sha256": "71a5cf69152d8c7ffb2dc485c1205099858398b8125625a56ac0af7928a5b477",
+      "matches": true
+    },
+    {
+      "path": "downloads/cedar-desk-packet.txt",
+      "status": 200,
+      "bytes": 7244,
+      "sha256": "469280079da422dfa83d4581f5ca23857da160df3fb7140aa51db624dad93132",
+      "matches": true
+    },
+    {
+      "path": "downloads/course-site.zip",
+      "status": 200,
+      "bytes": 252612,
+      "sha256": "e4ce7be09b722dab3e0e384cbf9066697fc6b3eab3a09c5714101cf49781dc4b",
+      "matches": true
+    },
+    {
+      "path": "downloads/project-record.txt",
+      "status": 200,
+      "bytes": 2702,
+      "sha256": "eb07ea558239e4cc624ef160f8e3bc593e2c92f23e57c5e95382b60e16dc4ad5",
+      "matches": true
+    },
+    {
+      "path": "example.html",
+      "status": 200,
+      "bytes": 12155,
+      "sha256": "775a64ee164c85039df1119723b52bb3e1ebe28f9a04fca973267a681d350a48",
+      "matches": true
+    },
+    {
+      "path": "finish.html",
+      "status": 200,
+      "bytes": 4536,
+      "sha256": "e78661babede2d1977e96ebb768e8e82a8f55f100216358179626e9a6cb557d3",
+      "matches": true
+    },
+    {
+      "path": "guide.html",
+      "status": 200,
+      "bytes": 374,
+      "sha256": "440eabba9484542cb16c21c7a0c920b811e9f518f881211e315b07ba43a8da1e",
+      "matches": true
+    },
+    {
+      "path": "index.html",
+      "status": 200,
+      "bytes": 9231,
+      "sha256": "fc397c65a6e9af76eb3a2a8bcf12e8ac208d02849b9725b96f24bf90adf4b437",
+      "matches": true
+    },
+    {
+      "path": "instructor.html",
+      "status": 200,
+      "bytes": 7138,
+      "sha256": "14d08b8cb585a7fa3012d286d6b855f392a8078ed0a47d33d93f514bc5d48967",
+      "matches": true
+    },
+    {
+      "path": "labs/index.html",
+      "status": 200,
+      "bytes": 390,
+      "sha256": "53d81db8871039e0702bbd1254f5a076831429ea29188a9d6d072efd7ed5606b",
+      "matches": true
+    },
+    {
+      "path": "milestone-1.html",
+      "status": 200,
+      "bytes": 6485,
+      "sha256": "fe44fcab2d4bda59e6c5963b6b58962930b747db333dc05b4269417e1aeb12a0",
+      "matches": true
+    },
+    {
+      "path": "milestone-2.html",
+      "status": 200,
+      "bytes": 6536,
+      "sha256": "120da7d97a9834c1b7543dfbc02b1d4a6c9478ad8da0c25037331251bb397391",
+      "matches": true
+    },
+    {
+      "path": "milestone-3.html",
+      "status": 200,
+      "bytes": 6243,
+      "sha256": "1c2d3ca5e409b70755bae13c8b60aacfd24bf2e1f04a8838131bd3d8e98f16e0",
+      "matches": true
+    },
+    {
+      "path": "milestone-4.html",
+      "status": 200,
+      "bytes": 6934,
+      "sha256": "18d111e36d50f20d349f823f9ab0f25281d632a470fc7d31c009b64984a39559",
+      "matches": true
+    },
+    {
+      "path": "milestone-5.html",
+      "status": 200,
+      "bytes": 6738,
+      "sha256": "d20e003f20419c0a00a9e664e5e159ad0f639698b65dc3331c42c7da5ea5818c",
+      "matches": true
+    },
+    {
+      "path": "module-00.html",
+      "status": 200,
+      "bytes": 370,
+      "sha256": "9264dc1abd87896d15d9fe9a3eb669714f7d2b85e102ffee217577b39780b98f",
+      "matches": true
+    },
+    {
+      "path": "module-01.html",
+      "status": 200,
+      "bytes": 370,
+      "sha256": "9264dc1abd87896d15d9fe9a3eb669714f7d2b85e102ffee217577b39780b98f",
+      "matches": true
+    },
+    {
+      "path": "module-02.html",
+      "status": 200,
+      "bytes": 370,
+      "sha256": "db169c983a60b241ca7abfd2fa6a35926905b8b9e7326b0b383cc1de43ea2936",
+      "matches": true
+    },
+    {
+      "path": "module-03.html",
+      "status": 200,
+      "bytes": 370,
+      "sha256": "0f5134a44df89d7d91153689fb9884c967f660cbbe3a77c67d1cf55d4cd476ca",
+      "matches": true
+    },
+    {
+      "path": "module-04.html",
+      "status": 200,
+      "bytes": 370,
+      "sha256": "9fb8e7cf772ae0615c4fd6c62527af629766446aa3015882be99ba710e78d3cb",
+      "matches": true
+    },
+    {
+      "path": "module-05.html",
+      "status": 200,
+      "bytes": 370,
+      "sha256": "9fb8e7cf772ae0615c4fd6c62527af629766446aa3015882be99ba710e78d3cb",
+      "matches": true
+    },
+    {
+      "path": "module-06.html",
+      "status": 200,
+      "bytes": 370,
+      "sha256": "b3561b151136c406ec23fbeae188ca10afe5f280228c82ac42d2293475a847f5",
+      "matches": true
+    },
+    {
+      "path": "module-07.html",
+      "status": 200,
+      "bytes": 370,
+      "sha256": "db169c983a60b241ca7abfd2fa6a35926905b8b9e7326b0b383cc1de43ea2936",
+      "matches": true
+    },
+    {
+      "path": "module-08.html",
+      "status": 200,
+      "bytes": 370,
+      "sha256": "e20e611187792201db905f3d7f366607fb6e09469570f30faf8a88df5e3d9e14",
+      "matches": true
+    },
+    {
+      "path": "module-09.html",
+      "status": 200,
+      "bytes": 370,
+      "sha256": "dfb09a8924a9353f9b529fbab699cfcaf4676b8d1bb138ea07c8f581a0194372",
+      "matches": true
+    },
+    {
+      "path": "module-10.html",
+      "status": 200,
+      "bytes": 370,
+      "sha256": "68e27fd74f1ff47634cf224fc07da97adff928949e0c62acc86daddbf8a6d346",
+      "matches": true
+    },
+    {
+      "path": "module-11.html",
+      "status": 200,
+      "bytes": 370,
+      "sha256": "b87f5c78f462e6e5bfda81295acd8f318e04358492eda38cb263a3c99fa49246",
+      "matches": true
+    },
+    {
+      "path": "module-12.html",
+      "status": 200,
+      "bytes": 370,
+      "sha256": "1034a2e243763f9ac3babaa2a01d308cedaffbbc9211a5087e5f3a9121ee5c54",
+      "matches": true
+    },
+    {
+      "path": "module-13.html",
+      "status": 200,
+      "bytes": 370,
+      "sha256": "9acedc8af692db38b28f86d80aaee90ecdbaebf4630f14390df9277fd740a38b",
+      "matches": true
+    },
+    {
+      "path": "module-14.html",
+      "status": 200,
+      "bytes": 370,
+      "sha256": "dfb09a8924a9353f9b529fbab699cfcaf4676b8d1bb138ea07c8f581a0194372",
+      "matches": true
+    },
+    {
+      "path": "module-15.html",
+      "status": 200,
+      "bytes": 370,
+      "sha256": "9acedc8af692db38b28f86d80aaee90ecdbaebf4630f14390df9277fd740a38b",
+      "matches": true
+    },
+    {
+      "path": "module-16.html",
+      "status": 200,
+      "bytes": 370,
+      "sha256": "9acedc8af692db38b28f86d80aaee90ecdbaebf4630f14390df9277fd740a38b",
+      "matches": true
+    },
+    {
+      "path": "partner-challenge.html",
+      "status": 200,
+      "bytes": 370,
+      "sha256": "71a5cf69152d8c7ffb2dc485c1205099858398b8125625a56ac0af7928a5b477",
+      "matches": true
+    },
+    {
+      "path": "project.html",
+      "status": 200,
+      "bytes": 24560,
+      "sha256": "8c8e524dec2d237570d436e9bfe935a5a096f6d9ca31f4688edab563f7913c26",
+      "matches": true
+    },
+    {
+      "path": "projects.html",
+      "status": 200,
+      "bytes": 370,
+      "sha256": "71a5cf69152d8c7ffb2dc485c1205099858398b8125625a56ac0af7928a5b477",
+      "matches": true
+    },
+    {
+      "path": "readings.html",
+      "status": 200,
+      "bytes": 19551,
+      "sha256": "c34eaaca50d392c96e5adf55fc9d31eab035a3bbaa5d58fd5cbd7b4d079d27fd",
+      "matches": true
+    },
+    {
+      "path": "resources.html",
+      "status": 200,
+      "bytes": 5154,
+      "sha256": "e0aed76e0f29118a629af3ad0b32111ec19b7717832a56be924873801764aedd",
+      "matches": true
+    },
+    {
+      "path": "toolkit.html",
+      "status": 200,
+      "bytes": 392,
+      "sha256": "e281b2135f1b549d8a219757a553a55c7f350e30164f896f54a434120164d8f3",
+      "matches": true
+    },
+    {
+      "path": "unit-01.html",
+      "status": 200,
+      "bytes": 38281,
+      "sha256": "59b178e0b6b8da6671b85b5f8af16653b4b42473f00622cc88fd7ea3b5671aec",
+      "matches": true,
+      "required_reading_fragment_unchanged": true,
+      "required_reading_fragment_sha256": "c7d35fa10c16e9e0685addc4026741bff81cb44896f1d780c571b29c59acc749"
+    },
+    {
+      "path": "unit-02.html",
+      "status": 200,
+      "bytes": 23441,
+      "sha256": "2c8fd0d02b37f18f2fa3042ac278d20b9ff51d8a747ab781ad5124bf92041f49",
+      "matches": true,
+      "required_reading_fragment_unchanged": true,
+      "required_reading_fragment_sha256": "b08b97fa343a3ce8285d1b72eaf920ec6be4e0032e1d496b0312edc51a58ecfa"
+    },
+    {
+      "path": "unit-03.html",
+      "status": 200,
+      "bytes": 26096,
+      "sha256": "5adf4d6f52ac4ad049ff1a95c53a8bec73f6c30fb2ac0f796056cdf8c4835a78",
+      "matches": true,
+      "required_reading_fragment_unchanged": true,
+      "required_reading_fragment_sha256": "7a3e0e41533fb51d4741b269f00a1dab6ea35e288f8a4c0064168aa4e9ad7cb7"
+    },
+    {
+      "path": "unit-04.html",
+      "status": 200,
+      "bytes": 23892,
+      "sha256": "a4c7dbaa0e53b67c5ae30841b0427b657bfa6c46e5c80bb272abf784425935b8",
+      "matches": true,
+      "required_reading_fragment_unchanged": true,
+      "required_reading_fragment_sha256": "f06c35ab1a3a96e1fc01e390cdf1639bc5b222afe6943b23ad9b82e7bbdacf44"
+    },
+    {
+      "path": "unit-05.html",
+      "status": 200,
+      "bytes": 37416,
+      "sha256": "1fd5401a981c7eeb98861b0c22966822a4181cfb508268f4fe7ee046bdde8e9a",
+      "matches": true,
+      "required_reading_fragment_unchanged": true,
+      "required_reading_fragment_sha256": "1bc01d29a7260d75c0f7b40cf7c228aeca517568ac8d7776aa048a3b1f86cafa"
+    },
+    {
+      "path": "unit-06.html",
+      "status": 200,
+      "bytes": 24908,
+      "sha256": "7dcec1329cac359933e4b44ced0db0286f4e9cd711db20013ad806a67e5c2644",
+      "matches": true,
+      "required_reading_fragment_unchanged": true,
+      "required_reading_fragment_sha256": "433671504a2f4c2ebc9049a0286d101b36de9e302fc7525ed97ee3b3ddd7d929"
+    },
+    {
+      "path": "unit-07.html",
+      "status": 200,
+      "bytes": 26087,
+      "sha256": "8a51ba12d15193fd5afebc86ddd0ca0fec4d119fd554e858fd917f73e619659b",
+      "matches": true,
+      "required_reading_fragment_unchanged": true,
+      "required_reading_fragment_sha256": "2205264fe76d85cd28bfd36bd143f2912e3588f806bbc7978c64374b380168b8"
+    },
+    {
+      "path": "unit-08.html",
+      "status": 200,
+      "bytes": 24793,
+      "sha256": "9535bb28de2ceddc39b0b44e96cbc23b0a8021a5a05841bedf057c8ef73f7dc5",
+      "matches": true,
+      "required_reading_fragment_unchanged": true,
+      "required_reading_fragment_sha256": "a697ce974fa34f46674e7cef8221b81762bff3ea8e633c656c318a5101501277"
+    },
+    {
+      "path": "unit-09.html",
+      "status": 200,
+      "bytes": 24351,
+      "sha256": "0ba7cdf84cf8ebcbffbd17e6e2dde91c6e55c82990f676b5e96040c0f67b8c1c",
+      "matches": true,
+      "required_reading_fragment_unchanged": true,
+      "required_reading_fragment_sha256": "e1b15d851911e6d2baa5588d4b8d491b357e007975bcadcdc4a7a35c933cf0d7"
+    },
+    {
+      "path": "unit-10.html",
+      "status": 200,
+      "bytes": 29081,
+      "sha256": "b2412402bfd53a0e2741aab96e937e8e08e2187e39c20af6df305b56ec6e5918",
+      "matches": true,
+      "required_reading_fragment_unchanged": true,
+      "required_reading_fragment_sha256": "b4ada08b2d50fe0bf9dc207bb2d76205644a2cabc3232e88b84f02940db26960"
+    },
+    {
+      "path": "unit-11.html",
+      "status": 200,
+      "bytes": 21364,
+      "sha256": "7356b4299a5da4fc4b7f9c70749be33b7a0779a747c30ba52d23feae832155f4",
+      "matches": true,
+      "required_reading_fragment_unchanged": true,
+      "required_reading_fragment_sha256": "2c60a6d3b75b181046eecbfd9c76ef8a428f1320a030bf36ab32b58897c673fd"
+    },
+    {
+      "path": "unit-12.html",
+      "status": 200,
+      "bytes": 27339,
+      "sha256": "fbc9e1ae018764d9a1bb9801cc0de7096e5c24e736900d73d0d24d9dd103fcf2",
+      "matches": true,
+      "required_reading_fragment_unchanged": true,
+      "required_reading_fragment_sha256": "084b107397a4fd8dab7cf4539af965130d996cecf470b06f89e375a938527b78"
+    },
+    {
+      "path": "venture-studio.html",
+      "status": 200,
+      "bytes": 370,
+      "sha256": "68e27fd74f1ff47634cf224fc07da97adff928949e0c62acc86daddbf8a6d346",
+      "matches": true
+    }
+  ],
+  "scope": "Book integration preservation and normal-mode course-chat only. Concurrent decision-lab functionality was not audited. No Canvas/browser UI or shared repository mutations.",
+  "manual_response_review": {
+    "three_book_inventory_and_roles_correct": true,
+    "unit_1_exact_section_and_stop_heading_correct": true,
+    "reading_application_uses_existing_canvas_quiz_essay": true,
+    "no_complete_books_or_book_excerpts_claimed": true,
+    "short_passage_is_learner_provided": true,
+    "normal_answers_without_structured_learning_context": true,
+    "all_three_streams_http_200_completed_without_error_events": true,
+    "observed_limitation": "The broad inventory response correctly named all three roles but unnecessarily said its retrieved excerpts could not identify individual unit passages. The separate explicit Unit 1 question retrieved the exact required section/scope and Canvas submission route correctly. This is a retrieval-specific limitation, not missing reading metadata or a promise of full-book access.",
+    "limits": "These three observed responses confirm this sampled normal-mode behavior; they do not establish every future response, pedagogical effectiveness, or the concurrent decision-lab functionality."
+  }
+}
