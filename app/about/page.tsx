@@ -5,7 +5,6 @@ import { BioCategories } from "@/app/components/BioCategories";
 import { ChatWidget } from "@/app/components/ChatWidget";
 import { JsonLd } from "@/app/components/JsonLd";
 import { NavBar } from "@/app/components/NavBar";
-import { UniversityCollaborations } from "@/app/components/UniversityCollaborations";
 import { MAJID } from "@/lib/majid";
 import { SITE } from "@/lib/site";
 
@@ -74,7 +73,6 @@ export default function AboutPage() {
             </div>
           </div>
         </section>
-        <UniversityCollaborations />
         <section aria-labelledby="connect-heading" className="mt-10">
           <h2 id="connect-heading" className="text-xl font-semibold">Connect &amp; explore</h2>
           <div className="mt-4 flex flex-wrap gap-x-6 gap-y-4 text-sm">
