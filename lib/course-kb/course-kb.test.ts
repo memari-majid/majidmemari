@@ -331,6 +331,8 @@ test("API passes the open unit as context and emits sources from that unit", asy
   assert(canvasSystem.includes("Canvas Next after Finish"));
   assert(canvasSystem.includes("PUBLIC ASYNCHRONOUS EDITION LAYOUT"));
   assert(canvasSystem.includes("practice and check-in quiz"));
+  assert(canvasSystem.includes("KNOWN CANVAS ROUTINE:"));
+  assert(canvasSystem.includes("a submitted quiz attempt fulfills the requirement even while the zero-point essay awaits instructor review"));
 });
 
 
@@ -407,4 +409,16 @@ test("Canvas policy precedence accompanies standalone rubric evidence without le
     assert(!prompt.includes("Meadow Resource Library"), "Delivery metadata does not add exam packets or examiner marking guides to the course excerpts");
     assert(!/courses\/\d+|assignments\/\d+/.test(prompt), "Delivery metadata must not hard-code an institution's private course routes");
   }
+});
+
+test("Canvas workflow guidance does not require private learner status or an exact subject excerpt", () => {
+  const embedded = buildCourseSystemPrompt([], "unit-06.html", true);
+  const standalone = buildCourseSystemPrompt([], "unit-06.html", false);
+  assert.match(embedded, /put the project update in the final zero-point written question, then use Submit Quiz/);
+  assert.match(embedded, /open Canvas Grades, select the relevant quiz or assignment/);
+  assert.match(embedded, /pending review is not a requirement to wait for a grade/);
+  assert.match(embedded, /explaining them does not require access to a learner's Canvas records/);
+  assert.match(embedded, /Do not open with “I cannot see your Canvas course,” “usually linked,”/);
+  assert.match(embedded, /If neither supports an answer, acknowledge the gap/);
+  assert(!standalone.includes("KNOWN CANVAS ROUTINE:"));
 });
