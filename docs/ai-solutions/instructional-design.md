@@ -2,7 +2,7 @@
 
 **Owner and sole instructor:** Majid Memari
 
-**Date:** November 10, 2026
+**Date:** November 11, 2026
 
 **Status:** The owner authorized development on November 10, 2026. The twelve-unit course and visual-learning upgrade have been implemented and released. Technical evidence is recorded in [DEVELOPMENT_AND_VALIDATION.md](development-and-validation.md); representative-learner testing is still required.
 
@@ -12,15 +12,17 @@ This is the current planning document. It takes precedence over the proposed lea
 
 **One project, one learning sequence, five assessed milestones.**
 
-The course should help a business learner take a worthwhile problem through a usable AI-assisted solution, an honest test, a business case, delivery, and a credible pitch. It should feel like guided progress on that project. Learners should not have to choose between a course, pathways, a simulation suite, a venture studio, and a partner challenge.
+The course should help a learner from any discipline take a worthwhile real-world problem through a usable AI-assisted solution, an honest test, a case for adoption, delivery, and a credible recommendation. It should feel like guided progress on that project. Learners should not have to choose between a course, pathways, a simulation suite, a venture studio, and a partner challenge.
 
 **Working title:** Building AI Solutions
 
+**Audience framing:** Practical AI problem-solving for everyone. Students across campus can participate with no prerequisites.
+
 **Promise:** Find a real need. Build a useful solution. Test it. Bring it to users.
 
-Business ownership and internal organizational improvement use the same method. A solo business supported by AI agents is a motivating scenario, not a prediction that every learner must become an entrepreneur. The core includes finding users, making an offer, selling or securing adoption, delivering, and operating responsibly.
+Personal, community, research, organizational, and business projects can use the same method. A solo business supported by AI agents is a motivating scenario, not a prediction that every learner must become an entrepreneur. The core includes finding users, making an offer, selling or securing adoption, delivering, and operating responsibly.
 
-The course belongs to Majid Memari and can be offered across institutions and organizations. Its public identity does not contain an institution or course number. Finance, Accounting, Marketing, MBA/Management, MIS, and Operations learners follow the same sequence. Their project contexts may differ.
+The course belongs to Majid Memari and can be offered across institutions and organizations. Its public identity does not contain an institution or course number. Students from any discipline follow the same sequence. Their project can address a need in their field, community, organization, or an emerging business; business-school enrollment and entrepreneurial intent are not assumed.
 
 ## 2. Diagnosis of the existing design
 
@@ -49,17 +51,17 @@ Within lessons, alternate a worked example with a learner decision; revisit impo
 
 Keep the project authentic and sustained, with critique, revision, and a demonstration to a meaningful audience. The [PBLWorks project-design model](https://www.pblworks.org/gold-standard/pbl-project-design) informs this structure. A classroom client is a valid audience; the course does not require public disclosure or a commercial launch.
 
-Use accessible representations and graduated support while preserving a common destination. A single recommended sequence can still allow learners to revisit explanations, choose an accessible response format, and use a relevant business context. This is consistent with the [CAST UDL Guidelines](https://udlguidelines.cast.org/).
+Use accessible representations and graduated support while preserving a common destination. A single recommended sequence can still allow learners to revisit explanations, choose an accessible response format, and use a relevant real-world context. This is consistent with the [CAST UDL Guidelines](https://udlguidelines.cast.org/).
 
 **Design rule:** an interaction earns its place only if it helps a learner explain, decide, build, evaluate, or transfer something required by an outcome.
 
 ## 4. Learners, prerequisites, and boundaries
 
-Assume business learners with uneven AI experience and quantitative confidence. Require ordinary reading, basic arithmetic, and use of documents or presentations. Do not assume programming, statistics software, API configuration, advanced mathematics, or a paid AI subscription.
+There are **no prerequisites**. Assume students from any discipline with uneven AI experience, quantitative confidence, and familiarity with documents or presentations. Do not assume programming, prior AI or business knowledge, statistics software, API configuration, advanced mathematics, experience with a particular tool, or paid AI access. Explain necessary vocabulary, basic calculations, and tool steps at the point of use, with worked examples and accessible support. The supplied-output route must allow participation when an AI account or paid feature is unavailable.
 
-Begin with a short ungraded diagnostic: distinguish a fact from an unsupported AI claim; interpret a simple rate; explain a business problem without naming a tool. Use the result to offer brief support within the lesson, not a separate track or admission barrier.
+Begin with a short ungraded diagnostic: distinguish a fact from an unsupported AI claim; interpret a simple rate with support; explain a real-world problem without naming a tool. Use the result to offer brief support within the lesson, not a separate track or admission barrier.
 
-Required capabilities include:
+Capabilities developed during the course include:
 
 - Understanding generative AI, prediction/classification, workflows, and agents at the level needed to choose and evaluate a use.
 - Briefing an existing AI tool, supplying allowed sources, checking output, revising, and documenting human responsibility.
@@ -111,7 +113,7 @@ Twelve units are proposed to organize the work. They are **not twelve mandatory 
 
 Discovery continues after Unit 2. Rough economics inform scope in Unit 3 before the fuller analysis in Unit 8. Source checks and human responsibility begin in Unit 1. Learners may revise an earlier decision without leaving the common course path.
 
-Finance, Marketing, MBA, MIS, and Operations appear as perspectives on the same decisions, not selectable learning routes. For example, one service business needs clear customer messages, dependable intake, quality control, economic viability, and an adoption plan. Short cross-business examples demonstrate transfer without imposing an additional project.
+Different disciplines offer perspectives on the same decisions through a common sequence. For example, a community program, research team, creative practice, or service business may need clear communication, dependable intake, quality control, affordable delivery, and an adoption plan. Short examples demonstrate transfer without imposing an additional project or specialist background. The continuing Cedar Desk business case remains a complete, explained starting point for everyone.
 
 ## 7. Capstone and assessment design
 
@@ -287,7 +289,7 @@ All formative work must replace or prepare project work. It should not silently 
 | Source checks, review/rework, evidence limits | Simulations and support inside lessons | Separate navigation for discipline pathways, venture studio, partner challenge, and simulation suite |
 | Portable lessons and printable material | One compact Resources reference area | Decorative animation and feature-count marketing |
 | Human responsibility and classroom fallback | Current offering settings separated from stable course | Advanced algorithm mechanics without an outcome need |
-| Broad business relevance | Two clearly distinct assistants in one theme | New implementation before the design review is complete |
+| Relevance across disciplines and real-world settings | Two clearly distinct assistants in one theme | New implementation before the design review is complete |
 
 ## 15. Design-to-development plan and acceptance gates
 
@@ -297,7 +299,7 @@ The initial planning phase ended when the owner authorized development. The core
 2. **Create the assessment package before screens.** One project brief; five milestone specifications; analytic rubric descriptors; an evidence log; and one complete example with a flawed comparison. Trace every outcome to assessed evidence.
 3. **Storyboard the units.** For every required activity, specify the decision, misconception, worked example, learner action, feedback, capstone contribution, accessibility alternative, and time budget. No unspecified “add an interactive figure” items.
 4. **Complete one representative lesson prototype after planning.** Use the Unit 6 storyboard or equivalent. Include its figure/table, feedback, project task, and course TA in the shared theme. Do not build the entire interaction library first.
-5. **Pilot and revise.** Observe 3–5 representative learners, including different business backgrounds and quantitative confidence. This small pilot diagnoses usability and obvious learning problems; it does not establish efficacy.
+5. **Pilot and revise.** Observe 3–5 representative learners from different disciplines, including learners with no prior AI or business knowledge and varied quantitative confidence. This small pilot diagnoses usability and obvious learning problems; it does not establish efficacy.
 6. **Revise from the pilot before adding optional depth.** Use learner evidence to improve the existing twelve units. Reconcile any additions against the outcome map and replace redundant work.
 7. **Release verification.** Check actual learning flow, source/citation accuracy, numerical results, accessibility, no-TA behavior, progress/resume, final handoff, privacy disclosures, and instructor workload before deployment.
 

@@ -1,0 +1,299 @@
+{
+  "course": "Building AI Solutions",
+  "owner": "Majid Memari",
+  "base_url": "https://www.majidmemari.com/teaching/ai-solutions/",
+  "source_sha256": "79dba64c0416e0a3d768ea39c27a32cbf8246bd44f5d96cb31281b5209cf7728",
+  "grade_policy": "Five 100-point milestones count in weighted groups 15/20/25/15/25; zero-point Complete/Incomplete check-ins omitted; no due dates",
+  "progress_policy": "View each native Canvas lesson page; submit each check-in and milestone. No hard prerequisites or sequential gates.",
+  "lesson_delivery": "native_canvas_pages_with_course_iframes",
+  "units": [
+    {
+      "number": 1,
+      "title": "AI and a useful business task",
+      "url": "https://www.majidmemari.com/teaching/ai-solutions/unit-01.html?delivery=canvas",
+      "module_identifier": "memari_ai_solutions_v1_module_1",
+      "page_identifier": "memari_ai_solutions_v1_lesson_page_1",
+      "lesson_item_identifier": "memari_ai_solutions_v1_lesson_item_1",
+      "lesson_completion_requirement": "must_view"
+    },
+    {
+      "number": 2,
+      "title": "Discover the need",
+      "url": "https://www.majidmemari.com/teaching/ai-solutions/unit-02.html?delivery=canvas",
+      "module_identifier": "memari_ai_solutions_v1_module_2",
+      "page_identifier": "memari_ai_solutions_v1_lesson_page_2",
+      "lesson_item_identifier": "memari_ai_solutions_v1_lesson_item_2",
+      "lesson_completion_requirement": "must_view"
+    },
+    {
+      "number": 3,
+      "title": "Choose and scope a solution",
+      "url": "https://www.majidmemari.com/teaching/ai-solutions/unit-03.html?delivery=canvas",
+      "module_identifier": "memari_ai_solutions_v1_module_3",
+      "page_identifier": "memari_ai_solutions_v1_lesson_page_3",
+      "lesson_item_identifier": "memari_ai_solutions_v1_lesson_item_3",
+      "lesson_completion_requirement": "must_view"
+    },
+    {
+      "number": 4,
+      "title": "Design the workflow",
+      "url": "https://www.majidmemari.com/teaching/ai-solutions/unit-04.html?delivery=canvas",
+      "module_identifier": "memari_ai_solutions_v1_module_4",
+      "page_identifier": "memari_ai_solutions_v1_lesson_page_4",
+      "lesson_item_identifier": "memari_ai_solutions_v1_lesson_item_4",
+      "lesson_completion_requirement": "must_view"
+    },
+    {
+      "number": 5,
+      "title": "Build the first usable version",
+      "url": "https://www.majidmemari.com/teaching/ai-solutions/unit-05.html?delivery=canvas",
+      "module_identifier": "memari_ai_solutions_v1_module_5",
+      "page_identifier": "memari_ai_solutions_v1_lesson_page_5",
+      "lesson_item_identifier": "memari_ai_solutions_v1_lesson_item_5",
+      "lesson_completion_requirement": "must_view"
+    },
+    {
+      "number": 6,
+      "title": "Design a fair test",
+      "url": "https://www.majidmemari.com/teaching/ai-solutions/unit-06.html?delivery=canvas",
+      "module_identifier": "memari_ai_solutions_v1_module_6",
+      "page_identifier": "memari_ai_solutions_v1_lesson_page_6",
+      "lesson_item_identifier": "memari_ai_solutions_v1_lesson_item_6",
+      "lesson_completion_requirement": "must_view"
+    },
+    {
+      "number": 7,
+      "title": "Pilot, revise, and retest",
+      "url": "https://www.majidmemari.com/teaching/ai-solutions/unit-07.html?delivery=canvas",
+      "module_identifier": "memari_ai_solutions_v1_module_7",
+      "page_identifier": "memari_ai_solutions_v1_lesson_page_7",
+      "lesson_item_identifier": "memari_ai_solutions_v1_lesson_item_7",
+      "lesson_completion_requirement": "must_view"
+    },
+    {
+      "number": 8,
+      "title": "Calculate value and capacity",
+      "url": "https://www.majidmemari.com/teaching/ai-solutions/unit-08.html?delivery=canvas",
+      "module_identifier": "memari_ai_solutions_v1_module_8",
+      "page_identifier": "memari_ai_solutions_v1_lesson_page_8",
+      "lesson_item_identifier": "memari_ai_solutions_v1_lesson_item_8",
+      "lesson_completion_requirement": "must_view"
+    },
+    {
+      "number": 9,
+      "title": "Shape the offer",
+      "url": "https://www.majidmemari.com/teaching/ai-solutions/unit-09.html?delivery=canvas",
+      "module_identifier": "memari_ai_solutions_v1_module_9",
+      "page_identifier": "memari_ai_solutions_v1_lesson_page_9",
+      "lesson_item_identifier": "memari_ai_solutions_v1_lesson_item_9",
+      "lesson_completion_requirement": "must_view"
+    },
+    {
+      "number": 10,
+      "title": "Find users and sell or secure adoption",
+      "url": "https://www.majidmemari.com/teaching/ai-solutions/unit-10.html?delivery=canvas",
+      "module_identifier": "memari_ai_solutions_v1_module_10",
+      "page_identifier": "memari_ai_solutions_v1_lesson_page_10",
+      "lesson_item_identifier": "memari_ai_solutions_v1_lesson_item_10",
+      "lesson_completion_requirement": "must_view"
+    },
+    {
+      "number": 11,
+      "title": "Make delivery dependable",
+      "url": "https://www.majidmemari.com/teaching/ai-solutions/unit-11.html?delivery=canvas",
+      "module_identifier": "memari_ai_solutions_v1_module_11",
+      "page_identifier": "memari_ai_solutions_v1_lesson_page_11",
+      "lesson_item_identifier": "memari_ai_solutions_v1_lesson_item_11",
+      "lesson_completion_requirement": "must_view"
+    },
+    {
+      "number": 12,
+      "title": "Demonstrate and defend",
+      "url": "https://www.majidmemari.com/teaching/ai-solutions/unit-12.html?delivery=canvas",
+      "module_identifier": "memari_ai_solutions_v1_module_12",
+      "page_identifier": "memari_ai_solutions_v1_lesson_page_12",
+      "lesson_item_identifier": "memari_ai_solutions_v1_lesson_item_12",
+      "lesson_completion_requirement": "must_view"
+    }
+  ],
+  "checkins": [
+    {
+      "unit": 1,
+      "title": "Unit 01 check-in: AI and a useful business task",
+      "assignment_identifier": "memari_ai_solutions_v1_checkin_1",
+      "points": 0,
+      "grading_type": "pass_fail",
+      "omit_from_final_grade": true,
+      "completion_requirement": "must_submit"
+    },
+    {
+      "unit": 2,
+      "title": "Unit 02 check-in: Discover the need",
+      "assignment_identifier": "memari_ai_solutions_v1_checkin_2",
+      "points": 0,
+      "grading_type": "pass_fail",
+      "omit_from_final_grade": true,
+      "completion_requirement": "must_submit"
+    },
+    {
+      "unit": 3,
+      "title": "Unit 03 check-in: Choose and scope a solution",
+      "assignment_identifier": "memari_ai_solutions_v1_checkin_3",
+      "points": 0,
+      "grading_type": "pass_fail",
+      "omit_from_final_grade": true,
+      "completion_requirement": "must_submit"
+    },
+    {
+      "unit": 4,
+      "title": "Unit 04 check-in: Design the workflow",
+      "assignment_identifier": "memari_ai_solutions_v1_checkin_4",
+      "points": 0,
+      "grading_type": "pass_fail",
+      "omit_from_final_grade": true,
+      "completion_requirement": "must_submit"
+    },
+    {
+      "unit": 5,
+      "title": "Unit 05 check-in: Build the first usable version",
+      "assignment_identifier": "memari_ai_solutions_v1_checkin_5",
+      "points": 0,
+      "grading_type": "pass_fail",
+      "omit_from_final_grade": true,
+      "completion_requirement": "must_submit"
+    },
+    {
+      "unit": 6,
+      "title": "Unit 06 check-in: Design a fair test",
+      "assignment_identifier": "memari_ai_solutions_v1_checkin_6",
+      "points": 0,
+      "grading_type": "pass_fail",
+      "omit_from_final_grade": true,
+      "completion_requirement": "must_submit"
+    },
+    {
+      "unit": 7,
+      "title": "Unit 07 check-in: Pilot, revise, and retest",
+      "assignment_identifier": "memari_ai_solutions_v1_checkin_7",
+      "points": 0,
+      "grading_type": "pass_fail",
+      "omit_from_final_grade": true,
+      "completion_requirement": "must_submit"
+    },
+    {
+      "unit": 8,
+      "title": "Unit 08 check-in: Calculate value and capacity",
+      "assignment_identifier": "memari_ai_solutions_v1_checkin_8",
+      "points": 0,
+      "grading_type": "pass_fail",
+      "omit_from_final_grade": true,
+      "completion_requirement": "must_submit"
+    },
+    {
+      "unit": 9,
+      "title": "Unit 09 check-in: Shape the offer",
+      "assignment_identifier": "memari_ai_solutions_v1_checkin_9",
+      "points": 0,
+      "grading_type": "pass_fail",
+      "omit_from_final_grade": true,
+      "completion_requirement": "must_submit"
+    },
+    {
+      "unit": 10,
+      "title": "Unit 10 check-in: Find users and sell or secure adoption",
+      "assignment_identifier": "memari_ai_solutions_v1_checkin_10",
+      "points": 0,
+      "grading_type": "pass_fail",
+      "omit_from_final_grade": true,
+      "completion_requirement": "must_submit"
+    },
+    {
+      "unit": 11,
+      "title": "Unit 11 check-in: Make delivery dependable",
+      "assignment_identifier": "memari_ai_solutions_v1_checkin_11",
+      "points": 0,
+      "grading_type": "pass_fail",
+      "omit_from_final_grade": true,
+      "completion_requirement": "must_submit"
+    },
+    {
+      "unit": 12,
+      "title": "Unit 12 check-in: Demonstrate and defend",
+      "assignment_identifier": "memari_ai_solutions_v1_checkin_12",
+      "points": 0,
+      "grading_type": "pass_fail",
+      "omit_from_final_grade": true,
+      "completion_requirement": "must_submit"
+    }
+  ],
+  "milestones": [
+    {
+      "number": 1,
+      "title": "Problem and feasible scope",
+      "after_unit": 3,
+      "assignment_identifier": "memari_ai_solutions_v1_milestone_1",
+      "source_url": "https://www.majidmemari.com/teaching/ai-solutions/project.html#milestone-1",
+      "points": 100,
+      "omit_from_final_grade": false,
+      "completion_requirement": "must_submit",
+      "course_weight_percent": 15,
+      "assignment_group_identifier": "memari_ai_solutions_v1_milestone_group_1"
+    },
+    {
+      "number": 2,
+      "title": "First usable solution",
+      "after_unit": 5,
+      "assignment_identifier": "memari_ai_solutions_v1_milestone_2",
+      "source_url": "https://www.majidmemari.com/teaching/ai-solutions/project.html#milestone-2",
+      "points": 100,
+      "omit_from_final_grade": false,
+      "completion_requirement": "must_submit",
+      "course_weight_percent": 20,
+      "assignment_group_identifier": "memari_ai_solutions_v1_milestone_group_2"
+    },
+    {
+      "number": 3,
+      "title": "Pilot and learning",
+      "after_unit": 7,
+      "assignment_identifier": "memari_ai_solutions_v1_milestone_3",
+      "source_url": "https://www.majidmemari.com/teaching/ai-solutions/project.html#milestone-3",
+      "points": 100,
+      "omit_from_final_grade": false,
+      "completion_requirement": "must_submit",
+      "course_weight_percent": 25,
+      "assignment_group_identifier": "memari_ai_solutions_v1_milestone_group_3"
+    },
+    {
+      "number": 4,
+      "title": "Viability and route to users",
+      "after_unit": 10,
+      "assignment_identifier": "memari_ai_solutions_v1_milestone_4",
+      "source_url": "https://www.majidmemari.com/teaching/ai-solutions/project.html#milestone-4",
+      "points": 100,
+      "omit_from_final_grade": false,
+      "completion_requirement": "must_submit",
+      "course_weight_percent": 15,
+      "assignment_group_identifier": "memari_ai_solutions_v1_milestone_group_4"
+    },
+    {
+      "number": 5,
+      "title": "Demonstration and handoff",
+      "after_unit": 12,
+      "assignment_identifier": "memari_ai_solutions_v1_milestone_5",
+      "source_url": "https://www.majidmemari.com/teaching/ai-solutions/project.html#milestone-5",
+      "points": 100,
+      "omit_from_final_grade": false,
+      "completion_requirement": "must_submit",
+      "course_weight_percent": 25,
+      "assignment_group_identifier": "memari_ai_solutions_v1_milestone_group_5"
+    }
+  ],
+  "discussion": {
+    "title": "Course questions and project exchange",
+    "after_unit_lesson": 1,
+    "identifier": "memari_ai_solutions_v1_course_questions",
+    "graded": false,
+    "required_for_completion": false
+  },
+  "package_sha256": "8ebd1cc93cb3dbdba386fe12225e5962547262d4be2b55e3d8af9737f5e4dbac"
+}

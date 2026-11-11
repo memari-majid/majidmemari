@@ -1,37 +1,51 @@
-# Building AI Solutions review and maintenance guide
+# Building AI Solutions
 
-The live course is [Building AI Solutions](https://www.majidmemari.com/teaching/ai-solutions/), owned and taught by Majid Memari. It follows twelve units, one capstone, five milestones, and Learn → Try → Build → Finish. Students use business evidence and existing AI tools; programming is not required.
+> Documentation mirror in the personal-site hosting repository, refreshed from canonical course commit `0ffb052`. The canonical source is `/Users/majid/Documents/GitHub/uvu_courses/courses/cs4720R/`. Source-file paths below refer to that checkout unless explicitly identified as hosting paths. Edit canonical curriculum and documentation first; then refresh these mirrors. [Source-agent guidance](source-agent-guidance.md) describes work in that canonical repository.
 
-## For an AI reviewer
+**Practical AI problem-solving for everyone.** An independent course owned and taught by **Majid Memari**, open to students from any discipline with **no prerequisites**. Learners follow **12 units, one capstone, and five milestones**, using **Learn → Try → Build → Finish**. They discover a need, build a usable AI-assisted solution, test and revise it, develop an offer or adoption case, bring it to users, and hand it over. No programming, prior AI or business knowledge, specific-tool experience, or paid AI access is required.
 
-Start with the [review brief](review-brief.md). Inspect the live learner path before relying on previous judgments. Then use the [instructional design](instructional-design.md), [source map](source-map.md), [site maintenance guide](site-maintenance.md), and [validation record](development-and-validation.md) to compare intent, source, and observed behavior. Return prioritized findings with exact locations, learner consequences, proposed changes, and acceptance checks.
+**Live course:** [www.majidmemari.com/teaching/ai-solutions/](https://www.majidmemari.com/teaching/ai-solutions/)
 
-[Reference analysis](reference-analysis.md), the [complete simulation study](reference-study/README.md), [textbook research](textbook-selection.md), and [independent visual QA](visual-qa-review.md) provide supporting evidence. They do not prove current availability or learning effectiveness. Historical source directories and private records are not required review inputs.
+The directory name is historical. It does not identify the public course, impose an institution, or select an offering. Students across campus use the same path and can apply it to a problem in their field, community, organization, or an emerging business. A partner can supply the problem; Cedar Desk provides the complete classroom fallback. Business cases, economics, and adoption remain practical examples, with the necessary concepts explained in the course.
 
-## Applying the simulation study
+## Start here
 
-The [simulation application plan](simulation-application-plan.md) maps the reference patterns into five existing Try activities: discovery evidence, human authority, fair testing, pilot denominators, and capacity versus cash. Learners predict, explore linked evidence, commit a recommendation, inspect a challenge, and retain or revise the decision before transferring the result to their capstone. Complete worked comparisons remain in authored HTML for reading, printing, and the course TA. The plan describes intended behavior; the [validation record](development-and-validation.md) records the checks actually completed.
+| Your task | Read first | Then inspect |
+|---|---|---|
+| Review the course and recommend improvements | [AI review brief](review-brief.md) | Live learning path, all 12 units, five milestones, and the actual interactions |
+| Understand the educational design | [Instructional design plan](instructional-design.md) | Outcomes, capstone evidence, sequence, feedback, and workload assumptions |
+| Find the owning files or connect local and online content | [Repository map](source-map.md) | Source ownership, routes, hosting handoff, and review boundaries |
+| Edit, build, or validate course content | [Site maintenance guide](site-maintenance.md) | Current Python sources, seven assets, and workbook, practice, figure and delivery tests |
+| Check what was actually tested and released | [Development and validation](development-and-validation.md) | Dated evidence, exact release commits, and remaining learner validation |
+| Review readings or design influences | [Textbook research](textbook-selection.md), [reference analysis](reference-analysis.md) | Current assigned readings in `site/course_content.py`; external sources may change |
+| Build interactive lessons after reference-course access ends | [Reference study and build handbook](reference-study/README.md) | Six case studies, visual/animation rules, original worked example, review prompt and exact inspection coverage |
+| See how the reference patterns are applied to this course | [Simulation application plan](simulation-application-plan.md) | Five embedded decision challenges, authored explanations, state boundaries, and capstone transfer |
+| Deliver the course through Canvas | [Canvas integration guide](canvas-integration.md) | Reusable cartridge builder, native pages/check-ins/rubrics, approved grading weights, and the [verified installation record](canvas-live-integration.md) |
 
-The [reference-study directory](reference-study/README.md) preserves six original case-study analyses, a build handbook, visual conventions, a worked example, review instructions, and explicit coverage ledgers. It is independent research documentation, not a copy of the reference application's source or question bank, not required student reading, and not an input to the course TA. Its manifest hashes the mirrored artifacts after link adaptation.
+For an independent review, inspect the live learner experience before reading earlier judgments or test results. Source code, a preview, production, and a learner study establish different things.
 
-## Source and mirror ownership
+## Current source and release
 
-This directory mirrors course documentation so the hosting repository can be understood on its own. The canonical course source and documents are maintained at:
+`site/course_content.py` owns lesson text, outcomes, cases, readings, milestone criteria, and rubrics. `site/build_core.py` renders the course; `site/visual_lessons.py` supplies the six inline figure explanations. Current interaction and styling files are in `site/assets/`. [The maintenance guide](site-maintenance.md) lists every active file and command.
 
-```text
-/Users/majid/Documents/GitHub/uvu_courses/courses/cs4720R/
-```
+`site/dist/` is generated and ignored in this source repository. The separate personal website repository intentionally versions its public course snapshot, release manifest, and generated TA corpus. Do not edit those snapshots to change the course. The [repository map](source-map.md) shows the complete handoff.
 
-The directory name is historical and does not define the public course identity. Consult the dated validation record and current Git history for the source and release being reviewed. If that local path is unavailable, request the current course source from the owner; do not infer it from historical generated pages. Edit canonical documents first, then refresh these mirrors and their relative links. This directory does not contain the editable lesson generator.
+The verified November 11, 2026 website release is personal-site commit `8ac13228ccc4415e90040ec7c327c42772e1eca6`. It includes the Canvas display profile and the audience framing for everyone with no prerequisites, building on the earlier decision-challenge release. The Canvas installation uses native pages, twelve formative check-ins, five milestone submissions/rubrics, a discussion, and module requirements. Technical and Student View checks passed; representative-learner timing and learning effectiveness remain unvalidated. The validation record identifies exact deployments and their limits.
 
-The personal-site repository owns the hosting application and online TA:
+The optional course TA is embedded in lessons and uses public course evidence. It is distinct from the website chatbot and the workshop assistant. The portable lessons work without the TA; assistant use and external readings require internet access.
 
-- [Course synchronization](../../scripts/sync-ai-course.mjs) validates and copies built public files, records checksums, and rebuilds the TA corpus.
-- [Public course snapshot](../../public/teaching/ai-solutions/) is generated from the canonical course; do not edit it as the lesson source.
-- [Release manifest](../../content/ai-solutions-release.json) records public file hashes.
-- [TA maintenance guide](../../lib/course-kb/README.md) documents retrieval, the API, storage, limits, and tests.
-- [KB builder](../../scripts/build-course-kb.mjs) extracts public course HTML. It does not ingest these review instructions or private records.
+## Keep these areas separate
 
-Use a clean checkout or worktree for a release. Inspect current Git status and remote history before publishing; preserve concurrent personal-site work. The dated validation record identifies the tested course release. Future production changes must be checked separately.
+- **Current review inputs:** this README, the review brief, repository map, instructional plan, validation record, current source/assets/tests, generated public course, and relevant research notes.
+- **Historical planning:** [archive/planning](source-map.md#review-boundaries-and-evidence-order). The old root planning filenames are compatibility pointers, not competing current plans.
+- **Retired implementation:** [site/archive](source-map.md#review-boundaries-and-evidence-order). It contains old studios, pathways, and standalone deployment packaging; none is in the active build.
+- **Offering operations:** `offerings/`. Dates, enrollment, Canvas identifiers, grades, old assessments, and research configurations do not define this independent course. Do not scan or run those scripts for a general course review.
+- **Legacy technical examples:** `domain-examples/`. Optional historical reference, not required student work.
+- **Public visual evidence:** [docs/evidence](evidence/README.md).
+- **Private operations evidence:** ignored `private/`. Account screenshots and configuration records are not reviewer inputs.
 
-The course TA, general website chatbot, and workshop TA are separate services. The static course and workbook can be used without the online course TA.
+The surrounding repository contains other courses and pre-existing work. A clean course review does not require resetting, deleting, staging, or publishing that material. This repository currently has local Git history and no configured remote; the personal website has its own Git and deployment workflow.
+
+## Hosting repository handoff
+
+The hosting repository owns [course synchronization](../../scripts/sync-ai-course.mjs), the [generated public snapshot](../../public/teaching/ai-solutions/), its [release manifest](../../content/ai-solutions-release.json), and the [TA maintenance guide](../../lib/course-kb/README.md). These documents and the Canvas handoff folder are not TA corpus inputs or public runtime assets. The [portable Canvas package and source reference](canvas/README.md) are separate from the destination-specific [live installation record](canvas-live-integration.md).

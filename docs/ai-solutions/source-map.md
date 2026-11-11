@@ -2,6 +2,8 @@
 
 Use this map to find the current source, compare it with the live course, and understand the separate hosting application. The course has one maintained local source and one generated public copy. Historical files are retained for provenance rather than used as active inputs.
 
+The maintained audience is students from any discipline, with no prerequisites: no programming, prior AI or business knowledge, specific-tool experience, or paid AI access is assumed. “Practical AI problem-solving for everyone” is the framing; Building AI Solutions remains the course name. Business cases and economics are explained examples within the common real-world problem-solving path.
+
 ## Source ownership
 
 | Concern | Owning file or directory | Generated or online result |
@@ -18,8 +20,10 @@ Use this map to find the current source, compare it with the live course, and un
 | Shared course presentation | `site/assets/core.css` | Course layout, theme, responsive and print rules |
 | Navigation, checks, progress, embedded TA panel | `site/assets/site.js` | Learn/Try/Build/Finish and saved study state |
 | Portable workbook format and safe merge | `site/assets/workbook.js` | Local notes and JSON backup/restore |
-| Static and model checks | `site/check_site.py`, `test_workbook.cjs`, `test_practice.cjs`, `test_lesson_figures.cjs` | Link/alignment checks and 63 model/workbook tests in the decision-challenge update |
+| Static, model and delivery checks | `site/check_site.py`, `test_workbook.cjs`, `test_practice.cjs`, `test_lesson_figures.cjs`, `test_delivery.cjs` | Link/alignment checks and 68 workbook/model/delivery tests in the Canvas-profile release |
 | Build and browser evidence | `DEVELOPMENT_AND_VALIDATION.md`, `VISUAL_QA_REVIEW.md` | Dated results and remaining validation |
+| Canvas delivery, native assessment and progress | `integrations/canvas/README.md`, `build_package.py`, `mapping.json` | Reproducible cartridge with twelve native pages/check-ins, five rubrics and weighted milestones, discussion and 29 requirements |
+| Actual Canvas installation and verification | `integrations/canvas/LIVE_INTEGRATION.md`, `live-verification.json` | Destination-specific IDs, policies, screenshots, observed Student View behavior and limits; not TA input |
 
 The builder uses only current course sources and its seven explicit assets. It does not read historical offering JSON, Canvas records, old studios, private screenshots, or external textbook files. Student-facing text does not come from the old course plans.
 
