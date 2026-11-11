@@ -7,7 +7,6 @@ export const INDEXABLE_PATHS = [
   "/about",
   "/teaching",
   "/projects",
-  "/projects?view=publications",
   ...PROJECTS.map(({ slug }) => `/projects/${slug}`),
   "/teaching/ai-solutions/index.html",
 ] as const;

@@ -31,7 +31,7 @@ export default async function ProjectPage({ params }: Props) {
     <div className="min-h-screen min-w-0 overflow-x-hidden text-slate-900">
       <NavBar />
       <main id="main-content" className="mx-auto max-w-5xl px-5 pb-20 pt-32 sm:px-8 sm:pt-36">
-        <Link href="/projects" className="inline-flex min-h-11 items-center text-sm font-medium text-teal-800 underline underline-offset-4">← All projects</Link>
+        <Link href="/projects" className="inline-flex min-h-11 items-center text-sm font-medium text-teal-800 underline underline-offset-4">← Projects &amp; research</Link>
         <p className="mt-7 text-xs font-semibold uppercase tracking-[0.18em] text-teal-800">{project.kind} · {project.category}</p>
         <h1 className="mt-4 max-w-4xl text-4xl font-semibold tracking-tight sm:text-6xl">{project.name}</h1>
         <p className="mt-6 max-w-2xl text-lg leading-relaxed text-slate-600">{project.summary}</p>
@@ -69,7 +69,7 @@ export default async function ProjectPage({ params }: Props) {
           <h2 id="research-connections" className="text-2xl font-semibold">Research connections</h2>
           <ul className="mt-4 divide-y divide-slate-200">{researchConnections.map(({ publication, relationship }) => <li key={publication.id} className="py-5">
             <p className="text-xs font-medium text-slate-500">{publication.year} · {publicationKindLabel(publication)} · {relationship === "direct" ? "Project publication" : "Related research"}</p>
-            <h3 className="mt-2 text-base font-semibold leading-relaxed"><a href={`/projects?view=publications#${publication.id}`} className="text-teal-800 underline decoration-teal-800/30 underline-offset-4 hover:decoration-teal-800">{publication.title} →</a></h3>
+            <h3 className="mt-2 text-base font-semibold leading-relaxed"><a href={`/projects#${publication.id}`} className="text-teal-800 underline decoration-teal-800/30 underline-offset-4 hover:decoration-teal-800">{publication.title} →</a></h3>
             <a href={publication.href} target="_blank" rel="noopener noreferrer" referrerPolicy="no-referrer" className="mt-2 inline-flex min-h-8 items-center text-sm text-teal-800 underline underline-offset-4">Publication record ↗<span className="sr-only"> (opens in a new tab)</span></a>
           </li>)}</ul>
         </section>}

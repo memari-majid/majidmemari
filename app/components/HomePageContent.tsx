@@ -87,7 +87,7 @@ export function HomePageContent() {
             <p className="mt-4 max-w-2xl leading-relaxed text-slate-600">My background combines computer science, business, applied AI research, and teaching. I help people connect technical possibilities with useful, measurable outcomes.</p>
             <div className="mt-3 flex flex-wrap gap-x-6 gap-y-2 text-sm">
               <Link href="/about" className={`inline-flex min-h-11 items-center ${linkClass}`}>More about me →</Link>
-              <Link href="/projects?view=publications" className={`inline-flex min-h-11 items-center ${linkClass}`}>Research &amp; publications →</Link>
+              <Link href="/projects" className={`inline-flex min-h-11 items-center ${linkClass}`}>Research &amp; publications →</Link>
             </div>
           </div>
         </section>
@@ -107,10 +107,9 @@ export function HomePageContent() {
         <div className="mx-auto flex max-w-6xl flex-col justify-between gap-4 px-5 py-7 text-sm text-slate-600 sm:flex-row sm:px-8">
           <p>© {new Date().getFullYear()} Majid Memari</p>
           <nav aria-label="Footer" className="flex flex-wrap gap-x-5 gap-y-3">
-            <Link href="/projects" className="hover:text-teal-800">Projects</Link>
+            <Link href="/projects" className="hover:text-teal-800">Projects &amp; research</Link>
             <Link href="/teaching" className="hover:text-teal-800">Teaching</Link>
             <Link href="/about" className="hover:text-teal-800">About</Link>
-            <Link href="/projects?view=publications" className="hover:text-teal-800">Publications</Link>
             <a href={SITE.github} rel="me" className="hover:text-teal-800">GitHub</a>
           </nav>
         </div>

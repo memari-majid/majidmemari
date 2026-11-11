@@ -104,7 +104,7 @@ export const PROJECTS: readonly Project[] = [
     publicDemo: true,
     kind: "Bookkeeping workspace",
     group: "applications",
-    name: "AI-CPA · AI Bookkeeping",
+    name: "AI Bookkeeping",
     category: "Accounting & finance",
     summary: "An AI-assisted bookkeeping workspace with a conversational assistant named Saul.",
     purpose: "Demonstrate how an AI-assisted workspace can organize and explain fictional bookkeeping examples.",
@@ -256,9 +256,3 @@ export const FEATURED_PROJECT_SLUGS = ["datagovai", "ai-classsims", "carewise"];
 export function getProject(slug: string) {
   return PROJECTS.find((project) => project.slug === slug);
 }
-
-export const PROJECT_GROUPS = [
-  { id: "applications", title: "AI applications & tools", description: "Assistants and workspaces for specialized information, reflection, finance, and evaluation." },
-  { id: "learning", title: "Courses & learning experiences", description: "A guided course, classroom simulation, and teaching assistants for learners and instructors." },
-  { id: "research", title: "Research & case studies", description: "Published studies, research contributions, and earlier concepts, with their methods, sources, and scope." },
-] as const;
