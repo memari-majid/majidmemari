@@ -565,9 +565,9 @@ test('all twelve labs have a bounded phase-safe context with a genuine published
 test('Canvas TA directions follow the native exchange-before-quiz order', () => {
   const installed = JSON.parse(readFileSync(path.resolve('docs/ai-solutions/canvas/live-verification.json'), 'utf8'));
   for (const unit of CANVAS_ASYNC_LAYOUT.peerExchangeUnits) {
-    const module = installed.modules.find((entry: { title: string }) => entry.title.startsWith(`Unit ${String(unit).padStart(2, '0')}:`));
-    assert(module, `Native Unit ${unit} must exist`);
-    const items = module.items as { title: string; type: string[] }[];
+    const currentModule = installed.modules.find((entry: { title: string }) => entry.title.startsWith(`Unit ${String(unit).padStart(2, '0')}:`));
+    assert(currentModule, `Native Unit ${unit} must exist`);
+    const items = currentModule.items as { title: string; type: string[] }[];
     const lesson = items.findIndex(item => item.title.startsWith('Unit ') && item.title.includes('lesson:'));
     const exchange = items.findIndex(item => item.type.includes('discussion_topic'));
     const quiz = items.findIndex(item => item.type.includes('quiz'));
