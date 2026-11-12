@@ -9,3 +9,28 @@
 .lesson-figure-insight.lf-caution{border-left-color:var(--lf-amber);background:#fff6e7;color:#653d0a}
 /* Printed lessons use the complete worked explanation, not a half-revealed scene. */
 @media print{.lesson-figure-enhancement{display:none!important}.lesson-figure [data-lf-fallback][hidden]{display:block!important}}
+
+/* Moving marks retain their identity; color meanings are stated beside each plot. */
+.lesson-figure{--lf-paper:var(--surface,#fff);--lf-cream:var(--paper,#fff);--lf-ink:var(--ink,#243249);--lf-navy:var(--navy,#182a46);--lf-muted:var(--role-evidence,var(--muted,#526a7d));--lf-blue:var(--blue,#2563eb);--lf-teal:var(--teal,#007f7a);--lf-amber:var(--role-caution,#9d5b04);background:var(--lf-paper)}
+.lesson-figure-playback-note{flex-basis:100%;font-size:.76rem;line-height:1.5;color:var(--lf-muted);max-width:70ch}
+.lf-moving-mark{transform-box:view-box;transform-origin:0 0;transition:transform .58s ease,opacity .28s ease}
+.lf-moving-size{transition:width .58s ease}
+.lf-previous-outline{fill:none;stroke:var(--lf-muted);stroke-width:1.5;stroke-dasharray:5 4;opacity:.72}
+.lf-capacity-boundary{stroke:var(--lf-amber);stroke-width:2.5;stroke-dasharray:6 3}
+.lf-release-fits{fill:var(--lf-teal);stroke:var(--lf-paper);stroke-width:2}
+.lf-release-overflow{fill:var(--role-caution-bg,#fff6e7);stroke:var(--lf-amber);stroke-width:2;stroke-dasharray:5 3}
+.lesson-figure .lf-release-label{fill:#fff;font-size:11px;font-weight:650}
+.lesson-figure .lf-overflow-label{fill:var(--lf-amber);font-size:10px;font-weight:650}
+.lf-token-route{fill:none;stroke:var(--lf-muted);stroke-width:1.1;stroke-dasharray:3 4;opacity:.48}
+.lf-task-token circle{fill:var(--lf-teal);stroke:var(--lf-paper);stroke-width:1.5}
+.lf-token-waiting circle{fill:var(--lf-amber)}
+.lf-token-deferred circle{fill:var(--lf-paper);stroke:var(--lf-amber);stroke-width:2;stroke-dasharray:3 2}
+.lesson-figure .lf-task-token text{fill:#fff;font-size:9px;font-weight:750}
+.lesson-figure .lf-token-deferred text{fill:var(--lf-amber)}
+@media(prefers-reduced-motion:reduce){.lf-moving-mark,.lf-moving-size{transition:none!important}}
+/* Keep essential new plot labels at readable size; only the figure scrolls. */
+.lesson-figure-chart.lf-large-labels{max-width:100%;min-width:0;overflow-x:auto}
+.lesson-figure-chart.lf-large-labels svg{min-width:720px}
+.lesson-figure-chart.lf-large-labels svg text{font-size:14px}
+.lesson-figure .lf-large-labels .lf-task-token text{font-size:12px}
+@media print{.lesson-figure-chart.lf-large-labels svg{min-width:0}}
