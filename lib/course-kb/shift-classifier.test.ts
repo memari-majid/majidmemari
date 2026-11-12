@@ -214,3 +214,16 @@ test("Vercel request-context OIDC is allowed without exposing or reading a crede
   assert.equal(shiftModelAvailable({ AI_GATEWAY_API_KEY: "test-placeholder" }), true);
   assert.equal(shiftModelAvailable({ VERCEL_OIDC_TOKEN: "test-placeholder" }), true);
 });
+
+
+test("explicit held filters, drafting prohibitions and compound reviews cannot silently lose their meaning", () => {
+  const route = "Route held messages to the owner.";
+  assert.throws(() => validateShiftClassification({ mapping: [{ step: 1, actions: [{ type: "route_to_owner", quote: route, route_to_owner: { only_if_held: false } }] }] }, [route]));
+  const draft = "Ask AI to draft the policy’s conditions and never claim a booking changed.";
+  assert.throws(() => validateShiftClassification({ mapping: [{ step: 1, actions: [{ type: "ai_draft", quote: draft, ai_draft: { states_conditions: true, forbids_promises: false } }] }] }, [draft]));
+  const review = "Check tone, accuracy, commitments and confirmations; hold unsupported commitments.";
+  assert.throws(() => validateShiftClassification({ mapping: [{ step: 1, actions: [] }] }, [review]));
+  assert.throws(() => validateShiftClassification({ mapping: [{ step: 1, actions: [{ type: "human_check", quote: review, human_check: { checks: ["tone", "accuracy"] } }] }] }, [review]));
+  const mapping = [{ step: 1, actions: [{ type: "human_check", quote: review, human_check: { checks: ["tone", "accuracy", "commitments", "confirmations"] } }] }];
+  assert.deepEqual(validateShiftClassification({ mapping }, [review]), mapping);
+});
