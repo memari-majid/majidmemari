@@ -212,44 +212,45 @@
   {
     "unit": 6,
     "page": "unit-06.html",
-    "title": "The speed trophy",
-    "role": "Test designer",
-    "goal": "Compare complete effort on matched tasks while preserving a quality threshold.",
-    "scenario": "Three fictional methods each handle the same twelve questions. The fast draft method advertises only its generation time. Choose how you would compare them.",
+    "title": "The event table that invents a room",
+    "role": "Extraction test designer",
+    "goal": "Check a structured AI output against its input and compare complete effort on matched cases without lowering quality.",
+    "scenario": "A fictional community calendar needs a table from twelve permitted event notices. The output has three columns: Event, Date, Location. You may use the supplied candidate table without an AI account; no live extractor has been run. A fast method advertises only its table-generation time. Choose how you would compare it with manual entry.",
     "choices": [
       {
         "id": "1",
         "label": "Pick the lowest draft time",
-        "consequence": "Review, repair, and unacceptable outputs can reverse the result."
+        "consequence": "A fast table can still contain guessed fields. Checking, repair, and unacceptable rows can reverse the result."
       },
       {
         "id": "2",
         "label": "Compare complete effort and acceptable outputs on the same cases",
-        "consequence": "A matched task set and a common quality threshold make the comparison interpretable."
+        "consequence": "The same notices, field rules, and final-row checks make the time and quality comparison interpretable."
       },
       {
         "id": "3",
-        "label": "Give the fast method easier questions",
-        "consequence": "Changing the task set confounds method with case difficulty."
+        "label": "Give the fast method easier notices",
+        "consequence": "Changing the notices confounds the method with case difficulty and can hide missing-field failures."
       }
     ],
     "evidence": [
       {
-        "label": "Manual baseline",
-        "detail": "96 total minutes; 12 of 12 outputs acceptable."
+        "label": "Source notices and candidate rows",
+        "detail": "Supplied fictional inputs: A — “Repair meetup, 12 May, Library Room 2.” B — “Garden exchange, 15 May; location to follow.” Candidate rows (Event | Date | Location): Repair meetup | 12 May | Library Room 2; Garden exchange | 15 May | Library Room 2. Compare each field with its own notice; no year is supplied."
       },
       {
-        "label": "Fast draft",
-        "detail": "24 draft + 48 review + 36 repair = 108 total minutes; 9 of 12 acceptable."
+        "label": "Declare the quality rule first",
+        "detail": "An acceptable row matches its notice and records an absent field as “Not supplied”; it must not borrow another event’s detail or guess a year. Use all twelve notices for every method. Time the full attempt from opening inputs through saving results, including setup, checking and corrections within the stated stages. The chosen classroom rule is 12/12 acceptable final rows and at least 10% lower effort than manual entry."
       },
       {
-        "label": "Reviewed workflow",
-        "detail": "36 draft + 36 review + 12 repair = 84 total minutes; 12 of 12 acceptable."
+        "label": "Matched methods: complete effort and quality",
+        "detail": "Supplied benchmark on the same twelve notices: manual entry uses 96 total minutes with 12/12 acceptable rows. Fast extraction uses 24 draft + 48 review + 36 attempted repair = 108 total minutes; 9/12 rows are acceptable after that work, so three still fail the rule. The reviewed method uses a field instruction, the “Not supplied” rule, source checks and corrections: 36 draft + 36 review + 12 repair = 84 total minutes; 12/12 final rows are acceptable. These are fictional benchmark counts and times, not your observations or a live tool-performance claim."
       }
     ],
-    "challenge": "Which method would you take to a bounded next test? Calculate its effort difference from baseline and state the quality condition.",
-    "worked": "The reviewed workflow uses 84 rather than 96 minutes: 12 minutes less, or 12/96 = 12.5% less complete effort, with 12/12 acceptable in this supplied set. Fast drafting uses 108 minutes and has only 9/12 acceptable outputs. These fictional cases do not prove performance on new tasks. Keep cases, criteria, assistance, and timing definitions consistent.",
-    "transfer": "Define your matched case set, complete-effort measurement, and quality threshold before you compare methods."
+    "challenge": "Repair the unsupported field in the Garden exchange row. Which method earns a bounded next test under both declared rules? Calculate its reduction from the 96-minute baseline. If the reviewed method needs six more repair minutes, does your recommendation change?",
+    "worked": "Garden exchange’s location is “Not supplied”; Library Room 2 belongs only to Repair meetup. Preserve 15 May as stated and do not invent a year. Reviewed extraction uses 84 rather than 96 minutes: 12 minutes less, or 12/96 = 12.5%, with 12/12 acceptable rows in this supplied set. It meets both chosen classroom rules. Fast extraction uses 108 minutes and leaves three unacceptable rows. Six added repair minutes raise the reviewed total to 90: (96 − 90)/96 = 6.25%, missing the 10% effort rule even if quality stays 12/12. Retain a manual fallback and revise or investigate another justified benefit. Twelve fictional cases cannot establish future reliability; keep input cases, quality definitions, assistance and timing consistent.",
+    "transfer": "For your same capstone, define an inspectable input/output contract and one missing or ambiguous input. If extracting, name the columns and missing-field rule; if using another capability, name its equivalent quality check. Predeclare matched cases, complete-effort timing and a continue/revise/stop rule.",
+    "activityRevision": 2
   },
   {
     "unit": 7,

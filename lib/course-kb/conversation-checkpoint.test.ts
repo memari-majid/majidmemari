@@ -3,9 +3,25 @@ import assert from 'node:assert/strict';
 import { checkpointCourseConversation } from './conversation-checkpoint';
 import { parseCourseSession, serializeCourseSession } from './session';
 import type { CourseChatMessage, CourseLearningPhase } from './types';
+import { LEARNING_ACTIVITIES, learningStorageKeys } from './learning';
 
 const user = (phase?: CourseLearningPhase): CourseChatMessage => ({ id: 'question', role: 'user', parts: [{ type: 'text', text: 'Coach my recorded attempt.' }], ...(phase ? { metadata: { learningPhase: phase } } : {}) });
 const assistant = (phase?: CourseLearningPhase): CourseChatMessage => ({ id: 'reply', role: 'assistant', parts: [{ type: 'text', text: 'A partial explanation' }], ...(phase ? { metadata: { learningPhase: phase } } : {}) });
+
+test('closing revised-activity coaching checkpoints its interrupted request without rewriting earlier history', () => {
+  const keys = learningStorageKeys({ ...LEARNING_ACTIVITIES[5], activityRevision: 2 });
+  const earlier = 'Original earlier-activity conversation — preserved exactly.';
+  const saved = new Map([[keys.previous[0].conversation, earlier]]);
+  let stops = 0;
+  const result = checkpointCourseConversation({ sessionReady: true, lesson: 'unit-06.html', messages: [user('investigate'), assistant('investigate')], interrupted: new Set(), busy: true }, raw => saved.set(keys.conversation, raw), () => { stops++; });
+  assert.equal(result.saved, true);
+  assert.equal(stops, 1);
+  assert.equal(saved.get(keys.previous[0].conversation), earlier);
+  const resumed = parseCourseSession(saved.get(keys.conversation)!).messages;
+  assert.equal(resumed[0].metadata?.requestInterrupted, true);
+  assert.equal(resumed[1].metadata?.finishReason, 'error');
+  assert.deepEqual(resumed.map(message => message.metadata?.learningPhase), ['investigate', 'investigate']);
+});
 
 test('saved coaching messages retain their original phase, independently of the current step', () => {
   for (const phase of ['decide', 'investigate', 'revise', 'transfer'] as const) {

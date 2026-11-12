@@ -85,8 +85,8 @@
     },
     {
       "path": "assets/ta-activities.json",
-      "bytes": 25442,
-      "sha256": "bbe716d11af1c1df9f5181bace556ac9f4b6e47963cc15416178734f885f83f7"
+      "bytes": 27725,
+      "sha256": "47d85d02526e73d57616568a82655446d9d4eeb9a8d1b1c0aa94fd909a361c58"
     },
     {
       "path": "assets/workbook.js",
@@ -115,8 +115,8 @@
     },
     {
       "path": "downloads/course-site.zip",
-      "bytes": 254917,
-      "sha256": "1018282cf1c3f2c143742584e36b4908f6ced63e4b173fb4e1b403bb337af6f3"
+      "bytes": 268316,
+      "sha256": "3fb89d635069a8517e9a09fc1e720ad081d22ffa5920f8046bd5d65ddd1d7b3d"
     },
     {
       "path": "downloads/project-record.txt",
@@ -145,8 +145,8 @@
     },
     {
       "path": "instructor.html",
-      "bytes": 7138,
-      "sha256": "14d08b8cb585a7fa3012d286d6b855f392a8078ed0a47d33d93f514bc5d48967"
+      "bytes": 12855,
+      "sha256": "1299e4c13df3a00cb9d180e377bc06e0e9439220ae45c4334e50d6a86ab05238"
     },
     {
       "path": "labs/index.html",
@@ -155,28 +155,28 @@
     },
     {
       "path": "milestone-1.html",
-      "bytes": 6485,
-      "sha256": "fe44fcab2d4bda59e6c5963b6b58962930b747db333dc05b4269417e1aeb12a0"
+      "bytes": 8939,
+      "sha256": "4f861ca3ffcdf0b02c33bb0f515702e1d0cbd9cea7ca55960ed25aafbaef89ce"
     },
     {
       "path": "milestone-2.html",
-      "bytes": 6536,
-      "sha256": "120da7d97a9834c1b7543dfbc02b1d4a6c9478ad8da0c25037331251bb397391"
+      "bytes": 8994,
+      "sha256": "f9a50552b53884927b0af18dfd523de401f2bf3be0d2d01f2f98bd68920a467b"
     },
     {
       "path": "milestone-3.html",
-      "bytes": 6243,
-      "sha256": "1c2d3ca5e409b70755bae13c8b60aacfd24bf2e1f04a8838131bd3d8e98f16e0"
+      "bytes": 8749,
+      "sha256": "afdc277432b34a724faa66f188f404893b39b9a96112c59474fa1fdac7969ea4"
     },
     {
       "path": "milestone-4.html",
-      "bytes": 6934,
-      "sha256": "18d111e36d50f20d349f823f9ab0f25281d632a470fc7d31c009b64984a39559"
+      "bytes": 9389,
+      "sha256": "4ba1b1c2b9565a4cdb5b1fb608c4836fa930f195ab802e9b9fedb4b18640abb4"
     },
     {
       "path": "milestone-5.html",
-      "bytes": 6738,
-      "sha256": "d20e003f20419c0a00a9e664e5e159ad0f639698b65dc3331c42c7da5ea5818c"
+      "bytes": 9451,
+      "sha256": "220181b0fb673eed10b4341cd5cade4c13ef81276caf6b6c7d48b870a22aa4f4"
     },
     {
       "path": "module-00.html",
@@ -270,8 +270,8 @@
     },
     {
       "path": "project.html",
-      "bytes": 24560,
-      "sha256": "8c8e524dec2d237570d436e9bfe935a5a096f6d9ca31f4688edab563f7913c26"
+      "bytes": 40474,
+      "sha256": "b93187d6954e3eeb046fcadbb49bb6c2cbf8e96fdddc08b4788c2fa32a9c6d65"
     },
     {
       "path": "projects.html",
@@ -280,8 +280,8 @@
     },
     {
       "path": "readings.html",
-      "bytes": 21226,
-      "sha256": "94096ed4233b11ab7a53fa7dc3d0fa0fdd21585311cd38c4333ef1440732dbae"
+      "bytes": 22125,
+      "sha256": "fb6ac8aa78136614f5673daaca50754501ce81a5ae453d6a045d3d5b86fbd167"
     },
     {
       "path": "resources.html",
@@ -300,13 +300,13 @@
     },
     {
       "path": "unit-02.html",
-      "bytes": 23441,
-      "sha256": "2c8fd0d02b37f18f2fa3042ac278d20b9ff51d8a747ab781ad5124bf92041f49"
+      "bytes": 23533,
+      "sha256": "b02b5bff91050d87df9875ce81d7569415e25e7efb27b43c1ec6bae1c7fa17fa"
     },
     {
       "path": "unit-03.html",
-      "bytes": 26096,
-      "sha256": "5adf4d6f52ac4ad049ff1a95c53a8bec73f6c30fb2ac0f796056cdf8c4835a78"
+      "bytes": 28550,
+      "sha256": "603e068ada38a1da3cec2c254a95b6ac340c3acdde2f0983dfee768c9a68bf10"
     },
     {
       "path": "unit-04.html",
@@ -315,43 +315,43 @@
     },
     {
       "path": "unit-05.html",
-      "bytes": 37416,
-      "sha256": "1fd5401a981c7eeb98861b0c22966822a4181cfb508268f4fe7ee046bdde8e9a"
+      "bytes": 42632,
+      "sha256": "8339ca258c3749cebfa9c5daee895d8861e8e58a52446b39a6a9635698301213"
     },
     {
       "path": "unit-06.html",
-      "bytes": 24908,
-      "sha256": "7dcec1329cac359933e4b44ced0db0286f4e9cd711db20013ad806a67e5c2644"
+      "bytes": 27731,
+      "sha256": "e0c55c58116f9785ac1444fda1d0fb058fb1382ce3d9e3b6db4e926b206ca824"
     },
     {
       "path": "unit-07.html",
-      "bytes": 26087,
-      "sha256": "8a51ba12d15193fd5afebc86ddd0ca0fec4d119fd554e858fd917f73e619659b"
+      "bytes": 29194,
+      "sha256": "f4486fbd08762bd10f790d315b078d9977cc06123b0daa8503061c459352ee71"
     },
     {
       "path": "unit-08.html",
-      "bytes": 24793,
-      "sha256": "9535bb28de2ceddc39b0b44e96cbc23b0a8021a5a05841bedf057c8ef73f7dc5"
+      "bytes": 24868,
+      "sha256": "9f96149c4f76570a80f6c4f567c10c5e00421ca76a7df1095cb69bbc2962ccc8"
     },
     {
       "path": "unit-09.html",
-      "bytes": 24351,
-      "sha256": "0ba7cdf84cf8ebcbffbd17e6e2dde91c6e55c82990f676b5e96040c0f67b8c1c"
+      "bytes": 24431,
+      "sha256": "de0bdf3c864349bb803dcf854b9de3e0635bf14e644bfbb8fc287b7b77c299aa"
     },
     {
       "path": "unit-10.html",
-      "bytes": 29081,
-      "sha256": "b2412402bfd53a0e2741aab96e937e8e08e2187e39c20af6df305b56ec6e5918"
+      "bytes": 31536,
+      "sha256": "ec89dde7a1ad92b23e938a884d85e3d2224a1c037e08e59d2e12a9e59d98e613"
     },
     {
       "path": "unit-11.html",
-      "bytes": 23039,
-      "sha256": "1d1cd8a15d2616b7096ed7ff5e979366b8384d7575d69d6f7bab357e1ea04f19"
+      "bytes": 23110,
+      "sha256": "1e39fe53047470c00a49d43a322e3f8450e9bae0278938f48ce6f49a47977dc9"
     },
     {
       "path": "unit-12.html",
-      "bytes": 27469,
-      "sha256": "69c99ace1405fa3ce692f04209facc2e6f37cd7b76ef4b3e12cfd252e703df22"
+      "bytes": 30182,
+      "sha256": "6d2c374fcb10ecd937e6653082586c6e081ad48d1d72923f6fbb7ad6e5b06177"
     },
     {
       "path": "venture-studio.html",

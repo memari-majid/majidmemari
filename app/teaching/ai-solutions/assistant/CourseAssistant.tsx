@@ -10,7 +10,7 @@ import { courseEvidenceLink, courseEvidenceNavigation, coursePageLabel, normaliz
 import { COURSE_SESSION_KEY, parseCourseSession, serializeCourseSession, shouldPersistCourseSession } from "@/lib/course-kb/session";
 import type { CourseChatMessage } from "@/lib/course-kb/types";
 import remarkGfm from "remark-gfm";
-import { LEARNING_ACTIVITIES, learningActivity, type LearningRequest } from "@/lib/course-kb/learning";
+import { LEARNING_ACTIVITIES, learningActivity, learningStorageKeys, type LearningRequest } from "@/lib/course-kb/learning";
 import { LearningLab } from "./LearningLab";
 import { checkpointCourseConversation } from "@/lib/course-kb/conversation-checkpoint";
 
@@ -46,7 +46,8 @@ function groundedMarkdownComponents(sources: ReadonlySet<string>, canvasDelivery
 
 function CourseConversation({ embedded = false, lesson = "", canvasDelivery = false, learning }: { embedded?: boolean; lesson?: string; canvasDelivery?: boolean; learning?: LearningRequest }) {
   const currentLesson = normalizeCoursePage(lesson);
-  const sessionKey = learning ? `${COURSE_SESSION_KEY}:lab:${currentLesson}` : COURSE_SESSION_KEY;
+  const labActivity = learning ? learningActivity(currentLesson) : undefined;
+  const sessionKey = labActivity ? learningStorageKeys(labActivity).conversation : COURSE_SESSION_KEY;
   const learningRef = useRef(learning);
   learningRef.current = learning;
   const [sessionReady, setSessionReady] = useState(false);
@@ -230,7 +231,7 @@ export function CourseAssistant({ embedded = false, lesson = "", canvasDelivery 
     </div>
     {mode === 'lab' && <>
       {!learningActivity(lesson) && <div className="mb-5"><label htmlFor="lab-unit" className="text-sm font-semibold">Choose your current unit</label><select id="lab-unit" value={selectedPage} onChange={e => setSelectedPage(e.target.value)} className="mt-2 min-h-11 w-full rounded-lg border border-slate-300 bg-white p-3 text-sm">{LEARNING_ACTIVITIES.map(a => <option key={a.page} value={a.page}>Unit {a.unit} · {a.title}</option>)}</select></div>}
-      <LearningLab key={activity.page} activity={activity} canvasDelivery={canvasDelivery} renderCoach={learning => <CourseConversation key={activity.page} embedded lesson={activity.page} canvasDelivery={canvasDelivery} learning={learning} />} />
+      <LearningLab key={learningStorageKeys(activity).record} activity={activity} canvasDelivery={canvasDelivery} renderCoach={learning => <CourseConversation key={learningStorageKeys(activity).conversation} embedded lesson={activity.page} canvasDelivery={canvasDelivery} learning={learning} />} />
     </>}
     {mode === 'help' && <CourseConversation key={`general-help:${normalizeCoursePage(lesson) || activity.page}`} embedded lesson={normalizeCoursePage(lesson) || activity.page} canvasDelivery={canvasDelivery} />}
   </main>;

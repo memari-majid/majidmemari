@@ -1,22 +1,66 @@
 import activities from '../../public/teaching/ai-solutions/assets/ta-activities.json' with { type: 'json' };
 import { CourseRequestError } from './validation';
 import type { CourseChunk } from './types';
+import { COURSE_SESSION_KEY } from './session';
 
-export type LearningActivity = (typeof activities)[number];
+export type LearningActivity = (typeof activities)[number] & { activityRevision?: number };
 export const LEARNING_ACTIVITIES: readonly LearningActivity[] = activities;
 export const LEARNING_PHASES = ['decide', 'investigate', 'revise', 'transfer'] as const;
 export type LearningPhase = (typeof LEARNING_PHASES)[number];
-export type LearningRequest = { phase: LearningPhase; choice: string; attempt: string; revision: string; transfer: string };
+export type LearningRequest = { phase: LearningPhase; choice: string; attempt: string; revision: string; transfer: string; activityRevision?: number };
 export type LearningRecord = LearningRequest & { version: 1; complete: boolean; committed: boolean; reviewedEvidence: number[] };
-export const emptyLearningRecord = (): LearningRecord => ({ version: 1, phase: 'decide', choice: '', attempt: '', revision: '', transfer: '', complete: false, committed: false, reviewedEvidence: [] });
+type ActivityIdentity = Pick<LearningActivity, 'page' | 'activityRevision'>;
+export type PreviousLearningData = { kind: 'record' | 'conversation'; activityRevision: number; raw: string };
+export function learningActivityRevision(a?: Pick<LearningActivity, 'activityRevision'>): number {
+  const revision = a?.activityRevision;
+  if (revision === undefined) return 1;
+  if (typeof revision !== 'number' || !Number.isInteger(revision) || revision < 1 || revision > 100) throw new RangeError('An authored activity revision must be an integer from 1 to 100.');
+  return revision;
+}
+export function learningStorageKeys(a: ActivityIdentity) {
+  const revision = learningActivityRevision(a);
+  const keysFor = (value: number) => {
+    const suffix = value > 1 ? `:activity-${value}` : '';
+    return { record: `course-decision-lab:v1:${a.page}${suffix}`, conversation: `${COURSE_SESSION_KEY}:lab:${a.page}${suffix}` };
+  };
+  return { ...keysFor(revision), previous: Array.from({ length: revision - 1 }, (_, index) => ({ activityRevision: index + 1, ...keysFor(index + 1) })) };
+}
+export const emptyLearningRecord = (a?: ActivityIdentity): LearningRecord => ({ version: 1, phase: 'decide', choice: '', attempt: '', revision: '', transfer: '', complete: false, committed: false, reviewedEvidence: [], ...(learningActivityRevision(a) > 1 ? { activityRevision: learningActivityRevision(a) } : {}) });
 export function learningActivity(page: string): LearningActivity | undefined { return LEARNING_ACTIVITIES.find(activity => activity.page === page); }
+/** Old work is copied as text, never mapped onto a replacement scenario. */
+export function previousLearningExport(unit: number, saved: PreviousLearningData): string {
+  return [`Building AI Solutions — Unit ${unit}: previous activity ${saved.kind} (revision ${saved.activityRevision})`,
+    'Preserved original data from an earlier activity. Choice and evidence indexes belong to that earlier activity. This is not a current attempt, a grade or a submission.', saved.raw].join('\n\n');
+}
+export function restoreLearningActivitySession(a: LearningActivity, read: (key: string) => string | null) {
+  const keys = learningStorageKeys(a);
+  const record = restoreActivityRecord(read(keys.record), a);
+  const previous: PreviousLearningData[] = [];
+  for (const old of keys.previous) for (const kind of ['record', 'conversation'] as const) {
+    const raw = read(old[kind]);
+    if (raw !== null) previous.push({ kind, activityRevision: old.activityRevision, raw });
+  }
+  return { record, previous };
+}
+
+export function validateLearningActivityRevision(a: Pick<LearningActivity, 'activityRevision'>, value: unknown): number {
+  const expected = learningActivityRevision(a);
+  const actual = value === undefined ? 1 : value;
+  if (actual !== expected) throw new CourseRequestError(400, 'This decision lab has changed. Reopen the course TA to use the current activity. Earlier saved work remains separate and available to export.');
+  return expected;
+}
 
 /** All learner fields are untrusted reference data, never prompt instructions. */
 export function validateLearningRequest(value: unknown, page: string): LearningRequest | undefined {
   if (value === undefined) return undefined;
   const a = learningActivity(page);
-  if (!a || !value || typeof value !== 'object' || Array.isArray(value)) throw new CourseRequestError(400, 'Choose a current unit decision lab.');
+  if (!a) throw new CourseRequestError(400, 'Choose a current unit decision lab.');
+  return validateActivityRequest(value, a);
+}
+function validateActivityRequest(value: unknown, a: LearningActivity): LearningRequest {
+  if (!value || typeof value !== 'object' || Array.isArray(value)) throw new CourseRequestError(400, 'Choose a current unit decision lab.');
   const v = value as Record<string, unknown>;
+  const activityRevision = validateLearningActivityRevision(a, v.activityRevision);
   if (!LEARNING_PHASES.includes(v.phase as LearningPhase)) throw new CourseRequestError(400, 'Choose a valid learning step.');
   for (const key of ['choice', 'attempt', 'revision', 'transfer'] as const) {
     if (typeof v[key] !== 'string' || v[key].length > (key === 'choice' ? 1 : 2000)) throw new CourseRequestError(400, 'Keep each decision-lab response within 2,000 characters.');
@@ -24,25 +68,27 @@ export function validateLearningRequest(value: unknown, page: string): LearningR
   if (v.choice !== '' && !a.choices.some(c => c.id === v.choice)) throw new CourseRequestError(400, 'Choose an option from this decision lab.');
   if (v.phase !== 'decide' && (!v.choice || !(v.attempt as string).trim())) throw new CourseRequestError(400, 'Record your initial choice and reason before investigating.');
   if (v.phase === 'transfer' && !(v.revision as string).trim()) throw new CourseRequestError(400, 'Record your revised reasoning before applying it.');
-  return { phase: v.phase as LearningPhase, choice: v.choice as string, attempt: v.attempt as string, revision: v.revision as string, transfer: v.transfer as string };
+  return { phase: v.phase as LearningPhase, choice: v.choice as string, attempt: v.attempt as string, revision: v.revision as string, transfer: v.transfer as string, ...(activityRevision > 1 ? { activityRevision } : {}) };
 }
 export function restoreLearningRecord(raw: string | null, page: string): LearningRecord {
-  if (!raw || raw.length > 16000) return emptyLearningRecord();
+  const a = learningActivity(page);
+  return a ? restoreActivityRecord(raw, a) : emptyLearningRecord();
+}
+function restoreActivityRecord(raw: string | null, a: LearningActivity): LearningRecord {
+  if (!raw || raw.length > 16000) return emptyLearningRecord(a);
   try {
     const v = JSON.parse(raw);
-    if (v?.version !== 1) return emptyLearningRecord();
-    const request = validateLearningRequest(v, page);
-    if (!request) return emptyLearningRecord();
+    if (v?.version !== 1) return emptyLearningRecord(a);
+    const request = validateActivityRequest(v, a);
     const initialRecorded = !!request.choice && !!request.attempt.trim();
-    const activity = learningActivity(page)!;
     const savedIndexes: unknown[] = Array.isArray(v.reviewedEvidence) ? v.reviewedEvidence : [];
     const reviewedEvidence = [...new Set(savedIndexes.filter((index): index is number =>
-      typeof index === 'number' && Number.isInteger(index) && index >= 0 && index < activity.evidence.length))];
+      typeof index === 'number' && Number.isInteger(index) && index >= 0 && index < a.evidence.length))];
     return { ...request, version: 1, reviewedEvidence,
       // A damaged saved flag must not lock empty initial fields forever.
       committed: initialRecorded && (v.committed === true || request.phase !== 'decide'),
       complete: v.complete === true && initialRecorded && !!request.revision.trim() && !!request.transfer.trim() };
-  } catch { return emptyLearningRecord(); }
+  } catch { return emptyLearningRecord(a); }
 }
 export function learningSummary(a: LearningActivity, r: LearningRecord): string {
   return [`Building AI Solutions — Unit ${a.unit} decision lab: ${a.title}`, 'Fictional teaching scenario. Self-reported practice; not a grade or a submission.', `Initial choice: ${a.choices.find(c => c.id === r.choice)?.label ?? 'Not recorded'}`, `Initial reason: ${r.attempt || 'Not recorded'}`, `Revision: ${r.revision || 'Not recorded'}`, `Project action: ${r.transfer || 'Not recorded'}`, `Practice record: ${r.complete ? 'reasoning cycle recorded' : 'in progress'}`, 'Check the reasoning and add relevant work to your existing project update.'].join('\n\n');

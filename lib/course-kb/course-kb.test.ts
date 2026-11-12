@@ -15,7 +15,7 @@ import { prepareCourseHistory } from "./history";
 import { courseCompletionNotice } from "./completion";
 import type { CourseChatMessage, CourseChunk } from "./types";
 import { CANVAS_ASYNC_LAYOUT, normalizeCoursePage, coursePageLabel, courseEvidenceLink, courseEvidenceNavigation, courseAssistantInitialMode } from "./context";
-import { parseCourseSession, serializeCourseSession, shouldPersistCourseSession } from "./session";
+import { COURSE_SESSION_KEY, parseCourseSession, serializeCourseSession, shouldPersistCourseSession } from "./session";
 
 const text = (role: string, content: string) => ({ role, parts: [{ type: "text", text: content }] });
 const uiText = (role: "user" | "assistant", content: string, id = "test"): CourseChatMessage => ({ id, role, parts: [{ type: "text", text: content }] });
@@ -424,7 +424,78 @@ test("Canvas workflow guidance does not require private learner status or an exa
 });
 
 // The learning record is deliberately separate from grades, workbook notes and chat.
-const { LEARNING_ACTIVITIES, validateLearningRequest, restoreLearningRecord, learningPrompt, learningSummary, emptyLearningRecord, learningContextChunks } = await import('./learning');
+const { LEARNING_ACTIVITIES, validateLearningRequest, restoreLearningRecord, learningPrompt, learningSummary, emptyLearningRecord, learningContextChunks, learningActivityRevision, learningStorageKeys, restoreLearningActivitySession, previousLearningExport, validateLearningActivityRevision } = await import('./learning');
+test('an activity replacement starts fresh while preserving earlier records and coaching as unmapped text', () => {
+  const activity = { ...LEARNING_ACTIVITIES[5], activityRevision: 2 };
+  const keys = learningStorageKeys(activity);
+  const originalRecord = JSON.stringify({ ...emptyLearningRecord(), choice: '2', attempt: 'Review the reply against the old policy.', revision: 'The old reply needs its source.', transfer: 'Retest the reply.', phase: 'transfer', committed: true, complete: true, reviewedEvidence: [0, 2] });
+  const originalConversation = serializeCourseSession([uiText('user', 'Explain the old reply benchmark.', 'old-question'), uiText('assistant', 'A previous activity answer.', 'old-answer')], activity.page);
+  const saved = new Map<string, string>([[keys.previous[0].record, originalRecord], [keys.previous[0].conversation, originalConversation]]);
+  const snapshot = new Map(saved);
+  const first = restoreLearningActivitySession(activity, key => saved.get(key) ?? null);
+  assert.deepEqual(first.record, emptyLearningRecord(activity), 'Never restore an old choice, evidence-card index, completion or reason as a new attempt');
+  assert.deepEqual(first.previous.map(old => old.raw), [originalRecord, originalConversation]);
+  assert.deepEqual(saved, snapshot, 'Reading the legacy snapshot must not migrate, delete or rewrite it');
+  for (const old of first.previous) {
+    const exported = previousLearningExport(activity.unit, old);
+    assert(exported.endsWith(old.raw), 'Every original character remains available for copy/download');
+    assert.match(exported, /previous activity/);
+    assert.match(exported, /revision 1/);
+    assert.match(exported, /not a current attempt/);
+    assert(!exported.includes(activity.title), 'Do not relabel the old data with the replacement title');
+  }
+  const prompt = learningPrompt(activity, first.record);
+  assert(!prompt.includes('Review the reply against the old policy.'));
+  assert(!prompt.includes('A previous activity answer.'));
+  const current = { ...emptyLearningRecord(activity), choice: '2', attempt: 'Check the event fields.', phase: 'investigate' as const, committed: true, reviewedEvidence: [0] };
+  saved.set(keys.record, JSON.stringify(current));
+  const reloaded = restoreLearningActivitySession(activity, key => saved.get(key) ?? null);
+  assert.deepEqual(reloaded.record, current, 'The replacement activity still saves and resumes its own attempt');
+  for (const [key, value] of snapshot) assert.equal(saved.get(key), value);
+});
+test('activity revision keys preserve all unchanged labs and stale clients cannot coach a replacement case', () => {
+  for (const activity of LEARNING_ACTIVITIES.filter(a => a.unit !== 6)) {
+    assert.equal(learningActivityRevision(activity), 1);
+    assert.deepEqual(learningStorageKeys(activity), { record: `course-decision-lab:v1:${activity.page}`, conversation: `${COURSE_SESSION_KEY}:lab:${activity.page}`, previous: [] });
+  }
+  const activity = { ...LEARNING_ACTIVITIES[5], activityRevision: 2 };
+  const keys = learningStorageKeys(activity);
+  assert.equal(keys.record, 'course-decision-lab:v1:unit-06.html:activity-2');
+  assert.equal(keys.conversation, `${COURSE_SESSION_KEY}:lab:unit-06.html:activity-2`);
+  assert.deepEqual(keys.previous, [{ activityRevision: 1, record: 'course-decision-lab:v1:unit-06.html', conversation: `${COURSE_SESSION_KEY}:lab:unit-06.html` }]);
+  for (const revision of [undefined, 1, '2', 3, null]) assert.throws(() => validateLearningActivityRevision(activity, revision), CourseRequestError);
+  assert.equal(validateLearningActivityRevision(activity, 2), 2);
+  assert.equal(validateLearningActivityRevision(LEARNING_ACTIVITIES[0], undefined), 1);
+  for (const revision of [0, -1, 1.5, 101]) assert.throws(() => learningActivityRevision({ activityRevision: revision }), RangeError, 'Invalid authored revisions must fail closed rather than reuse an earlier activity key');
+});
+test('damaged earlier activity data remain losslessly exportable without entering the current attempt', () => {
+  const activity = { ...LEARNING_ACTIVITIES[5], activityRevision: 2 };
+  const keys = learningStorageKeys(activity);
+  const damaged = '{partial original record with <script> and no closing bracket';
+  const snapshot = restoreLearningActivitySession(activity, key => key === keys.previous[0].record ? damaged : null);
+  assert.deepEqual(snapshot.record, emptyLearningRecord(activity));
+  assert.equal(snapshot.previous[0].raw, damaged);
+  assert(previousLearningExport(activity.unit, snapshot.previous[0]).endsWith(damaged));
+  assert(!learningPrompt(activity, snapshot.record).includes(damaged));
+});
+test('the coaching API rejects an out-of-date activity before invoking the model', async () => {
+  const model = new MockLanguageModelV3({ doStream: async () => ({ stream: simulateReadableStream({ initialDelayInMs: null, chunkDelayInMs: null, chunks: [
+    { type: 'text-start', id: 'revision' }, { type: 'text-delta', id: 'revision', delta: 'Which field would you check first?' }, { type: 'text-end', id: 'revision' },
+    { type: 'finish', finishReason: { unified: 'stop', raw: undefined }, usage: { inputTokens: { total: 10, noCache: 10, cacheRead: undefined, cacheWrite: undefined }, outputTokens: { total: 10, text: 10, reasoning: undefined } } },
+  ] }) }) });
+  const activity = LEARNING_ACTIVITIES[5];
+  const revision = learningActivityRevision(activity);
+  const handler = createCourseChatHandler({ model: () => model, access: createCourseAccess(), config: () => ({}) });
+  const call = (value: number | undefined) => handler(new Request('https://example.test/api/course-chat', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ lesson: activity.page, messages: [text('user', 'Coach my current attempt.')], learning: { phase: 'decide', choice: '', attempt: '', revision: '', transfer: '', ...(value === undefined ? {} : { activityRevision: value }) } }) }));
+  const stale = await call(revision > 1 ? undefined : 2);
+  assert.equal(stale.status, 400);
+  assert.match(await stale.text(), /decision lab has changed/);
+  assert.equal(model.doStreamCalls.length, 0);
+  const current = await call(revision);
+  assert.equal(current.status, 200);
+  assert.match(await current.text(), /Which field would you check first/);
+  assert.equal(model.doStreamCalls.length, 1);
+});
 test('lab restoration rejects malformed state and preserves a committed choice independently of a revision', () => {
   const original = { ...emptyLearningRecord(), committed: true, phase: 'transfer' as const, choice: '1', attempt: 'I counted time as cash.', revision: 'Payroll does not change.', transfer: 'Check recurring cash expense.', complete: true };
   const restored = restoreLearningRecord(JSON.stringify(original), 'unit-08.html');
@@ -502,10 +573,15 @@ test('full API coaching context respects every phase without retrieval leaking t
   const question = 'Give me feedback on my current decision-lab attempt and ask one question to help me improve it.';
   for (const unit of [6, 8, 9]) {
     const activity = LEARNING_ACTIVITIES[unit - 1];
-    // This is the real generic button whose previous retrieval included full lab solutions.
-    assert(retrieveCourseChunks(question, 6, activity.page).some(chunk => chunk.body.includes(activity.worked)));
+    // The answer must genuinely remain in public course evidence. Generic search
+    // ranking is not a staging contract: a longer lab can split across chunks.
+    const workedSource = COURSE_CHUNKS.find(chunk => chunk.page === activity.page && chunk.section === activity.title && chunk.body.includes(activity.worked));
+    assert(workedSource, `Unit ${unit} needs its actual published worked explanation`);
+    // Force the most dangerous source order for the context selector as well as
+    // exercising the full API below: an answer-bearing chunk comes first.
+    const answerFirstCorpus = [workedSource, ...COURSE_CHUNKS.filter(chunk => chunk.id !== workedSource.id)];
     for (const phase of ['decide', 'investigate', 'revise', 'transfer'] as const) {
-      const learning = { phase, choice: '1', attempt: 'I am choosing the easiest-looking option.',
+      const learning = { ...emptyLearningRecord(activity), phase, choice: '1', attempt: 'I am choosing the easiest-looking option.',
         revision: phase === 'transfer' ? 'I will check the complete evidence and state a limitation.' : '', transfer: '' };
       const response = await handler(new Request('https://example.test/api/course-chat', { method: 'POST', headers: { 'content-type': 'application/json' },
         body: JSON.stringify({ lesson: activity.page, delivery: 'canvas', messages: [text('user', question)], learning }) }));
@@ -518,6 +594,9 @@ test('full API coaching context respects every phase without retrieval leaking t
       const chunks = learningContextChunks(COURSE_CHUNKS, activity, learning);
       assert(chunks.length >= 1 && chunks.every(chunk => chunk.page === activity.page));
       assert(chunks.every(chunk => chunk.section === activity.title || chunk.section === 'Read, then apply one idea'));
+      const guarded = learningContextChunks(answerFirstCorpus, activity, learning);
+      assert.equal(guarded[0].id, workedSource.id);
+      assert.deepEqual(JSON.parse(guarded[0].body), reference, 'Replace even an answer-bearing source body with exactly the current phase reference');
       assert(events.filter(event => event.type === 'source-url').every(source => chunks.some(chunk => chunk.url === source.url)));
       if (phase === 'decide') {
         assert.equal(reference.evidence, undefined);
@@ -534,6 +613,7 @@ test('full API coaching context respects every phase without retrieval leaking t
       if (phase === 'decide' || phase === 'investigate') {
         assert.equal(reference.worked, undefined);
         assert(!system.includes(activity.worked), `Unit ${unit} ${phase} must not receive the full worked route`);
+        assert(!JSON.stringify(guarded).includes(activity.worked), `Unit ${unit} ${phase} must stay protected even when the worked-answer source comes first`);
       } else assert.equal(reference.worked, activity.worked);
       assert.equal(events.find(event => event.type === 'start').messageMetadata.learningPhase, phase);
       assert.equal(events.find(event => event.type === 'finish').messageMetadata.learningPhase, phase);
@@ -550,7 +630,7 @@ test('all twelve labs have a bounded phase-safe context with a genuine published
   assert.equal(new Set(LEARNING_ACTIVITIES.map(activity => activity.page)).size, 12);
   for (const activity of LEARNING_ACTIVITIES) {
     for (const phase of ['decide', 'investigate', 'revise', 'transfer'] as const) {
-      const request = { phase, choice: '1', attempt: 'My first reason.', revision: 'My evidence-based revision.', transfer: 'My bounded next action.' };
+      const request = { ...emptyLearningRecord(activity), phase, choice: '1', attempt: 'My first reason.', revision: 'My evidence-based revision.', transfer: 'My bounded next action.' };
       const chunks = learningContextChunks(COURSE_CHUNKS, activity, request);
       assert.equal(chunks[0]?.section, activity.title, `Unit ${activity.unit} needs its actual published lab anchor`);
       assert(chunks.length <= 6);

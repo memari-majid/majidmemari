@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState, type ReactNode } from 'react';
-import { emptyLearningRecord, learningSummary, restoreLearningRecord, type LearningActivity, type LearningPhase, type LearningRecord, type LearningRequest } from '@/lib/course-kb/learning';
+import { emptyLearningRecord, learningActivityRevision, learningStorageKeys, learningSummary, previousLearningExport, restoreLearningActivitySession, type LearningActivity, type LearningPhase, type LearningRecord, type LearningRequest, type PreviousLearningData } from '@/lib/course-kb/learning';
 
 const STEPS: { id: LearningPhase; title: string; verb: string }[] = [
   { id: 'decide', title: 'Decide', verb: 'Make your first call' },
@@ -12,8 +12,36 @@ const STEPS: { id: LearningPhase; title: string; verb: string }[] = [
 const button = 'min-h-11 rounded-lg bg-slate-950 px-5 py-3 text-sm font-semibold text-white hover:bg-slate-800 disabled:cursor-not-allowed disabled:opacity-40';
 const field = 'mt-2 w-full rounded-xl border border-slate-300 bg-white p-3 text-base leading-relaxed text-slate-950 focus:outline-2 focus:outline-offset-2 focus:outline-teal-700';
 
+function PreviousActivityData({ unit, saved }: { unit: number; saved: PreviousLearningData }) {
+  const text = previousLearningExport(unit, saved);
+  const control = useRef<HTMLTextAreaElement>(null);
+  const [notice, setNotice] = useState('');
+  const id = `previous-lab-${unit}-${saved.activityRevision}-${saved.kind}`;
+  function download() {
+    let url: string | undefined;
+    try {
+      url = URL.createObjectURL(new Blob([text], { type: 'text/plain;charset=utf-8' }));
+      const link = document.createElement('a');
+      link.href = url; link.download = `unit-${String(unit).padStart(2, '0')}-previous-activity-${saved.activityRevision}-${saved.kind}.txt`;
+      document.body.appendChild(link);
+      try { link.click(); } finally { link.remove(); }
+      setNotice('Download requested. If no file appears, select the preserved text below and use your device’s Copy command.');
+    } catch { setNotice('The download could not be requested. Select the preserved text below and use your device’s Copy command.'); }
+    finally { if (url) { const requestedUrl = url; setTimeout(() => URL.revokeObjectURL(requestedUrl), 1000); } }
+  }
+  return <details className="mt-3 rounded-xl border border-slate-200 bg-white p-4">
+    <summary className="cursor-pointer text-sm font-semibold text-slate-800">Previous activity {saved.kind} · revision {saved.activityRevision}</summary>
+    <p className="mt-3 text-xs leading-6 text-slate-600">These original saved data belong to the earlier activity. They are read-only here and are not used as answers or coaching history for the current lab.</p>
+    <label htmlFor={id} className="mt-3 block text-sm font-semibold">Preserved {saved.kind} to copy</label>
+    <textarea ref={control} id={id} readOnly rows={8} value={text} className={field} />
+    <div className="mt-3 flex flex-wrap gap-3"><button type="button" onClick={() => { control.current?.focus(); control.current?.select(); setNotice('Preserved text selected. Use your device’s Copy command.'); }} className="min-h-11 rounded-lg border border-slate-300 px-4 py-2 text-sm font-semibold">Select preserved text</button><button type="button" onClick={download} className="min-h-11 px-2 text-sm font-semibold text-teal-900 underline underline-offset-4">Download previous {saved.kind}</button></div>
+    <p role="status" className="mt-3 text-xs leading-6 text-slate-600">{notice}</p>
+  </details>;
+}
+
 export function LearningLab({ activity: a, canvasDelivery, renderCoach }: { activity: LearningActivity; canvasDelivery: boolean; renderCoach: (context: LearningRequest) => ReactNode }) {
-  const [record, setRecord] = useState<LearningRecord>(emptyLearningRecord);
+  const [record, setRecord] = useState<LearningRecord>(() => emptyLearningRecord(a));
+  const [previous, setPrevious] = useState<PreviousLearningData[]>([]);
   const [ready, setReady] = useState(false);
   const [storage, setStorage] = useState(true);
   const [showCoach, setShowCoach] = useState(false);
@@ -21,15 +49,18 @@ export function LearningLab({ activity: a, canvasDelivery, renderCoach }: { acti
   const [exportText, setExportText] = useState<string | null>(null);
   const heading = useRef<HTMLHeadingElement>(null);
   const exportRecord = useRef<HTMLTextAreaElement>(null);
-  const key = `course-decision-lab:v1:${a.page}`;
+  const key = learningStorageKeys(a).record;
   const phase = STEPS.findIndex(s => s.id === record.phase);
   const choice = a.choices.find(c => c.id === record.choice);
   const openCards = record.reviewedEvidence;
   useEffect(() => {
-    try { setRecord(restoreLearningRecord(sessionStorage.getItem(key), a.page)); }
+    try {
+      const saved = restoreLearningActivitySession(a, storageKey => sessionStorage.getItem(storageKey));
+      setRecord(saved.record); setPrevious(saved.previous);
+    }
     catch { setStorage(false); }
     setReady(true);
-  }, [key, a.page]);
+  }, [key, a]);
   useEffect(() => {
     if (!ready) return;
     try { sessionStorage.setItem(key, JSON.stringify(record)); }
@@ -73,6 +104,11 @@ export function LearningLab({ activity: a, canvasDelivery, renderCoach }: { acti
       <p className="mt-4 inline-block rounded-full border border-teal-300/40 px-3 py-1 text-xs text-teal-100">Your role: {a.role}</p>
     </header>
     <p className="my-4 text-xs leading-5 text-slate-600">A fictional teaching scenario. Your first answer is a starting point; the work is in explaining what the evidence changes. No points or grades.</p>
+    {previous.length > 0 && <section className="my-5 rounded-xl border border-amber-200 bg-amber-50 p-4" aria-label="Saved work from the previous activity">
+      <h3 className="text-sm font-semibold text-amber-950">Saved work from the previous activity</h3>
+      <p className="mt-2 text-xs leading-6 text-amber-950">This unit has a new decision lab. Your earlier record and coaching conversation remain available to copy or download below. The current activity starts with its own responses.</p>
+      {previous.map(saved => <PreviousActivityData key={`${saved.activityRevision}-${saved.kind}`} unit={a.unit} saved={saved} />)}
+    </section>}
     <ol aria-label="Learning steps" className="mb-5 grid grid-cols-4 gap-1.5">
       {STEPS.map((step, i) => <li key={step.id}><button type="button" aria-current={record.phase === step.id ? 'step' : undefined} disabled={i > phase && !(record.committed && i === 1) && !record.revision.trim()} onClick={() => go(step.id)} className={`flex min-h-14 w-full flex-col items-center justify-center gap-1 rounded-lg border p-1 text-[11px] font-semibold sm:text-sm ${record.phase === step.id ? 'border-teal-700 bg-teal-50 text-teal-900' : 'border-slate-200 text-slate-500'} disabled:opacity-40`}><span aria-hidden="true">{i + 1}</span>{step.title}</button></li>)}
     </ol>
@@ -119,7 +155,7 @@ export function LearningLab({ activity: a, canvasDelivery, renderCoach }: { acti
     <div className="mt-4 rounded-xl border border-slate-200 bg-white p-4">
       <button type="button" aria-expanded={showCoach} onClick={() => setShowCoach(s => !s)} className="min-h-11 w-full text-left text-sm font-semibold text-teal-900">{showCoach ? '−' : '+'} Work with the AI coach on this step</button>
       <p className="text-xs leading-5 text-slate-600">Ask for a hint or feedback on your reasoning. Sending a coaching question shares this unit’s selected choice and written lab responses with the AI service. The worked route above is always available.</p>
-      {showCoach && renderCoach({ phase: record.phase, choice: record.choice, attempt: record.attempt, revision: record.revision, transfer: record.transfer })}
+      {showCoach && renderCoach({ phase: record.phase, choice: record.choice, attempt: record.attempt, revision: record.revision, transfer: record.transfer, ...(learningActivityRevision(a) > 1 ? { activityRevision: learningActivityRevision(a) } : {}) })}
     </div>
     <p role="status" aria-live="polite" className="mt-3 text-sm text-teal-900">{notice}</p>
     <p className={`mt-2 text-xs leading-5 ${storage ? 'text-slate-500' : 'text-amber-900'}`}>{storage ? 'Lab responses stay in this browser tab. Export or copy your reasoning to keep it beyond this tab. They are separate from workbook backups and Canvas records.' : 'Browser storage is blocked. Keep this page open and export or copy your reasoning before leaving.'}</p>
