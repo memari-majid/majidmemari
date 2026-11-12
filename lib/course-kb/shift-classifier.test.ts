@@ -6,7 +6,7 @@ import { APICallError } from "ai";
 import { createCourseAccess } from "./access";
 import { COURSE_LIMITS } from "./limits";
 import { validateShiftWorkflow } from "./shift-run";
-import { createShiftClassifierHandler, SHIFT_CLASSIFIER_RULES, validateShiftClassification } from "./shift-classifier";
+import { createShiftClassifierHandler, SHIFT_CLASSIFIER_RULES, validateShiftClassification, shiftModelAvailable } from "./shift-classifier";
 
 const usage = { inputTokens: { total: 11, noCache: 11, cacheRead: undefined, cacheWrite: undefined }, outputTokens: { total: 7, text: 7, reasoning: undefined } };
 const unknownUsage = { inputTokens: { total: undefined, noCache: undefined, cacheRead: undefined, cacheWrite: undefined }, outputTokens: { total: undefined, text: undefined, reasoning: undefined } };
@@ -204,4 +204,13 @@ test("ten scripted inputs exercise the DI path, not a live-provider language eva
     assert.equal(model.doGenerateCalls.length, fixture.status === 400 ? 0 : 1, fixture.name);
     if (response.status === 200) assert.deepEqual((await response.json()).mapping, fixture.mapping, fixture.name);
   }
+});
+
+
+test("Vercel request-context OIDC is allowed without exposing or reading a credential", () => {
+  assert.equal(shiftModelAvailable({}), false);
+  assert.equal(shiftModelAvailable({ VERCEL: "0" }), false);
+  assert.equal(shiftModelAvailable({ VERCEL: "1" }), true);
+  assert.equal(shiftModelAvailable({ AI_GATEWAY_API_KEY: "test-placeholder" }), true);
+  assert.equal(shiftModelAvailable({ VERCEL_OIDC_TOKEN: "test-placeholder" }), true);
 });

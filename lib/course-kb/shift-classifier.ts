@@ -77,8 +77,11 @@ const failure = (status: number, error: string, code: string, step?: number) => 
 );
 
 /** Only availability is exposed; credential values never enter responses or logs. */
-export function shiftModelAvailable(): boolean {
-  return !!(process.env.AI_GATEWAY_API_KEY || process.env.VERCEL_OIDC_TOKEN);
+export function shiftModelAvailable(environment: Record<string, string | undefined> = process.env): boolean {
+  // On Vercel the Gateway SDK can obtain OIDC from request context rather
+  // than process.env. Let the SDK resolve that native authentication path.
+  // Missing/invalid authentication still produces the sanitized fallback.
+  return !!(environment.AI_GATEWAY_API_KEY || environment.VERCEL_OIDC_TOKEN || environment.VERCEL === "1");
 }
 
 function cancellable<T>(work: Promise<T>, signal: AbortSignal): Promise<T> {
