@@ -227,3 +227,10 @@ test("explicit held filters, drafting prohibitions and compound reviews cannot s
   const mapping = [{ step: 1, actions: [{ type: "human_check", quote: review, human_check: { checks: ["tone", "accuracy", "commitments", "confirmations"] } }] }];
   assert.deepEqual(validateShiftClassification({ mapping }, [review]), mapping);
 });
+
+
+test("a compound line may retain separate quoted human checks in their written order", () => {
+  const line = "Check tone and accuracy.";
+  const mapping = [{ step: 1, actions: [{ type: "human_check", quote: "Check tone", human_check: { checks: ["tone"] } }, { type: "human_check", quote: "accuracy", human_check: { checks: ["accuracy"] } }] }];
+  assert.deepEqual(validateShiftClassification({ mapping }, [line]), mapping);
+});

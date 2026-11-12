@@ -28,7 +28,7 @@ Examples of attributes, not new steps:
 - "Ask AI to draft the policy’s conditions and never claim a booking changed." is one ai_draft action with states_conditions=true and forbids_promises=true. The prohibition is a draft attribute, never confirm_change.
 - "Check tone, accuracy, commitments and confirmations; hold unsupported commitments." is one human_check action with all four checks. Holding is the consequence engine's response to commitment review, not an unsupported extra action. Keep the supported human_check action; do not discard this line because "hold" is not a separate action type.
 For compound lines, map the supported explicitly stated actions and attributes. Do not discard a recognized review or drafting instruction merely because its guard or consequence has no separate enum. Return zero actions only when none can be represented faithfully.
-Respect negation and guards. A prohibition such as "never say the booking changed" is NOT confirm_change. "Do not send" is NOT release. Do not turn a forbidden action into an affirmative one. A draft instruction may explicitly forbid promises without being an instruction to make a promise. If a compound instruction cannot be represented faithfully, return no actions for that step rather than guess.
+Respect negation and guards. A prohibition such as "never say the booking changed" is NOT confirm_change. "Do not send" is NOT release. Do not turn a forbidden action into an affirmative one. A draft instruction may explicitly forbid promises without being an instruction to make a promise. Do not guess an unsupported action; retain any supported action that the line explicitly states.
 Classify only the student text. Policy cases, drafts, reactions, outcomes, run counts and grades belong to the deterministic application and must not appear in your output.`;
 
 export type ShiftClassifierUsage = { inputTokens: number | null; outputTokens: number | null; totalTokens: number | null };
@@ -77,8 +77,9 @@ export function validateShiftClassification(value: unknown, steps: readonly stri
       if (item.type === "ai_draft" && /\b(?:never|do not|don't)\s+(?:claim|say|confirm)\b[^.;]{0,100}\b(?:changed|processed|approved|confirmed)\b/i.test(line) && !item.ai_draft.forbids_promises) throw new ClassificationError(entry.step);
     }
     if (/\b(?:check|review)\s+tone\b[^.;]{0,100}\baccuracy\b/i.test(line)) {
-      const review = entry.actions.find(item => item.type === "human_check");
-      if (!review || review.type !== "human_check" || ["tone", "accuracy", "commitments", "confirmations"].some(check => new RegExp(`\\b${check}\\b`, "i").test(line) && !review.human_check.checks.includes(check as typeof review.human_check.checks[number]))) throw new ClassificationError(entry.step);
+      const reviews = entry.actions.filter(item => item.type === "human_check");
+      const checks = new Set(reviews.flatMap(item => item.type === "human_check" ? item.human_check.checks : []));
+      if (!reviews.length || ["tone", "accuracy", "commitments", "confirmations"].some(check => new RegExp(`\\b${check}\\b`, "i").test(line) && !checks.has(check as "tone" | "accuracy" | "commitments" | "confirmations"))) throw new ClassificationError(entry.step);
     }
   }
   return mapping;
