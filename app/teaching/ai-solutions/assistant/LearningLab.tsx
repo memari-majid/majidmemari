@@ -31,7 +31,7 @@ function PreviousActivityData({ unit, saved }: { unit: number; saved: PreviousLe
   }
   return <details className="mt-3 rounded-lg border border-slate-200 bg-white p-4">
     <summary className="cursor-pointer text-sm font-semibold text-slate-800">Previous activity {saved.kind} · revision {saved.activityRevision}</summary>
-    <p className="mt-3 text-xs leading-6 text-slate-600">These original saved data belong to the earlier activity. They are read-only here and are not used as answers or coaching history for the current lab.</p>
+    <p className="mt-3 text-xs leading-6 text-slate-600">These original saved data belong to the earlier activity. They are read-only here and are not used as answers or conversation history for the current lab.</p>
     <label htmlFor={id} className="mt-3 block text-sm font-semibold">Preserved {saved.kind} to copy</label>
     <textarea ref={control} id={id} readOnly rows={8} value={text} className={field} />
     <div className="mt-3 flex flex-wrap gap-3"><button type="button" onClick={() => { control.current?.focus(); control.current?.select(); setNotice('Preserved text selected. Use your device’s Copy command.'); }} className="min-h-11 rounded-lg border border-slate-300 px-4 py-2 text-sm font-semibold">Select preserved text</button><button type="button" onClick={download} className="min-h-11 px-2 text-sm font-semibold text-teal-900 underline underline-offset-4">Download previous {saved.kind}</button></div>
@@ -106,7 +106,7 @@ export function LearningLab({ activity: a, canvasDelivery, renderCoach }: { acti
     <p className="my-4 text-xs leading-5 text-slate-600">A fictional teaching scenario. Your first answer is a starting point; the work is in explaining what the evidence changes. No points or grades.</p>
     {previous.length > 0 && <section className="my-5 rounded-lg border border-amber-200 bg-amber-50 p-4" aria-label="Saved work from the previous activity">
       <h3 className="text-sm font-semibold text-amber-950">Saved work from the previous activity</h3>
-      <p className="mt-2 text-xs leading-6 text-amber-950">This unit has a new decision lab. Your earlier record and coaching conversation remain available to copy or download below. The current activity starts with its own responses.</p>
+      <p className="mt-2 text-xs leading-6 text-amber-950">This unit has a new decision lab. Your earlier record and conversation remain available to copy or download below. The current activity starts with its own responses.</p>
       {previous.map(saved => <PreviousActivityData key={`${saved.activityRevision}-${saved.kind}`} unit={a.unit} saved={saved} />)}
     </section>}
     <ol aria-label="Learning steps" className="mb-5 grid grid-cols-4 gap-1.5">
@@ -153,8 +153,8 @@ export function LearningLab({ activity: a, canvasDelivery, renderCoach }: { acti
       </section>}
     </div>
     <div className="mt-6 border-t border-slate-200 pt-4">
-      <button type="button" aria-expanded={showCoach} onClick={() => setShowCoach(s => !s)} className="min-h-11 w-full text-left text-sm font-semibold text-teal-900">{showCoach ? '−' : '+'} Work with the AI coach on this step</button>
-      <p className="text-xs leading-5 text-slate-600">Ask for a hint or feedback on your reasoning. Sending a coaching question shares this unit’s selected choice and written lab responses with the AI service. The worked route above is always available.</p>
+      <button type="button" aria-expanded={showCoach} onClick={() => setShowCoach(s => !s)} className="min-h-11 w-full text-left text-sm font-semibold text-teal-900">{showCoach ? '−' : '+'} Explore this step with the Learning Companion</button>
+      <p className="text-xs leading-5 text-slate-600">Ask for a hint or feedback on your reasoning. Asking the Learning Companion shares this unit’s selected choice and written lab responses with the AI service. The worked route above is always available.</p>
       {showCoach && renderCoach({ phase: record.phase, choice: record.choice, attempt: record.attempt, revision: record.revision, transfer: record.transfer, ...(learningActivityRevision(a) > 1 ? { activityRevision: learningActivityRevision(a) } : {}) })}
     </div>
     <p role="status" aria-live="polite" className="mt-3 text-sm text-teal-900">{notice}</p>

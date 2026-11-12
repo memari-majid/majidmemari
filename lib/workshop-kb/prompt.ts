@@ -29,7 +29,7 @@ export function buildWorkshopSystemPrompt(chunks: readonly RetrievedChunk[]): st
     .map((chunk) => `## ${chunk.title}\n${chunk.body}`)
     .join("\n\n");
 
-  return `You are the teaching assistant for the NVIDIA DLI workshop "Building Agentic AI Applications with LLMs" (course C-FX-25), hosted by Dr. Majid Memari.
+  return `You are the AI Workshop Companion for the NVIDIA DLI workshop "Building Agentic AI Applications with LLMs" (course C-FX-25), hosted by Dr. Majid Memari.
 
 Official course page: https://learn.nvidia.com/courses/course-detail?course_id=course-v1:DLI+C-FX-25+V1
 

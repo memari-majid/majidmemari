@@ -38,7 +38,7 @@ export default async function ProjectPage({ params }: Props) {
         <p aria-label="Scientific keywords" className="mt-3 text-sm text-teal-800">{project.keywords.join(" · ")}</p>
         {project.context && <p className="mt-4 max-w-3xl text-sm leading-relaxed text-slate-600">{project.context}</p>}
         <ComputationMethods methods={project.computationMethods} />
-        {project.slug === "building-ai-solutions" ? <section aria-labelledby="course-experience" className="mt-10 rounded-2xl border border-slate-200 bg-white/60 p-5 sm:p-7"><h2 id="course-experience" className="text-2xl font-semibold">Try how the course works</h2><p className="mt-3 mb-6 max-w-2xl text-sm leading-7 text-slate-600">Explore a live figure, work through a decision with the TA, or follow the project path. The supplied cases are illustrative practice.</p><CourseLearningFeatures headingLevel={3} /></section> : null}
+        {project.slug === "building-ai-solutions" ? <section aria-labelledby="course-experience" className="mt-10 rounded-2xl border border-slate-200 bg-white/60 p-5 sm:p-7"><h2 id="course-experience" className="text-2xl font-semibold">Try how the course works</h2><p className="mt-3 mb-6 max-w-2xl text-sm leading-7 text-slate-600">Explore a live figure, explore a decision with the Learning Companion, or follow the project path. The supplied cases are illustrative practice.</p><CourseLearningFeatures headingLevel={3} /></section> : null}
 
         <div className="mt-10 grid gap-7 lg:grid-cols-[1.4fr_1fr]">
           <div className="border-t border-slate-200 pt-6">
