@@ -1,0 +1,155 @@
+Simulated rehearsal — Cedar Desk, Unit 4 — not a user test, not a grade
+
+Simulated — Cedar Desk — practice, not evidence
+
+The Tuesday shift
+
+Simulated — Cedar Desk — practice, not evidence
+
+Workflow 1
+
+Read the message.
+Find the matching policy on the source card.
+Ask the AI to write a friendly reply based on that policy.
+Check tone and accuracy.
+Send.
+
+Reason:
+
+Steps classified by AI: anthropic/claude-haiku-5.5
+
+Step 1: Read the message.
+
+[{"type":"intake","quote":"Read the message."}]
+
+Step 2: Find the matching policy on the source card.
+
+[{"type":"find_source","quote":"Find the matching policy on the source card."}]
+
+Step 3: Ask the AI to write a friendly reply based on that policy.
+
+[{"type":"ai_draft","quote":"Ask the AI to write a friendly reply based on that policy.","ai_draft":{"states_conditions":false,"forbids_promises":false}}]
+
+Step 4: Check tone and accuracy.
+
+[{"type":"human_check","quote":"Check tone and accuracy.","human_check":{"checks":["tone","accuracy"]}}]
+
+Step 5: Send.
+
+[{"type":"release","quote":"Send."}]
+
+Simulated — Cedar Desk — practice, not evidence
+
+A: Can I move my booking to a later session? My class is in about 60 hours.
+
+False confirmation
+
+Good news! You're more than 48 hours out, so you can move. See you then!
+
+Customer: So I’m in Saturday’s 10 a.m. now?
+
+A plausible, friendly reply can imply that a real action occurred. Checking tone and accuracy without checking confirmations can miss that implication.
+
+What would a user mistakenly think has already happened?
+
+Simulated — Cedar Desk — practice, not evidence
+
+B: I have a family emergency and can't make today's 6 p.m. session. Can I get my money back?
+
+Unsupported commitment released
+
+We can't usually refund within 24 hours, but we'll make an exception and give you a full credit.
+
+Owner: Who approved a credit? Under 24 hours, I decide. We’ve promised $40 we may not give.
+
+S2 allows the owner to review an exceptional request; it does not authorize the drafting tool to grant a refund or credit.
+
+Who may authorize a consequential promise in your project?
+
+Shift tally: 2 sent; 0 to the owner.
+
+Simulated — Cedar Desk — practice, not evidence
+
+Workflow 2
+
+Read the message.
+Find the matching approved policy.
+Ask AI to draft the policy’s conditions and never claim a booking changed.
+Check tone, accuracy, commitments and confirmations; hold unapproved refund, credit, seat or exception promises.
+Route held messages to the owner.
+Send checked replies only if not held.
+
+Reason: Both mistakes were promises nobody approved.
+
+Steps classified by AI: anthropic/claude-haiku-5.5
+
+Step 1: Read the message.
+
+[{"type":"intake","quote":"Read the message."}]
+
+Step 2: Find the matching approved policy.
+
+[{"type":"find_source","quote":"Find the matching approved policy."}]
+
+Step 3: Ask AI to draft the policy’s conditions and never claim a booking changed.
+
+[{"type":"ai_draft","quote":"Ask AI to draft the policy’s conditions and never claim a booking changed.","ai_draft":{"states_conditions":true,"forbids_promises":true}}]
+
+Step 4: Check tone, accuracy, commitments and confirmations; hold unapproved refund, credit, seat or exception promises.
+
+[{"type":"human_check","quote":"Check tone, accuracy, commitments and confirmations; hold unapproved refund, credit, seat or exception promises.","human_check":{"checks":["tone","accuracy","commitments","confirmations"]}}]
+
+Step 5: Route held messages to the owner.
+
+[{"type":"route_to_owner","quote":"Route held messages to the owner.","route_to_owner":{"only_if_held":true}}]
+
+Step 6: Send checked replies only if not held.
+
+[{"type":"release","quote":"Send checked replies only if not held."}]
+
+Simulated — Cedar Desk — practice, not evidence
+
+A: Can I move my booking to a later session? My class is in about 60 hours.
+
+Sent with conditions
+
+A rescheduling request made at least 48 hours before your session may be considered, subject to available space and coordinator confirmation. Which later session are you requesting? No change has been confirmed.
+
+The customer receives the policy conditions; no booking change is claimed.
+
+The reply preserves the space and coordinator-confirmation conditions, and a person checks it before release. A sent reply is not a confirmed change.
+
+Which condition must remain visible in your project output?
+
+Simulated — Cedar Desk — practice, not evidence
+
+B: I have a family emergency and can't make today's 6 p.m. session. Can I get my money back?
+
+Routed, customer told nothing
+
+Under 24 hours there is no automatic refund or credit. The owner reviews exceptional requests. This draft does not approve an exception.
+
+Customer at 1:10: Has anyone seen my message?
+
+The internal route protects authority, but silence leaves the customer uncertain. Routing and communicating receipt are separate actions.
+
+How will a user know their request has reached a responsible person?
+
+Shift tally: 1 sent; 1 to the owner.
+
+Simulated — Cedar Desk — practice, not evidence
+
+C: Please cancel my booking.
+
+Routine case escalated
+
+You are eligible for a refund.
+
+Owner: When is the session? This is an ordinary cancellation. Why is it on my desk?
+
+Holding a risky draft protects against a promise, but blanket escalation uses owner attention. For missing deciding information, ask for that fact first.
+
+What could your workflow resolve or clarify before routing?
+
+Simulated — Cedar Desk — practice, not evidence
+Online classification requests attempted for versions: 1, 2. An unsuccessful request is not a completed run.

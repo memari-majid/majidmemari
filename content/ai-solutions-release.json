@@ -85,8 +85,8 @@
     },
     {
       "path": "assets/ta-activities.json",
-      "bytes": 27976,
-      "sha256": "84e8643da34726cabbd3edfd13140dd194068f32ea1b2a116c2addeea077ca5f"
+      "bytes": 38674,
+      "sha256": "cb094e4e0ce42be63b35148284a1a58f0f4996969134383aad686f05658633af"
     },
     {
       "path": "assets/workbook.js",
@@ -115,8 +115,8 @@
     },
     {
       "path": "downloads/course-site.zip",
-      "bytes": 286417,
-      "sha256": "11d53f2717dc2e3b63321eeaf21476b04295b3d9d0b9ac663bdf8d582eeae82a"
+      "bytes": 290628,
+      "sha256": "313c9d7ddb21541d15ce8e8c1d2cc7a2574e9bf461e247d1da7aeb7514712773"
     },
     {
       "path": "downloads/project-record.txt",
@@ -310,8 +310,8 @@
     },
     {
       "path": "unit-04.html",
-      "bytes": 31282,
-      "sha256": "b8fadd1375b30a67721603cc30b994a357bad6a0d082e18e3daee6ad846657d4"
+      "bytes": 34767,
+      "sha256": "a59daa8e3324adf5f53bb91f2bbe507d7b2d71410921c460367bd52b49b6a976"
     },
     {
       "path": "unit-05.html",

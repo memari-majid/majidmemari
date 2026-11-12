@@ -10,8 +10,9 @@ import { courseEvidenceLink, courseEvidenceNavigation, coursePageLabel, normaliz
 import { COURSE_SESSION_KEY, parseCourseSession, serializeCourseSession, shouldPersistCourseSession } from "@/lib/course-kb/session";
 import type { CourseChatMessage } from "@/lib/course-kb/types";
 import remarkGfm from "remark-gfm";
-import { LEARNING_ACTIVITIES, learningActivity, learningStorageKeys, type LearningRequest } from "@/lib/course-kb/learning";
+import { LEARNING_ACTIVITIES, isDecisionLabActivity, isShiftRunActivity, learningActivity, learningStorageKeys, type LearningRequest } from "@/lib/course-kb/learning";
 import { LearningLab } from "./LearningLab";
+import { ShiftRun } from "./ShiftRun";
 import { checkpointCourseConversation } from "@/lib/course-kb/conversation-checkpoint";
 
 const LAB_STEP_NAMES = { decide: "Decide", investigate: "Investigate", revise: "Revise", transfer: "Apply" } as const;
@@ -224,15 +225,15 @@ export function CourseAssistant({ embedded = false, lesson = "", canvasDelivery 
     <header className="mb-5">
       {!embedded && <a href="/teaching/ai-solutions/index.html" className="text-sm font-semibold text-teal-800">← Building AI Solutions · Majid Memari</a>}
       <h1 className={embedded ? 'font-serif text-xl' : 'mt-5 font-serif text-3xl sm:text-4xl'}>Learn by making the next decision.</h1>
-      <p className="mt-2 text-sm leading-6 text-slate-600">Decide, investigate, revise, apply. The course TA coaches your reasoning as you work through each unit.</p>
+      <p className="mt-2 text-sm leading-6 text-slate-600">{isShiftRunActivity(activity) ? "Write a workflow, follow its simulated consequences, revise once, then try the same process on a new request." : "Decide, investigate, revise, apply. The course TA coaches your reasoning as you work through each unit."}</p>
     </header>
     <div className="mb-5 flex flex-wrap gap-2" aria-label="Study mode">
-      <button type="button" aria-pressed={mode === 'lab'} onClick={() => setMode('lab')} className={`min-h-11 rounded-lg border px-4 text-sm font-semibold ${mode === 'lab' ? 'border-teal-800 bg-teal-50 text-teal-950' : 'border-slate-200 text-slate-600'}`}>Decision lab</button>
+      <button type="button" aria-pressed={mode === 'lab'} onClick={() => setMode('lab')} className={`min-h-11 rounded-lg border px-4 text-sm font-semibold ${mode === 'lab' ? 'border-teal-800 bg-teal-50 text-teal-950' : 'border-slate-200 text-slate-600'}`}>{isShiftRunActivity(activity) ? 'Workflow run' : 'Decision lab'}</button>
       <button type="button" aria-pressed={mode === 'help'} onClick={() => setMode('help')} className={`min-h-11 rounded-lg border px-4 text-sm font-semibold ${mode === 'help' ? 'border-teal-800 bg-teal-50 text-teal-950' : 'border-slate-200 text-slate-600'}`}>Course questions</button>
     </div>
     {mode === 'lab' && <>
       {!learningActivity(lesson) && <div className="mb-5"><label htmlFor="lab-unit" className="text-sm font-semibold">Choose your current unit</label><select id="lab-unit" value={selectedPage} onChange={e => setSelectedPage(e.target.value)} className="mt-2 min-h-11 w-full rounded-lg border border-slate-300 bg-white p-3 text-sm">{LEARNING_ACTIVITIES.map(a => <option key={a.page} value={a.page}>Unit {a.unit} · {a.title}</option>)}</select></div>}
-      <LearningLab key={learningStorageKeys(activity).record} activity={activity} canvasDelivery={canvasDelivery} renderCoach={learning => <CourseConversation key={learningStorageKeys(activity).conversation} embedded lesson={activity.page} canvasDelivery={canvasDelivery} learning={learning} />} />
+      {isShiftRunActivity(activity) ? <ShiftRun key={learningStorageKeys(activity).record} activity={activity} canvasDelivery={canvasDelivery} /> : isDecisionLabActivity(activity) ? <LearningLab key={learningStorageKeys(activity).record} activity={activity} canvasDelivery={canvasDelivery} renderCoach={learning => <CourseConversation key={learningStorageKeys(activity).conversation} embedded lesson={activity.page} canvasDelivery={canvasDelivery} learning={learning} />} /> : null}
     </>}
     {mode === 'help' && <CourseConversation key={`general-help:${normalizeCoursePage(lesson) || activity.page}`} embedded lesson={normalizeCoursePage(lesson) || activity.page} canvasDelivery={canvasDelivery} />}
   </main>;

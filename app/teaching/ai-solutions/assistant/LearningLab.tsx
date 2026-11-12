@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState, type ReactNode } from 'react';
-import { emptyLearningRecord, learningActivityRevision, learningStorageKeys, learningSummary, previousLearningExport, restoreLearningActivitySession, type LearningActivity, type LearningPhase, type LearningRecord, type LearningRequest, type PreviousLearningData } from '@/lib/course-kb/learning';
+import { emptyLearningRecord, learningActivityRevision, learningStorageKeys, learningSummary, previousLearningExport, restoreLearningActivitySession, type ClassicLearningActivity, type LearningPhase, type LearningRecord, type LearningRequest, type PreviousLearningData } from '@/lib/course-kb/learning';
 
 const STEPS: { id: LearningPhase; title: string; verb: string }[] = [
   { id: 'decide', title: 'Decide', verb: 'Make your first call' },
@@ -39,7 +39,7 @@ function PreviousActivityData({ unit, saved }: { unit: number; saved: PreviousLe
   </details>;
 }
 
-export function LearningLab({ activity: a, canvasDelivery, renderCoach }: { activity: LearningActivity; canvasDelivery: boolean; renderCoach: (context: LearningRequest) => ReactNode }) {
+export function LearningLab({ activity: a, canvasDelivery, renderCoach }: { activity: ClassicLearningActivity; canvasDelivery: boolean; renderCoach: (context: LearningRequest) => ReactNode }) {
   const [record, setRecord] = useState<LearningRecord>(() => emptyLearningRecord(a));
   const [previous, setPrevious] = useState<PreviousLearningData[]>([]);
   const [ready, setReady] = useState(false);

@@ -20,7 +20,7 @@ export function HomePageContent() {
               Understand AI. Build something useful.
             </h1>
             <p className="mt-6 max-w-xl text-lg leading-relaxed text-slate-600">
-              I teach AI and build practical applications for learners, teams, and organizations.
+              I design hands-on AI courses, simulations and learning tools for learners, teams and organizations.
             </p>
             <div className="mt-6 flex flex-wrap gap-x-6 gap-y-3 text-sm">
               <Link href="/#teaching" className={`inline-flex min-h-11 items-center ${linkClass}`}>Explore teaching →</Link>
@@ -44,9 +44,9 @@ export function HomePageContent() {
         <section id="teaching" aria-labelledby="course-section-heading" className="mx-auto max-w-6xl scroll-mt-28 px-5 py-10 sm:px-8">
           <div className="border-t border-slate-200 pt-8">
             <h2 id="course-section-heading" className="text-2xl font-semibold tracking-tight">Teaching</h2>
-            <div className="mt-6 grid gap-8 md:grid-cols-2 md:gap-12">
+            <div className="mt-6">
               <BuildingAiSolutionsCard headingLevel={3} />
-              <article id="workshops" aria-labelledby="workshops-heading" className="scroll-mt-28">
+              <article id="workshops" aria-labelledby="workshops-heading" className="mt-10 max-w-3xl scroll-mt-28">
                 <h3 id="workshops-heading" className="text-lg font-semibold">AI workshops</h3>
                 <p className="mt-2 text-sm leading-relaxed text-slate-600">Hands-on NVIDIA Deep Learning Institute instruction in Building Agentic AI Applications with LLMs, plus focused AI sessions shaped around your team’s practical problems and learning goals.</p>
                 <div className="mt-3 flex flex-wrap gap-x-6 gap-y-2 text-sm">

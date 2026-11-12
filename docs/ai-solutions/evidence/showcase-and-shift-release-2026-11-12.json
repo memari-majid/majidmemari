@@ -1,0 +1,158 @@
+{
+  "date": "2026-11-12",
+  "status": "published and verified",
+  "authorization": [
+    "Make course simulations and AI learning features clear on the personal website.",
+    "Publish (explicit reply after the local-only Unit 4 status)."
+  ],
+  "project": {
+    "name": "majidmemari",
+    "id": "prj_W55jLH7XDxrwrQmk9nc7LWDpeM3D",
+    "team": "memari-majids-projects"
+  },
+  "runtimeCommit": "a4b8437415649cd2cfaac2b1fbe3b7906069e957",
+  "stagedProduction": {
+    "id": "dpl_7iESFoGzsdFd8pNF1WQHh8mjB194",
+    "url": "https://majidmemari-xbevefoxa-memari-majids-projects.vercel.app",
+    "target": "production",
+    "automaticDomainAssignment": false,
+    "state": "READY"
+  },
+  "pullRequest": "https://github.com/memari-majid/majidmemari/pull/1",
+  "features": [
+    "Homepage featured course with interactive effort figure and matching table.",
+    "Direct links to the moving review queue, decision lab, Unit 4 workflow rehearsal and capstone.",
+    "Course project page, metadata, biography and separate website-guide facts agree with visible features.",
+    "Unit 4 revision-2 workflow rehearsal, manual fallback, frozen second workflow/C, exports and earlier-record preservation."
+  ],
+  "verification": {
+    "automatedHostTestsPassed": 98,
+    "canvasPackageTestsPassed": 33,
+    "typescript": "pass",
+    "targetedESLint": "pass",
+    "localOptimizedBuild": "pass",
+    "stagedProductionBuild": "READY",
+    "stagedPublicManifestFilesMatched": 71,
+    "homepagePreview": {
+      "keyboardAction": "pass",
+      "width": 375,
+      "scrollWidth": 375,
+      "reducedMotion": true,
+      "exampleMinutes": {
+        "manual": 8,
+        "draft": 2,
+        "checking": 3,
+        "correction": 2,
+        "handoff": 1,
+        "completeAI": 8
+      }
+    },
+    "movingQueueDeepLink": {
+      "opensCorrectStage": true,
+      "userStartedPlay": "finite five-day completion observed",
+      "baseline": {
+        "arrived": 150,
+        "reviewed": 120,
+        "waiting": 30
+      },
+      "addedReviewCapacity": {
+        "arrived": 150,
+        "reviewed": 150,
+        "waiting": 0
+      }
+    },
+    "stagedSourceFingerprintChecks": [
+      {
+        "path": "lib/course-kb/shift-classifier.ts",
+        "uploadedUidAndLocalSha1": "56b26d0dccc813e53129c674bf10184b44c8edfa"
+      },
+      {
+        "path": "lib/course-kb/shift-run.ts",
+        "uploadedUidAndLocalSha1": "baf51516718deca0833a2926d34bad5c6c9b53bf"
+      },
+      {
+        "path": "app/teaching/ai-solutions/assistant/ShiftRun.tsx",
+        "uploadedUidAndLocalSha1": "6aaae87677295daf687c894a7e6292a5c58fb92e"
+      },
+      {
+        "path": "app/components/CourseEffortPreview.tsx",
+        "uploadedUidAndLocalSha1": "18d1ea75c267fcf00c36f9bc7fdf6b18db693132"
+      },
+      {
+        "path": "app/components/BuildingAiSolutionsCard.tsx",
+        "uploadedUidAndLocalSha1": "14f43e644fe55677d5cbbb6290dd4c4445b24e17"
+      }
+    ],
+    "canvasCartridgeComparison": "Only wiki_content/unit-04-lesson.html changed; the other 82 entries are byte-identical to the prior local cartridge.",
+    "liveClassifier": {
+      "scriptedInputsPassed": 10,
+      "actualAIResponses": 9,
+      "emptyRejectedBeforeAI": true,
+      "model": "anthropic/claude-haiku-5.5",
+      "measuredInputTokens": 32312,
+      "measuredOutputTokens": 5238,
+      "measuredTotalTokens": 37550,
+      "normalClientWindowRespected": true,
+      "noRepairOrRetry": true
+    },
+    "liveHomepageMobile": {
+      "width": 375,
+      "clientWidth": 375,
+      "scrollWidth": 375,
+      "reducedMotion": true,
+      "proofImagePixels": [
+        375,
+        812
+      ]
+    }
+  },
+  "providerEvidence": "shift-live-smoke-2026-11-12.json",
+  "providerFixes": [
+    "Let the Gateway SDK resolve native Vercel request-context OIDC instead of rejecting it based only on process.env.",
+    "Explicit prompt examples preserve held-message routing, drafting prohibitions and named human checks.",
+    "Conservative English semantic validation rejects contradictory mappings to the manual route; no repair generation or automatic retry."
+  ],
+  "security": {
+    "secretValuesRead": false,
+    "secretValuesCopied": false,
+    "environmentMetadataOnly": "Production-only AI key confirmed with scoped CLI; existing production TA returned a real streamed response.",
+    "previewFailureRetained": true
+  },
+  "canvas": {
+    "course": "https://uvu.instructure.com/courses/644965",
+    "page": "unit-04-lesson",
+    "status": "saved, read back and verified in actual Student View",
+    "scope": "Unit 4 instructions, TA description and complete native reading route only. Two iframe URLs and native resource links retained.",
+    "packageImported": false,
+    "assessmentGradeRubricDateChanges": false,
+    "notificationCheckbox": false,
+    "courseState": "unpublished",
+    "instructorViewRestored": true,
+    "liveAIVersionsVerified": [
+      1,
+      2
+    ],
+    "frozenCVerified": true,
+    "reloadPreservedCurrentEpisode": true,
+    "priorRevisionRecordPreserved": true,
+    "copyableExportInspected": true
+  },
+  "limits": [
+    "Provider samples do not establish universal classification reliability.",
+    "Technical tests do not establish learning effectiveness; a 3\u20135 beginner think-aloud pilot remains necessary.",
+    "Safari, Firefox, screen reader and physical-print pagination not tested.",
+    "No later workplace phase was implemented."
+  ],
+  "promotion": {
+    "deployment": "dpl_7iESFoGzsdFd8pNF1WQHh8mjB194",
+    "wwwAliasConfirmed": true,
+    "publicHomepageShowcaseConfirmed": true
+  },
+  "evidenceFiles": [
+    "showcase-live-desktop-2026-11-12.jpg",
+    "showcase-live-mobile-2026-11-12.jpg",
+    "shift-canvas-student-view-2026-11-12.jpg",
+    "shift-canvas-live-export-2026-11-12.txt",
+    "shift-live-smoke-2026-11-12.json"
+  ]
+}
