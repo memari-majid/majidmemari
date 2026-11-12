@@ -8,10 +8,10 @@ const FEATURES = [
     label: "01 · Explore",
   },
   {
-    title: "An AI TA inside the course",
-    detail: "Decision labs coach your reasoning. A workflow rehearsal shows the consequences of your steps. Course Q&A connects explanations to the learning materials.",
+    title: "Your AI Learning Companion",
+    detail: "Explore ideas, practice decisions and reflect on evidence. A workflow rehearsal shows the consequences of your steps, while course Q&A connects explanations to the learning materials.",
     href: `${COURSE}/assistant?lesson=unit-01.html`,
-    action: "Try a decision lab with the TA",
+    action: "Explore with the Learning Companion",
     extraHref: `${COURSE}/assistant?lesson=unit-04.html`,
     extraAction: "Try the workflow rehearsal",
     label: "02 · Reason",

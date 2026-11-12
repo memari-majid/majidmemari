@@ -3,9 +3,9 @@ import { NavBar } from "@/app/components/NavBar";
 import { WorkshopAssistant } from "./WorkshopAssistant";
 
 export const metadata: Metadata = {
-  title: "Workshop teaching assistant",
+  title: "AI Workshop Companion",
   description:
-    "NVIDIA DLI teaching assistant for the live lab, Building Agentic AI Applications with LLMs.",
+    "AI learning companion for the NVIDIA DLI live lab, Building Agentic AI Applications with LLMs.",
   robots: {
     index: false,
     follow: false,

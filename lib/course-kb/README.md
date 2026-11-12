@@ -1,6 +1,6 @@
-# Building AI Solutions teaching assistant
+# Building AI Solutions AI Learning Companion
 
-This assistant follows the workshop TA architecture: local public course chunks → deterministic lexical retrieval → server teaching prompt → AI SDK/Gateway stream. It has no web browsing, external actions, private records, learner-workbook access, vector database or embedding service. Start with the [course source and review guide](../../docs/ai-solutions/README.md) for the relationship between editable curriculum, public output, and the live course.
+The Learning Companion supports exploration, practice and reflection. It follows the existing workshop retrieval architecture: local public course chunks → deterministic lexical retrieval → server teaching prompt → AI SDK/Gateway stream. It has no web browsing, external actions, private records, learner-workbook access, vector database or embedding service. Start with the [course source and review guide](../../docs/ai-solutions/README.md) for the relationship between editable curriculum, public output, and the live course.
 
 ## Updating the course evidence
 
@@ -27,7 +27,7 @@ The teaching prompt instructs the assistant to coach students through their own 
 
 The browser restores a bounded conversation from `sessionStorage` under `ai-solutions-ta-conversation`. A same-tab reload can retain messages, legitimate course citations, and completion metadata. Restoration finishes before an empty initial render may save. **New conversation** clears the saved conversation and displayed messages. If browser storage is blocked, the UI reports that reload restoration may be unavailable; this is not cross-device synchronization or an instructor transcript store.
 
-The course workbook is separate: its notes and progress use local storage and its own backup/restore controls. The TA neither reads that workbook nor receives its notes automatically. Questions, the bounded recent conversation, the current lesson, and retrieved public excerpts are processed by the online service; provider processing and logs may apply. Do not enter confidential partner information or student records. The optional access code remains in memory rather than persisted conversation storage.
+The course workbook is separate: its notes and progress use local storage and its own backup/restore controls. The Learning Companion neither reads that workbook nor receives its notes automatically. Questions, the bounded recent conversation, the current lesson, and retrieved public excerpts are processed by the online service; provider processing and logs may apply. Do not enter confidential partner information or student records. The optional access code remains in memory rather than persisted conversation storage.
 
 ## Configuration and cost controls
 

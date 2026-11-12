@@ -89,7 +89,7 @@ export function restoreLearningActivitySession(a: LearningActivity, read: (key: 
 export function validateLearningActivityRevision(a: Pick<LearningActivity, 'activityRevision'>, value: unknown): number {
   const expected = learningActivityRevision(a);
   const actual = value === undefined ? 1 : value;
-  if (actual !== expected) throw new CourseRequestError(400, 'This decision lab has changed. Reopen the course TA to use the current activity. Earlier saved work remains separate and available to export.');
+  if (actual !== expected) throw new CourseRequestError(400, 'This decision lab has changed. Reopen the Learning Companion to use the current activity. Earlier saved work remains separate and available to export.');
   return expected;
 }
 

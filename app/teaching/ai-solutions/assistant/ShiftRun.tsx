@@ -73,7 +73,7 @@ function PreservedText({ title, text, filename }: { title: string; text: string;
   const id = `shift-preserved-${filename.replace(/[^a-z0-9]/gi, '-')}`;
   return <details className="mt-3 rounded-lg border border-slate-200 bg-white p-4">
     <summary className="cursor-pointer text-sm font-semibold">{title}</summary>
-    <p className="mt-3 text-xs leading-6 text-slate-600">These original data are read-only and are never used as steps, outcomes or coaching context for this activity.</p>
+    <p className="mt-3 text-xs leading-6 text-slate-600">These original data are read-only and are never used as steps, outcomes or conversation context for this activity.</p>
     <label htmlFor={id} className="mt-3 block text-sm font-semibold">Preserved text to copy</label>
     <textarea ref={control} id={id} readOnly rows={7} value={text} className={field} />
     <div className="mt-3 flex flex-wrap gap-2"><button type="button" className={secondary} onClick={() => { control.current?.focus(); control.current?.select(); setNotice('Text selected. Use your device’s Copy command.'); }}>Select text to copy</button><button type="button" className={secondary} onClick={() => setNotice(requestDownload(text, filename) ? 'Download requested. If no file appears, select and copy the text.' : 'Download unavailable. Select and copy the text.')}>Download preserved text</button></div>

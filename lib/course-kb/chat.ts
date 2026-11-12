@@ -8,7 +8,7 @@ import { normalizeCoursePage } from "./context";
 import { learningActivity, learningContextChunks, learningPrompt, validateLearningRequest } from "./learning";
 import { COURSE_CHUNKS } from "./generated";
 
-const UNAVAILABLE = "The teaching assistant is temporarily unavailable. Your course lessons remain available; please try again later.";
+const UNAVAILABLE = "The Learning Companion is temporarily unavailable. Your course lessons remain available; please try again later.";
 const errorResponse = (status: number, error: string) => Response.json({ error }, { status, headers: { "Cache-Control": "no-store", ...(status === 429 ? { "Retry-After": "600" } : {}) } });
 
 type CourseChatConfig = { code?: string; model?: string; environment?: string };
@@ -23,10 +23,10 @@ export function createCourseChatHandler(options: {
   return async function POST(req: Request) {
     const settings = config();
     const origin = req.headers.get("origin");
-    if (origin && origin !== new URL(req.url).origin) return errorResponse(403, "Open the teaching assistant on this website.");
+    if (origin && origin !== new URL(req.url).origin) return errorResponse(403, "Open the Learning Companion on this website.");
     if (!isCourseCodeAccepted(settings.code, req.headers.get("x-course-code"))) return errorResponse(401, "Enter the course access code from your instructor.");
     const release = access.acquire(courseClientKey(req));
-    if (!release) return errorResponse(429, "The teaching assistant is busy or you have sent several questions. Please wait a few minutes and try again.");
+    if (!release) return errorResponse(429, "The Learning Companion is busy or you have sent several questions. Please wait a few minutes and try again.");
     try {
       const body = await readCourseRequest(req);
       const messages = validateCourseMessages(body);

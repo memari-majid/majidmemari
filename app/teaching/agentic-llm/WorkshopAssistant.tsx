@@ -199,7 +199,7 @@ export function WorkshopAssistant() {
           Building Agentic AI Applications with LLMs
         </h1>
         <p className="mt-2 text-sm text-slate-600">
-          NVIDIA DLI teaching assistant for the live lab (Dr. Majid Memari)
+          AI Workshop Companion for the NVIDIA DLI live lab (Dr. Majid Memari)
         </p>
         <p className="mt-2 text-xs leading-relaxed text-slate-600">
           This assistant follows the current notebooks (1_basic_chat through 4t_assessment), not the old
