@@ -128,44 +128,242 @@
   {
     "unit": 4,
     "page": "unit-04.html",
-    "title": "The missing-source trap",
-    "role": "Workflow designer",
-    "goal": "Place source checking and human authority before a consequential action.",
-    "scenario": "A fictional reply workflow finds no approved answer to an exception question. Choose what happens next.",
-    "choices": [
+    "title": "The Tuesday shift",
+    "role": "Cedar Desk workflow designer",
+    "goal": "Write a short workflow, observe its consequences, and revise where source checking, human authority and communication occur.",
+    "mode": "shift-run",
+    "activityRevision": 2,
+    "stamp": "Simulated — Cedar Desk — practice, not evidence",
+    "exportStamp": "Simulated rehearsal — Cedar Desk, Unit 4 — not a user test, not a grade",
+    "setting": {
+      "ownerNote": "You are helping Cedar Desk rehearse a reply workflow. Policies and requests below are fictional teaching inputs. Run the same workflow on A and B, revise it once, then try the frozen second workflow on C. No real customer, owner, booking, refund or credit is affected.",
+      "sources": [
+        {
+          "id": "S1",
+          "label": "S1 — Session",
+          "text": "A Standard Workshop lasts 90 minutes and costs $40 per participant, including materials. Participants must be at least 16."
+        },
+        {
+          "id": "S2",
+          "label": "S2 — Cancellation",
+          "text": "At least 72 hours before the session: refund eligibility. From 24 hours up to, but not including, 72 hours: credit valid for 90 days. Under 24 hours: no automatic refund or credit; the owner reviews exceptional requests. Do not promise a payment-processing date."
+        },
+        {
+          "id": "S3",
+          "label": "S3 — Rescheduling",
+          "text": "A request made at least 48 hours before the session may be considered, subject to available space and coordinator confirmation. No availability is supplied in this packet."
+        },
+        {
+          "id": "S4",
+          "label": "S4 — Missing facts",
+          "text": "Ask only for the missing fact needed to apply a policy. Classroom booking references are fictional. A draft is not confirmation that a booking was changed or a refund was processed."
+        },
+        {
+          "id": "S5",
+          "label": "S5 — Special requests",
+          "text": "Group prices, accessibility arrangements, age exceptions, and policy exceptions require owner review. The packet supplies no basis for promising them."
+        },
+        {
+          "id": "S6",
+          "label": "S6 — Release",
+          "text": "A person checks the source, conditions, tone, and next step before a reply leaves the service. A human decides exceptions and authorizes commitments."
+        }
+      ]
+    },
+    "cases": [
       {
-        "id": "1",
-        "label": "Send the most plausible answer",
-        "consequence": "A guessed rule can become an unsupported promise."
+        "id": "A",
+        "sourceCase": 5,
+        "request": "Can I move my booking to a later session? My class is in about 60 hours.",
+        "received": "9:05",
+        "policy": "S3",
+        "reactions": {
+          "false_confirmation": "Customer: So I’m in Saturday’s 10 a.m. now?"
+        }
       },
       {
-        "id": "2",
-        "label": "Flag the gap and route it to the responsible person",
-        "consequence": "The missing-source case has an explicit safe route and an accountable owner."
+        "id": "B",
+        "sourceCase": 3,
+        "request": "I have a family emergency and can't make today's 6 p.m. session. Can I get my money back?",
+        "received": "10:00 — 8 hours before the session",
+        "policy": "S2",
+        "reactions": {
+          "unsupported_commitment": "Owner: Who approved a credit? Under 24 hours, I decide. We’ve promised $40 we may not give.",
+          "routed_no_ack": "Customer at 1:10: Has anyone seen my message?"
+        }
       },
       {
-        "id": "3",
-        "label": "Ask another AI until two answers agree",
-        "consequence": "Agreement between models does not supply an authoritative source."
+        "id": "C",
+        "sourceCase": 4,
+        "request": "Please cancel my booking.",
+        "received": "Session time not supplied",
+        "policy": "S2",
+        "reactions": {
+          "routine_escalated": "Owner: When is the session? This is an ordinary cancellation. Why is it on my desk?"
+        }
       }
     ],
-    "evidence": [
-      {
-        "label": "Source gap",
-        "detail": "No exception rule appears in the approved information."
+    "drafts": {
+      "a-conditional": "A rescheduling request made at least 48 hours before your session may be considered, subject to available space and coordinator confirmation. Which later session are you requesting? No change has been confirmed.",
+      "a-unqualified": "Good news! You're more than 48 hours out, so you can move. See you then!",
+      "b-promise": "We can't usually refund within 24 hours, but we'll make an exception and give you a full credit.",
+      "b-conditional": "Under 24 hours there is no automatic refund or credit. The owner reviews exceptional requests. This draft does not approve an exception.",
+      "c-wrong-branch": "You are eligible for a refund.",
+      "ask-time": "When does your booked session begin? I need that time before applying the cancellation policy.",
+      "acknowledgement": "We received your request and have sent it to the owner for review. No refund or credit has been approved.",
+      "confirmation": "Your booking has been changed."
+    },
+    "consequences": {
+      "sent_conditions": {
+        "label": "Sent with conditions",
+        "tone": "good",
+        "path": "sent",
+        "reaction": "The customer receives the policy conditions; no booking change is claimed.",
+        "debrief": "The reply preserves the space and coordinator-confirmation conditions, and a person checks it before release. A sent reply is not a confirmed change.",
+        "question": "Which condition must remain visible in your project output?"
       },
-      {
-        "label": "Authority",
-        "detail": "The service owner can decide an exception; the drafting tool cannot grant one."
+      "false_confirmation": {
+        "label": "False confirmation",
+        "tone": "bad",
+        "path": "sent",
+        "reaction": "A change appears confirmed even though nobody authorized it.",
+        "debrief": "A plausible, friendly reply can imply that a real action occurred. Checking tone and accuracy without checking confirmations can miss that implication.",
+        "question": "What would a user mistakenly think has already happened?"
       },
-      {
-        "label": "Ordinary path",
-        "detail": "Supported drafts can still be reviewed against the source before sending."
+      "unsupported_commitment": {
+        "label": "Unsupported commitment released",
+        "tone": "bad",
+        "path": "sent",
+        "reaction": "An exception is promised without owner authorization.",
+        "debrief": "S2 allows the owner to review an exceptional request; it does not authorize the drafting tool to grant a refund or credit.",
+        "question": "Who may authorize a consequential promise in your project?"
+      },
+      "routine_escalated": {
+        "label": "Routine case escalated",
+        "tone": "warn",
+        "path": "routed",
+        "reaction": "A routine decision reaches the owner instead of being resolved from the source or by one clarifying question.",
+        "debrief": "Holding a risky draft protects against a promise, but blanket escalation uses owner attention. For missing deciding information, ask for that fact first.",
+        "question": "What could your workflow resolve or clarify before routing?"
+      },
+      "held_no_owner": {
+        "label": "Held, no owner route",
+        "tone": "warn",
+        "path": "held",
+        "reaction": "The reply is held; no responsible person receives the unresolved request.",
+        "debrief": "Stopping an unsupported promise is useful, but an unresolved case needs an explicit next step and accountable owner.",
+        "question": "Where does an unresolved request go, and who follows up?"
+      },
+      "exception_acknowledged": {
+        "label": "Routed and acknowledged",
+        "tone": "good",
+        "path": "routed",
+        "reaction": "The owner receives the exception and the customer is told that review is pending.",
+        "debrief": "An acknowledgement explains what happens next without promising the owner’s decision. The owner still has to review the request.",
+        "question": "What can you truthfully say while a decision is pending?"
+      },
+      "routed_no_ack": {
+        "label": "Routed, customer told nothing",
+        "tone": "warn",
+        "path": "routed",
+        "reaction": "The owner receives the exception; the customer receives no acknowledgement.",
+        "debrief": "The internal route protects authority, but silence leaves the customer uncertain. Routing and communicating receipt are separate actions.",
+        "question": "How will a user know their request has reached a responsible person?"
+      },
+      "unreceived_review": {
+        "label": "Review needed, owner never received it",
+        "tone": "warn",
+        "path": "sent",
+        "reaction": "A conditional reply is sent, but the owner never receives the exceptional request.",
+        "debrief": "Saying that an owner can review a request does not actually route that request. A message about a process is not the process.",
+        "question": "Which handoff must happen beyond the words in a reply?"
+      },
+      "asked_missing_time": {
+        "label": "Asked for the missing time",
+        "tone": "good",
+        "path": "asked",
+        "reaction": "The customer is asked when the booked session begins.",
+        "debrief": "The time determines which cancellation rule applies. Ask that deciding fact before drafting a policy conclusion; missing information is not automatically an exception.",
+        "question": "Which single missing fact changes the next step in your project?"
+      },
+      "wrong_branch_sent": {
+        "label": "Wrong policy branch sent",
+        "tone": "bad",
+        "path": "sent",
+        "reaction": "The customer receives a refund-eligibility statement without a known session time.",
+        "debrief": "No time is supplied, so the cancellation branch cannot be chosen. An apparently accurate rule is still unsupported when its conditions are unknown.",
+        "question": "What input would make this answer justified?"
+      },
+      "stopped": {
+        "label": "Stopped without a next step",
+        "tone": "warn",
+        "path": "stopped",
+        "reaction": "The request stays in the workflow; no reply or owner handoff occurs.",
+        "debrief": "A workflow needs a defined next action for each path. No action is safer than an unauthorized promise, but it does not resolve the request.",
+        "question": "What safe next action is missing?"
+      },
+      "unreviewed_release": {
+        "label": "Released without the required human check",
+        "tone": "bad",
+        "path": "sent",
+        "reaction": "A reply leaves the service before the required human check.",
+        "debrief": "S6 requires a person to check the source, conditions, tone and next step before release. A check after sending cannot undo a released reply.",
+        "question": "Where must a person check the draft before it can leave?"
+      },
+      "no_draft": {
+        "label": "No reply drafted",
+        "tone": "warn",
+        "path": "stopped",
+        "reaction": "The workflow has no AI draft to inspect or release.",
+        "debrief": "This rehearsal does not invent a draft when no drafting action is present. Add an explicit drafting step if that is the intended workflow.",
+        "question": "What artifact should exist at this point in your workflow?"
+      },
+      "source_missing": {
+        "label": "Approved source not consulted",
+        "tone": "warn",
+        "path": "stopped",
+        "reaction": "Drafting starts without first consulting the approved policy.",
+        "debrief": "This rehearsal stops rather than inventing a policy. Consult the approved source before drafting; later lookup cannot repair an already unsupported first draft.",
+        "question": "Which approved source must be available before drafting?"
       }
-    ],
-    "challenge": "Describe the ordinary path and the exception path. Where does the human decision occur, and what gets recorded?",
-    "worked": "The workflow separates drafting from authority: input → approved source → draft or gap flag → human check → permitted action → record. Missing information routes to the owner rather than repeated guessing. The record should identify the source version, issue, and decision without exposing unnecessary personal data.",
-    "transfer": "Add one stop condition and its responsible owner to your project workflow. Say what happens while the issue is unresolved."
+    },
+    "fixtures": {
+      "v1": {
+        "workflow": "Read the message.\nFind the matching policy on the source card.\nAsk the AI to write a friendly reply based on that policy.\nCheck tone and accuracy.\nSend."
+      },
+      "v2": {
+        "workflow": "Read the message.\nFind the matching approved policy.\nAsk AI to draft the policy’s conditions and never claim a booking changed.\nCheck tone, accuracy, commitments and confirmations; hold unapproved refund, credit, seat or exception promises.\nRoute held messages to the owner.\nSend checked replies only if not held.",
+        "reason": "Both mistakes were promises nobody approved."
+      }
+    },
+    "projectQuestion": "In your own project, where could a draft imply a commitment or an action that nobody has authorized? Name one stop condition, its owner and what the user hears while waiting.",
+    "workedRoutes": [
+      {
+        "version": 1,
+        "case": "A",
+        "consequence": "false_confirmation"
+      },
+      {
+        "version": 1,
+        "case": "B",
+        "consequence": "unsupported_commitment"
+      },
+      {
+        "version": 2,
+        "case": "A",
+        "consequence": "sent_conditions"
+      },
+      {
+        "version": 2,
+        "case": "B",
+        "consequence": "routed_no_ack"
+      },
+      {
+        "version": 2,
+        "case": "C",
+        "consequence": "routine_escalated"
+      }
+    ]
   },
   {
     "unit": 5,

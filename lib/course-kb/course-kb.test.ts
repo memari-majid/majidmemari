@@ -429,7 +429,7 @@ test("Canvas workflow guidance does not require private learner status or an exa
 });
 
 // The learning record is deliberately separate from grades, workbook notes and chat.
-const { LEARNING_ACTIVITIES, validateLearningRequest, restoreLearningRecord, learningPrompt, learningSummary, emptyLearningRecord, learningContextChunks, learningActivityRevision, learningStorageKeys, restoreLearningActivitySession, previousLearningExport, validateLearningActivityRevision } = await import('./learning');
+const { previousLearningData, LEARNING_ACTIVITIES, validateLearningRequest, restoreLearningRecord, learningPrompt, learningSummary, emptyLearningRecord, learningContextChunks, learningActivityRevision, learningStorageKeys, restoreLearningActivitySession, previousLearningExport, validateLearningActivityRevision } = await import('./learning');
 test('an activity replacement starts fresh while preserving earlier records and coaching as unmapped text', () => {
   const activity = { ...LEARNING_ACTIVITIES[5], activityRevision: 2 };
   const keys = learningStorageKeys(activity);
@@ -502,8 +502,25 @@ test('a third Unit 6 activity keeps both prior generations recoverable and isola
   }
   for (const [key, raw] of original) assert.equal(saved.get(key), raw, 'Current saves must not rewrite or remove an earlier generation');
 });
+test('Unit 4 shift keeps revision-one record and conversation byte-for-byte outside its new mode', () => {
+  const activity = LEARNING_ACTIVITIES[3];
+  assert.equal(activity.mode, 'shift-run');
+  const keys = learningStorageKeys(activity);
+  assert.equal(keys.record, 'course-decision-lab:v1:unit-04.html:activity-2');
+  assert.equal(keys.previous.length, 1);
+  const rawRecord = '{ "version": 1, "attempt": "Earlier unparsed reasoning & formatting" }';
+  const rawConversation = '{ damaged old conversation: retain this exact text }';
+  const store = new Map([[keys.previous[0].record, rawRecord], [keys.previous[0].conversation, rawConversation]]);
+  assert.deepEqual(previousLearningData(activity, key => store.get(key) ?? null), [
+    { kind: 'record', activityRevision: 1, raw: rawRecord },
+    { kind: 'conversation', activityRevision: 1, raw: rawConversation },
+  ]);
+  assert.equal(store.get(keys.previous[0].record), rawRecord);
+  assert.equal(store.get(keys.previous[0].conversation), rawConversation);
+  assert.throws(() => restoreLearningActivitySession(activity, key => store.get(key) ?? null), CourseRequestError);
+});
 test('activity revision keys preserve all unchanged labs and stale clients cannot coach a replacement case', () => {
-  for (const activity of LEARNING_ACTIVITIES.filter(a => a.unit !== 6)) {
+  for (const activity of LEARNING_ACTIVITIES.filter(a => a.unit !== 6 && a.unit !== 4)) {
     assert.equal(learningActivityRevision(activity), 1);
     assert.deepEqual(learningStorageKeys(activity), { record: `course-decision-lab:v1:${activity.page}`, conversation: `${COURSE_SESSION_KEY}:lab:${activity.page}`, previous: [] });
   }
@@ -661,6 +678,7 @@ test('full API coaching context respects every phase without retrieval leaking t
   const question = 'Give me feedback on my current decision-lab attempt and ask one question to help me improve it.';
   for (const unit of [6, 8, 9]) {
     const activity = LEARNING_ACTIVITIES[unit - 1];
+    assert(activity.mode !== 'shift-run');
     // The answer must genuinely remain in public course evidence. Generic search
     // ranking is not a staging contract: a longer lab can split across chunks.
     const workedSource = COURSE_CHUNKS.find(chunk => chunk.page === activity.page && chunk.section === activity.title && chunk.body.includes(activity.worked));
@@ -713,10 +731,15 @@ test('full API coaching context respects every phase without retrieval leaking t
   }
 });
 
-test('all twelve labs have a bounded phase-safe context with a genuine published lab source', () => {
+test('eleven classic labs keep phase-safe context and Unit 4 rejects classic coaching', () => {
   assert.equal(LEARNING_ACTIVITIES.length, 12);
   assert.equal(new Set(LEARNING_ACTIVITIES.map(activity => activity.page)).size, 12);
   for (const activity of LEARNING_ACTIVITIES) {
+    if (activity.mode === 'shift-run') {
+      assert.equal(activity.unit, 4);
+      assert.throws(() => validateLearningRequest({ phase: 'decide', choice: '', attempt: '', revision: '', transfer: '', activityRevision: 2 }, activity.page), CourseRequestError);
+      continue;
+    }
     for (const phase of ['decide', 'investigate', 'revise', 'transfer'] as const) {
       const request = { ...emptyLearningRecord(activity), phase, choice: '1', attempt: 'My first reason.', revision: 'My evidence-based revision.', transfer: 'My bounded next action.' };
       const chunks = learningContextChunks(COURSE_CHUNKS, activity, request);

@@ -3,8 +3,30 @@ import { CourseRequestError } from './validation';
 import type { CourseChunk } from './types';
 import { COURSE_SESSION_KEY } from './session';
 
-export type LearningActivity = (typeof activities)[number] & { activityRevision?: number };
-export const LEARNING_ACTIVITIES: readonly LearningActivity[] = activities;
+import type { ShiftRunActivity } from './shift-run';
+export type { ShiftRunActivity } from './shift-run';
+
+export type ClassicLearningActivity = {
+  mode?: 'decision-lab'; unit: number; page: string; title: string; role: string;
+  goal: string; scenario: string; activityRevision?: number;
+  choices: readonly { id: string; label: string; consequence: string }[];
+  evidence: readonly { label: string; detail: string }[];
+  challenge: string; worked: string; transfer: string;
+};
+export type LearningActivity = ClassicLearningActivity | ShiftRunActivity;
+// The authored/public snapshot is validated by the course builder and each
+// mode's request/state validator. Never interpret one mode's saved fields as
+// the other mode's responses.
+export const LEARNING_ACTIVITIES = activities as unknown as readonly LearningActivity[];
+export function isDecisionLabActivity(activity: LearningActivity | undefined): activity is ClassicLearningActivity {
+  return !!activity && activity.mode !== 'shift-run';
+}
+export function isShiftRunActivity(activity: LearningActivity | undefined): activity is ShiftRunActivity {
+  return activity?.mode === 'shift-run';
+}
+function requireDecisionLab(activity: LearningActivity): asserts activity is ClassicLearningActivity {
+  if (!isDecisionLabActivity(activity)) throw new CourseRequestError(400, 'This unit uses the workflow run. Open its current activity; earlier decision-lab work remains available only as a separate record.');
+}
 export const LEARNING_PHASES = ['decide', 'investigate', 'revise', 'transfer'] as const;
 export type LearningPhase = (typeof LEARNING_PHASES)[number];
 export type LearningRequest = { phase: LearningPhase; choice: string; attempt: string; revision: string; transfer: string; activityRevision?: number };
@@ -50,15 +72,18 @@ function isPristinePreviousRecord(raw: string): boolean {
       && (!hasCards || (Array.isArray(value.reviewedEvidence) && value.reviewedEvidence.length === 0));
   } catch { return false; }
 }
-export function restoreLearningActivitySession(a: LearningActivity, read: (key: string) => string | null) {
-  const keys = learningStorageKeys(a);
-  const record = restoreActivityRecord(read(keys.record), a);
+export function previousLearningData(a: ActivityIdentity, read: (key: string) => string | null, hideKnownUntouched = false): PreviousLearningData[] {
   const previous: PreviousLearningData[] = [];
-  for (const old of keys.previous) for (const kind of ['record', 'conversation'] as const) {
+  for (const old of learningStorageKeys(a).previous) for (const kind of ['record', 'conversation'] as const) {
     const raw = read(old[kind]);
-    if (raw !== null && !(kind === 'record' && isPristinePreviousRecord(raw))) previous.push({ kind, activityRevision: old.activityRevision, raw });
+    if (raw !== null && !(hideKnownUntouched && kind === 'record' && isPristinePreviousRecord(raw))) previous.push({ kind, activityRevision: old.activityRevision, raw });
   }
-  return { record, previous };
+  return previous;
+}
+export function restoreLearningActivitySession(a: LearningActivity, read: (key: string) => string | null) {
+  requireDecisionLab(a);
+  const keys = learningStorageKeys(a);
+  return { record: restoreActivityRecord(read(keys.record), a), previous: previousLearningData(a, read, true) };
 }
 
 export function validateLearningActivityRevision(a: Pick<LearningActivity, 'activityRevision'>, value: unknown): number {
@@ -76,6 +101,7 @@ export function validateLearningRequest(value: unknown, page: string): LearningR
   return validateActivityRequest(value, a);
 }
 function validateActivityRequest(value: unknown, a: LearningActivity): LearningRequest {
+  requireDecisionLab(a);
   if (!value || typeof value !== 'object' || Array.isArray(value)) throw new CourseRequestError(400, 'Choose a current unit decision lab.');
   const v = value as Record<string, unknown>;
   const activityRevision = validateLearningActivityRevision(a, v.activityRevision);
@@ -93,6 +119,7 @@ export function restoreLearningRecord(raw: string | null, page: string): Learnin
   return a ? restoreActivityRecord(raw, a) : emptyLearningRecord();
 }
 function restoreActivityRecord(raw: string | null, a: LearningActivity): LearningRecord {
+  if (!isDecisionLabActivity(a)) return emptyLearningRecord(a);
   if (!raw || raw.length > 16000) return emptyLearningRecord(a);
   try {
     const v = JSON.parse(raw);
@@ -109,12 +136,14 @@ function restoreActivityRecord(raw: string | null, a: LearningActivity): Learnin
   } catch { return emptyLearningRecord(a); }
 }
 export function learningSummary(a: LearningActivity, r: LearningRecord): string {
+  requireDecisionLab(a);
   return [`Building AI Solutions — Unit ${a.unit} decision lab: ${a.title}`, 'Fictional teaching scenario. Self-reported practice; not a grade or a submission.', `Initial choice: ${a.choices.find(c => c.id === r.choice)?.label ?? 'Not recorded'}`, `Initial reason: ${r.attempt || 'Not recorded'}`, `Revision: ${r.revision || 'Not recorded'}`, `Project action: ${r.transfer || 'Not recorded'}`, `Practice record: ${r.complete ? 'reasoning cycle recorded' : 'in progress'}`, 'Check the reasoning and add relevant work to your existing project update.'].join('\n\n');
 }
 /** The coach receives only the activity facts available at the current step.
  * Worked routes remain public in the course, but must not silently enter an
  * initial hint through retrieval or an unselected choice's consequence. */
 export function learningReference(a: LearningActivity, r: LearningRequest) {
+  requireDecisionLab(a);
   const initial = { unit: a.unit, page: a.page, title: a.title, role: a.role,
     goal: a.goal, scenario: a.scenario,
     choices: a.choices.map(({ id, label }) => ({ id, label })) };
@@ -132,6 +161,7 @@ export function learningReference(a: LearningActivity, r: LearningRequest) {
  * Reusing generic Try/solution chunks here could supply the hidden worked route
  * even when learningPrompt correctly omitted it. */
 export function learningContextChunks(chunks: readonly CourseChunk[], a: LearningActivity, r: LearningRequest): CourseChunk[] {
+  requireDecisionLab(a);
   const labSource = chunks.find(chunk => chunk.page === a.page && chunk.section === a.title);
   const selected: CourseChunk[] = labSource ? [{ ...labSource, body: JSON.stringify(learningReference(a, r)) }] : [];
   let length = selected.reduce((size, chunk) => size + chunk.body.length, 0);
@@ -144,6 +174,7 @@ export function learningContextChunks(chunks: readonly CourseChunk[], a: Learnin
 }
 
 export function learningPrompt(a: LearningActivity, r: LearningRequest): string {
+  requireDecisionLab(a);
   const phaseRules: Record<LearningPhase, string> = {
     decide: 'Before evidence is revealed: ask for a choice and its reason. Offer one conceptual hint. Do not reveal the worked answer or later evidence.',
     investigate: 'Evidence is revealed: focus on one evidence card or the consequence of the selected choice. Ask the learner to interpret it before supplying the whole solution.',
