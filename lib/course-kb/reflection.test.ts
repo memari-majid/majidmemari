@@ -1,8 +1,8 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { clearReflectionStorage, COMPANION_PROMPT_CHIPS, emptyReflection, exportReflection, prefillCompanionPrompt, readReflectionStorage, reflectionAllowedForLesson, reflectionStorageKey, REFLECTION_EXPORT_STAMP, REFLECTION_INSTRUMENT_VERSION, REFLECTION_MAX_BYTES, REFLECTION_RESEARCH_MODE, restoreReflection, saveReflectionStorage, validateReflection, validateReflectionContext, type ReflectionContext, type ReflectionStorage } from './reflection';
+import { clearReflectionStorage, COMPANION_PROMPT_CHIPS, emptyReflection, exportReflection, prefillCompanionPrompt, readReflectionStorage, readPreviousReflectionStorage, reflectionAllowedForLesson, reflectionStorageKey, REFLECTION_EXPORT_STAMP, REFLECTION_INSTRUMENT_VERSION, REFLECTION_MAX_BYTES, REFLECTION_RESEARCH_MODE, restoreReflection, saveReflectionStorage, validateReflection, validateReflectionContext, type ReflectionContext, type ReflectionStorage } from './reflection';
 
-const context: ReflectionContext = { unit: 4, page: 'unit-04.html', activityRevision: 2, activityMode: 'shift-run' };
+const context: ReflectionContext = { unit: 4, page: 'unit-04.html', activityRevision: 3, activityMode: 'shift-run' };
 function storage(initial: Map<string, string> = new Map()) {
   const calls: [string, string][] = [];
   const io: ReflectionStorage = {
@@ -24,7 +24,7 @@ test('the personal journal does not enable research and accepts a fully skipped 
 
 test('reflection context accepts only current numbered units and keeps versions and modes separate', () => {
   for (const invalid of [null, {}, { ...context, unit: 0 }, { ...context, unit: 13 }, { ...context, page: 'milestone-4.html' }, { ...context, page: 'individual-exam.html' }, { ...context, activityMode: 'exam' }, { ...context, unit: 3, page: 'unit-03.html' }, { ...context, activityRevision: 1 }, { ...context, learnerId: 'anything' }]) assert.throws(() => validateReflectionContext(invalid));
-  assert.notEqual(reflectionStorageKey(context), reflectionStorageKey({ ...context, activityRevision: 3 }));
+  assert.notEqual(reflectionStorageKey(context), reflectionStorageKey({ ...context, activityRevision: context.activityRevision + 1 }));
   assert.notEqual(reflectionStorageKey(context), reflectionStorageKey({ ...context, activityMode: 'decision-lab' }));
   assert.notEqual(reflectionStorageKey(context), reflectionStorageKey({ ...context, unit: 6, page: 'unit-06.html', activityMode: 'decision-lab' }));
 });
@@ -51,13 +51,13 @@ test('unrecognized fields, enum changes, duplicate choices and overlong text are
     { ...record, email: 'not-collected@example.test' }, { ...record, rawChat: [] }, { ...record, workbook: {} }, { ...record, consent: true },
     { ...record, instrumentVersion: 'validated-scale-v1' }, { ...record, clarity: 'mastered' }, { ...record, helpfulness: '5' }, { ...record, issueCategory: 'diagnosis' },
     { ...record, whatHelped: ['manual', 'manual'] }, { ...record, whatHelped: ['grade'] }, { ...record, whatHelped: 'source' },
-    { ...record, selfExplanation: 'x'.repeat(1001) }, { ...record, comment: 'x'.repeat(1001) }, { ...record, context: { ...context, activityRevision: 3 } },
+    { ...record, selfExplanation: 'x'.repeat(1001) }, { ...record, comment: 'x'.repeat(1001) }, { ...record, context: { ...context, activityRevision: context.activityRevision + 1 } },
   ]) assert.throws(() => validateReflection(bad, context));
   assert.doesNotThrow(() => validateReflection({ ...record, selfExplanation: 'x'.repeat(1000), comment: 'x'.repeat(1000) }, context));
 });
 
 test('corrupt, legacy, oversized or foreign-context saved text remains losslessly copyable and is not treated as answers', () => {
-  const raws = ['not JSON', '', '{"version":1,"answers":"legacy"}', JSON.stringify(emptyReflection(context), null, 2), JSON.stringify(emptyReflection(context)).replace('\"comment\":\"\"', '\"comment\":\"earlier\",\"comment\":\"later\"'), JSON.stringify({ ...emptyReflection(context), context: { ...context, activityRevision: 3 } }), ' '.repeat(REFLECTION_MAX_BYTES) + JSON.stringify(emptyReflection(context))];
+  const raws = ['not JSON', '', '{"version":1,"answers":"legacy"}', JSON.stringify(emptyReflection(context), null, 2), JSON.stringify(emptyReflection(context)).replace('\"comment\":\"\"', '\"comment\":\"earlier\",\"comment\":\"later\"'), JSON.stringify({ ...emptyReflection(context), context: { ...context, activityRevision: context.activityRevision + 1 } }), ' '.repeat(REFLECTION_MAX_BYTES) + JSON.stringify(emptyReflection(context))];
   for (const raw of raws) {
     const restored = restoreReflection(raw, context);
     assert.equal(restored.preservedRaw, raw);
@@ -116,7 +116,7 @@ test('export clearly identifies self-report and instrument/activity version with
   const decoded = JSON.parse(result.split('\n\n').at(-1)!);
   assert.deepEqual(decoded, record);
   assert.equal(decoded.context.activityMode, 'shift-run');
-  assert.equal(decoded.context.activityRevision, 2);
+  assert.equal(decoded.context.activityRevision, 3);
 });
 
 test('message starters only produce editable drafts, preserve existing text and never fabricate a sent request', () => {
@@ -136,4 +136,29 @@ test('the optional native disclosure is absent from server markup until its clie
   const { renderToString } = await import('react-dom/server');
   const { ReflectionJournal } = await import('../../app/teaching/ai-solutions/assistant/ReflectionJournal');
   assert.equal(renderToString(createElement(ReflectionJournal, { context })), '');
+});
+
+
+test('the repaired Unit 4 journal preserves revision-two raw text through one known read-only key without migration', () => {
+  const oldContext = { ...context, activityRevision: 2 };
+  assert.doesNotThrow(() => validateReflectionContext(oldContext));
+  const oldKey = reflectionStorageKey(oldContext), raw = '{ original journal text: preserve exactly }';
+  const store = storage(new Map([[oldKey, raw], ['unrelated-private-key', 'leave alone']]));
+  assert.deepEqual(readPreviousReflectionStorage(context, store.io), [{ activityRevision: 2, raw }]);
+  assert.deepEqual(store.calls, [['read', oldKey]]);
+  const current = readReflectionStorage(context, store.io);
+  assert.deepEqual(current.record, emptyReflection(context));
+  assert.equal(current.hasSavedRecord, false);
+  assert.deepEqual(saveReflectionStorage(emptyReflection(context), context, store.io), { ok: true });
+  assert(clearReflectionStorage(context, store.io));
+  assert.equal(store.initial.get(oldKey), raw);
+  assert.equal(store.initial.get('unrelated-private-key'), 'leave alone');
+});
+
+test('other units and revisions do not scan for previous private journals', () => {
+  for (const identity of [{ ...context, activityRevision: 2 }, { ...context, unit: 6, page: 'unit-06.html', activityMode: 'decision-lab' as const }, { ...context, activityRevision: 4 }]) {
+    const store = storage();
+    assert.deepEqual(readPreviousReflectionStorage(identity, store.io), []);
+    assert.equal(store.calls.length, 0);
+  }
 });

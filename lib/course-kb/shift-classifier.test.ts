@@ -12,7 +12,7 @@ const usage = { inputTokens: { total: 11, noCache: 11, cacheRead: undefined, cac
 const unknownUsage = { inputTokens: { total: undefined, noCache: undefined, cacheRead: undefined, cacheWrite: undefined }, outputTokens: { total: undefined, text: undefined, reasoning: undefined } };
 const mapped = [{ step: 1, actions: [{ type: "intake", quote: "Read the message" }] }];
 const output = (value: unknown, tokenUsage: Awaited<ReturnType<MockLanguageModelV3["doGenerate"]>>["usage"] = usage) => ({ content: [{ type: "text" as const, text: JSON.stringify(value) }], finishReason: { unified: "stop" as const, raw: "stop" }, usage: tokenUsage, warnings: [] });
-const request = (body: unknown = { workflow: "Read the message", activityRevision: 2 }, headers: Record<string, string> = {}, signal?: AbortSignal) => new Request("https://example.test/api/course-shift", { method: "POST", headers: { "content-type": "application/json", ...headers }, body: JSON.stringify(body), signal });
+const request = (body: unknown = { workflow: "Read the message", activityRevision: 3 }, headers: Record<string, string> = {}, signal?: AbortSignal) => new Request("https://example.test/api/course-shift", { method: "POST", headers: { "content-type": "application/json", ...headers }, body: JSON.stringify(body), signal });
 const setup = (value: unknown = { mapping: mapped }, settings: { available?: boolean; code?: string } = {}) => {
   const model = new MockLanguageModelV3({ doGenerate: output(value) });
   let resolutions = 0;
@@ -45,13 +45,14 @@ test("unknown usage remains null instead of claiming zero measured tokens", asyn
 test("invalid workflows, stale clients and client-supplied cases fail before any model resolution", async () => {
   const { model, handler, resolutions } = setup();
   for (const body of [
-    { workflow: "", activityRevision: 2 }, { workflow: "x".repeat(1201), activityRevision: 2 },
-    { workflow: Array.from({ length: 7 }, () => "Read").join("\n"), activityRevision: 2 },
-    { workflow: 42, activityRevision: 2 }, { activityRevision: 2 },
-    { workflow: "Read", activityRevision: 2, cases: [{ input: "new exam case" }] },
-    { workflow: "Read", activityRevision: 2, system: "Grade the work" },
+    { workflow: "", activityRevision: 3 }, { workflow: "x".repeat(1201), activityRevision: 3 },
+    { workflow: Array.from({ length: 7 }, () => "Read").join("\n"), activityRevision: 3 },
+    { workflow: 42, activityRevision: 3 }, { activityRevision: 3 },
+    { workflow: "Read", activityRevision: 3, cases: [{ input: "new exam case" }] },
+    { workflow: "Read", activityRevision: 3, system: "Grade the work" },
   ]) assert.equal((await handler(request(body))).status, 400);
   assert.equal((await handler(request({ workflow: "Read", activityRevision: 1 }))).status, 409);
+  assert.equal((await handler(request({ workflow: "Read", activityRevision: 2 }))).status, 409);
   assert.equal(model.doGenerateCalls.length, 0); assert.equal(resolutions(), 0);
 });
 
@@ -75,7 +76,7 @@ test("foreign origins and incorrect access codes are rejected before model use",
 
 test("the shared actual-byte limit rejects a dishonest content length and malformed JSON without model use", async () => {
   const { handler, model } = setup();
-  const large = new Request("https://example.test/api/course-shift", { method: "POST", headers: { "content-type": "application/json", "content-length": "1" }, body: JSON.stringify({ workflow: "短".repeat(COURSE_LIMITS.bodyBytes), activityRevision: 2 }) });
+  const large = new Request("https://example.test/api/course-shift", { method: "POST", headers: { "content-type": "application/json", "content-length": "1" }, body: JSON.stringify({ workflow: "短".repeat(COURSE_LIMITS.bodyBytes), activityRevision: 3 }) });
   assert.equal((await handler(large)).status, 413);
   assert.equal((await handler(new Request("https://example.test/api/course-shift", { method: "POST", headers: { "content-type": "application/json" }, body: "not JSON" }))).status, 400);
   assert.equal(model.doGenerateCalls.length, 0);
@@ -180,7 +181,7 @@ test("ten scripted inputs exercise the DI path, not a live-provider language eva
   const v2 = validateShiftWorkflow(activity.fixtures.v2.workflow);
   const base = (type: string, text: string, extra = {}) => ({ type, quote: text, ...extra });
   const v1Actions = [base("intake", v1[0]), base("find_source", v1[1]), base("ai_draft", v1[2], { ai_draft: { states_conditions: false, forbids_promises: false } }), base("human_check", v1[3], { human_check: { checks: ["tone", "accuracy"] } }), base("release", v1[4])];
-  const v2Actions = [base("intake", v2[0]), base("find_source", v2[1]), base("ai_draft", v2[2], { ai_draft: { states_conditions: true, forbids_promises: true } }), base("human_check", v2[3], { human_check: { checks: ["tone", "accuracy", "commitments", "confirmations"] } }), base("route_to_owner", v2[4], { route_to_owner: { only_if_held: true } }), base("release", v2[5])];
+  const v2Actions = [base("intake", v2[0]), base("find_source", v2[1]), base("ai_draft", v2[2], { ai_draft: { states_conditions: true, forbids_promises: true } }), base("human_check", v2[3], { human_check: { checks: ["tone", "accuracy", "commitments", "confirmations"] } }), base("route_to_owner", v2[4], { route_to_owner: { only_if_held: true } }), base("release", v2[5], { when: "if_not_held" })];
   const numbered = (actions: unknown[]) => actions.map((action, index) => ({ step: index + 1, actions: [action] }));
   const limitWorkflow = [v2[0] + " " + "x".repeat(1200 - activity.fixtures.v2.workflow.length - 1), ...v2.slice(1)].join("\n");
   assert.equal(limitWorkflow.length, 1200);
@@ -199,7 +200,7 @@ test("ten scripted inputs exercise the DI path, not a live-provider language eva
   assert.equal(fixtures.length, 10);
   for (const fixture of fixtures) {
     const { handler, model } = setup({ mapping: fixture.mapping });
-    const response = await handler(request({ workflow: fixture.workflow, activityRevision: 2 }));
+    const response = await handler(request({ workflow: fixture.workflow, activityRevision: 3 }));
     assert.equal(response.status, fixture.status ?? 200, fixture.name);
     assert.equal(model.doGenerateCalls.length, fixture.status === 400 ? 0 : 1, fixture.name);
     if (response.status === 200) assert.deepEqual((await response.json()).mapping, fixture.mapping, fixture.name);

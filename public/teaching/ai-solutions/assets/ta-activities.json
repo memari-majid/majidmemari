@@ -132,7 +132,7 @@
     "role": "Cedar Desk workflow designer",
     "goal": "Write a short workflow, observe its consequences, and revise where source checking, human authority and communication occur.",
     "mode": "shift-run",
-    "activityRevision": 2,
+    "activityRevision": 3,
     "stamp": "Simulated — Cedar Desk — practice, not evidence",
     "exportStamp": "Simulated rehearsal — Cedar Desk, Unit 4 — not a user test, not a grade",
     "setting": {
@@ -211,7 +211,8 @@
       "c-wrong-branch": "You are eligible for a refund.",
       "ask-time": "When does your booked session begin? I need that time before applying the cancellation policy.",
       "acknowledgement": "We received your request and have sent it to the owner for review. No refund or credit has been approved.",
-      "confirmation": "Your booking has been changed."
+      "confirmation": "Your booking has been changed.",
+      "acknowledgement-pending": "We received your request. A review is pending; no change, refund or credit has been approved."
     },
     "consequences": {
       "sent_conditions": {
@@ -227,7 +228,7 @@
         "tone": "bad",
         "path": "sent",
         "reaction": "A change appears confirmed even though nobody authorized it.",
-        "debrief": "A plausible, friendly reply can imply that a real action occurred. Checking tone and accuracy without checking confirmations can miss that implication.",
+        "debrief": "A change was implied or claimed without supplied authorization or a completed action. Compare your wording, the accepted interpretation and its action trace: a named check cannot create approval, and a misread guard needs correction rather than blame.",
         "question": "What would a user mistakenly think has already happened?"
       },
       "unsupported_commitment": {
@@ -307,7 +308,7 @@
         "tone": "bad",
         "path": "sent",
         "reaction": "A reply leaves the service before the required human check.",
-        "debrief": "S6 requires a person to check the source, conditions, tone and next step before release. A check after sending cannot undo a released reply.",
+        "debrief": "S6 requires source, conditions, tone and next-step review before an outgoing message. Inspect the accepted mapping and the coverage recorded at that moment. A check may have been omitted, placed later, or misinterpreted; use the actual trace rather than assuming which happened.",
         "question": "Where must a person check the draft before it can leave?"
       },
       "no_draft": {
@@ -334,6 +335,10 @@
       "v2": {
         "workflow": "Read the message.\nFind the matching approved policy.\nAsk AI to draft the policy’s conditions and never claim a booking changed.\nCheck tone, accuracy, commitments and confirmations; hold unapproved refund, credit, seat or exception promises.\nRoute held messages to the owner.\nSend checked replies only if not held.",
         "reason": "Both mistakes were promises nobody approved."
+      },
+      "safe": {
+        "workflow": "Read the request; if the session time is missing, ask the customer for it and stop this case until they reply.\nRead the approved source card and check the request against its source conditions.\nDraft a reply that states the source conditions and makes no unsupported promise or confirmation.\nA person checks the source, conditions, tone, and next step before the reply leaves the service.\nIf the case is held, route it to the owner, then acknowledge to the customer that it is under review without promising a change.\nRelease only a reviewed draft that is not held.",
+        "reason": "Check missing facts before drafting; review source conditions and route exceptions before communicating a status."
       }
     },
     "projectQuestion": "In your own project, where could a draft imply a commitment or an action that nobody has authorized? Name one stop condition, its owner and what the user hears while waiting.",
@@ -362,6 +367,20 @@
         "version": 2,
         "case": "C",
         "consequence": "routine_escalated"
+      }
+    ],
+    "safeWorkedRoutes": [
+      {
+        "case": "A",
+        "consequence": "sent_conditions"
+      },
+      {
+        "case": "B",
+        "consequence": "exception_acknowledged"
+      },
+      {
+        "case": "C",
+        "consequence": "asked_missing_time"
       }
     ]
   },
