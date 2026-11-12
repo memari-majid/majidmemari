@@ -62,7 +62,7 @@ export default function ProjectsPage() {
         <p className="mt-4 max-w-2xl leading-relaxed text-slate-600">AI, machine learning, high-performance computing, and data analytics, organized by research focus.</p>
         <ResearchDirectory groups={groups} />
         <div className="mt-12 flex flex-wrap items-center justify-between gap-x-8 gap-y-2 border-t border-slate-200 pt-6 text-sm">
-          <Link href="/?chat=open" className="inline-flex min-h-11 items-center font-medium text-teal-800 underline underline-offset-4">Discuss a research interest →</Link>
+          <Link href="/?inquiry=research" className="inline-flex min-h-11 items-center font-medium text-teal-800 underline underline-offset-4">Discuss a research interest →</Link>
           <a href={SITE.scholar} target="_blank" rel="me noopener noreferrer" referrerPolicy="no-referrer" className="inline-flex min-h-11 items-center text-teal-800 underline underline-offset-4">All records on Google Scholar ↗<span className="sr-only"> (opens in a new tab)</span></a>
         </div>
       </main>

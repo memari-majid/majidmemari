@@ -42,7 +42,7 @@ export default function AboutPage() {
         <div className="mt-12 border-t border-slate-200 pt-10">
           <BioCategories />
         </div>
-        <section aria-labelledby="background-heading" className="mt-10 rounded-2xl border border-slate-200 bg-white p-6">
+        <section aria-labelledby="background-heading" className="mt-10 border-t border-slate-200 pt-8">
           <h2 id="background-heading" className="text-xl font-semibold">Background</h2>
           <div className="mt-6 grid gap-6 sm:grid-cols-[1.2fr_1fr] sm:gap-8">
             <div>
@@ -68,22 +68,19 @@ export default function AboutPage() {
                   <p className="text-slate-600">{MAJID.certifications.aiForBusiness.issuer}</p>
                 </li>
               </ul>
-              <Link className={`mt-6 inline-flex min-h-11 items-center text-sm font-medium ${linkClass}`} href="/projects">Research →</Link>
             </div>
           </div>
         </section>
         <section aria-labelledby="connect-heading" className="mt-10">
           <h2 id="connect-heading" className="text-xl font-semibold">Connect &amp; explore</h2>
           <div className="mt-4 flex flex-wrap gap-x-6 gap-y-4 text-sm">
-            <Link className={linkClass} href="/teaching">Courses &amp; workshops</Link>
-            <Link className={linkClass} href="/#mentorship">Mentorship</Link>
             <a className={linkClass} href={SITE.linkedin} rel="me">LinkedIn</a>
             <a className={linkClass} href={SITE.github} rel="me">GitHub</a>
             <a className={linkClass} href={SITE.scholar} rel="me">Google Scholar</a>
             <a className={linkClass} href={MAJID.orcid} rel="me">ORCID</a>
           </div>
           <p className="mt-7 text-sm text-slate-600">
-            To discuss a course, workshop, or project, <Link className={linkClass} href="/#contact">get in touch</Link>.
+            To discuss a course, workshop, or project, <Link className={linkClass} href="/?inquiry=general">get in touch</Link>.
           </p>
         </section>
       </main>

@@ -1,4 +1,6 @@
 import type { Metadata, Viewport } from "next";
+import { Suspense } from "react";
+import { InquiryDialog } from "@/app/components/InquiryDialog";
 import "./globals.css";
 import { ThemeProvider } from "@/app/components/ThemeProvider";
 import { SITE, SITE_URL } from "@/lib/site";
@@ -70,7 +72,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className="min-w-0 overflow-x-hidden antialiased">
-        <ThemeProvider>{children}</ThemeProvider>
+        <ThemeProvider>{children}<Suspense fallback={null}><InquiryDialog /></Suspense></ThemeProvider>
       </body>
     </html>
   );

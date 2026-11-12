@@ -9,7 +9,7 @@ The site uses Next.js 15 App Router, React 19, TypeScript, Tailwind CSS 4 and Ve
 | Path | Purpose |
 | --- | --- |
 | `/` | Courses, workshops, mentorship and contact |
-| `/teaching` | Learning offerings and workshop overview |
+| `/#teaching` | Courses and workshops in the homepage overview (`/teaching` redirects here) |
 | `/teaching/ai-solutions/index.html` | Complete Building AI Solutions course |
 | `/teaching/ai-solutions/assistant` | Course AI teaching assistant |
 | `/teaching/agentic-llm` | Separate NVIDIA DLI workshop and workshop assistant |
@@ -93,7 +93,7 @@ The course model precedence is `COURSE_TA_MODEL` → `WORKSHOP_TA_MODEL` → `an
 
 Course requests are bounded to 16 messages, 4,000 characters per user message, 8,000 per assistant message, 20,000 total text characters and 48 KiB JSON. Generation is capped at 3,000 output tokens and 50 seconds while the teaching prompt requests concise answers. Native finish-reason metadata and interruption callbacks show a visible notice when an answer reaches its length limit or does not finish normally. Best-effort per-process controls allow eight requests per client hint per ten minutes, 120 total per ten minutes and four concurrent generations. **Cold starts and parallel instances have separate counters: these are not a distributed quota or hard spending ceiling.** Use Gateway/platform budget controls when deployment-wide limits are needed. A shared code is an optional gate, not individual authentication; the UI keeps it only in memory.
 
-The website chatbot contains the inquiry form. `GET /api/contact` reports delivery availability without exposing addresses. All three delivery variables are required. If unavailable, the form explicitly reports that inquiries cannot be sent; there is no log-only success or public email fallback. Only a provider-accepted response returns success. AI chat itself does not send an inquiry.
+Contact links open one native inquiry dialog directly: `/?inquiry=general`, `/?inquiry=mentorship`, `/?inquiry=workshop`, or `/?inquiry=research`. Topic links prefill the message; opening the dialog never sends it. The website chatbot links to the same form. `GET /api/contact` reports delivery availability without exposing addresses. All three delivery variables are required. If unavailable, the form reports it and offers LinkedIn; there is no log-only success or public email fallback. Only a provider-accepted response returns success. AI chat itself does not send an inquiry.
 
 ## Validation
 

@@ -1,9 +1,6 @@
-import { MAJID } from "@/lib/majid";
-
 const BIO_SECTIONS = [
-  { title: "Teaching", text: MAJID.bio.academia },
-  { title: "Applied AI", text: MAJID.bio.industry },
-  { title: "Mentorship & collaboration", text: MAJID.bio.community },
+  { title: "Teaching", text: "I teach practical AI through worked examples, interactive practice, and projects." },
+  { title: "Applied AI", text: "My work spans machine learning, language models, agents, computer vision, and data governance." },
 ];
 
 export function BioCategories({ className = "" }: { className?: string }) {

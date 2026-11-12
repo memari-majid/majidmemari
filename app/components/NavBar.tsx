@@ -4,10 +4,8 @@ import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 
 const NAV_ITEMS = [
-  { label: "Courses", href: "/teaching" },
+  { label: "Courses & workshops", href: "/#teaching" },
   { label: "Research", href: "/projects" },
-  { label: "Workshops", href: "/#workshops" },
-  { label: "Mentorship", href: "/#mentorship" },
   { label: "About", href: "/about" },
 ];
 
@@ -40,7 +38,7 @@ export function NavBar() {
               {item.label}
             </Link>
           ))}
-          <Link href="/?chat=open" onClick={() => window.dispatchEvent(new Event("open-website-chat"))} className="inline-flex min-h-11 items-center rounded-xl bg-slate-900 px-5 text-sm font-semibold text-white transition hover:bg-blue-900">Let’s talk</Link>
+          <Link href="/?inquiry=general" className="inline-flex min-h-11 items-center rounded-xl bg-slate-900 px-5 text-sm font-semibold text-white transition hover:bg-slate-950">Contact</Link>
         </div>
         <button
           ref={menuButton}
@@ -63,7 +61,7 @@ export function NavBar() {
               {item.label}
             </Link>
           ))}
-          <Link href="/?chat=open" onClick={() => { setMenuOpen(false); window.dispatchEvent(new Event("open-website-chat")); }} className="mt-2 flex min-h-12 items-center justify-center rounded-xl bg-slate-900 px-5 text-sm font-semibold text-white">Let’s talk</Link>
+          <Link href="/?inquiry=general" onClick={() => setMenuOpen(false)} className="mt-2 flex min-h-12 items-center justify-center rounded-xl bg-slate-900 px-5 text-sm font-semibold text-white">Contact</Link>
         </nav>
       ) : null}
     </header>
