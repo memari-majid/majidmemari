@@ -332,7 +332,7 @@ test("API passes the open unit as context and emits sources from that unit", asy
   assert(canvasSystem.includes("PUBLIC ASYNCHRONOUS EDITION LAYOUT"));
   assert(canvasSystem.includes("practice and check-in quiz"));
   assert(canvasSystem.includes("KNOWN CANVAS ROUTINE:"));
-  assert(canvasSystem.includes("a submitted quiz attempt fulfills the requirement even while the zero-point essay awaits instructor review"));
+  assert(canvasSystem.includes("a submitted quiz attempt fulfills the requirement even when the zero-point written update has not received instructor feedback"));
 });
 
 
@@ -400,7 +400,12 @@ test("Canvas policy precedence accompanies standalone rubric evidence without le
   assert(embedded.indexOf("POLICY PRECEDENCE:") < embedded.indexOf("COURSE EVIDENCE ("));
   assert.match(embedded, /current Canvas Course Guide, assignment, rubric and published offering instructions determine the actual assessment arrangement/);
   assert.match(embedded, /combined 100-point Milestone 5 rubric; do not present those as verified settings/);
-  assert.match(embedded, /written response needs instructor review and may show pending feedback/);
+  assert.match(embedded, /Routine written updates are self-checked against the prompt, worked examples and milestone criteria/);
+  assert.match(embedded, /the instructor provides targeted help on request, samples work and assesses the milestones and individual exam/);
+  assert.match(embedded, /Do not promise a personal review of every unit essay/);
+  assert.match(embedded, /Choice questions have immediate explanatory feedback; they do not evaluate the written response/);
+  assert.match(embedded, /Canvas may still label an essay Pending Review/);
+  assert.match(embedded, /active quizzes keep the latest attempt, retain earlier attempts, and contribute 0% to the course grade/);
   assert.match(embedded, /not a live read of Canvas/);
   assert.match(embedded, /do not produce a complete assessed response for submission/);
   assert.match(embedded, /do not have access to a private examiner marking key, Canvas submissions, scores, private feedback, or simulation state/);
