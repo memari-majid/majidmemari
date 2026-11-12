@@ -115,8 +115,8 @@
     },
     {
       "path": "downloads/course-site.zip",
-      "bytes": 252712,
-      "sha256": "96f8c01c27812ec3332383924958f282b8c160e00100e86faa98c287be80da23"
+      "bytes": 254917,
+      "sha256": "1018282cf1c3f2c143742584e36b4908f6ced63e4b173fb4e1b403bb337af6f3"
     },
     {
       "path": "downloads/project-record.txt",
@@ -280,8 +280,8 @@
     },
     {
       "path": "readings.html",
-      "bytes": 19551,
-      "sha256": "c34eaaca50d392c96e5adf55fc9d31eab035a3bbaa5d58fd5cbd7b4d079d27fd"
+      "bytes": 21226,
+      "sha256": "94096ed4233b11ab7a53fa7dc3d0fa0fdd21585311cd38c4333ef1440732dbae"
     },
     {
       "path": "resources.html",
@@ -295,8 +295,8 @@
     },
     {
       "path": "unit-01.html",
-      "bytes": 38281,
-      "sha256": "59b178e0b6b8da6671b85b5f8af16653b4b42473f00622cc88fd7ea3b5671aec"
+      "bytes": 39956,
+      "sha256": "dd27b58ac591284365bdfa1e320cb296651cd12f6b2f4982d8d79bc69728fbde"
     },
     {
       "path": "unit-02.html",
@@ -310,8 +310,8 @@
     },
     {
       "path": "unit-04.html",
-      "bytes": 23892,
-      "sha256": "a4c7dbaa0e53b67c5ae30841b0427b657bfa6c46e5c80bb272abf784425935b8"
+      "bytes": 25567,
+      "sha256": "847742f5cdeaa92ea7ebe2a5421f631dca4328423e0f3b51f21e3d84fe510e00"
     },
     {
       "path": "unit-05.html",
@@ -345,8 +345,8 @@
     },
     {
       "path": "unit-11.html",
-      "bytes": 21364,
-      "sha256": "7356b4299a5da4fc4b7f9c70749be33b7a0779a747c30ba52d23feae832155f4"
+      "bytes": 23039,
+      "sha256": "1d1cd8a15d2616b7096ed7ff5e979366b8384d7575d69d6f7bab357e1ea04f19"
     },
     {
       "path": "unit-12.html",
