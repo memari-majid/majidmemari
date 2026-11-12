@@ -481,12 +481,14 @@ test('damaged earlier activity data remain losslessly exportable without enterin
 test('a positively recognized untouched earlier record is hidden without deleting any saved data', () => {
   const activity = { ...LEARNING_ACTIVITIES[5], activityRevision: 2 };
   const keys = learningStorageKeys(activity);
-  const raw = JSON.stringify(emptyLearningRecord());
-  const saved = new Map([[keys.previous[0].record, raw]]);
-  const restored = restoreLearningActivitySession(activity, key => saved.get(key) ?? null);
-  assert.deepEqual(restored.previous, [], 'Merely opening the earlier lab should not announce previous work');
-  assert.equal(saved.get(keys.previous[0].record), raw, 'The untouched earlier key is retained exactly');
-  assert.deepEqual(restored.record, emptyLearningRecord(activity));
+  const observedEightField = '{"phase":"decide","choice":"","attempt":"","revision":"","transfer":"","version":1,"committed":false,"complete":false}';
+  for (const raw of [JSON.stringify(emptyLearningRecord()), observedEightField]) {
+    const saved = new Map([[keys.previous[0].record, raw]]);
+    const restored = restoreLearningActivitySession(activity, key => saved.get(key) ?? null);
+    assert.deepEqual(restored.previous, [], 'Merely opening either known earlier lab format should not announce previous work');
+    assert.equal(saved.get(keys.previous[0].record), raw, 'The untouched earlier key is retained exactly');
+    assert.deepEqual(restored.record, emptyLearningRecord(activity));
+  }
 });
 test('any earlier writing, choice, progress, unknown field or unrecognized data remain visible and exportable', () => {
   const activity = { ...LEARNING_ACTIVITIES[5], activityRevision: 2 };
@@ -499,6 +501,7 @@ test('any earlier writing, choice, progress, unknown field or unrecognized data 
     { ...empty, reviewedEvidence: null },
   ].map(value => JSON.stringify(value));
   records.push('{broken', JSON.stringify(empty, null, 2), JSON.stringify(empty).replace('"attempt":""', '"attempt":"An earlier value","attempt":""'));
+  records.push('{"phase":"decide","choice":"","attempt":"","revision":"","transfer":"","version":1,"committed":false,"complete":false,"note":"An unknown field in the eight-field format"}');
   for (const raw of records) {
     const restored = restoreLearningActivitySession(activity, requested => requested === key ? raw : null);
     assert.equal(restored.previous.length, 1);

@@ -37,16 +37,17 @@ function isPristinePreviousRecord(raw: string): boolean {
   try {
     const value = JSON.parse(raw);
     if (!value || typeof value !== 'object' || Array.isArray(value)) return false;
-    const fields = ['version', 'phase', 'choice', 'attempt', 'revision', 'transfer', 'complete', 'committed', 'reviewedEvidence'];
+    const fields = ['version', 'phase', 'choice', 'attempt', 'revision', 'transfer', 'complete', 'committed'];
+    const hasCards = Object.hasOwn(value, 'reviewedEvidence');
     // Recognize only the compact format actually saved by the earlier UI.
     // Reserializing must match too: duplicate keys or unfamiliar formatting are
     // preserved for inspection rather than hiding potentially meaningful data.
-    return raw === JSON.stringify(value) && Object.keys(value).length === fields.length
+    return raw === JSON.stringify(value) && Object.keys(value).length === fields.length + (hasCards ? 1 : 0)
       && fields.every(field => Object.hasOwn(value, field))
       && value.version === 1 && value.phase === 'decide' && value.choice === ''
       && value.attempt === '' && value.revision === '' && value.transfer === ''
       && value.complete === false && value.committed === false
-      && Array.isArray(value.reviewedEvidence) && value.reviewedEvidence.length === 0;
+      && (!hasCards || (Array.isArray(value.reviewedEvidence) && value.reviewedEvidence.length === 0));
   } catch { return false; }
 }
 export function restoreLearningActivitySession(a: LearningActivity, read: (key: string) => string | null) {
