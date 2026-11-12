@@ -19,7 +19,7 @@ function Paper({ paper, projectSlug }: { paper: DirectoryPublication; projectSlu
   return (
     <article id={paper.id} data-publication-id={paper.id} tabIndex={-1} className="scroll-mt-28 py-4">
       <p className="text-xs text-slate-500">{paper.year} · {paper.kindLabel}{relationship ? ` · ${relationship === "direct" ? "Project publication" : "Related research"}` : ""}</p>
-      <Heading className="mt-1 text-sm font-medium leading-relaxed text-slate-900"><a href={paper.href} target="_blank" rel="noopener noreferrer" referrerPolicy="no-referrer" className="underline-offset-4 hover:text-teal-800 hover:underline">{paper.title} <span aria-hidden="true">↗</span><span className="sr-only"> (opens the publication record in a new tab)</span></a></Heading>
+      <Heading className="mt-1 text-sm font-medium leading-relaxed text-slate-900"><a href={paper.href} target="_blank" rel="noopener noreferrer" referrerPolicy="no-referrer" className="block min-h-11 underline-offset-4 hover:text-teal-800 hover:underline">{paper.title} <span aria-hidden="true">↗</span><span className="sr-only"> (opens the publication record in a new tab)</span></a></Heading>
       <p aria-label="Scientific keywords" className="mt-2 text-xs leading-relaxed text-teal-800">{paper.keywords.join(" · ")}</p>
       <p className="mt-2 text-xs leading-relaxed text-slate-500">{paper.authors} · {paper.venue}</p>
       {paper.note && <p className="mt-1 text-xs leading-relaxed text-slate-500">{paper.note}</p>}
