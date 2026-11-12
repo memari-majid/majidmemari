@@ -453,6 +453,50 @@ test('an activity replacement starts fresh while preserving earlier records and 
   assert.deepEqual(reloaded.record, current, 'The replacement activity still saves and resumes its own attempt');
   for (const [key, value] of snapshot) assert.equal(saved.get(key), value);
 });
+test('a third Unit 6 activity keeps both prior generations recoverable and isolates the current attempt', () => {
+  const activity = { ...LEARNING_ACTIVITIES[5], activityRevision: 3 };
+  assert.equal(activity.page, 'unit-06.html');
+  const keys = learningStorageKeys(activity);
+  assert.equal(keys.record, 'course-decision-lab:v1:unit-06.html:activity-3');
+  assert.equal(keys.conversation, `${COURSE_SESSION_KEY}:lab:unit-06.html:activity-3`);
+  assert.deepEqual(keys.previous.map(old => old.activityRevision), [1, 2]);
+  const saved = new Map<string, string>();
+  const earlierPhrases: string[] = [];
+  for (const old of keys.previous) {
+    const previousActivity = { ...activity, activityRevision: old.activityRevision };
+    const reason = `QA original reasoning from activity ${old.activityRevision}.`;
+    const question = `QA original coaching question from activity ${old.activityRevision}.`;
+    earlierPhrases.push(reason, question);
+    saved.set(old.record, JSON.stringify({ ...emptyLearningRecord(previousActivity), choice: '2', attempt: reason,
+      revision: `QA previous revision ${old.activityRevision}.`, transfer: `QA previous action ${old.activityRevision}.`,
+      phase: 'transfer', committed: true, complete: true, reviewedEvidence: [0, 2] }));
+    saved.set(old.conversation, serializeCourseSession([uiText('user', question, `old-${old.activityRevision}`),
+      uiText('assistant', `QA original coaching response ${old.activityRevision}.`, `reply-${old.activityRevision}`)], activity.page));
+  }
+  const original = new Map(saved);
+  const initial = restoreLearningActivitySession(activity, key => saved.get(key) ?? null);
+  assert.deepEqual(initial.record, emptyLearningRecord(activity));
+  assert.deepEqual(initial.previous.map(old => [old.activityRevision, old.kind]), [[1, 'record'], [1, 'conversation'], [2, 'record'], [2, 'conversation']]);
+  for (const old of initial.previous) assert(previousLearningExport(activity.unit, old).endsWith(old.raw), 'Both earlier records and conversations remain losslessly exportable');
+  assert.deepEqual(saved, original, 'Discovering previous work must not alter either generation');
+  const current = { ...emptyLearningRecord(activity), choice: '2', attempt: 'QA current extraction uses its own 80-minute baseline.',
+    phase: 'investigate' as const, committed: true, reviewedEvidence: [0] };
+  const currentQuestion = 'QA current activity-three coaching question.';
+  saved.set(keys.record, JSON.stringify(current));
+  saved.set(keys.conversation, serializeCourseSession([uiText('user', currentQuestion, 'current-three')], activity.page));
+  const reloaded = restoreLearningActivitySession(activity, key => saved.get(key) ?? null);
+  assert.deepEqual(reloaded.record, current);
+  assert.deepEqual(reloaded.previous, initial.previous);
+  assert.equal(parseCourseSession(saved.get(keys.conversation)!).messages[0].parts[0].type, 'text');
+  assert(saved.get(keys.conversation)!.includes(currentQuestion));
+  const prompt = learningPrompt(activity, reloaded.record);
+  assert(prompt.includes(current.attempt));
+  for (const phrase of earlierPhrases) {
+    assert(!prompt.includes(phrase), 'Neither earlier case may enter current coaching context');
+    assert(!saved.get(keys.conversation)!.includes(phrase), 'Current coaching uses its own conversation key');
+  }
+  for (const [key, raw] of original) assert.equal(saved.get(key), raw, 'Current saves must not rewrite or remove an earlier generation');
+});
 test('activity revision keys preserve all unchanged labs and stale clients cannot coach a replacement case', () => {
   for (const activity of LEARNING_ACTIVITIES.filter(a => a.unit !== 6)) {
     assert.equal(learningActivityRevision(activity), 1);
@@ -523,10 +567,13 @@ test('the coaching API rejects an out-of-date activity before invoking the model
   const revision = learningActivityRevision(activity);
   const handler = createCourseChatHandler({ model: () => model, access: createCourseAccess(), config: () => ({}) });
   const call = (value: number | undefined) => handler(new Request('https://example.test/api/course-chat', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ lesson: activity.page, messages: [text('user', 'Coach my current attempt.')], learning: { phase: 'decide', choice: '', attempt: '', revision: '', transfer: '', ...(value === undefined ? {} : { activityRevision: value }) } }) }));
-  const stale = await call(revision > 1 ? undefined : 2);
-  assert.equal(stale.status, 400);
-  assert.match(await stale.text(), /decision lab has changed/);
-  assert.equal(model.doStreamCalls.length, 0);
+  const staleRevisions = revision > 1 ? [undefined, ...Array.from({ length: revision - 1 }, (_, index) => index + 1)] : [2];
+  for (const staleRevision of staleRevisions) {
+    const stale = await call(staleRevision);
+    assert.equal(stale.status, 400, `Earlier activity ${staleRevision ?? 'unversioned'} must reload before coaching`);
+    assert.match(await stale.text(), /decision lab has changed/);
+    assert.equal(model.doStreamCalls.length, 0, 'Reject every earlier revision before invoking the model');
+  }
   const current = await call(revision);
   assert.equal(current.status, 200);
   assert.match(await current.text(), /Which field would you check first/);
