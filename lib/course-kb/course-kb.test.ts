@@ -478,6 +478,39 @@ test('damaged earlier activity data remain losslessly exportable without enterin
   assert(previousLearningExport(activity.unit, snapshot.previous[0]).endsWith(damaged));
   assert(!learningPrompt(activity, snapshot.record).includes(damaged));
 });
+test('a positively recognized untouched earlier record is hidden without deleting any saved data', () => {
+  const activity = { ...LEARNING_ACTIVITIES[5], activityRevision: 2 };
+  const keys = learningStorageKeys(activity);
+  const raw = JSON.stringify(emptyLearningRecord());
+  const saved = new Map([[keys.previous[0].record, raw]]);
+  const restored = restoreLearningActivitySession(activity, key => saved.get(key) ?? null);
+  assert.deepEqual(restored.previous, [], 'Merely opening the earlier lab should not announce previous work');
+  assert.equal(saved.get(keys.previous[0].record), raw, 'The untouched earlier key is retained exactly');
+  assert.deepEqual(restored.record, emptyLearningRecord(activity));
+});
+test('any earlier writing, choice, progress, unknown field or unrecognized data remain visible and exportable', () => {
+  const activity = { ...LEARNING_ACTIVITIES[5], activityRevision: 2 };
+  const key = learningStorageKeys(activity).previous[0].record;
+  const empty = emptyLearningRecord();
+  const records = [
+    { ...empty, attempt: ' ' }, { ...empty, choice: '1' }, { ...empty, revision: 'A note.' }, { ...empty, transfer: 'My action.' },
+    { ...empty, reviewedEvidence: [0] }, { ...empty, phase: 'investigate' }, { ...empty, committed: true }, { ...empty, complete: true },
+    { ...empty, note: 'An unfamiliar saved field.' }, { ...empty, version: 7 }, { ...empty, activityRevision: 1 },
+    { ...empty, reviewedEvidence: null },
+  ].map(value => JSON.stringify(value));
+  records.push('{broken', JSON.stringify(empty, null, 2), JSON.stringify(empty).replace('"attempt":""', '"attempt":"An earlier value","attempt":""'));
+  for (const raw of records) {
+    const restored = restoreLearningActivitySession(activity, requested => requested === key ? raw : null);
+    assert.equal(restored.previous.length, 1);
+    assert.equal(restored.previous[0].raw, raw);
+    assert(previousLearningExport(activity.unit, restored.previous[0]).endsWith(raw));
+    assert.deepEqual(restored.record, emptyLearningRecord(activity));
+  }
+  const conversation = JSON.stringify({ version: 2, lesson: activity.page, messages: [] });
+  const conversationKey = learningStorageKeys(activity).previous[0].conversation;
+  const preserved = restoreLearningActivitySession(activity, requested => requested === conversationKey ? conversation : null);
+  assert.equal(preserved.previous[0].raw, conversation, 'This narrow refinement does not filter or rewrite conversations');
+});
 test('the coaching API rejects an out-of-date activity before invoking the model', async () => {
   const model = new MockLanguageModelV3({ doStream: async () => ({ stream: simulateReadableStream({ initialDelayInMs: null, chunkDelayInMs: null, chunks: [
     { type: 'text-start', id: 'revision' }, { type: 'text-delta', id: 'revision', delta: 'Which field would you check first?' }, { type: 'text-end', id: 'revision' },

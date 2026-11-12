@@ -32,13 +32,30 @@ export function previousLearningExport(unit: number, saved: PreviousLearningData
   return [`Building AI Solutions — Unit ${unit}: previous activity ${saved.kind} (revision ${saved.activityRevision})`,
     'Preserved original data from an earlier activity. Choice and evidence indexes belong to that earlier activity. This is not a current attempt, a grade or a submission.', saved.raw].join('\n\n');
 }
+function isPristinePreviousRecord(raw: string): boolean {
+  if (raw.length > 16000) return false;
+  try {
+    const value = JSON.parse(raw);
+    if (!value || typeof value !== 'object' || Array.isArray(value)) return false;
+    const fields = ['version', 'phase', 'choice', 'attempt', 'revision', 'transfer', 'complete', 'committed', 'reviewedEvidence'];
+    // Recognize only the compact format actually saved by the earlier UI.
+    // Reserializing must match too: duplicate keys or unfamiliar formatting are
+    // preserved for inspection rather than hiding potentially meaningful data.
+    return raw === JSON.stringify(value) && Object.keys(value).length === fields.length
+      && fields.every(field => Object.hasOwn(value, field))
+      && value.version === 1 && value.phase === 'decide' && value.choice === ''
+      && value.attempt === '' && value.revision === '' && value.transfer === ''
+      && value.complete === false && value.committed === false
+      && Array.isArray(value.reviewedEvidence) && value.reviewedEvidence.length === 0;
+  } catch { return false; }
+}
 export function restoreLearningActivitySession(a: LearningActivity, read: (key: string) => string | null) {
   const keys = learningStorageKeys(a);
   const record = restoreActivityRecord(read(keys.record), a);
   const previous: PreviousLearningData[] = [];
   for (const old of keys.previous) for (const kind of ['record', 'conversation'] as const) {
     const raw = read(old[kind]);
-    if (raw !== null) previous.push({ kind, activityRevision: old.activityRevision, raw });
+    if (raw !== null && !(kind === 'record' && isPristinePreviousRecord(raw))) previous.push({ kind, activityRevision: old.activityRevision, raw });
   }
   return { record, previous };
 }
