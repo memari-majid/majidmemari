@@ -49,7 +49,7 @@ export const MAJID = {
   },
   bio: {
     academia:
-      "Majid designs AI courses and workshops for learners across universities and organizations. His teaching connects concepts to real problems through worked examples, visual explanations, interactive practice, and projects. Building AI Solutions is open to everyone, including students from any discipline, with no prerequisites. Learners discover a need, build with AI tools, evaluate evidence, and prepare a solution for use without writing code.",
+      "Majid designs AI courses and workshops for learners across universities and organizations. His teaching connects concepts to real problems through interactive simulations, moving figures with matching tables, course-grounded AI assistance, worked examples and projects. Building AI Solutions is open to everyone, including students from any discipline, with no prerequisites. Learners discover a need, build with AI tools, evaluate evidence, and prepare a solution for use without writing code.",
     industry:
       "His applied work spans machine learning, generative AI, agents, computer vision, and data governance. He brings research and practical experience into the classroom, connecting technical capabilities to business value, evaluation, and responsible adoption. His background includes a Ph.D. in Computer Science and an M.B.A.",
     community:

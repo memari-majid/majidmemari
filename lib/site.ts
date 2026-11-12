@@ -9,7 +9,7 @@ export const SITE = {
   displayName: "Majid (MJ) Memari",
   role: "AI teaching · Workshops · Mentorship",
   description:
-    "AI courses, practical workshops, and mentorship by Majid Memari for learners across universities and organizations. Learn to build, evaluate, and apply AI solutions to real business problems.",
+    "AI courses, interactive simulations, practical workshops, and mentorship by Majid Memari. Learn to build, evaluate, and apply AI solutions to real-world problems. No prerequisites for Building AI Solutions.",
   linkedin: "https://www.linkedin.com/in/majid-memari",
   linkedinHandle: "majid-memari",
   github: "https://github.com/memari-majid",
