@@ -60,7 +60,7 @@ const markdownComponents: Components = {
   },
   pre({ children }) {
     return (
-      <pre className="my-2 max-w-full overflow-x-auto whitespace-pre rounded-lg border border-zinc-300 bg-white p-3 font-mono text-xs leading-relaxed text-zinc-900 dark:border-zinc-700 dark:bg-zinc-950 dark:text-zinc-100 [&>code]:block [&>code]:bg-transparent [&>code]:p-0 [&>code]:font-mono [&>code]:text-xs [&>code]:text-inherit">
+      <pre className="my-2 max-w-full overflow-x-auto whitespace-pre rounded-lg border border-slate-300 bg-white p-3 font-mono text-xs leading-relaxed text-slate-900 [&>code]:block [&>code]:bg-transparent [&>code]:p-0 [&>code]:font-mono [&>code]:text-xs [&>code]:text-inherit">
         {children}
       </pre>
     );
@@ -72,7 +72,7 @@ const markdownComponents: Components = {
       return <code className={className ? `font-mono ${className}` : "font-mono"}>{children}</code>;
     }
     return (
-      <code className="rounded bg-zinc-200 px-1 py-0.5 font-mono text-[0.85em] text-zinc-900 dark:bg-zinc-800 dark:text-zinc-100">
+      <code className="rounded bg-slate-100 px-1 py-0.5 font-mono text-[0.85em] text-slate-900">
         {children}
       </code>
     );
@@ -81,7 +81,7 @@ const markdownComponents: Components = {
 
 function MarkdownAnswer({ text }: { text: string }) {
   return (
-    <div className="min-w-0 break-words text-sm leading-relaxed [&_a]:break-words [&_a]:text-sky-700 [&_a]:underline dark:[&_a]:text-sky-400 [&_blockquote]:my-2 [&_blockquote]:border-l-2 [&_blockquote]:border-zinc-300 [&_blockquote]:pl-3 [&_blockquote]:text-zinc-600 dark:[&_blockquote]:border-zinc-600 dark:[&_blockquote]:text-zinc-400 [&_h1]:mb-2 [&_h1]:mt-3 [&_h1]:text-base [&_h1]:font-semibold [&_h2]:mb-2 [&_h2]:mt-3 [&_h2]:text-sm [&_h2]:font-semibold [&_h3]:mb-1.5 [&_h3]:mt-3 [&_h3]:text-sm [&_h3]:font-semibold [&_ol]:my-2 [&_ol]:list-decimal [&_ol]:space-y-1 [&_ol]:pl-5 [&_p]:my-2 first:[&_p]:mt-0 last:[&_p]:mb-0 [&_strong]:font-semibold [&_ul]:my-2 [&_ul]:list-disc [&_ul]:space-y-1 [&_ul]:pl-5">
+    <div className="min-w-0 break-words text-sm leading-relaxed [&_a]:break-words [&_a]:text-teal-800 [&_a]:underline [&_blockquote]:my-2 [&_blockquote]:border-l-2 [&_blockquote]:border-slate-300 [&_blockquote]:pl-3 [&_blockquote]:text-slate-600 [&_h1]:mb-2 [&_h1]:mt-3 [&_h1]:text-base [&_h1]:font-semibold [&_h2]:mb-2 [&_h2]:mt-3 [&_h2]:text-sm [&_h2]:font-semibold [&_h3]:mb-1.5 [&_h3]:mt-3 [&_h3]:text-sm [&_h3]:font-semibold [&_ol]:my-2 [&_ol]:list-decimal [&_ol]:space-y-1 [&_ol]:pl-5 [&_p]:my-2 first:[&_p]:mt-0 last:[&_p]:mb-0 [&_strong]:font-semibold [&_ul]:my-2 [&_ul]:list-disc [&_ul]:space-y-1 [&_ul]:pl-5">
       <ReactMarkdown components={markdownComponents}>{text}</ReactMarkdown>
     </div>
   );
@@ -97,7 +97,7 @@ function SuggestedQuestions({
   layout: "wrap" | "scroll";
 }) {
   const buttonClass =
-    "rounded-full border border-zinc-300 bg-zinc-50 px-3 py-2 text-left text-xs leading-snug text-zinc-800 transition hover:border-sky-500 hover:text-sky-800 disabled:opacity-50 dark:border-zinc-700 dark:bg-zinc-900/60 dark:text-zinc-300 dark:hover:border-sky-700 dark:hover:text-sky-200";
+    "min-h-11 rounded-md border border-slate-200 bg-white px-3 py-2 text-left text-xs leading-snug text-slate-800 transition hover:border-teal-700 hover:text-teal-800 disabled:opacity-50";
 
   if (layout === "scroll") {
     return (
@@ -193,21 +193,21 @@ export function WorkshopAssistant() {
 
   return (
     <main className="mx-auto flex min-h-0 w-full max-w-3xl flex-1 flex-col px-4 pt-[calc(6rem+env(safe-area-inset-top))] sm:px-6">
-      <header className="shrink-0 border-b border-zinc-200 pb-3 dark:border-zinc-800">
-        <p className="text-xs font-medium uppercase tracking-[0.2em] text-zinc-500">Workshop</p>
-        <h1 className="mt-2 text-2xl font-semibold tracking-tight text-zinc-900 dark:text-zinc-50 sm:text-3xl">
+      <header className="shrink-0 border-b border-slate-200 pb-3">
+        <p className="text-xs font-medium uppercase tracking-[0.2em] text-slate-600">Workshop</p>
+        <h1 className="mt-2 text-2xl font-serif font-semibold tracking-tight text-slate-900 sm:text-3xl">
           Building Agentic AI Applications with LLMs
         </h1>
-        <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
+        <p className="mt-2 text-sm text-slate-600">
           NVIDIA DLI teaching assistant for the live lab (Dr. Majid Memari)
         </p>
-        <p className="mt-2 text-xs leading-relaxed text-zinc-500">
+        <p className="mt-2 text-xs leading-relaxed text-slate-600">
           This assistant follows the current notebooks (1_basic_chat through 4t_assessment), not the old
           archive names.
         </p>
         <form onSubmit={onCodeSubmit} className="mt-3 flex flex-col gap-2 sm:flex-row sm:items-end">
           <div className="min-w-0 flex-1">
-            <label htmlFor="workshop-code" className="text-xs font-medium text-zinc-600 dark:text-zinc-400">
+            <label htmlFor="workshop-code" className="text-xs font-medium text-slate-600">
               Workshop code
             </label>
             <input
@@ -223,23 +223,23 @@ export function WorkshopAssistant() {
               autoCorrect="off"
               spellCheck={false}
               placeholder="From your instructor"
-              className="mt-1 min-h-[44px] w-full rounded-lg border border-zinc-300 bg-white px-3 py-2 text-base text-zinc-900 placeholder:text-zinc-500 focus:border-sky-600 focus:outline-none sm:text-sm dark:border-zinc-800 dark:bg-zinc-900/60 dark:text-zinc-100 dark:placeholder:text-zinc-600"
+              className="mt-1 min-h-[44px] w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-base text-slate-900 placeholder:text-slate-600 focus:border-teal-700 focus:outline-2 focus:outline-offset-2 focus:outline-teal-700 sm:text-sm"
             />
           </div>
           <button
             type="submit"
-            className="min-h-[44px] shrink-0 rounded-lg border border-zinc-300 px-3 py-2 text-sm font-medium text-zinc-800 hover:border-sky-500 hover:text-sky-800 dark:border-zinc-700 dark:text-zinc-200 dark:hover:border-sky-700 dark:hover:text-sky-200"
+            className="min-h-[44px] shrink-0 rounded-lg border border-slate-300 px-3 py-2 text-sm font-medium text-slate-800 hover:border-teal-700 hover:text-teal-800"
           >
             Save
           </button>
         </form>
-        <p className="mt-1.5 text-xs text-zinc-500">{codeNote}</p>
+        <p className="mt-1.5 text-xs text-slate-600">{codeNote}</p>
       </header>
 
       <div className="mt-4 min-h-0 flex-1 space-y-3 overflow-y-auto overscroll-contain pb-3">
         {messages.length === 0 && (
           <div className="space-y-3">
-            <p className="text-sm text-zinc-600 dark:text-zinc-400">
+            <p className="text-sm text-slate-600">
               Ask about a notebook step, an environment error, or a TODO. Common stuck points:
             </p>
             <SuggestedQuestions disabled={busy} onAsk={(question) => void ask(question)} layout="wrap" />
@@ -251,10 +251,10 @@ export function WorkshopAssistant() {
           return (
             <div
               key={m.id}
-              className={`min-w-0 rounded-xl px-3 py-2 ${
+              className={`min-w-0 rounded-lg px-3 py-2 ${
                 isUser
-                  ? "ml-6 whitespace-pre-wrap break-words border border-sky-200 bg-sky-50 text-sm text-zinc-900 dark:border-sky-900/40 dark:bg-sky-950/50 dark:text-zinc-100"
-                  : "mr-4 border border-zinc-200 bg-zinc-100 text-zinc-800 dark:border-zinc-800/80 dark:bg-zinc-900/80 dark:text-zinc-300"
+                  ? "ml-6 whitespace-pre-wrap break-words bg-slate-950 text-sm text-white"
+                  : "mr-4 border border-slate-200 bg-white text-slate-800"
               }`}
             >
               {isUser ? (
@@ -262,25 +262,25 @@ export function WorkshopAssistant() {
               ) : text ? (
                 <MarkdownAnswer text={text} />
               ) : (
-                <p className="text-sm text-zinc-500">Answering…</p>
+                <p className="text-sm text-slate-600">Answering…</p>
               )}
             </div>
           );
         })}
         {busy && messages[messages.length - 1]?.role !== "assistant" && (
-          <div className="mr-4 rounded-xl border border-zinc-200 bg-zinc-100 px-3 py-2 text-sm text-zinc-500 dark:border-zinc-800/80 dark:bg-zinc-900/80">
+          <div className="mr-4 rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-600">
             Answering…
           </div>
         )}
         <div ref={endRef} />
       </div>
 
-      <div className="shrink-0 border-t border-zinc-200 pt-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] dark:border-zinc-800">
+      <div className="shrink-0 border-t border-slate-200 pt-3 pb-[max(0.75rem,env(safe-area-inset-bottom))]">
         {messages.length > 0 && (
           <SuggestedQuestions disabled={busy} onAsk={(question) => void ask(question)} layout="scroll" />
         )}
         {error && (
-          <p role="alert" className="mb-2 text-xs text-amber-700 dark:text-amber-400">
+          <p role="alert" className="mb-2 text-xs text-amber-700">
             {error.message || "Something went wrong. Try again."}
           </p>
         )}
@@ -295,13 +295,13 @@ export function WorkshopAssistant() {
             placeholder="Ask about the lab…"
             enterKeyHint="send"
             disabled={busy}
-            className="min-h-[44px] min-w-0 flex-1 rounded-lg border border-zinc-300 bg-white px-3 py-2 text-base text-zinc-900 placeholder:text-zinc-500 focus:border-sky-600 focus:outline-none sm:text-sm dark:border-zinc-800 dark:bg-zinc-900/60 dark:text-zinc-100 dark:placeholder:text-zinc-600"
+            className="min-h-[44px] min-w-0 flex-1 rounded-lg border border-slate-300 bg-white px-3 py-2 text-base text-slate-900 placeholder:text-slate-600 focus:border-teal-700 focus:outline-2 focus:outline-offset-2 focus:outline-teal-700 sm:text-sm"
           />
           {busy ? (
             <button
               type="button"
               onClick={() => void stop()}
-              className="min-h-[44px] shrink-0 rounded-lg border border-zinc-300 px-3 py-2 text-sm font-medium text-zinc-800 hover:border-zinc-400 dark:border-zinc-700 dark:text-zinc-200"
+              className="min-h-[44px] shrink-0 rounded-lg border border-slate-300 px-3 py-2 text-sm font-medium text-slate-800 hover:border-slate-400"
             >
               Stop
             </button>
@@ -309,7 +309,7 @@ export function WorkshopAssistant() {
             <button
               type="submit"
               disabled={!input.trim()}
-              className="min-h-[44px] shrink-0 rounded-lg bg-sky-600 px-3 py-2 text-sm font-medium text-white hover:bg-sky-500 disabled:opacity-50"
+              className="min-h-[44px] shrink-0 rounded-lg bg-slate-950 px-3 py-2 text-sm font-medium text-white hover:bg-slate-900 disabled:opacity-50"
             >
               Send
             </button>

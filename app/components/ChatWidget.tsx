@@ -4,7 +4,7 @@ import { useChat } from "@ai-sdk/react";
 import { DefaultChatTransport } from "ai";
 import ReactMarkdown from "react-markdown";
 import { prepareCourseHistory } from "@/lib/course-kb/history";
-import { WebsiteInquiry } from "./WebsiteInquiry";
+import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
 
 const QUICK_PROMPTS = [
@@ -106,7 +106,7 @@ export function ChatWidget() {
         ref={openButtonRef}
         type="button"
         onClick={() => setOpen(true)}
-        className={`fixed z-[60] flex h-14 w-14 min-h-[56px] min-w-[56px] items-center justify-center rounded-full bg-slate-950 text-white shadow-lg shadow-slate-900/15 transition hover:bg-slate-900 focus:outline-none focus:ring-2 focus:ring-sky-400 focus:ring-offset-2 focus:ring-offset-zinc-50 dark:focus:ring-offset-zinc-950 ${open ? "hidden" : ""} bottom-[max(1.25rem,env(safe-area-inset-bottom))] right-[max(1.25rem,env(safe-area-inset-right))]`}
+        className={`fixed z-[60] flex h-14 w-14 min-h-[56px] min-w-[56px] items-center justify-center rounded-full bg-slate-950 text-white transition hover:bg-slate-900 focus:outline-none focus:ring-2 focus:ring-teal-400 focus:ring-offset-2 focus:ring-offset-zinc-50 ${open ? "hidden" : ""} bottom-[max(1.25rem,env(safe-area-inset-bottom))] right-[max(1.25rem,env(safe-area-inset-right))]`}
         aria-label="Open website chatbot"
         aria-expanded={open}
         aria-controls={open ? "site-assistant-dialog" : undefined}
@@ -129,25 +129,24 @@ export function ChatWidget() {
           aria-modal="true"
           aria-labelledby="chat-title"
         >
-          <div className="flex h-full w-full min-w-0 max-w-[100vw] flex-col rounded-none border-0 border-zinc-200 bg-white shadow-2xl sm:h-[min(560px,85vh)] sm:max-w-md sm:rounded-2xl sm:border sm:border-zinc-200 dark:border-zinc-800 dark:bg-zinc-950">
-            <div className="flex min-w-0 items-center justify-between gap-2 border-b border-zinc-200 px-4 py-3 dark:border-zinc-800">
+          <div className="flex h-full w-full min-w-0 max-w-[100vw] flex-col rounded-none border-0 border-zinc-200 bg-zinc-50 sm:h-[min(560px,85vh)] sm:max-w-md sm:rounded-2xl sm:border sm:border-zinc-200">
+            <div className="flex min-w-0 items-center justify-between gap-2 border-b border-zinc-200 px-4 py-3">
               <div className="min-w-0">
                 <div className="flex flex-wrap items-center gap-2">
-                  <h2 id="chat-title" className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">
+                  <h2 id="chat-title" className="text-sm font-semibold text-zinc-900">
                     Website assistant
                   </h2>
-                  <span className="inline-flex items-center rounded-full border border-sky-200 bg-sky-50 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-sky-700 dark:border-sky-900/50 dark:bg-sky-950/40 dark:text-sky-400">
+                  <span className="inline-flex items-center rounded-full border border-teal-200 bg-teal-50 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-teal-700">
                     AI
                   </span>
                 </div>
-                <p className="text-xs text-zinc-600 dark:text-zinc-500">Courses · Workshops · Mentorship · Inquiries</p>
               </div>
               <div className="flex gap-2">
                 {busy && (
                   <button
                     type="button"
                     onClick={() => void stop()}
-                    className="text-xs text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-200"
+                    className="text-xs text-zinc-600 hover:text-zinc-900"
                   >
                     Stop
                   </button>
@@ -155,7 +154,7 @@ export function ChatWidget() {
                 <button
                   type="button"
                   onClick={() => setOpen(false)}
-                  className="flex min-h-11 min-w-11 items-center justify-center rounded-md p-1 text-zinc-500 hover:bg-zinc-100 hover:text-zinc-900 dark:text-zinc-400 dark:hover:bg-zinc-800 dark:hover:text-zinc-100"
+                  className="flex min-h-11 min-w-11 items-center justify-center rounded-md p-1 text-zinc-500 hover:bg-zinc-100 hover:text-zinc-900"
                   aria-label="Close chat"
                 >
                   <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -166,13 +165,9 @@ export function ChatWidget() {
             </div>
 
             <div className="flex-1 space-y-3 overflow-y-auto px-4 py-3">
-              <p className="rounded-lg bg-zinc-50 p-3 text-xs leading-relaxed text-zinc-600">This chat uses an external AI service. Keep questions general and do not include private records or sensitive personal information. Use the separate inquiry form when you choose to contact Majid.</p>
+              <p className="rounded-lg bg-zinc-50 p-3 text-xs leading-relaxed text-zinc-600">AI chat uses an external service. Keep questions general. Chat messages are not sent to Majid.</p>
               {messages.length === 0 && (
                 <div className="space-y-3">
-                  <p className="text-sm text-zinc-600 dark:text-zinc-500">
-                    Hi — I can help you explore Majid Memari&apos;s AI courses, workshops, and
-                    mentorship information. Where would you like to start?
-                  </p>
                   <div className="flex flex-wrap gap-2">
                     {QUICK_PROMPTS.map((q) => (
                       <button
@@ -180,7 +175,7 @@ export function ChatWidget() {
                         type="button"
                         disabled={busy}
                         onClick={() => void sendMessage({ text: q })}
-                        className="rounded-full border border-zinc-300 bg-zinc-50 px-3 py-1.5 text-left text-xs text-zinc-800 transition hover:border-sky-500 hover:text-sky-800 disabled:opacity-50 dark:border-zinc-700 dark:bg-zinc-900/60 dark:text-zinc-300 dark:hover:border-sky-700 dark:hover:text-sky-200"
+                        className="rounded-full border border-zinc-300 bg-zinc-50 px-3 py-1.5 text-left text-xs text-zinc-800 transition hover:border-teal-500 hover:text-teal-800 disabled:opacity-50"
                       >
                         {q}
                       </button>
@@ -193,23 +188,23 @@ export function ChatWidget() {
                   key={m.id}
                   className={`whitespace-pre-wrap rounded-xl px-3 py-2 text-sm ${
                     m.role === "user"
-                      ? "ml-6 border border-sky-200 bg-sky-50 text-zinc-900 dark:border-sky-900/40 dark:bg-sky-950/50 dark:text-zinc-100"
-                      : "mr-4 border border-zinc-200 bg-zinc-100 text-zinc-800 dark:border-zinc-800/80 dark:bg-zinc-900/80 dark:text-zinc-300"
+                      ? "ml-6 border border-slate-900 bg-slate-900 text-white"
+                      : "mr-4 border border-zinc-200 bg-zinc-100 text-zinc-800"
                   }`}
                 >
                   {m.role === "user" ? textFromMessage(m) : <ReactMarkdown components={{ a: ({href,children}) => href && /^(https:\/\/|\/)/.test(href) ? <a href={href} className="text-teal-800 underline underline-offset-4">{children}</a> : <span>{children}</span>, img: () => null }}>{textFromMessage(m)}</ReactMarkdown>}
                 </div>
               ))}
               {error && (
-                <p role="alert" className="text-xs text-amber-700 dark:text-amber-400">
-                  The website assistant is temporarily unavailable. Please try again. The inquiry form below reports its delivery availability separately.
+                <p role="alert" className="text-xs text-amber-700">
+                  The website assistant is temporarily unavailable. You can still open the contact form.
                 </p>
               )}
-              <WebsiteInquiry />
+              <Link href="/?inquiry=general" onClick={() => setOpen(false)} className="inline-flex min-h-11 items-center text-sm font-medium text-teal-800 underline underline-offset-4">Contact Majid →</Link>
               <div ref={endRef} />
             </div>
 
-            <div className="border-t border-zinc-200 p-3 dark:border-zinc-800">
+            <div className="border-t border-zinc-200 p-3">
               <form onSubmit={onSubmit} className="flex gap-2">
                 <input
                   ref={inputRef}
@@ -217,7 +212,7 @@ export function ChatWidget() {
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
                   placeholder="Type a message…"
-                  className="min-h-[44px] min-w-0 flex-1 rounded-lg border border-zinc-300 bg-white px-3 py-2 text-base text-zinc-900 placeholder:text-zinc-500 focus:border-sky-600 focus:outline-none sm:min-h-0 sm:text-sm dark:border-zinc-800 dark:bg-zinc-900/60 dark:text-zinc-100 dark:placeholder:text-zinc-600"
+                  className="min-h-[44px] min-w-0 flex-1 rounded-lg border border-zinc-300 bg-white px-3 py-2 text-base text-zinc-900 placeholder:text-zinc-500 focus:border-teal-600 focus:outline-none sm:min-h-0 sm:text-sm"
                   disabled={busy}
                 />
                 <button

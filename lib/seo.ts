@@ -5,7 +5,6 @@ import { PROJECTS } from "@/lib/projects";
 export const INDEXABLE_PATHS = [
   "/",
   "/about",
-  "/teaching",
   "/projects",
   ...PROJECTS.map(({ slug }) => `/projects/${slug}`),
   "/teaching/ai-solutions/index.html",

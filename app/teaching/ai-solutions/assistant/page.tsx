@@ -15,5 +15,5 @@ export default async function CourseAssistantPage({ searchParams }: { searchPara
   const canvasDelivery = query.delivery === "canvas";
   const embedded = query.embed === "1" || canvasDelivery;
   const lesson = normalizeCoursePage(query.lesson);
-  return <div className={`min-h-dvh text-zinc-900 ${canvasDelivery ? "bg-white" : "bg-zinc-50"}`}><CourseAssistant embedded={embedded} lesson={lesson} canvasDelivery={canvasDelivery} /></div>;
+  return <div className={`min-h-dvh text-slate-900 ${canvasDelivery ? "bg-white" : "bg-[#f7f6f2]"}`}><CourseAssistant embedded={embedded} lesson={lesson} canvasDelivery={canvasDelivery} /></div>;
 }
