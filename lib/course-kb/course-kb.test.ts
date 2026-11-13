@@ -502,21 +502,32 @@ test('a third Unit 6 activity keeps both prior generations recoverable and isola
   }
   for (const [key, raw] of original) assert.equal(saved.get(key), raw, 'Current saves must not rewrite or remove an earlier generation');
 });
-test('Unit 4 shift keeps revision-one record and conversation byte-for-byte outside its new mode', () => {
+test('Unit 4 revision three keeps both earlier generations byte-for-byte outside its current mode', () => {
   const activity = LEARNING_ACTIVITIES[3];
   assert.equal(activity.mode, 'shift-run');
   const keys = learningStorageKeys(activity);
-  assert.equal(keys.record, 'course-decision-lab:v1:unit-04.html:activity-2');
-  assert.equal(keys.previous.length, 1);
+  assert.equal(keys.record, 'course-decision-lab:v1:unit-04.html:activity-3');
+  assert.equal(keys.conversation, `${COURSE_SESSION_KEY}:lab:unit-04.html:activity-3`);
+  assert.equal(keys.previous.length, 2);
   const rawRecord = '{ "version": 1, "attempt": "Earlier unparsed reasoning & formatting" }';
   const rawConversation = '{ damaged old conversation: retain this exact text }';
-  const store = new Map([[keys.previous[0].record, rawRecord], [keys.previous[0].conversation, rawConversation]]);
+  const revisionTwoRecord = '{ damaged revision-two shift record: 未編集 <tag> & raw bytes';
+  const revisionTwoConversation = '{ "old": "Revision-two conversation", "unknown": [1, 2] }';
+  const store = new Map([[keys.previous[0].record, rawRecord], [keys.previous[0].conversation, rawConversation], [keys.previous[1].record, revisionTwoRecord], [keys.previous[1].conversation, revisionTwoConversation]]);
+  const before = new Map(store);
   assert.deepEqual(previousLearningData(activity, key => store.get(key) ?? null), [
     { kind: 'record', activityRevision: 1, raw: rawRecord },
     { kind: 'conversation', activityRevision: 1, raw: rawConversation },
+    { kind: 'record', activityRevision: 2, raw: revisionTwoRecord },
+    { kind: 'conversation', activityRevision: 2, raw: revisionTwoConversation },
   ]);
   assert.equal(store.get(keys.previous[0].record), rawRecord);
   assert.equal(store.get(keys.previous[0].conversation), rawConversation);
+  assert.equal(store.get(keys.previous[1].record), revisionTwoRecord);
+  assert.equal(store.get(keys.previous[1].conversation), revisionTwoConversation);
+  for (const saved of previousLearningData(activity, key => store.get(key) ?? null)) assert(previousLearningExport(activity.unit, saved).endsWith(saved.raw), 'Earlier raw data remain fully exportable without parsing or migration');
+  assert.deepEqual(store, before, 'Inspection must not rewrite, remove or migrate either earlier generation');
+  assert.equal(store.has(keys.record), false, 'Discovering old records must not create a current record');
   assert.throws(() => restoreLearningActivitySession(activity, key => store.get(key) ?? null), CourseRequestError);
 });
 test('activity revision keys preserve all unchanged labs and stale clients cannot coach a replacement case', () => {

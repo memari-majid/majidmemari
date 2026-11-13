@@ -3,7 +3,9 @@ import assert from 'node:assert/strict';
 import activities from '../../public/teaching/ai-solutions/assets/ta-activities.json' with { type: 'json' };
 import { SHIFT_ACTION_TYPES, SHIFT_CONSEQUENCE_IDS, SHIFT_LIMITS, ShiftValidationError, emptyShiftRecord, exportShiftRecord, recordNextRequest, recordShiftRun, restoreShiftRecord, runNextRequest, runShift, validateShiftMapping, validateShiftRecord, validateShiftWorkflow, type ShiftAction, type ShiftActionType, type ShiftMapping, type ShiftRecord, type ShiftRunActivity } from './shift-run';
 
-const a = activities.find(value => value.unit === 4) as unknown as ShiftRunActivity;
+// Preserve the revision-2 execution contract rather than silently reinterpreting
+// saved pre-repair records with the revision-3 engine.
+const a = { ...(activities.find(value => value.unit === 4) as unknown as ShiftRunActivity), activityRevision: 2 };
 const copy = <T>(value: T): T => JSON.parse(JSON.stringify(value));
 function act(type: ShiftActionType, attributes: Record<string, unknown> = {}): ShiftAction { return { type, quote: '', ...attributes } as ShiftAction; }
 const draft = (conditional = false) => act('ai_draft', { ai_draft: { states_conditions: conditional, forbids_promises: conditional } });

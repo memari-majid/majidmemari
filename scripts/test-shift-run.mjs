@@ -14,3 +14,4 @@ registerHooks({
 });
 await import(new URL("../lib/course-kb/shift-classifier.test.ts", import.meta.url).href);
 await import(new URL("../lib/course-kb/shift-run.test.ts", import.meta.url).href);
+await import(new URL("../lib/course-kb/shift-v3.test.ts", import.meta.url).href);

@@ -9,7 +9,7 @@ const FEATURES = [
   },
   {
     title: "Your AI Learning Companion",
-    detail: "Explore ideas, practice decisions and reflect on evidence. A workflow rehearsal shows the consequences of your steps, while course Q&A connects explanations to the learning materials.",
+    detail: "Inspect and correct an AI interpretation before running your workflow. Predict the result, follow its action trace, and explore your explanation with an optional AI-selected question.",
     href: `${COURSE}/assistant?lesson=unit-01.html`,
     action: "Explore with the Learning Companion",
     extraHref: `${COURSE}/assistant?lesson=unit-04.html`,

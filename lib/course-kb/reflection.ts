@@ -78,6 +78,16 @@ export function readReflectionStorage(context: ReflectionContext, storage: Refle
   try { return restoreReflection(storage.getItem(key), context); }
   catch { return { record: emptyReflection(context), preservedRaw: null, storageAvailable: false, hasSavedRecord: false }; }
 }
+/** Read one explicitly known earlier Unit 4 key; never enumerate browser storage
+ * or reinterpret an earlier journal as responses to the repaired activity. */
+export function readPreviousReflectionStorage(context: ReflectionContext, storage: ReflectionStorage): { activityRevision: 2; raw: string }[] {
+  const current = validateReflectionContext(context);
+  if (current.unit !== 4 || current.activityMode !== 'shift-run' || current.activityRevision !== 3) return [];
+  try {
+    const raw = storage.getItem(reflectionStorageKey({ ...current, activityRevision: 2 }));
+    return raw === null ? [] : [{ activityRevision: 2, raw }];
+  } catch { return []; }
+}
 /** A fresh read guards against silently replacing unfamiliar data at this key. */
 export function saveReflectionStorage(record: ReflectionRecord, context: ReflectionContext, storage: ReflectionStorage): ReflectionWrite {
   const valid = validateReflection(record, context), key = reflectionStorageKey(context);

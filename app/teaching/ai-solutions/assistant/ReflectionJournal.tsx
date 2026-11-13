@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useId, useMemo, useRef, useState } from 'react';
-import { clearReflectionStorage, emptyReflection, exportReflection, readReflectionStorage, REFLECTION_EXPORT_STAMP, REFLECTION_MAX_TEXT, REFLECTION_RESEARCH_MODE, saveReflectionStorage, validateReflectionContext, type ReflectionContext, type ReflectionRecord } from '@/lib/course-kb/reflection';
+import { clearReflectionStorage, emptyReflection, exportReflection, readReflectionStorage, readPreviousReflectionStorage, REFLECTION_EXPORT_STAMP, REFLECTION_MAX_TEXT, REFLECTION_RESEARCH_MODE, saveReflectionStorage, validateReflectionContext, type ReflectionContext, type ReflectionRecord } from '@/lib/course-kb/reflection';
 
 const field = 'mt-2 min-h-11 w-full rounded-lg border border-slate-300 bg-white p-3 text-sm leading-6 text-slate-900 focus:outline-2 focus:outline-offset-2 focus:outline-teal-700 disabled:bg-slate-100';
 const secondary = 'inline-flex min-h-11 items-center justify-center rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-800 hover:border-teal-700 disabled:opacity-50';
@@ -14,6 +14,8 @@ export function ReflectionJournal({ context, onUnsavedChange }: { context: Refle
   const [ready, setReady] = useState(false);
   const [storageAvailable, setStorageAvailable] = useState(true);
   const [preservedRaw, setPreservedRaw] = useState<string | null>(null);
+  const [previous, setPrevious] = useState<{ activityRevision: 2; raw: string }[]>([]);
+  const previousControl = useRef<HTMLTextAreaElement>(null);
   const [dirty, setDirty] = useState(false);
   const [notice, setNotice] = useState('');
   const [exportText, setExportText] = useState<string | null>(null);
@@ -28,6 +30,7 @@ export function ReflectionJournal({ context, onUnsavedChange }: { context: Refle
     try {
       const saved = readReflectionStorage(current, sessionStorage);
       setRecord(saved.record); setPreservedRaw(saved.preservedRaw); setStorageAvailable(saved.storageAvailable);
+      setPrevious(readPreviousReflectionStorage(current, sessionStorage));
       if (saved.hasSavedRecord) setNotice('Your previously saved personal reflection is ready. Nothing was sent.');
     } catch { setStorageAvailable(false); }
     setReady(true);
@@ -71,6 +74,7 @@ export function ReflectionJournal({ context, onUnsavedChange }: { context: Refle
       <p className="text-sm leading-6 text-slate-700">Pause to explain what you understand and what you want to try next. Every question is optional. You can skip or close this section without affecting your course work.</p>
       <p className="mt-3 text-xs leading-6 text-slate-600">Saved only in this browser tab; nothing is sent to Majid or a research database. Export a copy only if you choose to keep it or share it yourself. These custom prompts are for reflection, not a validated measurement scale.</p>
       <p className="mt-2 text-xs leading-6 text-slate-600">{REFLECTION_RESEARCH_MODE ? 'Research collection would require a separate approved study and consent; this journal does not enroll you.' : 'Research data collection through this journal is off. This journal does not enroll you in research and is not a Canvas submission or a grade.'} Do not enter names, confidential partner information or personal records.</p>
+      {previous.length ? <details className="mt-4 rounded-lg border border-slate-200 bg-slate-50 p-4"><summary className="min-h-11 cursor-pointer text-sm font-semibold">Earlier Unit 4 journal · revision 2 · read-only</summary><p className="mt-2 text-xs leading-6 text-slate-600">The rehearsal changed. Your earlier journal remains its original text and is not used as answers, predictions or AI context for this version. Clearing the current journal does not remove it.</p><label htmlFor={`${prefix}-previous`} className="mt-3 block text-xs font-semibold">Earlier original journal text</label><textarea ref={previousControl} id={`${prefix}-previous`} readOnly rows={6} value={previous[0].raw} className={field} /><button type="button" className={`${secondary} mt-3`} onClick={() => { previousControl.current?.focus(); previousControl.current?.select(); setNotice('Earlier journal text selected. Use your device’s Copy command. Nothing was sent or converted.'); }}>Select earlier journal to copy</button></details> : null}
       {preservedRaw !== null ? <section className="mt-4 rounded-lg border border-amber-300 bg-amber-50 p-4" aria-label="Preserved unfamiliar journal data">
         <h3 className="text-sm font-semibold text-amber-950">Your saved text has been preserved</h3>
         <p className="mt-2 text-xs leading-6 text-amber-950">This record could not be read as the current journal. It has not been rewritten or interpreted as your answers. Select and copy the exact original text before using Clear this journal if you want to start again.</p>
