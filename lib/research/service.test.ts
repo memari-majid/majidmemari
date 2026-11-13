@@ -382,6 +382,22 @@ test("E2 requires a common question opportunity but explicit skip keeps the full
   assert.equal(result.session.stage, "immediate");
   assert.equal(result.receipt?.stage, "rehearsal");
 });
+test("question skip cannot precede the first explanation or erase a released card", async (t) => {
+  const s = await setup(t, "E2");
+  await s.baseline();
+  await assert.rejects(
+    () => s.question("skip", {}, "early-question-skip"),
+    /Save the first accepted run and committed explanation/,
+  );
+  await s.checkpoint();
+  await s.question("start", { allowAI: false });
+  await s.question("release", { inspectionCompleted: true });
+  await assert.rejects(
+    () => s.question("skip", {}, "released-question-skip"),
+    /released question needs a response or explicit decline/,
+  );
+  assert.equal((await s.service.session(s.token)).session.question.status, "released");
+});
 test("durable restart, immutable stage and idempotent concurrent retries", async (t) => {
   const s = await setup(t);
   const request = {
