@@ -352,9 +352,37 @@ export class ResearchService {
             409,
             "The enrollment request identifier belongs to different content.",
           );
+        if (existing.fingerprint !== this.config.fingerprint)
+          throw new ResearchError(
+            409,
+            "The frozen study version changed; contact the independent coordinator.",
+          );
         return {
           participantToken: null,
           session: this.view(existing),
+          replayed: true,
+        };
+      }
+      // The coordinator may lose the response (and the in-memory request ID)
+      // after the server has committed enrollment. A new request ID for the
+      // same opaque consent record must not create a second participant.
+      const sameConsentRecord = db.participants.find(
+        (p) =>
+          p.studyId === m.studyId && p.coordinatorReference === ref,
+      );
+      if (sameConsentRecord) {
+        if (
+          sameConsentRecord.fingerprint !== this.config.fingerprint ||
+          sameConsentRecord.withdrawnAt ||
+          this.now() >= Date.parse(sameConsentRecord.retentionUntil)
+        )
+          throw new ResearchError(
+            409,
+            "This consent record already has a study session; coordinator review is required.",
+          );
+        return {
+          participantToken: null,
+          session: this.view(sameConsentRecord),
           replayed: true,
         };
       }

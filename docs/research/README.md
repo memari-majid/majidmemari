@@ -38,7 +38,7 @@ node --env-file=/private/tmp/ai-research-local/synthetic.env scripts/research-ad
 node --env-file=/private/tmp/ai-research-local/synthetic.env scripts/research-admin.mjs enroll /private/tmp/ai-research-local/synthetic-enrollment.json /private/tmp/ai-research-local/participant-token.json
 ```
 
-The coordinator receives a cryptographically random token once. Only its hash is stored. Retrying the same enrollment request creates no second participant and returns no raw token again. Recover a lost delivery with an explicit coordinator `rotate` request `{version:1,action:"rotate-token",participantId:"synthetic-demo-001"}` in a private input file; rotation invalidates the old token. Never put participant credentials in URLs, browser storage, screenshots or Git. The dedicated frontend uses memory-only authentication and reload requires re-entry.
+The coordinator receives a cryptographically random token once. Only its hash is stored. Retrying the same enrollment request creates no second participant and returns no raw token again. A fresh request ID with the same opaque coordinator consent-record reference also resolves to the existing participant without returning the original token; this covers a lost response followed by a page reload. The reference is never returned in the participant/session response. Recover a lost delivery with an explicit coordinator `rotate` request `{version:1,action:"rotate-token",participantId:"synthetic-demo-001"}` in a private input file; rotation invalidates the old token. A withdrawn, expired or different-protocol record requires coordinator review rather than automatic re-enrollment. Never put participant credentials in URLs, browser storage, screenshots or Git. The dedicated frontend uses memory-only authentication and reload requires re-entry.
 
 The CLI also supports `observe`, `export-scoring`, `export-analysis`, `purge-expired`, and `delete-participant`. Enrollment/rotation/observations use the coordinator credential; the independent coordinator may also act as facilitator under the reviewed role plan. Scoring, unmasked analysis and destructive purge use separate credentials. For exports/purge, pass a private output path as the argument; commands with an input payload also take a separate private output path. Existing outputs are not overwritten.
 
@@ -83,7 +83,7 @@ The final collector revision, including the absolute retention cutoff, passed th
 
 | Check | Observed result | Boundary |
 | --- | --- | --- |
-| Eleven hosting test harnesses | **201 tests passed** | Includes 15 service tests and four browser-transport tests; synthetic/mocked inputs only. |
+| Eleven hosting test harnesses | **204 tests passed** | Includes 18 service tests, including lost-response enrollment recovery, and four browser-transport tests; synthetic/mocked inputs only. |
 | Source ESLint, TypeScript and formatting | Passed | Lint covered `app`, `lib`, `scripts` and source configuration. Temporary Prettier 3.6.2 formatted the new research files without adding a project dependency. |
 | Optimized production build | Passed | Regenerated the public knowledge base, then built Next.js with research off. |
 | Compiled-server smoke checks | Eight requests passed | Home, course, lesson, assistant and both study pages returned 200; study status was off/unavailable with no-store, and a write returned 404. |

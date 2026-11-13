@@ -277,6 +277,10 @@ test("absolute reviewed retention uses one study-close cutoff for different enro
     ...s.input,
     requestId: "enroll-absolute-0002",
     syntheticId: "synthetic-cutoff-002",
+    attestation: {
+      ...s.input.attestation,
+      coordinatorReference: "coord_cutoff_second",
+    },
   });
   assert.equal(a.session.retentionUntil, "2030-06-01T00:00:00.000Z");
   assert.equal(b.session.retentionUntil, a.session.retentionUntil);
@@ -421,11 +425,75 @@ test("one concurrent enrollment creates one random hashed token and no duplicate
         ...s.input,
         requestId: "enrollment-race-0001",
         syntheticId: "synthetic-race-001",
+        attestation: {
+          ...s.input.attestation,
+          coordinatorReference: "coord_race_first01",
+        },
       }),
     ),
   );
   assert.equal(r.filter((v) => v.participantToken).length, 1);
   assert.equal((await s.service.export("scoring")).participants.length, 2);
+});
+test("lost enrollment response and a fresh request ID recover the same consent record", async (t) => {
+  const s = await setup(t);
+  const reference = "coord_lostresponse01";
+  const first = await s.service.enrollment({
+    ...s.input,
+    requestId: "enrollment-lost-0001",
+    syntheticId: "synthetic-lost-001",
+    attestation: { ...s.input.attestation, coordinatorReference: reference },
+  });
+  assert.equal(typeof first.participantToken, "string");
+
+  // Simulate a committed server write whose reply never reached the browser.
+  // The next page instance has no earlier in-memory request identifier.
+  const reopened = new ResearchService(
+    s.config,
+    new FileResearchStore(s.config.filePath!),
+    { now: s.time },
+  );
+  const recovered = await reopened.enrollment({
+    ...s.input,
+    requestId: "enrollment-after-reload-0002",
+    syntheticId: "synthetic-lost-002",
+    attestation: { ...s.input.attestation, coordinatorReference: reference },
+  });
+  assert.equal(recovered.participantToken, null);
+  assert.equal(recovered.replayed, true);
+  assert.equal(recovered.session.participantId, first.session.participantId);
+  assert(!JSON.stringify(recovered).includes(reference));
+  assert.equal((await s.service.export("scoring")).participants.length, 2);
+
+  const changedManifest = {
+    ...s.config.manifest,
+    protocolVersion: "synthetic-next-protocol",
+  };
+  const changedProtocol = new ResearchService(
+    {
+      ...s.config,
+      manifest: changedManifest,
+      fingerprint: hash(JSON.stringify(changedManifest)),
+    },
+    new FileResearchStore(s.config.filePath!),
+    { now: s.time },
+  );
+  await assert.rejects(
+    () => changedProtocol.enrollment(s.input),
+    /frozen study version changed/,
+  );
+
+  const replacement = await reopened.rotate({
+    version: 1,
+    action: "rotate-token",
+    participantId: recovered.session.participantId,
+  });
+  assert.equal(typeof replacement.participantToken, "string");
+  await assert.rejects(() => reopened.session(first.participantToken!), /token/);
+  assert.equal(
+    (await reopened.session(replacement.participantToken)).session.participantId,
+    first.session.participantId,
+  );
 });
 test("checkpoint receipt persists, legacy/unrecognized records rejected, version 2 held until question", async (t) => {
   const s = await setup(t);
