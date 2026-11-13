@@ -23,6 +23,7 @@ import type {
 } from "./store";
 import { LEARNING_ACTIVITIES, isShiftRunActivity } from "../course-kb/learning";
 import { validateShiftSession } from "../course-kb/shift-session";
+import { completedRehearsalReady } from "./rehearsal-flow";
 import {
   buildResearchQuestionContext,
   fixedResearchQuestion,
@@ -461,24 +462,17 @@ export class ResearchService {
           exact(input.response, ["completed"]);
           if (
             input.response.completed !== true ||
-            !p.checkpoint ||
-            (p.experiment !== "E1" &&
-              (p.checkpoint.record.runs.length !== 2 ||
-                !p.checkpoint.record.nextRequest ||
-                !["run-1", "run-2", "C"].every(
-                  (t) => p.checkpoint!.practice.responses[t as "C"]?.committed,
-                )))
+            !completedRehearsalReady(
+              p.experiment,
+              p.checkpoint,
+              !!p.question?.respondedAt,
+            )
           )
             throw new ResearchError(
               409,
               "Save the complete rehearsal and explanations first.",
             );
           this.settle(p);
-          if (p.experiment === "E3" && !p.question?.respondedAt)
-            throw new ResearchError(
-              409,
-              "Finish or decline the common evidence-question opportunity first.",
-            );
           value = { completed: true };
         }
       } else if (stage === "feedback") {
@@ -573,8 +567,13 @@ export class ResearchService {
           "Rehearsal checkpoints are available only in that stage.",
         );
       this.settle(p);
+      if (p.experiment === "E1" && snapshot.record.runs.length > 1)
+        throw new ResearchError(
+          409,
+          "This usability route ends after version 1.",
+        );
       if (
-        p.experiment === "E3" &&
+        p.experiment !== "E1" &&
         snapshot.record.runs.length > 1 &&
         !p.question?.respondedAt
       )
@@ -653,6 +652,11 @@ export class ResearchService {
         throw new ResearchError(
           409,
           "The question belongs to the rehearsal stage.",
+        );
+      if (p.experiment === "E1")
+        throw new ResearchError(
+          409,
+          "This usability route has no evidence question.",
         );
       this.settle(p);
       if (input.action === "skip") {
@@ -811,7 +815,12 @@ export class ResearchService {
         );
       if (input.run !== (p.checkpoint?.record.runs.length ?? 0) + 1)
         throw new ResearchError(409, "Use the current workflow version.");
-      if (input.run === 2 && p.experiment === "E3" && !p.question?.respondedAt)
+      if (input.run === 2 && p.experiment === "E1")
+        throw new ResearchError(
+          409,
+          "This usability route ends after version 1.",
+        );
+      if (input.run === 2 && !p.question?.respondedAt)
         throw new ResearchError(409, "Finish the common question first.");
       const previous = p.proposalAttempts.find((a) => a.run === input.run);
       this.dedupe(p, input.requestId, "proposal", input);

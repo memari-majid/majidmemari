@@ -216,7 +216,7 @@ test("off by default; local synthetic cannot run on production, remote origin or
     ),
   );
 });
-test("live requires reviewed manifest, exact runtime freeze and reviewed E3 pool", () => {
+test("live remains source-gated after manifest, freeze and E3 pool checks", () => {
   const m = syntheticResearchManifest();
   m.studyId = "reviewed-pilot";
   m.approvalReference = "IRB-reference-2026";
@@ -242,7 +242,7 @@ test("live requires reviewed manifest, exact runtime freeze and reviewed E3 pool
   m.experiment = "E2";
   m.freeze = researchFreeze(m, "model/frozen", "commit-123");
   const good = { ...env, RESEARCH_REVIEWED_MANIFEST_JSON: JSON.stringify(m) };
-  assert.equal(researchConfig(good)!.mode, "live");
+  assert.throws(() => researchConfig(good), /reviewed source release/);
   assert.throws(() =>
     researchConfig({ ...good, VERCEL_GIT_COMMIT_SHA: "other" }),
   );
@@ -325,6 +325,58 @@ test("E1 accepts actual short protocol without fictitious outcome forms/coders/d
   assert.equal(validateResearchManifest(m, false).experiment, "E1");
   m.experiment = "E2";
   assert.throws(() => validateResearchManifest(m, false));
+});
+test("E1 finishes after one confirmed run and explanation, not an empty checkpoint", async (t) => {
+  const s = await setup(t, "E1");
+  const response = (id: string) =>
+    s.service.response(s.token, {
+      version: 1,
+      requestId: id,
+      stage: "rehearsal",
+      formVersion: s.version,
+      response: { completed: true },
+    });
+  await s.checkpoint(blankShiftSession(activity));
+  await assert.rejects(() => response("empty-complete-0001"), /complete rehearsal/);
+  await assert.rejects(() => s.question("skip"), /no evidence question/);
+  const unexplained = first();
+  unexplained.practice.responses["run-1"]!.committed = null;
+  await s.checkpoint(unexplained, "e1-unexplained-0001");
+  await assert.rejects(
+    () => response("unexplained-complete-0001"),
+    /complete rehearsal/,
+  );
+  await assert.rejects(
+    () => s.checkpoint(finished(), "e1-second-run-0001"),
+    /ends after version 1/,
+  );
+  await s.checkpoint(first(), "e1-first-run-0001");
+  const result = await response("e1-complete-0001");
+  assert.equal(result.session.stage, "feedback");
+  assert.equal(result.receipt?.stage, "rehearsal");
+  assert.equal(result.session.question.status, "not-started");
+});
+test("E2 requires a common question opportunity but explicit skip keeps the full route available", async (t) => {
+  const s = await setup(t, "E2");
+  await s.baseline();
+  await s.checkpoint();
+  await assert.rejects(
+    () => s.checkpoint(finished(), "e2-before-question-0001"),
+    /question/,
+  );
+  const skipped = await s.question("skip");
+  assert.equal(skipped.session.question.status, "responded");
+  assert.equal(skipped.session.question.responseStatus, "declined");
+  await s.checkpoint(finished(), "e2-full-run-0001");
+  const result = await s.service.response(s.token, {
+    version: 1,
+    requestId: "e2-complete-0001",
+    stage: "rehearsal",
+    formVersion: s.version,
+    response: { completed: true },
+  });
+  assert.equal(result.session.stage, "immediate");
+  assert.equal(result.receipt?.stage, "rehearsal");
 });
 test("durable restart, immutable stage and idempotent concurrent retries", async (t) => {
   const s = await setup(t);

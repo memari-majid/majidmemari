@@ -180,7 +180,7 @@ async function fixture(
       session,
     });
   const question = async (
-    action: "start" | "select" | "release" | "respond",
+    action: "start" | "select" | "release" | "respond" | "skip",
     extra = {},
   ) =>
     service.question(token, {
@@ -201,7 +201,7 @@ async function fixture(
       await question("start", { allowAI: false });
       await question("release", { inspectionCompleted: true });
       await question("respond", { declined: true });
-    }
+    } else if (manifest.experiment === "E2") await question("skip");
     await checkpoint(episode(true));
     return response("rehearsal", { completed: true });
   };

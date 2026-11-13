@@ -76,6 +76,9 @@ export type ResearchConfig = {
   filePath?: string;
   databaseUrl?: string;
 };
+// Review and deliberately change this source gate in a separate release after
+// the institution approves the protocol, storage, staffing and consent flow.
+const LIVE_RESEARCH_RELEASE = false;
 const object = (x: unknown): x is Record<string, unknown> =>
   !!x && typeof x === "object" && !Array.isArray(x);
 export function exact(
@@ -492,6 +495,11 @@ export function researchConfig(
   const db = new URL(env.RESEARCH_DATABASE_URL);
   if (!["postgres:", "postgresql:"].includes(db.protocol))
     throw new ResearchError(503, "Private research storage is not configured.");
+  if (!LIVE_RESEARCH_RELEASE)
+    throw new ResearchError(
+      503,
+      "Live research collection awaits a reviewed source release.",
+    );
   return {
     mode: "live",
     manifest,

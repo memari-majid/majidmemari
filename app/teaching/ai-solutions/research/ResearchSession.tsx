@@ -735,6 +735,7 @@ export function ResearchSession() {
                   study={{
                     instanceKey: instance,
                     initialSession: session.checkpoint ?? undefined,
+                    experiment: session.experiment,
                     questionComplete: session.question.status === "responded",
                     saving: locked,
                     onSave: (snapshot, complete) =>
@@ -742,20 +743,21 @@ export function ResearchSession() {
                     onEndEarly: (snapshot, reason) =>
                       void endRehearsal(snapshot, reason),
                     proposalRequest,
-                    renderEvidenceQuestion: (snapshot) => (
-                      <ResearchEvidenceQuestion
-                        question={session.question}
-                        snapshot={snapshot}
-                        locked={locked}
-                        onStart={(value, allow) =>
-                          void startQuestion(value, allow)
-                        }
-                        onSkip={(value) => void skipQuestion(value)}
-                        onRelease={releaseQuestion}
-                        onRespond={respondQuestion}
-                        onRefresh={() => void refresh()}
-                      />
-                    ),
+                    renderEvidenceQuestion: (snapshot) =>
+                      session.experiment === "E1" ? null : (
+                        <ResearchEvidenceQuestion
+                          question={session.question}
+                          snapshot={snapshot}
+                          locked={locked}
+                          onStart={(value, allow) =>
+                            void startQuestion(value, allow)
+                          }
+                          onSkip={(value) => void skipQuestion(value)}
+                          onRelease={releaseQuestion}
+                          onRespond={respondQuestion}
+                          onRefresh={() => void refresh()}
+                        />
+                      ),
                   }}
                 />
               </div>
