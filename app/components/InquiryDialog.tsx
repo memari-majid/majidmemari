@@ -17,7 +17,8 @@ export function InquiryDialog() {
   const router = useRouter();
   const dialog = useRef<HTMLDialogElement>(null);
   const value = search.get("inquiry");
-  const topic = value && Object.hasOwn(TOPICS, value) ? value as keyof typeof TOPICS : null;
+  const studyRoute = pathname === '/teaching/ai-solutions/research' || pathname.startsWith('/teaching/ai-solutions/research/');
+  const topic = !studyRoute && value && Object.hasOwn(TOPICS, value) ? value as keyof typeof TOPICS : null;
 
   useEffect(() => {
     const element = dialog.current;
