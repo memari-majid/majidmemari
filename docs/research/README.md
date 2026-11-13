@@ -89,6 +89,7 @@ The final collector revision, including the absolute retention cutoff, passed th
 | Compiled-server smoke checks | Eight requests passed | Home, course, lesson, assistant and both study pages returned 200; study status was off/unavailable with no-store, and a write returned 404. |
 | Browser receipt and resume | Passed in Chrome | A fictional baseline submission received a receipt; reload required token re-entry and restored the current rehearsal plus the same receipt, without reopening the prior assessment packet. |
 | Browser question opportunity | Passed in Chrome | A separately seeded synthetic checkpoint exercised explicit start/save, common inspection, early release, neutral source tags, response save and revision unlock. No provider call occurred. |
+| Full synthetic E2 browser path | Passed in the in-app browser | A fresh fictional fixture completed baseline, version-1 acceptance/explanation, saved evidence-question checkpoint and response, version-2 A/B and frozen C, completed rehearsal, immediate task, zero-delay synthetic follow-up, and feedback. Each major submission displayed a server receipt and the final page displayed Finished. No AI provider call or real participant data occurred. |
 | Narrow view | Inspected at 375 CSS pixels | The evidence-question and recorded-response cards wrapped without visible horizontal clipping. This was not a full mobile-device audit. |
 | Process restart | Passed | After stopping and restarting the local server, authenticated retrieval preserved the same synthetic participant, rehearsal stage, exact receipt and timestamp. |
 
@@ -106,4 +107,4 @@ node node_modules/next/dist/bin/next build
 
 The build commands are the same prebuild/build steps used by `npm run vercel-build`. Broad `eslint .` also traverses generated `.next` files and archived CommonJS course snapshots; that is not the source-lint scope above.
 
-The browser check did not complete the entire second-run/C/immediate/delayed sequence; the separate synthetic HTTP checks covered the stage flow. Safari, Firefox, a screen reader, live PostgreSQL, real provider calls and deployed custom-domain origin handling remain unverified. No live research collection, deployment or learning-effectiveness claim follows from these results.
+The later synthetic E2 browser check completed the second-run/C/immediate/follow-up sequence; the follow-up used zero delay and does not test the real delayed interval. Safari, Firefox, a screen reader, live PostgreSQL, real provider calls and intended-participant usability remain unverified. Production deployment has been checked only with collection disabled. No live research collection or learning-effectiveness claim follows from these results.
