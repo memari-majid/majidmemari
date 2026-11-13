@@ -25,9 +25,10 @@ export function BuildingAiSolutionsCard({
             Build a useful AI solution through interactive simulations, moving figures and an AI Learning Companion. Open to any discipline, with no prerequisites or coding required.
           </p>
           <p className="mt-5 text-sm font-semibold leading-7 text-slate-900">12 units · one practical capstone · five milestones</p>
-          <a href="/teaching/ai-solutions/index.html" className="mt-6 inline-flex min-h-12 items-center justify-center rounded-lg bg-slate-950 px-5 py-3 text-sm font-semibold text-white transition hover:bg-teal-800">
-            Start the course →
-          </a>
+          <div className="mt-6 flex flex-wrap gap-3">
+            <a href="/teaching/ai-solutions/demo" className="inline-flex min-h-12 items-center justify-center rounded-lg bg-slate-950 px-5 py-3 text-sm font-semibold text-white transition hover:bg-teal-800">Try the 3-minute simulation →</a>
+            <a href="/teaching/ai-solutions/index.html" className="inline-flex min-h-12 items-center justify-center rounded-lg border border-slate-300 bg-white px-5 py-3 text-sm font-semibold text-slate-900 transition hover:border-teal-700 hover:text-teal-800">Explore the course</a>
+          </div>
           <p className="mt-4 max-w-md text-xs leading-6 text-slate-600">Explore the public lessons without an account. Worked examples and reading routes are available without an AI service.</p>
         </div>
         <CourseEffortPreview />

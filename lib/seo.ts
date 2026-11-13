@@ -8,6 +8,7 @@ export const INDEXABLE_PATHS = [
   "/projects",
   ...PROJECTS.map(({ slug }) => `/projects/${slug}`),
   "/teaching/ai-solutions/index.html",
+  "/teaching/ai-solutions/demo",
 ] as const;
 
 export function absoluteUrl(path = "/"): string {
