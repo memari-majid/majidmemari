@@ -592,8 +592,8 @@ export function ResearchSession() {
                 {status.available
                   ? "Service available for authorized entry."
                   : "Research collection is off."}
-              </strong>{" "}
-              {status.note}
+              </strong>
+              {status.available ? ` ${status.note}` : null}
             </p>
           ) : (
             <p role="status" className="mt-4 text-sm">

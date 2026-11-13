@@ -234,8 +234,8 @@ export function ResearchCoordinator() {
                 ? "Configured study service"
                 : "Collection is off"}
             .
-          </strong>{" "}
-          {status.note}
+          </strong>
+          {status.available ? ` ${status.note}` : null}
         </p>
       ) : (
         <p className="mt-5 text-sm">Checking service configuration…</p>
