@@ -688,7 +688,16 @@ export class ResearchService {
         );
       this.settle(p);
       if (input.action === "skip") {
+        // Declining the opportunity still belongs after the first accepted
+        // run and committed explanation. A released card is a declined
+        // response, not an unseen skipped opportunity.
+        this.context(p);
         if (p.question?.respondedAt) return { session: this.view(p) };
+        if (p.question?.releasedAt)
+          throw new ResearchError(
+            409,
+            "The released question needs a response or explicit decline.",
+          );
         if (!p.question)
           p.question = {
             startedAt: iso(this.now()),
