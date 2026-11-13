@@ -12,8 +12,8 @@ const FEATURES = [
     detail: "Inspect and correct an AI interpretation before running your workflow. Predict the result, follow its action trace, and explore your explanation with an optional AI-selected question.",
     href: `${COURSE}/assistant?lesson=unit-01.html`,
     action: "Explore with the Learning Companion",
-    extraHref: `${COURSE}/assistant?lesson=unit-04.html`,
-    extraAction: "Try the workflow rehearsal",
+    extraHref: `${COURSE}/demo`,
+    extraAction: "Try the guided simulation",
     label: "02 · Reason",
   },
   {
