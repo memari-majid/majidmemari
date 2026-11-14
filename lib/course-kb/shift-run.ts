@@ -12,7 +12,7 @@ export type ShiftAction = ({ type: SimpleType; quote: string }
   | { type: 'human_check'; quote: string; human_check: { checks: ShiftCheck[] } }
   | { type: 'route_to_owner'; quote: string; route_to_owner: { only_if_held: boolean } }) & { when?: ShiftGuard };
 export const SHIFT_ACTION_LABELS: Record<ShiftActionType, string> = { intake: 'Read the incoming request', find_source: 'Consult an approved source', check_conditions: 'Check the deciding conditions', ask_missing_fact: 'Ask for a missing fact', ai_draft: 'Prepare an AI draft', human_check: 'Human review', route_to_owner: 'Route to the owner', acknowledge_customer: 'Acknowledge receipt to the customer', release: 'Release a reply', confirm_change: 'Claim that a change is confirmed' };
-export const SHIFT_GUARD_LABELS: Record<ShiftGuard, string> = { always: 'Whenever this action is reached', if_missing_fact: 'Only if the deciding fact is missing', if_exception: 'Only if the policy requires an exception decision', if_held: 'Only if the case is held', if_not_held: 'Only if the case is not held', if_approved: 'Only after an authorized approval is supplied' };
+export const SHIFT_GUARD_LABELS: Record<ShiftGuard, string> = { always: 'Whenever this action is reached', if_missing_fact: 'Only if the deciding fact is missing', if_exception: 'Only if the policy requires an exception decision', if_held: 'Only if the case is held', if_not_held: 'Only if the case is not held', if_approved: 'Only after the owner or coordinator authorizes the requested change' };
 export const SHIFT_CHECK_LABELS: Record<ShiftCheck, string> = { source: 'Approved source', conditions: 'Deciding conditions', tone: 'Tone', next_step: 'Next step and authority', accuracy: 'Accuracy against the approved source and conditions', commitments: 'Unsupported commitments', confirmations: 'Claims that an action already happened' };
 export type ShiftMapping = { step: number; actions: ShiftAction[] }[];
 export type ShiftCaseId = 'A' | 'B' | 'C';
@@ -35,7 +35,7 @@ export type ShiftCaseResult = { caseId: ShiftCaseId; draftId: string | null; con
 export type ShiftEpisodeResult = { results: ShiftCaseResult[]; tally: { sent: number; routed: number; held: number; asked: number; stopped: number } };
 export type ShiftPrediction = { text: string; confidence: 'low' | 'medium' | 'high' };
 export type ShiftProposal = { mapping: ShiftMapping; modelId: string; usage?: ShiftUsage | null };
-export type ShiftAcceptanceInput = { confirmed: true; origin: 'ai-proposal' | 'student'; proposal?: ShiftProposal; prediction?: ShiftPrediction };
+export type ShiftAcceptanceInput = { confirmed: true; origin: 'ai-proposal' | 'student'; proposal?: ShiftProposal; prediction?: ShiftPrediction; assistedByRejectedProposal?: true };
 export type ShiftAcceptance = ShiftAcceptanceInput & { corrected: boolean };
 export type ShiftRunEntry = { number: 1 | 2; workflow: string; steps: string[]; mapping: ShiftMapping; reason: string; classifiedBy: 'ai' | 'student'; modelId?: string; usage?: ShiftUsage | null; acceptance?: ShiftAcceptance; result: ShiftEpisodeResult };
 export type ShiftRecord = { version: 1; mode: 'shift-run'; activityRevision: number; page: string; runs: ShiftRunEntry[]; nextRequest: ShiftCaseResult | null };
@@ -190,7 +190,7 @@ function runCaseCurrent(a: ShiftRunActivity, input: ShiftMapping, caseId: ShiftC
   const actions = mapping(input).flatMap(line => line.actions.map((value, index) => ({ value, step: line.step, action: index + 1 })));
   const trace: ShiftTraceEvent[] = [];
   let intake = false, source = false, conditionsChecked = false, drafted = false, conditional = false, held = false, routed = false, acknowledged = false;
-  let draftId: string | null = null, acknowledgementDraft: string | null = null, routeStep: number | null = null, checkStep: number | null = null;
+  let draftId: string | null = null, acknowledgementDraft: string | null = null, routeStep: number | null = null, checkStep: number | null = null, approvalReviewNote: string | null = null;
   const checks = new Set<ShiftCheck>();
   const authorityChecked = () => checks.has('next_step') || checks.has('commitments') || checks.has('confirmations');
   const missingChecks = () => [
@@ -200,7 +200,7 @@ function runCaseCurrent(a: ShiftRunActivity, input: ShiftMapping, caseId: ShiftC
     ...(!authorityChecked() ? ['next step / authority'] : []),
   ];
   const emit = (item: typeof actions[number], status: ShiftTraceEvent['status'], detail: string) => trace.push({ step: item.step, action: item.action, type: item.value.type, when: item.value.when ?? 'always', status, detail });
-  const finish = (id: ShiftConsequenceId, supplied: string | null, step: number | null, explanation: string, sent = false): ShiftCaseResult => ({ ...outcome(a, caseId, id, supplied, step, routed, sent), trace: clone(trace), explanation });
+  const finish = (id: ShiftConsequenceId, supplied: string | null, step: number | null, explanation: string, sent = false): ShiftCaseResult => ({ ...outcome(a, caseId, id, supplied, step, routed, sent), trace: clone(trace), explanation: id === 'stopped' && approvalReviewNote ? `${explanation} ${approvalReviewNote}` : explanation });
   function guardAllows(guard: ShiftGuard): boolean {
     if (guard === 'always') return true;
     if (guard === 'if_missing_fact') return intake && caseId === 'C';
@@ -212,7 +212,9 @@ function runCaseCurrent(a: ShiftRunActivity, input: ShiftMapping, caseId: ShiftC
   for (const item of actions) {
     const value = item.value, when = value.when ?? 'always';
     if (!guardAllows(when)) {
-      emit(item, 'skipped', when === 'if_approved' ? 'No authorized approval or completed change is supplied in this request; the guarded action did not happen.' : `The condition “${SHIFT_GUARD_LABELS[when]}” was not met at this point.`);
+      const priorFullReview = when === 'if_approved' && value.type === 'release' && checkStep !== null && missingChecks().length === 0;
+      if (priorFullReview) approvalReviewNote = `Human reviews through step ${checkStep} covered the draft, but they are not the owner or coordinator approval this guard requires. If you meant send once the review passes, use “only if the case is not held.”`;
+      emit(item, 'skipped', when === 'if_approved' ? `No authorized approval or completed change is supplied in this request; the guarded action did not happen.${priorFullReview ? ` ${approvalReviewNote}` : ''}` : `The condition “${SHIFT_GUARD_LABELS[when]}” was not met at this point.`);
       continue;
     }
     if (value.type === 'intake') { intake = true; emit(item, 'executed', caseId === 'C' ? 'The incoming cancellation request was read; its deciding session time is missing.' : 'The supplied incoming request and time were read.'); }
@@ -288,7 +290,7 @@ function usage(value: unknown): ShiftUsage | null | undefined {
 }
 function acceptance(value: unknown, steps: string[], acceptedMapping: ShiftMapping, classifiedBy: 'ai' | 'student', modelId: unknown, tokenUsage: ShiftUsage | null | undefined, saved: boolean): ShiftAcceptance {
   if (!object(value)) fail('Inspect and explicitly accept the interpretation before running the cases.');
-  keys(value, ['confirmed', 'origin', 'proposal', 'prediction', ...(saved ? ['corrected'] : [])], ['confirmed', 'origin', ...(saved ? ['corrected'] : [])]);
+  keys(value, ['confirmed', 'origin', 'proposal', 'prediction', 'assistedByRejectedProposal', ...(saved ? ['corrected'] : [])], ['confirmed', 'origin', ...(saved ? ['corrected'] : [])]);
   if (value.confirmed !== true || !['ai-proposal', 'student'].includes(value.origin as string) || (classifiedBy === 'ai') !== (value.origin === 'ai-proposal')) fail('The accepted interpretation needs truthful proposal provenance.');
   let proposal: ShiftProposal | undefined;
   if (value.origin === 'ai-proposal') {
@@ -298,6 +300,7 @@ function acceptance(value: unknown, steps: string[], acceptedMapping: ShiftMappi
     if (typeof value.proposal.modelId !== 'string' || !value.proposal.modelId.trim() || value.proposal.modelId.length > 200 || value.proposal.modelId !== modelId || !same(measured, tokenUsage)) fail('Keep the original proposal model and measured usage unchanged.');
     proposal = { mapping: proposed, modelId: value.proposal.modelId, ...(measured !== undefined ? { usage: measured } : {}) };
   } else if (value.proposal !== undefined) fail('A student-origin interpretation must not claim an AI proposal.');
+  if (value.assistedByRejectedProposal !== undefined && (value.assistedByRejectedProposal !== true || value.origin !== 'student')) fail('A rejected AI reading can assist only a learner-owned interpretation.');
   let prediction: ShiftPrediction | undefined;
   if (value.prediction !== undefined) {
     if (!object(value.prediction)) fail('The prediction is invalid.');
@@ -307,7 +310,7 @@ function acceptance(value: unknown, steps: string[], acceptedMapping: ShiftMappi
   }
   const corrected = !!proposal && !same(proposal.mapping, acceptedMapping);
   if (saved && value.corrected !== corrected) fail('The correction marker must match the original proposal and accepted mapping.');
-  return { confirmed: true, origin: value.origin as ShiftAcceptanceInput['origin'], ...(proposal ? { proposal } : {}), ...(prediction ? { prediction } : {}), corrected };
+  return { confirmed: true, origin: value.origin as ShiftAcceptanceInput['origin'], ...(proposal ? { proposal } : {}), ...(prediction ? { prediction } : {}), ...(value.assistedByRejectedProposal === true ? { assistedByRejectedProposal: true } : {}), corrected };
 }
 function entry(a: ShiftRunActivity, value: unknown, expected: 1 | 2): ShiftRunEntry {
   if (!object(value)) fail('A saved shift run is invalid.');
@@ -370,11 +373,11 @@ export function exportShiftRecord(a: ShiftRunActivity, current: ShiftRecord): st
   for (const run of record.runs) {
     lines.push(a.stamp, `Workflow ${run.number}`, run.workflow, `Reason: ${run.reason}`, run.classifiedBy === 'student' ? 'Steps classified by the student.' : `Steps classified by AI: ${run.modelId}`);
     if (run.acceptance) {
-      lines.push(run.acceptance.origin === 'ai-proposal' ? `AI proposed an interpretation; the learner explicitly accepted ${run.acceptance.corrected ? 'an edited interpretation' : 'the unchanged proposal'}.` : 'The learner constructed and explicitly accepted the interpretation.');
+      lines.push(run.acceptance.origin === 'ai-proposal' ? `AI proposed an interpretation; the learner explicitly accepted ${run.acceptance.corrected ? 'an edited interpretation' : 'the unchanged proposal'}.` : run.acceptance.assistedByRejectedProposal ? 'The AI proposal failed validation. Valid line suggestions were kept; the learner constructed and explicitly accepted the final interpretation.' : 'The learner constructed and explicitly accepted the interpretation.');
       if (run.acceptance.prediction) lines.push(`Prediction before this run: ${run.acceptance.prediction.text}`, `Self-reported confidence: ${run.acceptance.prediction.confidence}; not a checked learning result.`);
       if (run.acceptance.proposal) lines.push('Original AI proposal (not automatically executed):', formatShiftMapping(run.acceptance.proposal.mapping));
       lines.push('Learner-accepted interpretation:', formatShiftMapping(run.mapping));
-    } else for (const line of run.mapping) lines.push(`Step ${line.step}: ${run.steps[line.step - 1]}`, JSON.stringify(line.actions));
+    } else lines.push('Recorded interpretation:', formatShiftMapping(run.mapping));
     for (const result of run.result.results) describe(result);
     lines.push(`Shift tally: ${run.result.tally.sent} sent; ${run.result.tally.routed} to the owner.`);
   }

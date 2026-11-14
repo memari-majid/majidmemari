@@ -79,7 +79,7 @@ export function validateShiftClassification(value: unknown, steps: readonly stri
       if (item.type === "route_to_owner" && /\b(?:route|send|refer|escalate)\s+(?:(?:the|only|any)\s+)?(?:held|flagged)\s+(?:messages?|requests?|cases?|work)\b/i.test(line) && !item.route_to_owner.only_if_held) throw new ClassificationError(entry.step);
       if (item.type === "ai_draft" && /\b(?:never|do not|don't)\s+(?:claim|say|confirm)\b[^.;]{0,100}\b(?:changed|processed|approved|confirmed)\b/i.test(line) && !item.ai_draft.forbids_promises) throw new ClassificationError(entry.step);
       if (item.type === "confirm_change" && /\b(?:only\s+)?after\b[^.;]{0,60}\b(?:owner|coordinator|human|person)\b[^.;]{0,40}\bapprov(?:es?|ed|al)\b/i.test(line) && (item.when !== "if_approved" || !/\bapprov(?:es?|ed|al)\b/i.test(item.quote))) throw new ClassificationError(entry.step);
-      if ((item.type === "route_to_owner" || item.type === "acknowledge_customer") && /\bif\b[^.;]{0,70}\b(?:needs?|requires?)\b[^.;]{0,30}\bexception\b/i.test(line) && (item.when !== "if_exception" || !/\bexception\b/i.test(item.quote))) throw new ClassificationError(entry.step);
+      if ((item.type === "route_to_owner" || item.type === "acknowledge_customer") && /\bif\b[^.;]{0,70}\b(?:needs?|requires?)\b[^.;]{0,30}\bexception\b/i.test(line) && item.when !== "if_exception") throw new ClassificationError(entry.step);
       if (item.type === "release" && /\bonly\s+if\s+(?:not\s+held|not\s+on\s+hold)\b/i.test(line) && (item.when !== "if_not_held" || !/\bnot\s+(?:held|on\s+hold)\b/i.test(item.quote))) throw new ClassificationError(entry.step);
       if (item.type === "human_check") for (const check of item.human_check.checks) {
         const named = check === 'next_step' ? /\bnext\s+step\b/i : new RegExp(`\\b${check}\\b`, 'i');
@@ -99,12 +99,30 @@ export function validateShiftClassification(value: unknown, steps: readonly stri
   return mapping;
 }
 
+/** Keep only independently validated lines when one model line fails. A rejected
+ * line is blank in the editor; no partial mapping is ever run automatically. */
+function recoverValidShiftLines(value: unknown, steps: readonly string[]): ShiftMapping | null {
+  const parsed = SHIFT_CLASSIFIER_OUTPUT.safeParse(value);
+  if (!parsed.success) return null;
+  let recovered = 0;
+  const mapping = steps.map((line, index) => {
+    const candidate = parsed.data.mapping.find(entry => entry.step === index + 1);
+    if (!candidate) return { step: index + 1, actions: [] } as ShiftMapping[number];
+    try {
+      const checked = validateShiftClassification({ mapping: [{ step: 1, actions: candidate.actions }] }, [line])[0];
+      recovered += 1;
+      return { step: index + 1, actions: checked.actions };
+    } catch { return { step: index + 1, actions: [] } as ShiftMapping[number]; }
+  });
+  return recovered ? mapping : null;
+}
+
 function publicUsage(usage: { inputTokens?: number; outputTokens?: number; totalTokens?: number }): ShiftClassifierUsage {
   const token = (value: unknown) => typeof value === "number" && Number.isSafeInteger(value) && value >= 0 ? value : null;
   return { inputTokens: token(usage.inputTokens), outputTokens: token(usage.outputTokens), totalTokens: token(usage.totalTokens) };
 }
-const failure = (status: number, error: string, code: string, step?: number) => Response.json(
-  { error, code, ...(step ? { step } : {}) },
+const failure = (status: number, error: string, code: string, step?: number, partialMapping?: ShiftMapping | null) => Response.json(
+  { error, code, ...(step ? { step } : {}), ...(partialMapping ? { partialMapping } : {}) },
   { status, headers: { "Cache-Control": "no-store", ...(status === 429 ? { "Retry-After": "600" } : {}) } },
 );
 
@@ -165,7 +183,12 @@ export function createShiftClassifierHandler(options: {
         providerOptions: { gateway: { tags: ["site:majidmemari", "feature:course-shift-classifier", `env:${settings.environment ?? "dev"}`] } },
       }), signal);
       if (signal.aborted) return failure(req.signal.aborted ? 499 : 503, "Classification was interrupted. Classify the steps yourself or try a fresh episode later.", req.signal.aborted ? "cancelled" : "unavailable");
-      const mapping = validateShiftClassification(result.output, steps);
+      let mapping: ShiftMapping;
+      try { mapping = validateShiftClassification(result.output, steps); }
+      catch (error) {
+        if (error instanceof ClassificationError) return failure(422, error.step ? `Could not validate step ${error.step}. Review the remaining suggestions and classify that line yourself, or edit your workflow and try again.` : 'Could not validate the AI reading. Classify the steps yourself, or edit your workflow and try again.', 'classification', error.step, recoverValidShiftLines(result.output, steps));
+        throw error;
+      }
       const response: ShiftClassifierResponse = { mapping, modelId, usage: publicUsage(result.usage), classifiedBy: "ai" };
       return Response.json(response, { headers: { "Cache-Control": "no-store" } });
     } catch (error) {
@@ -173,7 +196,7 @@ export function createShiftClassifierHandler(options: {
       if (error instanceof CourseRequestError) return failure(error.status, error.status === 413 ? "The shift request is too large." : "Send a valid JSON shift request.", "request");
       if (error instanceof ClassificationError || NoObjectGeneratedError.isInstance(error)) {
         const step = error instanceof ClassificationError ? error.step : undefined;
-        return failure(422, step ? `Could not read step ${step}. Rewrite it more plainly or classify the steps yourself.` : "Could not validate that reading. Rewrite the steps more plainly or classify them yourself.", "classification", step);
+        return failure(422, step ? `Could not validate step ${step}. Classify that line yourself, or edit your workflow and try again.` : "Could not validate the AI reading. Classify the steps yourself, or edit your workflow and try again.", "classification", step);
       }
       return failure(503, "AI classification is temporarily unavailable. Classify the steps yourself to run the same shift.", "unavailable");
     } finally { release(); }

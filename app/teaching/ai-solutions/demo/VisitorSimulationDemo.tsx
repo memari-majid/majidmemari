@@ -178,6 +178,7 @@ export function VisitorSimulationDemo() {
               <h3 ref={resultsHeading} tabIndex={-1} className="text-xs font-bold uppercase tracking-[0.16em] text-slate-500">{phase === 'first' ? 'First-run results' : 'Compare the two runs'}</h3>
               <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-700">Authored example · simulated outcomes</span>
             </div>
+            <p className="mt-4 rounded-xl border border-sky-200 bg-sky-50 p-4 text-sm leading-6 text-sky-950"><strong>{prediction ? `You predicted ${prediction === 'both' ? 'both requests' : prediction === 'a' ? 'A only' : 'B only'}.` : 'You ran the workflow without a prediction.'}</strong> Both requests need a check before any promise: A still needs space and coordinator confirmation (S3); B needs an owner decision on an exception (S2). Compare those facts with what the first workflow sent below.</p>
             <div role="group" aria-label="Choose a request to inspect" className="mt-4 flex gap-2">
               {(['A', 'B'] as const).map(id => <button key={id} type="button" onClick={() => setSelectedCase(id)} aria-pressed={selectedCase === id} className={`min-h-11 rounded-lg border px-5 text-left text-sm font-bold ${selectedCase === id ? 'border-slate-950 bg-slate-950 text-white' : 'border-slate-300 bg-white text-slate-700 hover:border-slate-700'}`}>Request {id}<span className="block text-xs font-medium opacity-80">{activity.consequences[first.results.find(result => result.caseId === id)!.consequenceId].label}</span></button>)}
             </div>
@@ -189,7 +190,7 @@ export function VisitorSimulationDemo() {
             {phase === 'first' ? (
               <div className="mt-7 rounded-2xl border border-teal-200 bg-teal-50 p-5 sm:p-6">
                 <p className="text-sm font-bold text-teal-900">What would you change?</p>
-                <p className="mt-2 text-sm leading-6 text-slate-700">The first check looked at tone and accuracy, but did not block an unapproved confirmation or credit. This revision adds a promise check and routes held messages to the owner.</p>
+                <p className="mt-2 text-sm leading-6 text-slate-700">In this fictional scenario, a general tone-and-accuracy check is assumed to miss an implied promise. That is an authored teaching assumption, not a measured limit of human review. This revision names the promise check and routes held messages to the owner.</p>
                 <button type="button" onClick={revisedRun} className="mt-4 min-h-12 rounded-xl bg-teal-800 px-5 text-sm font-bold text-white transition hover:bg-teal-700">Run the revised workflow →</button>
               </div>
             ) : null}
@@ -201,17 +202,18 @@ export function VisitorSimulationDemo() {
             <p className="text-xs font-bold uppercase tracking-widest text-amber-900">A new request arrives</p>
             <h3 className="mt-2 text-lg font-bold text-slate-900">Request C: “Please cancel my booking.”</h3>
             <p className="mt-2 text-sm leading-6 text-slate-700">The session time is missing. Which complete workflow should handle it?</p>
-            <p className="mt-2 text-xs leading-5 text-slate-600">The safer authored workflow also checks source conditions and tells customers when a real exception is under review.</p>
+            <p className="mt-2 text-xs leading-5 text-slate-600">Compare the workflow steps before choosing. After running one, you can inspect its trace and try the other.</p>
+            <div className="mt-4 grid gap-3 md:grid-cols-2">{([{ id: 'route', title: 'Workflow A: the revision you just ran', workflow: activity.fixtures.v2.workflow }, { id: 'ask', title: 'Workflow B: an alternative process', workflow: activity.fixtures.safe!.workflow }] as const).map(option => <details key={option.id} className="rounded-xl border border-slate-200 bg-white p-3"><summary className="cursor-pointer text-sm font-semibold">{option.title}</summary><ol className="mt-3 list-inside list-decimal space-y-1 text-sm leading-6">{option.workflow.split('\n').map((line, index) => <li key={index}>{line}</li>)}</ol></details>)}</div>
             <div className="mt-4 flex flex-col gap-2 sm:flex-row">
-              <button type="button" onClick={() => changedRun('route')} className="min-h-12 rounded-xl border border-amber-700 bg-white px-5 text-sm font-semibold text-amber-950 hover:bg-amber-100">Keep the revised workflow · route</button>
-              <button type="button" onClick={() => changedRun('ask')} className="min-h-12 rounded-xl bg-slate-950 px-5 text-sm font-semibold text-white hover:bg-teal-800">Try the safer workflow · ask first</button>
+              <button type="button" onClick={() => changedRun('route')} className="min-h-12 rounded-xl border border-amber-700 bg-white px-5 text-sm font-semibold text-amber-950 hover:bg-amber-100">Run Workflow A</button>
+              <button type="button" onClick={() => changedRun('ask')} className="min-h-12 rounded-xl bg-slate-950 px-5 text-sm font-semibold text-white hover:bg-teal-800">Run Workflow B</button>
             </div>
           </div>
         ) : null}
 
         {changed ? (
           <div className="mt-8">
-            <h3 ref={changedHeading} tabIndex={-1} className="mb-2 text-xs font-bold uppercase tracking-widest text-slate-500">Changed-case result · Request C · {changedChoice === 'ask' ? 'safer workflow' : 'revised workflow'}</h3>
+            <h3 ref={changedHeading} tabIndex={-1} className="mb-2 text-xs font-bold uppercase tracking-widest text-slate-500">Changed-case result · Request C · {changedChoice === 'ask' ? 'Workflow B' : 'Workflow A'}</h3>
             <Outcome result={changed} />
             <div className="mt-4"><Trace result={changed} /></div>
             <p className="mt-5 text-sm leading-7 text-slate-700">The first revision fixed A, but B still received no acknowledgment and C could be escalated unnecessarily. A strong workflow checks missing facts before drafting, routes actual exceptions, and communicates the status without promising approval.</p>

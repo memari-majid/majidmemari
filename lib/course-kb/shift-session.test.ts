@@ -1,8 +1,8 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import activities from '../../public/teaching/ai-solutions/assets/ta-activities.json' with { type: 'json' };
-import { recordNextRequest, type ShiftMapping, type ShiftRunActivity } from './shift-run';
-import { addShiftProposal, blankShiftSession, confirmShiftDraft, newShiftDraft, readShiftSession, requestShiftProposalAfterMarker, validateShiftDraft, validateShiftSession, type ShiftSession } from './shift-session';
+import { exportShiftRecord, recordNextRequest, type ShiftMapping, type ShiftRunActivity } from './shift-run';
+import { addShiftProposal, blankShiftSession, confirmShiftDraft, newShiftDraft, readShiftSession, recoverShiftProposalFailure, requestShiftProposalAfterMarker, returnToShiftWorkflow, validateShiftDraft, validateShiftSession, type ShiftSession } from './shift-session';
 import { commitShiftExplanation, exportShiftPractice, updateShiftExplanation, validateShiftPractice } from './shift-practice';
 const activity = activities[3] as unknown as ShiftRunActivity;
 const workflow = activity.fixtures.v1.workflow, steps = workflow.split('\n');
@@ -38,6 +38,41 @@ test('receiving an AI proposal never runs, freezes or consumes a workflow versio
   assert.deepEqual(session.draft.mapping, mapping);
   session.draft.mapping[0].actions[0].quote = 'Read the';
   assert.equal(session.draft.proposal!.mapping[0].actions[0].quote, steps[0], 'The original proposal remains separate from editable accepted actions');
+});
+
+test('failed AI classification keeps safe line suggestions, permits a classroom retry and returns to workflow editing', () => {
+  const blank: ShiftSession = { ...blankShiftSession(activity), workflow };
+  const attempted: ShiftSession = { ...blank, draft: newShiftDraft(blank), aiAttempted: [1] };
+  const partial: ShiftMapping = [{ step: 1, actions: [{ type: 'intake', quote: steps[0] }] }, ...steps.slice(1).map((_, index) => ({ step: index + 2, actions: [] }))];
+  const recovered = recoverShiftProposalFailure(attempted, 1, partial, true);
+  assert.equal(recovered.suggestedActions, 1);
+  assert.equal(recovered.canRetry, true);
+  assert.deepEqual(recovered.session.draft!.mapping, partial);
+  assert.equal(recovered.session.draft!.origin, 'student');
+  assert.equal(recovered.session.draft!.proposal, null);
+  assert.equal(recovered.session.draft!.recoveredFromAiFailure, true);
+  assert.deepEqual(recovered.session.aiAttempted, []);
+  assert.deepEqual(recovered.session.aiValidationFailures, [1]);
+  assert.equal(recovered.session.record.runs.length, 0);
+  const restored = readShiftSession(JSON.stringify(recovered.session), activity);
+  assert.equal(restored.unrecognized, null);
+  assert.deepEqual(restored.session.draft!.mapping, partial);
+  const editing = returnToShiftWorkflow(restored.session);
+  assert.equal(editing.draft, null);
+  assert.equal(editing.workflow, workflow);
+  assert.equal(editing.aiAttempted.includes(1), false);
+  assert.doesNotThrow(() => newShiftDraft({ ...editing, workflow: 'Read the request more carefully' }));
+  const study = recoverShiftProposalFailure(attempted, 1, undefined, false);
+  assert.deepEqual(study.session.aiAttempted, [1], 'Research route retains the failed request marker');
+  assert.equal(study.suggestedActions, 0, 'Research route does not borrow partial AI suggestions');
+  assert.equal(study.canRetry, false);
+  const secondAttempt = { ...recovered.session, aiAttempted: [1] as (1 | 2)[], draft: newShiftDraft(editing) };
+  const secondFailure = recoverShiftProposalFailure(secondAttempt, 1, partial, true);
+  assert.equal(secondFailure.canRetry, false, 'Only one classroom retry follows a rejected reading');
+  assert.deepEqual(secondFailure.session.aiAttempted, [1]);
+  const studentOwned = confirmShiftDraft(activity, { ...recovered.session, draft: { ...recovered.session.draft!, mapping, reviewed: steps.map((_, index) => index + 1) } }, true);
+  assert.equal(studentOwned.record.runs[0].acceptance!.assistedByRejectedProposal, true);
+  assert.match(exportShiftRecord(activity, studentOwned.record), /Valid line suggestions were kept/);
 });
 
 test('confirmation requires line review and explicit acceptance; optional predictions are complete or skipped', () => {
@@ -127,7 +162,11 @@ test('C retains a separate frozen expectation and the same accepted version-2 ma
   assert.equal(complete.record.nextRequest!.caseId, 'C');
   assert.deepEqual(complete.record.runs[1].mapping, mapping);
   assert.throws(() => validateShiftPractice({ ...complete.practice, nextPredictionDraft: { ...prediction, text: 'Rewrite after seeing C' } }, activity, complete.record), /original C prediction/);
-  assert.match(exportShiftPractice(complete.practice, activity, complete.record), /not a validated learning measure/);
+  const readable = exportShiftPractice(complete.practice, activity, complete.record);
+  assert.match(readable, /not a validated learning measure/);
+  assert.match(readable, /My prediction: The missing session time will matter/);
+  assert.match(readable, /My explanation:/);
+  assert(!readable.includes('\"responses\"'), 'The copyable record uses readable prose rather than a JSON tail');
   assert(!Object.hasOwn(complete.practice, 'journal'));
   assert(!Object.hasOwn(complete.practice, 'learnerId'));
 });

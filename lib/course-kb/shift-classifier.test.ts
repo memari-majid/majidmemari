@@ -117,6 +117,38 @@ test("mapping validation rejects foreign quotes, wrong enums, unknown fields, du
   ]) assert.throws(() => validateShiftClassification(value, [line]));
 });
 
+test("conditional exception actions accept precise sub-quotes without repeating the condition", async () => {
+  const line = "If the request needs an exception, send it to the owner and tell the customer that the owner will review it";
+  const mapping = [{ step: 1, actions: [
+    { type: "route_to_owner", quote: "If the request needs an exception, send it to the owner", when: "if_exception", route_to_owner: { only_if_held: false } },
+    { type: "acknowledge_customer", quote: "tell the customer that the owner will review it", when: "if_exception" },
+  ] }];
+  assert.deepEqual(validateShiftClassification({ mapping }, [line]), mapping);
+  const { handler } = setup({ mapping });
+  assert.equal((await handler(request({ workflow: line, activityRevision: 3 }))).status, 200);
+  const unsafe = structuredClone(mapping); delete (unsafe[0].actions[1] as { when?: string }).when;
+  assert.throws(() => validateShiftClassification({ mapping: unsafe }, [line]));
+});
+
+test("a rejected line returns only independently validated suggestions and no executable proposal", async () => {
+  const line = "If the request needs an exception, send it to the owner and tell the customer that the owner will review it";
+  const first = "Read the message";
+  const { handler } = setup({ mapping: [
+    { step: 1, actions: [{ type: "intake", quote: first }] },
+    { step: 2, actions: [{ type: "acknowledge_customer", quote: "tell the customer that the owner will review it" }] },
+  ] });
+  const response = await handler(request({ workflow: `${first}\n${line}`, activityRevision: 3 }));
+  assert.equal(response.status, 422);
+  const body = await response.json();
+  assert.equal(body.step, 2);
+  assert.deepEqual(body.partialMapping, [
+    { step: 1, actions: [{ type: "intake", quote: first }] },
+    { step: 2, actions: [] },
+  ]);
+  assert.equal(body.mapping, undefined);
+  assert.equal(body.modelId, undefined);
+});
+
 test("explicit prohibitions cannot be silently classified as affirmative release or completed changes", () => {
   for (const [line, type, quote] of [
     ["Never say the booking changed", "confirm_change", "say the booking changed"],

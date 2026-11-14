@@ -45,72 +45,60 @@ Tests check complete generated coverage, table/anchor extraction, retrieval of s
 
 ## Unit 4 workflow-run mode
 
-The authored activity snapshot now has an explicit mode union. Eleven activities
-retain the classic `decision-lab` mode (including the existing undefined-mode
-compatibility), phase-safe coaching and their storage behavior. Unit 4 revision
-2 is a `shift-run`: write at most six nonempty steps / 1,200 characters, rehearse
-the same process against the supplied A/B requests, revise once with a reason of
-at most 200 characters, then run the frozen second mapping against held-back C.
-The ShiftRun panel has no conversational coach. The separate Course questions
-mode remains available; structured classic-lab coaching requests for a shift
-activity are rejected instead of interpreting fields from the wrong mode.
+Unit 4 revision **3** uses `shift-run`; the other eleven activities retain their
+`decision-lab` mode. The learner writes up to six steps / 1,200 characters, opens
+an AI-proposed or manual interpretation, inspects exact supporting quotes,
+actions and conditions, and explicitly accepts every line before the authored
+engine runs A/B. The learner explains the first result, can request one bounded
+diagnostic question, revises once, and tests the frozen second interpretation on
+public practice request C. A complete worked route is available without AI.
 
-`POST /api/course-shift` receives only `{workflow, activityRevision: 2}` and the
-optional in-memory `x-course-code` header. It classifies the written steps; it
-does not rewrite them, generate a project answer or execute real actions. The
-server's validated mapping feeds the pure `shift-run.ts` authored rehearsal.
-There is no client-selected model, case, source card, grading setting or outcome
-in that request. Source references and quoted wording remain visible for review.
-Missing action categories are neutral interpretation information, not a required
-checklist. Provider errors and invalid classifications offer an explicit student
-classification route, labeled **steps classified by student**. The same engine
-then applies the supplied consequences. No AI call is made for C.
+`POST /api/course-shift` accepts `{workflow, activityRevision: 3}` and the optional
+in-memory `x-course-code` header. It proposes a typed interpretation, not a
+project answer or an executed action. The learner can correct the proposal;
+only an accepted mapping reaches the deterministic engine. Run traces explain
+executed and skipped actions. The `if_approved` guard means owner/coordinator
+authorization of the requested change; a completed draft review does not invent
+that authorization. The classroom and research interpreter request configurations
+remain distinct; classroom observations are not research benchmark results.
 
-The UI permits one online classification request for each of the two workflow
-versions, persists that attempted marker before fetching, never retries
-automatically and does not clear it when returning to the written draft. A 401
-access-code rejection releases that marker because it occurs before generation.
-On an interrupted/failed request, the written workflow and self-classification
-route survive reload. API access/rate controls remain separate; the three-run
-practice episode is a browser learning constraint, not identity verification, a
-distributed quota or a spending ceiling.
+The browser records a proposal attempt before the request. A 401 rejection
+releases it because generation has not begun. A classroom 422 validation failure
+can retain separately validated suggestions and permits **one retry per workflow
+version** or return to editing. Suggestions never run automatically, and the
+record labels when a rejected AI reading assisted the final interpretation. Study
+mode retains its single failed attempt and does not import partial suggestions.
+Other failures retain the manual route. There are no automatic retries. Server
+rate controls remain separate from browser episode limits.
 
-The current revision uses the existing `learningStorageKeys(activity).record`
-namespace with a separate strict `ShiftSession` wrapper. It stores its mode,
-revision/page, validated immutable engine record, unsent workflow/reason,
-self-classification draft and online-request markers. The first read does not
-write an empty record. Unrecognized current-key data remain read-only and are not
-automatically overwritten; starting over requires the learner to keep a copy and
-explicitly confirm replacement. Every revision-1 Unit 4 record and conversation
-is preserved as its original raw text in separate read-only copy/download views;
-it is never copied into the new workflow, mapping or AI context. The other eleven
-units retain the earlier pristine-record filtering and classic session behavior.
+The ShiftRun panel includes committed learner explanations and a bounded
+reflection-question control. It is not open-ended chat. The separate Course
+questions mode can explain public policy and concepts; it cannot diagnose a
+particular execution without the recorded trace. Predictions, journal text,
+Canvas records and local workbook notes are not automatically sent to that mode.
 
-Every simulated result, draft, reaction and tally carries the authored
-**Simulated — Cedar Desk — practice, not evidence** stamp. Counters are not a
-score; sent and routed can overlap when a customer receives an acknowledgement
-and an owner receives the request. Export includes each frozen version, reason,
-quoted mapping, classification provenance and model identifier where present, authored consequences and
-debrief, plus clearly labeled unrun drafts. A full selectable record is always
-shown because a download request does not prove a file was received. None of
-this record is automatically submitted to Canvas or evidence that another person
-tried a learner's project.
+`ShiftSession` validates mode, revision, page, immutable runs, draft interpretation,
+request/retry markers and local reasoning. Restoration does not overwrite an
+unrecognized record or silently migrate older activity versions. Previous
+records remain available as read-only copies. A new episode requires an explicit
+replace confirmation. Leaving the view aborts the client request and stale
+callbacks cannot append a result to another episode.
 
-A new practice episode replaces only the current revision's record after an
-export/copy warning; previous-activity records and conversations are retained.
-Changing view or unmounting aborts an in-flight client request and stale callbacks
-cannot append a result to a different episode. The UI has no animated essential
-content, uses ordinary labels/native controls and exposes readable results and
-copyable text. Type and pure-engine tests do not establish keyboard, narrow-screen,
-reload/export or live-provider usability; verify those separately before release.
+The human-readable export includes frozen workflows, original proposal and
+accepted mapping where applicable, prediction, execution traces, consequences,
+learner explanations, and clearly labeled unfinished drafts. Its prose no longer
+ends with raw practice JSON. It is a browser practice record, not a Canvas
+submission, user test, grade, research consent or learning result. A selectable
+text copy accompanies the download so unavailable downloads do not strand work.
 
+The public visitor demo uses the same authored fixture engine, preserves the
+visitor's prediction in the debrief, and offers neutrally named alternative
+workflows before Request C. It saves no answers and calls no research collector.
+Its public cases and worked mappings are development material, never a held-out
+research assessment.
 
-Local Phase 1 verification (November 12, 2026): the isolated hosting branch
-`course/workplace-unit4-20261112` passed 95 TA/workshop/shift tests, targeted
-ESLint, TypeScript and an optimized Next build. The canonical implementation
-record and screenshots are in the isolated course worktree:
-`/Users/majid/Documents/GitHub/.worktrees/uvu_courses-workplace-unit4-20261112/courses/cs4720R/docs/UNIT4_SHIFT_RUN_IMPLEMENTATION.md`.
-Live-provider understanding and token use remain unmeasured; injected fixtures
-are not a provider evaluation. Nothing was pushed, merged or deployed, and no
-live Canvas change or package import was performed. Keep this local branch
-separate until Majid explicitly approves publication.
+Revision 3 was deployed before the November 14 review. Subsequent repairs in
+`fix/unit4-rehearsal-recovery-20261114` remain local until a new release is verified.
+Focused code tests establish input/trace/state behavior only; browser checks,
+provider understanding, domain realism and novice learning require separate
+evidence. Research collection remains off.

@@ -61,6 +61,31 @@ test('a guarded confirmation waits for supplied approval, and a later unguarded 
   assert.equal(runShift(a, later).results[1].consequenceId, 'false_confirmation');
 });
 
+test('a skipped approval-guarded release distinguishes full review from owner authorization', () => {
+  const workflow = [...validateShiftWorkflow(a.fixtures.safe!.workflow).slice(0, 5), 'Only after a person approves, send the reply.'].join('\n');
+  const mapping = mapped(workflow, [
+    [base('intake'), base('ask_missing_fact', { when: 'if_missing_fact' })],
+    [base('find_source'), base('check_conditions')], [draft()], [review()],
+    [route(), base('acknowledge_customer', { when: 'if_held' })],
+    [base('release', { when: 'if_approved' })],
+  ]);
+  const result = runShift(a, mapping).results[0];
+  assert.equal(result.consequenceId, 'stopped');
+  const release = result.trace!.find(event => event.type === 'release')!;
+  assert.equal(release.status, 'skipped');
+  assert.match(release.detail, /Human reviews through step 4 covered the draft/);
+  assert.match(release.detail, /not the owner or coordinator approval/);
+  assert.match(result.explanation!, /only if the case is not held/);
+  const incomplete = clone(mapping);
+  const check = incomplete[3].actions[0];
+  assert.equal(check.type, 'human_check');
+  if (check.type === 'human_check') check.human_check.checks = ['source', 'conditions', 'next_step'];
+  const withoutFullReview = runShift(a, incomplete).results[0];
+  assert.equal(withoutFullReview.consequenceId, 'stopped');
+  assert(!withoutFullReview.trace!.find(event => event.type === 'release')!.detail.includes('Human review at step'));
+  assert(!withoutFullReview.explanation!.includes('only if the case is not held'));
+});
+
 test('the exact S6 sentence is a complete review rather than a tone-only reading', () => {
   const mapping = [{ step: 1, actions: [{ type: 'human_check', quote: s6, human_check: { checks: ['source', 'conditions', 'tone', 'next_step'] } }] }];
   assert.deepEqual(validateShiftClassification({ mapping }, [s6]), mapping);

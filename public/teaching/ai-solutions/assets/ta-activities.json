@@ -136,7 +136,7 @@
     "stamp": "Simulated — Cedar Desk — practice, not evidence",
     "exportStamp": "Simulated rehearsal — Cedar Desk, Unit 4 — not a user test, not a grade",
     "setting": {
-      "ownerNote": "You are helping Cedar Desk rehearse a reply workflow. Policies and requests below are fictional teaching inputs. Run the same workflow on A and B, revise it once, then try the frozen second workflow on C. No real customer, owner, booking, refund or credit is affected.",
+      "ownerNote": "You are helping Cedar Desk rehearse a reply workflow. Policies and requests below are fictional teaching inputs. Run the same workflow on A and B, revise it once, then try the frozen second workflow on C. No real customer, owner, booking, refund or credit is affected. Scenario assumption: in this authored model, a generic accuracy check covers policy conditions but does not detect an implied promise. An explicit next-step, commitment, or confirmation check can catch that promise. A real reviewer might notice it during an accuracy check; these invented consequences do not measure real reviewer performance.",
       "sources": [
         {
           "id": "S1",
@@ -228,7 +228,7 @@
         "tone": "bad",
         "path": "sent",
         "reaction": "A change appears confirmed even though nobody authorized it.",
-        "debrief": "A change was implied or claimed without supplied authorization or a completed action. Compare your wording, the accepted interpretation and its action trace: a named check cannot create approval, and a misread guard needs correction rather than blame.",
+        "debrief": "A change was implied or claimed without supplied authorization or a completed action. Compare your wording, the accepted interpretation and its action trace: a named check cannot create approval, and a misread guard needs correction rather than blame. This outcome uses the scenario’s invented review rule: a generic accuracy check alone does not catch the promise. It is not evidence that real accuracy reviewers would miss it.",
         "question": "What would a user mistakenly think has already happened?"
       },
       "unsupported_commitment": {
@@ -236,7 +236,7 @@
         "tone": "bad",
         "path": "sent",
         "reaction": "An exception is promised without owner authorization.",
-        "debrief": "S2 allows the owner to review an exceptional request; it does not authorize the drafting tool to grant a refund or credit.",
+        "debrief": "S2 allows the owner to review an exceptional request; it does not authorize the drafting tool to grant a refund or credit. This outcome uses the scenario’s invented review rule: a generic accuracy check alone does not catch the promise. It is not evidence that real accuracy reviewers would miss it.",
         "question": "Who may authorize a consequential promise in your project?"
       },
       "routine_escalated": {

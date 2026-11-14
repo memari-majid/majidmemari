@@ -73,5 +73,16 @@ export function commitShiftExplanation(practice: ShiftPractice, target: ShiftPra
 }
 export function exportShiftPractice(practice: ShiftPractice, activity: ShiftRunActivity, record: ShiftRecord): string {
   const valid = validateShiftPractice(practice, activity, record);
-  return [SHIFT_PRACTICE_STAMP, 'Research collection is off. These are the learner’s own expectations and explanations, not checked performance or consent. No journal text is included.', JSON.stringify(valid, null, 2)].join('\n\n');
+  const lines = [SHIFT_PRACTICE_STAMP, 'Personal expectations and explanations. No journal text is included. This export is not a research submission.'];
+  for (const target of ['run-1', 'run-2', 'C'] as const) {
+    const response = valid.responses[target];
+    if (!response) continue;
+    lines.push(`${target === 'C' ? 'Request C' : target === 'run-1' ? 'First run' : 'Revised run'} — ${response.committed ? 'saved explanation' : 'unfinished explanation draft'}`,
+      `My explanation: ${response.explanation || '(not entered)'}`,
+      `My next step: ${response.revisionPlan || '(not entered)'}`);
+  }
+  const prediction = valid.nextPrediction ?? valid.nextPredictionDraft;
+  if (prediction.text || prediction.confidence) lines.push(`Request C — ${valid.nextPrediction ? 'prediction recorded before the run' : 'unrun prediction draft'}`,
+    `My prediction: ${prediction.text || '(not entered)'}`, `Self-reported confidence: ${prediction.confidence || '(not selected)'}`);
+  return lines.join('\n\n');
 }

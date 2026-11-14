@@ -85,8 +85,8 @@
     },
     {
       "path": "assets/ta-activities.json",
-      "bytes": 40074,
-      "sha256": "741ced58b974d6cd2c5440e8d7731658721bbe000e359ab25847da186f83165b"
+      "bytes": 40776,
+      "sha256": "4b2c8cc3f0cb28a530652b3f284de07cda8786baf00989b10c42a3c0d79b2dc0"
     },
     {
       "path": "assets/workbook.js",
@@ -115,8 +115,8 @@
     },
     {
       "path": "downloads/course-site.zip",
-      "bytes": 291728,
-      "sha256": "05cf996cf0aed81a8699852bc158302861c72051d7b4ddab2304252fffcdff02"
+      "bytes": 294216,
+      "sha256": "74c43b04a0c515741b842298ae56928fc569b0828c9639c2775f80d0106754eb"
     },
     {
       "path": "downloads/project-record.txt",
@@ -280,8 +280,8 @@
     },
     {
       "path": "readings.html",
-      "bytes": 22169,
-      "sha256": "418389c8ce410ef26a1cc375ef17abd1cf82a5eeac7ce929f5a3dd922f859408"
+      "bytes": 23201,
+      "sha256": "7937f244ee6d6065704f80aeb01fd85d8e97f99d0ac28ae88cbdc2fe5aa7ab47"
     },
     {
       "path": "resources.html",
@@ -295,63 +295,63 @@
     },
     {
       "path": "unit-01.html",
-      "bytes": 45166,
-      "sha256": "5b53c35ed5336bea6b83dfa4544f9376eb0a8636e96d0be52075d47cea9dca44"
+      "bytes": 45425,
+      "sha256": "4f8d2e1f8a9ae6c284532963e9eec59a217584f73c258d389bbda5904d4c01ff"
     },
     {
       "path": "unit-02.html",
-      "bytes": 29387,
-      "sha256": "1242ab1583f2513d7b81ee1bd68656c42299a20760341aaf194a4e56ce10a712"
+      "bytes": 29725,
+      "sha256": "44663ed88b38706945201e4d71f8c24e3a496cb8bb67e797511b10e7189e9a1b"
     },
     {
       "path": "unit-03.html",
-      "bytes": 34974,
-      "sha256": "04e27e36c2cb9396c4385650ce20350affd0f06ff5364056582dfabca20a33b1"
+      "bytes": 35233,
+      "sha256": "bcf70e646357c1d2c51ef9934bd4744c42fcebfa2073e64ca50d20dca22e8ece"
     },
     {
       "path": "unit-04.html",
-      "bytes": 37483,
-      "sha256": "9738d82b96da44ea6f20632af878df3b726dc3af6957521f167f67614ce286bc"
+      "bytes": 38704,
+      "sha256": "d2f1e9404cd11fa1de394ce3fc3885b8f36fe30cdd35a58be05148deba88fe1a"
     },
     {
       "path": "unit-05.html",
-      "bytes": 49229,
-      "sha256": "6f7798fd7bbd06737b2a7222db01b9b0d40f86c671ec76c0f134ef72c5aa7474"
+      "bytes": 49649,
+      "sha256": "13da77d8092b6b980edc51305a03a6a0e34f920393572f8ccff61da46d3a4177"
     },
     {
       "path": "unit-06.html",
-      "bytes": 34094,
-      "sha256": "9e917ff2aa5de2e6c0b9e0fe6da05f375059be304f0d4d998b2acd0630968ed8"
+      "bytes": 34553,
+      "sha256": "0ff1c8005437f5e5f1b7861553d8c3a2068b7ccb293542adf42f7075879d06a6"
     },
     {
       "path": "unit-07.html",
-      "bytes": 34989,
-      "sha256": "eabe9b08988362c7aaf91c4857e1ee1d66aba11811e812f8ec9b23b982ce177a"
+      "bytes": 35059,
+      "sha256": "282f44f14a4e9948ad5df485e45f9865c33a47b6ec21f8e26da93ea6674e2d1f"
     },
     {
       "path": "unit-08.html",
-      "bytes": 30809,
-      "sha256": "42d879d49e7c871d7230e0cb4848e1316e774cb0942f60e6baa0afeeb74cd63b"
+      "bytes": 31189,
+      "sha256": "5bafd40c618f856caac552899abfef7d21b1f1fee453dc99d73abc922460068c"
     },
     {
       "path": "unit-09.html",
-      "bytes": 31155,
-      "sha256": "0d019b09fb86465e2961dd060f14d104dc58502c39b31d1d5eafd76adf85dc4b"
+      "bytes": 31878,
+      "sha256": "59e62b17042cae4fec8f88b3b3c8d05e91dff2bcb5359c4e922530ee8ee8f318"
     },
     {
       "path": "unit-10.html",
-      "bytes": 37974,
-      "sha256": "4f5987b7331afd4863ec22dc85a3c0fd5b4d40ef30f1e0e633998849d3d76813"
+      "bytes": 38883,
+      "sha256": "54c416b19c4723fa9c6660936584a20b318941ba62c73bf3482e31519e816c7a"
     },
     {
       "path": "unit-11.html",
-      "bytes": 29393,
-      "sha256": "1ce08a832bf488ac24901ed3f5ae53efb531e46087e28a133ba026921f2c8896"
+      "bytes": 29647,
+      "sha256": "21028d0074958e471cfbba21ddc3e0aa4d84b6e27fcc8f30e5f7ec41529b5afe"
     },
     {
       "path": "unit-12.html",
-      "bytes": 36650,
-      "sha256": "acd1d91a8b88ddb14e4c5f9d6d4698070342b7338d6515729bf30e015f57b83e"
+      "bytes": 36810,
+      "sha256": "5e4bbf8f683be3196f986be285dead4d0937ddd0b605fbb6f6be0a390861190f"
     },
     {
       "path": "venture-studio.html",
