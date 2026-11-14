@@ -1,5 +1,10 @@
 import { createHash, timingSafeEqual } from "node:crypto";
-import type { ResearchExperiment, ResearchForm, ResearchStatus } from "./types";
+import type {
+  ResearchExperiment,
+  ResearchForm,
+  ResearchStatus,
+  ResearchAssessmentDesign,
+} from "./types";
 import { COURSE_KB_META } from "../course-kb/generated";
 import { LEARNING_ACTIVITIES, isShiftRunActivity } from "../course-kb/learning";
 import {
@@ -29,7 +34,8 @@ export type ResearchFreeze = {
   formsFingerprint: string;
 };
 export type ResearchManifest = {
-  version: 1;
+  version: 1 | 2;
+  assessment?: ResearchAssessmentDesign;
   studyId: string;
   protocolVersion: string;
   consentVersion: string;
@@ -187,10 +193,10 @@ export function validateResearchManifest(
       "prerequisites",
       "forms",
     ],
-    ["freeze", "studyEndsAt", "recordsRetainUntil"],
+    ["freeze", "studyEndsAt", "recordsRetainUntil", "assessment"],
   );
   if (
-    x.version !== 1 ||
+    (x.version !== 1 && x.version !== 2) ||
     !["E1", "E2", "E3"].includes(x.experiment as string) ||
     x.withdrawalPolicy !== "delete-on-request" ||
     !Number.isInteger(x.retentionDays) ||
@@ -204,7 +210,7 @@ export function validateResearchManifest(
     throw new ResearchError(400, "Invalid reviewed protocol configuration.");
   exact(x.staff, ["coordinator", "reviewers", "coders", "methodologist"]);
   exact(x.prerequisites, ["E0", "E1", "E2", "questionPoolVersion"]);
-  if (x.experiment === "E1")
+  if (x.experiment === "E1" || x.version === 2)
     exact(
       x.forms,
       ["rehearsal", "feedback"],
@@ -251,7 +257,7 @@ export function validateResearchManifest(
     ...(x.forms.delayed ? { delayed: form(x.forms.delayed) } : {}),
   };
   const result: ResearchManifest = {
-    version: 1,
+    version: x.version as 1 | 2,
     studyId: text(x.studyId, 100),
     protocolVersion: text(x.protocolVersion, 100),
     consentVersion: text(x.consentVersion, 100),
@@ -272,6 +278,83 @@ export function validateResearchManifest(
     },
     forms,
   };
+  if (x.version === 2) {
+    if (x.experiment !== "E2")
+      throw new ResearchError(
+        400,
+        "The candidate balanced-form schema is scoped to E2.",
+      );
+    exact(x.assessment, [
+      "version",
+      "allocation",
+      "nominalSeconds",
+      "timing",
+      "selfReportVersion",
+      "forms",
+      "rubric",
+    ]);
+    const a = x.assessment;
+    if (
+      a.version !== "balanced-forms-v1" ||
+      a.allocation !== "six-permutations-v1" ||
+      a.timing !== "nominal-record-overrun" ||
+      a.selfReportVersion !== "exposure-help-v1" ||
+      !Number.isInteger(a.nominalSeconds) ||
+      Number(a.nominalSeconds) < 60 ||
+      Number(a.nominalSeconds) > 7200
+    )
+      throw new ResearchError(400, "Invalid candidate assessment design.");
+    exact(a.forms, ["A", "B", "C"]);
+    const assessmentForms = {
+      A: form(a.forms.A),
+      B: form(a.forms.B),
+      C: form(a.forms.C),
+    };
+    if (
+      new Set(
+        [...Object.values(assessmentForms), ...Object.values(forms)].map((f) => f.id),
+      ).size !== Object.keys(forms).length + 3
+    )
+      throw new ResearchError(
+        400,
+        "Parallel forms need three distinct identifiers.",
+      );
+    if (!Array.isArray(a.rubric) || a.rubric.length !== 4)
+      throw new ResearchError(400, "Supply the frozen four-criterion rubric.");
+    const rubric = a.rubric.map((r) => {
+      exact(r, ["criterion", "anchors"]);
+      if (!Array.isArray(r.anchors) || r.anchors.length !== 4)
+        throw new ResearchError(400, "Supply anchors for scores 0 through 3.");
+      return {
+        criterion: text(r.criterion, 300),
+        anchors: r.anchors.map((v) => text(v, 2000)) as [
+          string,
+          string,
+          string,
+          string,
+        ],
+      };
+    });
+    result.assessment = {
+      version: "balanced-forms-v1",
+      allocation: "six-permutations-v1",
+      nominalSeconds: Number(a.nominalSeconds),
+      timing: "nominal-record-overrun",
+      selfReportVersion: "exposure-help-v1",
+      forms: assessmentForms,
+      rubric,
+    };
+    if (result.forms.baseline || result.forms.immediate || result.forms.delayed)
+      throw new ResearchError(
+        400,
+        "Version 2 uses parallel forms, not occasion-specific forms.",
+      );
+  } else if (x.assessment !== undefined) {
+    throw new ResearchError(
+      400,
+      "Version 1 cannot silently acquire a new assessment design.",
+    );
+  }
   if ((x.studyEndsAt === undefined) !== (x.recordsRetainUntil === undefined)) {
     throw new ResearchError(
       400,
@@ -403,6 +486,53 @@ export function syntheticResearchManifest(): ResearchManifest {
     false,
   );
 }
+/** Candidate software fixture only. No real items, approved protocol or participant collection. */
+export function syntheticE2ResearchManifest(): ResearchManifest {
+  const legacy = syntheticResearchManifest();
+  const make = (key: "A" | "B" | "C"): ResearchForm => ({
+    ...legacy.forms.baseline!,
+    id: `synthetic-parallel-${key}`,
+    version: "synthetic-parallel-v2",
+    title: `Fictional packet ${key} — not a validated instrument`,
+    responsePrompt: `Explain the authored fictional decision in packet ${key}.`,
+  });
+  return validateResearchManifest(
+    {
+      ...legacy,
+      version: 2,
+      studyId: "synthetic-e2-balanced-v2",
+      protocolVersion: "synthetic-e2-candidate-v2",
+      experiment: "E2",
+      forms: {
+        rehearsal: legacy.forms.rehearsal,
+        feedback: legacy.forms.feedback,
+      },
+      assessment: {
+        version: "balanced-forms-v1",
+        allocation: "six-permutations-v1",
+        nominalSeconds: 600,
+        timing: "nominal-record-overrun",
+        selfReportVersion: "exposure-help-v1",
+        forms: { A: make("A"), B: make("B"), C: make("C") },
+        rubric: [
+          "Condition",
+          "Order",
+          "Authority",
+          "Truthful communication",
+        ].map((criterion) => ({
+          criterion,
+          anchors: [
+            "Synthetic anchor 0",
+            "Synthetic anchor 1",
+            "Synthetic anchor 2",
+            "Synthetic anchor 3",
+          ],
+        })),
+      },
+    },
+    false,
+  );
+}
 export function researchConfig(
   env: Record<string, string | undefined> = process.env,
   url?: string,
@@ -528,7 +658,13 @@ export function researchFreeze(
     questionPoolVersion: RESEARCH_QUESTION_POOL_VERSION,
     selectorVersion: RESEARCH_QUESTION_SELECTOR_VERSION,
     modelId,
-    formsFingerprint: hash(JSON.stringify(manifest.forms)),
+    formsFingerprint: hash(
+      JSON.stringify(
+        manifest.assessment
+          ? { forms: manifest.forms, assessment: manifest.assessment }
+          : manifest.forms,
+      ),
+    ),
   };
 }
 export function researchStatus(config: ResearchConfig | null): ResearchStatus {

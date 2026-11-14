@@ -84,6 +84,11 @@ try {
     console.log(
       "Created local synthetic-only configuration; no server started or research activated.",
     );
+  } else if (command === "synthetic-e2-manifest") {
+    const { syntheticE2ResearchManifest } = await import(
+      "../lib/research/config.ts"
+    );
+    await save(inputPath, syntheticE2ResearchManifest());
   } else if (command === "freeze") {
     const { researchFreeze, validateResearchManifest } = await import(
       "../lib/research/config.ts"
@@ -147,6 +152,7 @@ try {
       rotate: ["POST", "admin", "RESEARCH_COORDINATOR_TOKEN"],
       observe: ["POST", "admin", "RESEARCH_COORDINATOR_TOKEN"],
       "export-scoring": ["POST", "admin", "RESEARCH_SCORER_TOKEN"],
+      "export-linkage": ["POST", "admin", "RESEARCH_ANALYST_TOKEN"],
       "export-analysis": ["POST", "admin", "RESEARCH_ANALYST_TOKEN"],
       "purge-expired": ["POST", "admin", "RESEARCH_PURGE_TOKEN"],
       "delete-participant": ["POST", "admin", "RESEARCH_PURGE_TOKEN"],
@@ -154,7 +160,7 @@ try {
     const entry = table[command];
     if (!entry)
       throw new Error(
-        "Commands: synthetic-init, status, enroll, rotate, observe, export-scoring, export-analysis, purge-expired, delete-participant.",
+        "Commands: synthetic-init, status, enroll, rotate, observe, export-scoring, export-linkage, export-analysis, purge-expired, delete-participant.",
       );
     const [method, route, key] = entry;
     const headers = { "Content-Type": "application/json" };

@@ -98,6 +98,20 @@ export function readSession(value: unknown): ResearchSessionView {
       ))
   )
     return invalid();
+  if (value.assessment !== undefined) {
+    const a = value.assessment;
+    if (
+      !object(a) ||
+      !Number.isInteger(a.nominalSeconds) ||
+      Number(a.nominalSeconds) < 60 ||
+      !date(a.openedAt) ||
+      !date(a.nominalEndsAt) ||
+      a.timing !== "nominal-record-overrun" ||
+      a.selfReportVersion !== "exposure-help-v1" ||
+      typeof a.askPriorExposure !== "boolean"
+    )
+      return invalid();
+  }
   const q = value.question;
   if (
     !["not-started", "inspecting", "released", "responded"].includes(

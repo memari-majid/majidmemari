@@ -341,7 +341,10 @@ test("E1 finishes after one confirmed run and explanation, not an empty checkpoi
       response: { completed: true },
     });
   await s.checkpoint(blankShiftSession(activity));
-  await assert.rejects(() => response("empty-complete-0001"), /complete rehearsal/);
+  await assert.rejects(
+    () => response("empty-complete-0001"),
+    /complete rehearsal/,
+  );
   await assert.rejects(() => s.question("skip"), /no evidence question/);
   const unexplained = first();
   unexplained.practice.responses["run-1"]!.committed = null;
@@ -396,7 +399,10 @@ test("question skip cannot precede the first explanation or erase a released car
     () => s.question("skip", {}, "released-question-skip"),
     /released question needs a response or explicit decline/,
   );
-  assert.equal((await s.service.session(s.token)).session.question.status, "released");
+  assert.equal(
+    (await s.service.session(s.token)).session.question.status,
+    "released",
+  );
 });
 test("durable restart, immutable stage and idempotent concurrent retries", async (t) => {
   const s = await setup(t);
@@ -449,7 +455,9 @@ test("one concurrent enrollment creates one random hashed token and no duplicate
     ),
   );
   assert.equal(r.filter((v) => v.participantToken).length, 1);
-  assert.equal((await s.service.export("scoring")).participants.length, 2);
+  const legacyExport = await s.service.export("scoring");
+  assert("participants" in legacyExport);
+  assert.equal(legacyExport.participants.length, 2);
 });
 test("lost enrollment response and a fresh request ID recover the same consent record", async (t) => {
   const s = await setup(t);
@@ -479,7 +487,9 @@ test("lost enrollment response and a fresh request ID recover the same consent r
   assert.equal(recovered.replayed, true);
   assert.equal(recovered.session.participantId, first.session.participantId);
   assert(!JSON.stringify(recovered).includes(reference));
-  assert.equal((await s.service.export("scoring")).participants.length, 2);
+  const legacyExport = await s.service.export("scoring");
+  assert("participants" in legacyExport);
+  assert.equal(legacyExport.participants.length, 2);
 
   const changedManifest = {
     ...s.config.manifest,
@@ -505,9 +515,13 @@ test("lost enrollment response and a fresh request ID recover the same consent r
     participantId: recovered.session.participantId,
   });
   assert.equal(typeof replacement.participantToken, "string");
-  await assert.rejects(() => reopened.session(first.participantToken!), /token/);
+  await assert.rejects(
+    () => reopened.session(first.participantToken!),
+    /token/,
+  );
   assert.equal(
-    (await reopened.session(replacement.participantToken)).session.participantId,
+    (await reopened.session(replacement.participantToken)).session
+      .participantId,
     first.session.participantId,
   );
 });
@@ -666,6 +680,7 @@ test("missing baseline and incomplete rehearsal preserve assigned flow without f
   });
   assert.equal((await s.service.session(s.token)).session.stage, "immediate");
   const masked = await s.service.export("scoring");
+  assert("participants" in masked);
   assert.equal(masked.participants.length, 1);
   const rows = masked.participants[0].responses;
   assert(Array.isArray(rows));
@@ -684,7 +699,9 @@ test("withdrawal deletes content, denies future writes and purge removes tombsto
   assert.equal(view.stage, "withdrawn");
   assert.equal(view.checkpoint, null);
   await assert.rejects(() => s.baseline(), /withdrawn/);
-  assert.equal((await s.service.export("scoring")).participants.length, 0);
+  const legacyExport = await s.service.export("scoring");
+  assert("participants" in legacyExport);
+  assert.equal(legacyExport.participants.length, 0);
   const raw = await readFile(s.config.filePath!, "utf8");
   assert(!raw.includes("Synthetic baseline response."));
   assert.deepEqual(

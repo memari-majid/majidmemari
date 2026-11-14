@@ -201,12 +201,18 @@ export async function handleResearchRequest(
     if (!input || typeof input !== "object" || Array.isArray(input))
       throw new ResearchError(400, "A bounded admin request is required.");
     const operation = (input as Record<string, unknown>).action;
-    if (operation === "export-scoring" || operation === "export-analysis") {
+    if (
+      operation === "export-scoring" ||
+      operation === "export-analysis" ||
+      operation === "export-linkage"
+    ) {
       exact(input, ["version", "action"]);
       if (input.version !== 1)
         throw new ResearchError(400, "Unknown request version.");
       if (operation === "export-scoring" && isScorer)
         return reply(await service.export("scoring"));
+      if (operation === "export-linkage" && isAnalyst)
+        return reply(await service.export("linkage"));
       if (operation === "export-analysis" && isAnalyst)
         return reply(await service.export("analysis"));
     } else if (operation === "rotate-token" && isCoordinator)

@@ -5,6 +5,9 @@ import { randomBytes } from "node:crypto";
 import type { Pool } from "pg";
 import { ResearchError, type ResearchConfig } from "./config";
 import type {
+  AssessmentStage,
+  AssessmentFormKey,
+  ResearchTaskContext,
   ResearchAnswer,
   ResearchCompletion,
   ResearchExperiment,
@@ -78,6 +81,24 @@ export type ResearchParticipant = {
   fingerprint: string;
   experiment: ResearchExperiment;
   assignedCondition: "A" | "F" | null;
+  assessment?: {
+    version: "balanced-forms-v1";
+    allocationOrdinal: number;
+    order: [AssessmentFormKey, AssessmentFormKey, AssessmentFormKey];
+    tasks: Partial<
+      Record<
+        AssessmentStage,
+        {
+          openedAt: string;
+          rowId: string;
+          sortKey: string;
+          elapsedSeconds?: number;
+          overNominal?: boolean;
+          context?: ResearchTaskContext;
+        }
+      >
+    >;
+  };
   createdAt: string;
   startedAt: string | null;
   retentionUntil: string;
@@ -111,6 +132,8 @@ export type ResearchParticipant = {
 export type ResearchDatabase = {
   version: 1;
   participants: ResearchParticipant[];
+  // Monotonic per frozen protocol: deletion/withdrawal never reuses an allocation.
+  allocationCounters?: Record<string, number>;
 };
 export interface ResearchStore {
   transaction<T>(work: (db: ResearchDatabase) => T | Promise<T>): Promise<T>;

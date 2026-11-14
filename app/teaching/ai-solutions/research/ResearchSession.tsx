@@ -7,6 +7,7 @@ import type { ShiftSession } from "@/lib/course-kb/shift-session";
 import {
   RESEARCH_STAGES,
   type ResearchFeedback,
+  type ResearchTaskContext,
   type ResearchReceipt,
   type ResearchSessionView,
   type ResearchStatus,
@@ -489,6 +490,7 @@ export function ResearchSession() {
       | { answer: string }
       | { answer: null; missingReason: StudyMissingReason }
       | ResearchFeedback,
+    taskContext?: ResearchTaskContext,
   ) {
     const current = view.current;
     if (!current?.form) return;
@@ -500,6 +502,7 @@ export function ResearchSession() {
         stage: current.stage,
         formVersion: current.form.version,
         response,
+        ...(taskContext ? { taskContext } : {}),
       },
       label: label[current.stage],
     });
@@ -717,9 +720,10 @@ export function ResearchSession() {
                 key={`${session.stage}:${session.form.id}:${session.form.version}`}
                 form={session.form}
                 locked={locked}
-                onSubmit={(answer) => answerTask({ answer })}
-                onSkip={(missingReason) =>
-                  answerTask({ answer: null, missingReason })
+                assessment={session.assessment}
+                onSubmit={(answer, context) => answerTask({ answer }, context)}
+                onSkip={(missingReason, context) =>
+                  answerTask({ answer: null, missingReason }, context)
                 }
               />
             </div>

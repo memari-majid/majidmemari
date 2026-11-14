@@ -19,6 +19,41 @@ export type ResearchForm = {
   sources: { id: string; label: string; text: string }[];
   trace: string[];
 };
+export type AssessmentStage = "baseline" | "immediate" | "delayed";
+export type AssessmentFormKey = "A" | "B" | "C";
+export type ResearchSelfReport = "yes" | "no" | "unsure" | "decline";
+export type ResearchHelpCategory =
+  | "none"
+  | "person"
+  | "ai"
+  | "other-resource"
+  | "multiple"
+  | "unsure"
+  | "decline";
+export type ResearchTaskContext = {
+  outsideHelp: ResearchSelfReport;
+  helpCategory: ResearchHelpCategory;
+  interruption: ResearchSelfReport;
+  accommodation: ResearchSelfReport;
+  priorExposure?: ResearchSelfReport;
+};
+export type ResearchAssessmentDesign = {
+  version: "balanced-forms-v1";
+  allocation: "six-permutations-v1";
+  nominalSeconds: number;
+  timing: "nominal-record-overrun";
+  selfReportVersion: "exposure-help-v1";
+  forms: Record<AssessmentFormKey, ResearchForm>;
+  rubric: { criterion: string; anchors: [string, string, string, string] }[];
+};
+export type ResearchAssessmentView = {
+  nominalSeconds: number;
+  openedAt: string;
+  nominalEndsAt: string;
+  timing: "nominal-record-overrun";
+  selfReportVersion: "exposure-help-v1";
+  askPriorExposure: boolean;
+};
 export type ResearchMissingReason =
   | "declined"
   | "time-limit"
@@ -74,6 +109,7 @@ export type ResearchSessionView = {
   participantId: string;
   stage: ResearchStage | "complete" | "withdrawn" | "expired";
   form: ResearchForm | null;
+  assessment?: ResearchAssessmentView;
   availableAt: string | null;
   outsidePlannedWindow: boolean;
   receipts: ResearchReceipt[];
@@ -106,6 +142,7 @@ export type ResearchResponseInput = {
   stage: ResearchStage;
   formVersion: string;
   response: ResearchAnswer | ResearchFeedback | ResearchCompletion;
+  taskContext?: ResearchTaskContext;
 };
 export type ResearchCheckpointInput = {
   version: 1;

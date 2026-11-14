@@ -1,7 +1,14 @@
 "use client";
 
-import { useId, useState } from "react";
-import type { ResearchFeedback, ResearchForm } from "@/lib/research/types";
+import { useId, useState, useEffect } from "react";
+import type {
+  ResearchFeedback,
+  ResearchForm,
+  ResearchAssessmentView,
+  ResearchTaskContext,
+  ResearchSelfReport,
+  ResearchHelpCategory,
+} from "@/lib/research/types";
 import { studyButton, studyField, studySecondary } from "./StudyPacket";
 
 export type StudyMissingReason =
@@ -13,15 +20,29 @@ export type StudyMissingReason =
 export function ResearchAnswerForm({
   form,
   locked,
+  assessment,
   onSubmit,
   onSkip,
 }: {
   form: ResearchForm;
+  assessment?: ResearchAssessmentView;
   locked: boolean;
-  onSubmit: (answer: string) => void;
-  onSkip: (reason: StudyMissingReason) => void;
+  onSubmit: (answer: string, taskContext?: ResearchTaskContext) => void;
+  onSkip: (
+    reason: StudyMissingReason,
+    taskContext?: ResearchTaskContext,
+  ) => void;
 }) {
   const [answer, setAnswer] = useState("");
+  const [context, setContext] = useState<ResearchTaskContext>({
+    outsideHelp: "decline",
+    helpCategory: "decline",
+    interruption: "decline",
+    accommodation: "decline",
+    ...(assessment?.askPriorExposure
+      ? { priorExposure: "decline" as const }
+      : {}),
+  });
   const [skipOpen, setSkipOpen] = useState(false),
     [reason, setReason] = useState<StudyMissingReason | "">("");
   const id = useId();
@@ -30,9 +51,11 @@ export function ResearchAnswerForm({
       className="mt-5 rounded-xl border border-slate-200 p-4 sm:p-6"
       onSubmit={(event) => {
         event.preventDefault();
-        if (!locked && answer.trim()) onSubmit(answer);
+        if (!locked && answer.trim())
+          onSubmit(answer, assessment ? context : undefined);
       }}
     >
+      {assessment ? <AssessmentTiming assessment={assessment} /> : null}
       <label htmlFor={id} className="block text-base font-semibold">
         {form.responsePrompt}
       </label>
@@ -57,6 +80,14 @@ export function ResearchAnswerForm({
         {answer.length}/4,000 characters. Submission is frozen after a server
         receipt.
       </p>
+      {assessment ? (
+        <AssessmentContext
+          context={context}
+          onChange={setContext}
+          locked={locked}
+          askPriorExposure={assessment.askPriorExposure}
+        />
+      ) : null}
       <button
         type="submit"
         className={`${studyButton} mt-4`}
@@ -105,7 +136,9 @@ export function ResearchAnswerForm({
           type="button"
           className={`${studySecondary} mt-3`}
           disabled={locked || !reason}
-          onClick={() => reason && onSkip(reason)}
+          onClick={() =>
+            reason && onSkip(reason, assessment ? context : undefined)
+          }
         >
           Record missing response and continue
         </button>
@@ -216,5 +249,141 @@ export function ResearchFeedbackForm({
         Submit feedback and finish
       </button>
     </form>
+  );
+}
+
+function AssessmentTiming({
+  assessment,
+}: {
+  assessment: ResearchAssessmentView;
+}) {
+  const [now, setNow] = useState(() => Date.now());
+  useEffect(() => {
+    const timer = setInterval(() => setNow(Date.now()), 1000);
+    return () => clearInterval(timer);
+  }, []);
+  const remaining = Math.ceil(
+    (Date.parse(assessment.nominalEndsAt) - now) / 1000,
+  );
+  return (
+    <aside className="mb-5 rounded-lg border border-slate-200 bg-slate-50 p-4 text-sm leading-6">
+      <p className="font-semibold">
+        Common planned time: {assessment.nominalSeconds / 60} minutes
+      </p>
+      <p>
+        {remaining >= 0
+          ? `${Math.floor(remaining / 60)}:${String(remaining % 60).padStart(2, "0")} remaining in the planned time`
+          : "The planned time has elapsed."}
+      </p>
+      <p>
+        The clock began when this packet first opened and does not reset on
+        reload. This is a nominal time, not a hard cutoff. You may still submit;
+        elapsed time and overruns are recorded. Follow your approved
+        accommodation plan and record interruptions below. No answer is silently
+        discarded.
+      </p>
+    </aside>
+  );
+}
+function AssessmentContext({
+  context,
+  onChange,
+  locked,
+  askPriorExposure,
+}: {
+  context: ResearchTaskContext;
+  onChange: (value: ResearchTaskContext) => void;
+  locked: boolean;
+  askPriorExposure: boolean;
+}) {
+  const id = useId();
+  const labels: (readonly [
+    "priorExposure" | "outsideHelp" | "interruption" | "accommodation",
+    string,
+  ])[] = [
+    ...(askPriorExposure
+      ? [
+          [
+            "priorExposure",
+            "Before today, had you used or watched the public Unit 4 rehearsal or visitor demonstration?",
+          ] as const,
+        ]
+      : []),
+    [
+      "outsideHelp",
+      "Did you use help outside this task packet for this answer?",
+    ],
+    ["interruption", "Was this task interrupted?"],
+    [
+      "accommodation",
+      "Did you use an approved timing or access accommodation?",
+    ],
+  ];
+  return (
+    <fieldset
+      disabled={locked}
+      className="my-5 space-y-4 border-t border-slate-200 pt-4"
+    >
+      <legend className="font-semibold">Optional task context</legend>
+      <p className="text-sm leading-6">
+        You may leave any item unanswered. Do not name people or describe a
+        diagnosis. These items are research context, not grades; an unanswered
+        item is unknown.
+      </p>
+      {labels.map(([key, label]) => (
+        <div key={key}>
+          <label htmlFor={`${id}-${key}`} className="block text-sm font-medium">
+            {label}
+          </label>
+          <select
+            id={`${id}-${key}`}
+            className={studyField}
+            value={context[key] ?? "decline"}
+            onChange={(e) =>
+              onChange({
+                ...context,
+                [key]: e.target.value as ResearchSelfReport,
+                ...(key === "outsideHelp"
+                  ? { helpCategory: "decline" as const }
+                  : {}),
+              })
+            }
+          >
+            <option value="decline">Unanswered / prefer not to say</option>
+            <option value="yes">Yes</option>
+            <option value="no">No</option>
+            <option value="unsure">Unsure</option>
+          </select>
+        </div>
+      ))}
+      {context.outsideHelp !== "no" ? (
+        <div>
+          <label
+            htmlFor={`${id}-category`}
+            className="block text-sm font-medium"
+          >
+            Broad type of outside help, if any
+          </label>
+          <select
+            id={`${id}-category`}
+            className={studyField}
+            value={context.helpCategory}
+            onChange={(e) =>
+              onChange({
+                ...context,
+                helpCategory: e.target.value as ResearchHelpCategory,
+              })
+            }
+          >
+            <option value="decline">Unanswered / prefer not to say</option>
+            <option value="person">Another person</option>
+            <option value="ai">An AI tool</option>
+            <option value="other-resource">Another resource</option>
+            <option value="multiple">More than one type</option>
+            <option value="unsure">Unsure</option>
+          </select>
+        </div>
+      ) : null}
+    </fieldset>
   );
 }

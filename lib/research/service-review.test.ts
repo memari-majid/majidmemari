@@ -415,6 +415,7 @@ test("analysis export retains the exact frozen artifact identities alongside the
   const f = await fixture(t);
   await f.service.session(f.token);
   const exported = await f.service.export("analysis");
+  assert("participants" in exported);
   assert.equal(exported.protocolVersion, f.manifest.protocolVersion);
   assert.equal(exported.experiment, "E3");
   assert.deepEqual(exported.frozenArtifacts, f.manifest.freeze);

@@ -1,3 +1,11 @@
+import {
+  allocateAssessment,
+  assessmentForm,
+  openAssessment,
+  isAssessmentStage,
+  taskContext,
+  assessmentPacket,
+} from "./assessment";
 import { randomBytes, randomInt } from "node:crypto";
 import {
   exact,
@@ -129,7 +137,7 @@ export class ResearchService {
     const stage = this.stage(p);
     if (
       stage === "complete" ||
-      version !== this.config.manifest.forms[stage]!.version
+      version !== assessmentForm(this.config, p, stage).version
     )
       throw new ResearchError(409, "Use the current frozen study form.");
     return stage;
@@ -247,7 +255,7 @@ export class ResearchService {
       stage === "expired" ||
       (availableAt && this.now() < Date.parse(availableAt))
         ? null
-        : this.config.manifest.forms[stage]!;
+        : assessmentForm(this.config, p, stage);
     return {
       version: 1,
       mode: this.config.mode,
@@ -257,6 +265,9 @@ export class ResearchService {
       participantId: p.participantId,
       stage,
       form,
+      ...(form && isAssessmentStage(stage)
+        ? { assessment: openAssessment(this.config, p, stage, this.now()) }
+        : {}),
       availableAt,
       outsidePlannedWindow: outside,
       receipts: inactive
@@ -367,8 +378,7 @@ export class ResearchService {
       // after the server has committed enrollment. A new request ID for the
       // same opaque consent record must not create a second participant.
       const sameConsentRecord = db.participants.find(
-        (p) =>
-          p.studyId === m.studyId && p.coordinatorReference === ref,
+        (p) => p.studyId === m.studyId && p.coordinatorReference === ref,
       );
       if (sameConsentRecord) {
         if (
@@ -405,6 +415,9 @@ export class ResearchService {
         fingerprint: this.config.fingerprint,
         experiment: m.experiment,
         assignedCondition: null,
+        ...(m.assessment
+          ? { assessment: allocateAssessment(db, this.config) }
+          : {}),
         createdAt: iso(this.now()),
         startedAt: null,
         retentionUntil:
@@ -446,7 +459,11 @@ export class ResearchService {
     });
   }
   async response(token: string, input: unknown) {
-    exact(input, ["version", "requestId", "stage", "formVersion", "response"]);
+    exact(
+      input,
+      ["version", "requestId", "stage", "formVersion", "response"],
+      ["taskContext"],
+    );
     if (
       input.version !== 1 ||
       !RESEARCH_STAGES.includes(input.stage as ResearchStage)
@@ -565,6 +582,26 @@ export class ResearchService {
         protocolVersion: p.protocolVersion,
         formVersion: input.formVersion as string,
       };
+      if (this.config.manifest.assessment && isAssessmentStage(stage)) {
+        const task = p.assessment?.tasks[stage];
+        if (!task)
+          throw new ResearchError(
+            409,
+            "Open the task packet before submitting.",
+          );
+        task.context = taskContext(input.taskContext, stage);
+        task.elapsedSeconds = Math.max(
+          0,
+          (this.now() - Date.parse(task.openedAt)) / 1000,
+        );
+        task.overNominal =
+          task.elapsedSeconds > this.config.manifest.assessment.nominalSeconds;
+      } else if (input.taskContext !== undefined) {
+        throw new ResearchError(
+          400,
+          "This frozen protocol has no task self-report items.",
+        );
+      }
       p.responses[stage] = { receipt, value };
       return { session: this.view(p), receipt };
     });
@@ -916,6 +953,7 @@ export class ResearchService {
       requestId(input.requestId);
       p.withdrawnAt = p.withdrawnAt ?? iso(this.now());
       p.responses = {};
+      if (p.assessment) p.assessment.tasks = {};
       p.checkpoint = null;
       p.checkpointReceipt = null;
       p.question = null;
@@ -925,9 +963,9 @@ export class ResearchService {
       return { session: this.view(p), deleted: true };
     });
   }
-  async export(scope: "scoring" | "analysis") {
+  async export(scope: "scoring" | "analysis" | "linkage") {
     if (
-      scope === "analysis" &&
+      scope !== "scoring" &&
       this.now() < Date.parse(this.config.manifest.gradingReleasedAt)
     )
       throw new ResearchError(
@@ -946,8 +984,15 @@ export class ResearchService {
           409,
           "Export each frozen protocol with its matching manifest; mixed versions cannot be relabeled.",
         );
+      if (this.config.manifest.assessment && scope !== "analysis")
+        return assessmentPacket(this.config, records, scope);
+      if (scope === "linkage")
+        throw new ResearchError(
+          400,
+          "Version 1 has no masked-row linkage export.",
+        );
       return {
-        version: 1,
+        version: this.config.manifest.version,
         studyId: this.config.manifest.studyId,
         protocolVersion: this.config.manifest.protocolVersion,
         experiment: this.config.manifest.experiment,
@@ -979,6 +1024,7 @@ export class ResearchService {
                 participantId: p.participantId,
                 status: this.stage(p),
                 assignedCondition: p.assignedCondition,
+                ...(p.assessment ? { assessment: p.assessment } : {}),
                 createdAt: p.createdAt,
                 startedAt: p.startedAt,
                 retentionUntil: p.retentionUntil,
