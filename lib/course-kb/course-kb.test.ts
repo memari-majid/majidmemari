@@ -336,6 +336,52 @@ test("API passes the open unit as context and emits sources from that unit", asy
 });
 
 
+// This contract checks what reaches the model, not whether its generated answer
+// follows the distinction. Production behavior needs a separate live check.
+test("Unit 4 review, authorization and execution stay distinct only in the active Unit 4 prompt", () => {
+  for (const canvas of [false, true]) {
+    const prompt = buildCourseSystemPrompt([], "unit-04.html", canvas);
+    assert.match(prompt, /Draft review checks whether the proposed reply matches the approved source/);
+    assert.match(prompt, /Authorization asks whether the accountable owner or coordinator permits the requested change/);
+    assert.match(prompt, /Execution asks whether that permitted change has actually been carried out/);
+    assert.match(prompt, /Review does not grant authorization, and authorization does not prove execution/);
+    assert.match(prompt, /Do not define authorization as checking whether an action already happened/);
+    assert.match(prompt, /conditional policy reply may be released without authorizing or completing a booking change/);
+    assert.match(prompt, /request packets supply neither owner\/coordinator authorization nor evidence of a completed booking change; do not invent either/);
+    assert.match(prompt, /acknowledgement that a request is under review is not approval/);
+    assert(prompt.indexOf("UNIT 4 REVIEW, AUTHORIZATION AND EXECUTION:") < prompt.indexOf("COURSE EVIDENCE ("));
+    for (let unit = 1; unit <= 12; unit++) {
+      if (unit === 4) continue;
+      assert(!buildCourseSystemPrompt([], `unit-${String(unit).padStart(2, "0")}.html`, canvas).includes("UNIT 4 REVIEW, AUTHORIZATION AND EXECUTION:"));
+    }
+  }
+});
+
+test("ordinary Unit 4 chat sends the authority distinction to the model in Canvas and standalone delivery", async () => {
+  const model = new MockLanguageModelV3({ doStream: async () => ({ stream: simulateReadableStream({ initialDelayInMs: null, chunkDelayInMs: null, chunks: [
+    { type: "text-start", id: "answer" }, { type: "text-delta", id: "answer", delta: "Mock response for transport verification only." }, { type: "text-end", id: "answer" },
+    { type: "finish", finishReason: { unified: "stop", raw: undefined }, usage: { inputTokens: { total: 10, noCache: 10, cacheRead: undefined, cacheWrite: undefined }, outputTokens: { total: 10, text: 10, reasoning: undefined } } },
+  ] }) }) });
+  const handler = createCourseChatHandler({ model: () => model, access: createCourseAccess(), config: () => ({ model: "test/authority-contract" }) });
+  for (const delivery of ["", "canvas"]) {
+    const response = await handler(request([text("user", "Explain draft review, permission to change a booking, and proof the change occurred using S6.")], {}, "unit-04.html", delivery));
+    assert.equal(response.status, 200);
+    await response.text();
+  }
+  assert.equal(model.doStreamCalls.length, 2, "General source questions must reach the model rather than receive a missing-trace response");
+  for (const call of model.doStreamCalls) {
+    const system = call.prompt[0];
+    assert.equal(system.role, "system");
+    const content = JSON.stringify(system);
+    assert.match(content, /Authorization asks whether the accountable owner or coordinator permits the requested change/);
+    assert.match(content, /authorization does not prove execution/);
+    assert.match(content, /do not invent either/);
+    assert.match(content, /Do not diagnose a run-specific cause/);
+  }
+  assert(JSON.stringify(model.doStreamCalls[0].prompt[0]).includes("STANDALONE DELIVERY:"));
+  assert(JSON.stringify(model.doStreamCalls[1].prompt[0]).includes("CANVAS DELIVERY:"));
+});
+
 test("visual lesson explanations remain retrievable without executing charts", () => {
   const queue = retrieveCourseChunks("Unit 11 five working day review queue 30 requests 24 reviewed capacity");
   assert(queue.some(c => c.page === "unit-11.html" && /150[\s\S]*120[\s\S]*30/.test(c.body)), "The TA needs the full queue reconciliation");
