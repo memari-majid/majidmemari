@@ -1,0 +1,41 @@
+{
+  "checked_at_utc": "2026-11-15T03:00:05.946313+00:00",
+  "url": "https://www.majidmemari.com/teaching/ai-solutions/demo",
+  "runtime_source": "c470f8b",
+  "homepage_entry_verified": true,
+  "live_steps": [
+    "homepage teaching link",
+    "source cards S2 S3 S4 S6",
+    "B-only prediction recalled with explanatory feedback",
+    "first A false confirmation and B unsupported commitment",
+    "revised A sent with conditions and B routed without acknowledgement",
+    "both complete C workflows inspected",
+    "C Workflow A routine case escalated",
+    "C Workflow B asked for missing time",
+    "comparison toggle",
+    "replay clears simulation choices",
+    "full simulation link loads Unit4 companion",
+    "Explore course link loads learning path",
+    "reload resets ephemeral demo state"
+  ],
+  "mobile": {
+    "viewport": 390,
+    "document_width": 390,
+    "all_steps_to_C_completed_by_keyboard": true,
+    "override_reset": true
+  },
+  "browser_errors": [],
+  "automated": {
+    "focused_pass": 57,
+    "full_pass": 218,
+    "failed": 0,
+    "skipped": 0
+  },
+  "test_coverage_fix": "Existing visitor-demo.test.ts was not imported by scripts/test-*.mjs; included it in test-shift-run.mjs.",
+  "runtime_changes": false,
+  "limits": [
+    "Chromium desktop and390px responsive emulation; not physical phone or Safari/Firefox",
+    "No provider/model call needed by public demo; outcomes are authored deterministic fixtures",
+    "No research collector or visitor-response storage used by the demo"
+  ]
+}
