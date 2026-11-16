@@ -29,6 +29,19 @@ export type QuestionState = {
     | "failed"
     | "declined"
     | "planned-fixed";
+  selectionStartedAt?: string;
+  selectionElapsedMs?: number;
+  selectionOutcome?:
+    | "success"
+    | "unavailable"
+    | "provider_error"
+    | "invalid_output"
+    | "timeout"
+    | "interrupted"
+    | "late"
+    | "declined";
+  selectionModelId?: string | null;
+  selectionUsage?: unknown;
   deliveryReason?: string;
   selected?: {
     question: ResearchQuestionCard;
@@ -94,6 +107,7 @@ export type ResearchParticipant = {
           sortKey: string;
           elapsedSeconds?: number;
           overNominal?: boolean;
+          outsidePlannedWindow?: boolean;
           context?: ResearchTaskContext;
         }
       >
@@ -105,6 +119,7 @@ export type ResearchParticipant = {
   withdrawnAt: string | null;
   consentVersion: string;
   coordinatorReference: string;
+  accommodationTimeMultiplier?: number;
   responses: Partial<
     Record<
       ResearchStage,
@@ -122,6 +137,18 @@ export type ResearchParticipant = {
     run: 1 | 2;
     requestId: string;
     status: "reserved" | "complete" | "failed";
+    startedAt: string;
+    elapsedMs?: number;
+    outcome?:
+      | "success"
+      | "unavailable"
+      | "provider_error"
+      | "invalid_output"
+      | "timeout"
+      | "interrupted"
+      | "late";
+    modelId?: string | null;
+    usage?: unknown;
     response?: unknown;
   }[];
   requests: Record<
@@ -132,7 +159,14 @@ export type ResearchParticipant = {
 export type ResearchDatabase = {
   version: 1;
   participants: ResearchParticipant[];
-  // Monotonic per frozen protocol: deletion/withdrawal never reuses an allocation.
+  // Monotonic per study: a starter's order is never reused. Non-starters take no slot.
+  formOrderBlocks?: Record<
+    string,
+    {
+      nextOrdinal: number;
+      remaining: [AssessmentFormKey, AssessmentFormKey, AssessmentFormKey][];
+    }
+  >;
   allocationCounters?: Record<string, number>;
 };
 export interface ResearchStore {

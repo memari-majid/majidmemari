@@ -262,8 +262,39 @@ test("explicit held filters, drafting prohibitions and compound reviews cannot s
 });
 
 
-test("a compound line may retain separate quoted human checks in their written order", () => {
+test('a compound line may retain separate quoted human checks in their written order', () => {
   const line = "Check tone and accuracy.";
   const mapping = [{ step: 1, actions: [{ type: "human_check", quote: "Check tone", human_check: { checks: ["tone"] } }, { type: "human_check", quote: "accuracy", human_check: { checks: ["accuracy"] } }] }];
   assert.deepEqual(validateShiftClassification({ mapping }, [line]), mapping);
+});
+
+test("reworded approval conditions and diverse prohibitions reject unguarded or affirmative readings", () => {
+  for (const line of [
+    "Only after the owner approves, confirm the change.",
+    "Once the owner has approved, confirm the change.",
+    "If the owner approves, confirm the change.",
+    "When the coordinator approves, confirm the change.",
+    "After approval from the owner, confirm the change.",
+    "After approval, confirm the change.",
+    "Once approved, confirm the change.",
+    "With owner authorization, confirm the change.",
+    "Unless the owner approves, do not wait; after approval confirm the change.",
+  ]) {
+    assert.throws(() => validateShiftClassification({ mapping: [{ step: 1, actions: [{ type: "confirm_change", quote: line }] }] }, [line]), line);
+    assert.equal(validateShiftClassification({ mapping: [{ step: 1, actions: [{ type: "confirm_change", quote: line, when: "if_approved" }] }] }, [line])[0].actions[0].when, "if_approved");
+  }
+  for (const [line, type, quote] of [
+    ["Nobody should confirm the change.", "confirm_change", "confirm the change"],
+    ["No one may confirm the change.", "confirm_change", "No one may confirm the change."],
+    ["Refrain from confirming any change.", "confirm_change", "confirming any change"],
+    ["Under no circumstances send the reply.", "release", "send the reply"],
+    ["Under no circumstances, send the reply.", "release", "send the reply"],
+    ["Staff should not confirm the change.", "confirm_change", "Staff should not confirm the change."],
+    ["The AI cannot send the reply.", "release", "The AI cannot send the reply."],
+    ["Draft a reply without confirming the change.", "confirm_change", "confirming the change"],
+  ]) {
+    assert.throws(() => validateShiftClassification({ mapping: [{ step: 1, actions: [{ type, quote }] }] }, [line]), line);
+  }
+  const conditionalRoute = "If the rules do not cover the request, route it to the owner.";
+  assert.equal(validateShiftClassification({ mapping: [{ step: 1, actions: [{ type: "route_to_owner", quote: "route it to the owner", route_to_owner: { only_if_held: false } }] }] }, [conditionalRoute])[0].actions[0].type, "route_to_owner");
 });

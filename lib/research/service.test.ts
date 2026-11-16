@@ -7,6 +7,7 @@ import {
   researchConfig,
   researchFreeze,
   hash,
+  syntheticE2ResearchManifest,
   syntheticResearchManifest,
   validateResearchManifest,
 } from "./config";
@@ -240,8 +241,22 @@ test("live remains source-gated after manifest, freeze and E3 pool checks", () =
   assert.throws(() => researchConfig(env), /provisional/);
   assert.throws(() => researchConfig({ ...env, RESEARCH_ENABLED: "1" }));
   m.experiment = "E2";
-  m.freeze = researchFreeze(m, "model/frozen", "commit-123");
-  const good = { ...env, RESEARCH_REVIEWED_MANIFEST_JSON: JSON.stringify(m) };
+  assert.throws(
+    () => validateResearchManifest(m, true),
+    /version-2 assessment schema/,
+  );
+  const v2 = syntheticE2ResearchManifest();
+  v2.studyId = "reviewed-pilot-e2";
+  v2.approvalReference = "IRB-reference-2026";
+  v2.delayedMinimumSeconds = 86400;
+  v2.delayedMaximumSeconds = 172800;
+  v2.studyEndsAt = "2027-06-01T00:00:00Z";
+  v2.recordsRetainUntil = "2030-06-01T00:00:00Z";
+  v2.freeze = researchFreeze(v2, "model/frozen", "commit-123");
+  const good = {
+    ...env,
+    RESEARCH_REVIEWED_MANIFEST_JSON: JSON.stringify(v2),
+  };
   assert.throws(() => researchConfig(good), /reviewed source release/);
   assert.throws(() =>
     researchConfig({ ...good, VERCEL_GIT_COMMIT_SHA: "other" }),

@@ -190,3 +190,53 @@ test('maximum-size Unicode and JSON-escaped accepted records stay inside a bound
     assert.deepEqual(validateShiftRecord(JSON.parse(JSON.stringify(completed)), a), completed);
   }
 });
+
+test('guard skips, routine extra routes, undrafted exception holds and unquoted sentences give truthful explanations', () => {
+  const steps = validateShiftWorkflow(a.fixtures.safe!.workflow);
+  const earlyException = mapped(a.fixtures.safe!.workflow, [
+    [base('intake'), base('route_to_owner', { when: 'if_exception', route_to_owner: { only_if_held: false } })],
+    [base('find_source'), base('check_conditions')], [draft()], [review()],
+    [route(), base('acknowledge_customer', { when: 'if_held' })], [base('release', { when: 'if_not_held' })],
+  ]);
+  const earlyB = runShift(a, earlyException, steps).results[1];
+  assert.match(earlyB.trace!.find(e => e.type === 'route_to_owner' && e.status === 'skipped')!.detail, /has not consulted an approved source yet/);
+
+  const afterSourceBeforeCheck = mapped(a.fixtures.safe!.workflow, [
+    [base('intake')],
+    [base('find_source'), base('route_to_owner', { when: 'if_exception', route_to_owner: { only_if_held: false } }), base('check_conditions')],
+    [draft()], [review()],
+    [route(), base('acknowledge_customer', { when: 'if_held' })], [base('release', { when: 'if_not_held' })],
+  ]);
+  const midB = runShift(a, afterSourceBeforeCheck, steps).results[1];
+  assert.match(midB.trace!.find(e => e.type === 'route_to_owner' && e.status === 'skipped')!.detail, /has not checked the deciding conditions yet/);
+
+  const routedA = mapped(a.fixtures.safe!.workflow, [
+    [base('intake')], [base('find_source'), base('check_conditions')], [draft()], [review()],
+    [base('route_to_owner', { route_to_owner: { only_if_held: false } })], [base('release', { when: 'if_not_held' })],
+  ]);
+  const resA = runShift(a, routedA, steps).results[0];
+  assert.equal(resA.ownerRouted, true);
+  assert.match(resA.explanation!, /owner was also routed/);
+  assert(!resA.explanation!.includes('No owner route was needed or performed'));
+
+  const undraftedHold = mapped(a.fixtures.safe!.workflow, [
+    [base('intake')], [base('find_source'), base('check_conditions')], [], [], [], [],
+  ]);
+  const heldB = runShift(a, undraftedHold, steps).results[1];
+  assert.equal(heldB.consequenceId, 'held_no_owner');
+  assert.match(heldB.explanation!, /exception remains held for an owner decision/);
+  assert(!heldB.explanation!.includes('unsupported commitment'));
+
+  const twoSentences = [...steps.slice(0, 5), 'The reply is not sent until it is checked and not held. After approval from the owner, confirm the change.'];
+  const partialMapping = validateShiftMapping([
+    { step: 1, actions: [base('intake', { quote: twoSentences[0] })] },
+    { step: 2, actions: [base('find_source', { quote: twoSentences[1] }), base('check_conditions', { quote: twoSentences[1] })] },
+    { step: 3, actions: [{ ...draft(), quote: twoSentences[2] }] },
+    { step: 4, actions: [{ ...review(), quote: twoSentences[3] }] },
+    { step: 5, actions: [] },
+    { step: 6, actions: [base('confirm_change', { quote: 'After approval from the owner, confirm the change.', when: 'if_approved' })] },
+  ], twoSentences);
+  const stoppedA = runShift(a, partialMapping, twoSentences).results[0];
+  assert.equal(stoppedA.consequenceId, 'stopped');
+  assert.match(stoppedA.explanation!, /No action uses: line 5.*line 6.*The reply is not sent until it is checked and not held/);
+});

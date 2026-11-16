@@ -214,7 +214,18 @@ function runCaseCurrent(a: ShiftRunActivity, input: ShiftMapping, caseId: ShiftC
     if (!guardAllows(when)) {
       const priorFullReview = when === 'if_approved' && value.type === 'release' && checkStep !== null && missingChecks().length === 0;
       if (priorFullReview) approvalReviewNote = `Human reviews through step ${checkStep} covered the draft, but they are not the owner or coordinator approval this guard requires. If you meant send once the review passes, use “only if the case is not held.”`;
-      emit(item, 'skipped', when === 'if_approved' ? `No authorized approval or completed change is supplied in this request; the guarded action did not happen.${priorFullReview ? ` ${approvalReviewNote}` : ''}` : `The condition “${SHIFT_GUARD_LABELS[when]}” was not met at this point.`);
+      const skipDetail = when === 'if_approved'
+        ? `No authorized approval or completed change is supplied in this request; the guarded action did not happen.${priorFullReview ? ` ${approvalReviewNote}` : ''}`
+        : when === 'if_missing_fact' && !intake
+          ? 'The workflow has not read the incoming request yet, so it cannot know whether a deciding fact is missing.'
+          : when === 'if_exception' && !intake
+            ? 'The workflow has not read the incoming request yet, so it cannot know whether an exception decision is needed.'
+            : when === 'if_exception' && !source
+              ? 'The workflow has not consulted an approved source yet, so it cannot know whether the policy requires an exception decision.'
+              : when === 'if_exception' && !conditionsChecked
+                ? 'The workflow has not checked the deciding conditions yet, so it cannot know whether an exception decision is needed.'
+                : `The condition “${SHIFT_GUARD_LABELS[when]}” was not met at this point.`;
+      emit(item, 'skipped', skipDetail);
       continue;
     }
     if (value.type === 'intake') { intake = true; emit(item, 'executed', caseId === 'C' ? 'The incoming cancellation request was read; its deciding session time is missing.' : 'The supplied incoming request and time were read.'); }
@@ -262,11 +273,11 @@ function runCaseCurrent(a: ShiftRunActivity, input: ShiftMapping, caseId: ShiftC
       if (caseId === 'C') return finish('wrong_branch_sent', draftId, item.step, `Release at step ${item.step} selected a cancellation conclusion without the deciding session time.`, true);
       const missing = missingChecks();
       if (missing.length) return finish('unreviewed_release', draftId, item.step, `The draft left at step ${item.step}. Required review coverage missing at that point: ${missing.join(', ')}.`, true);
-      return finish(caseId === 'A' ? 'sent_conditions' : 'unreceived_review', draftId, item.step, caseId === 'A' ? `Step ${item.step} released the reviewed conditional policy reply. No booking change was claimed; no owner route was needed or performed.` : `Step ${item.step} sent only a policy explanation, but no earlier action actually routed the exception to the owner.`, true);
+      return finish(caseId === 'A' ? 'sent_conditions' : 'unreceived_review', draftId, item.step, caseId === 'A' ? `Step ${item.step} released the reviewed conditional policy reply. No booking change was claimed. ${routed ? 'The owner was also routed this routine request, which used the owner’s attention without being required.' : 'No owner route was needed or performed.'}` : `Step ${item.step} sent only a policy explanation, but no earlier action actually routed the exception to the owner.`, true);
     }
   }
   if (routed) return finish(caseId === 'B' ? acknowledged ? 'exception_acknowledged' : 'routed_no_ack' : 'routine_escalated', acknowledged ? acknowledgementDraft : draftId, routeStep, `${caseId === 'B' ? 'The owner received the exception' : 'The owner received a routine/missing-information case'} at step ${routeStep}.${acknowledged ? ' A reviewed acknowledgement was sent without claiming approval.' : ' No acknowledgement was sent to the customer.'} No change was authorized.`, acknowledged);
-  if (held) return finish('held_no_owner', acknowledged ? acknowledgementDraft : draftId, checkStep, `${caseId === 'C' ? 'The deciding time remains missing' : 'An unsupported commitment remains held'}, but no action routed the unresolved case to the owner or completed a clarifying question.${acknowledged ? ' A receipt was sent, without claiming an owner handoff.' : ' Nothing was sent.'}`, acknowledged);
+  if (held) return finish('held_no_owner', acknowledged ? acknowledgementDraft : draftId, checkStep, `${caseId === 'C' ? 'The deciding time remains missing' : caseId === 'B' && (!drafted || conditional) ? 'The exception remains held for an owner decision' : 'An unsupported commitment remains held'}, but no action routed the unresolved case to the owner or completed a clarifying question.${acknowledged ? ' A receipt was sent, without claiming an owner handoff.' : ' Nothing was sent.'}`, acknowledged);
   if (!drafted) return finish('no_draft', null, null, 'No drafting action was executed, so no policy reply exists to release.');
   return finish('stopped', acknowledged ? acknowledgementDraft : draftId, null, `The workflow ended without releasing the policy draft or routing the request.${acknowledged ? ' A receipt/pending message was sent; it did not claim an owner handoff.' : ' Nothing was sent.'}`, acknowledged);
 }
@@ -275,11 +286,30 @@ export function shiftResultExplanation(a: ShiftRunActivity, result: ShiftCaseRes
 export function formatShiftMapping(input: ShiftMapping): string {
   return mapping(input).map(line => `Step ${line.step}:\n${line.actions.length ? line.actions.map((value, index) => `${index + 1}. ${SHIFT_ACTION_LABELS[value.type]} — ${SHIFT_GUARD_LABELS[value.when ?? 'always']}\nQuoted wording: ${value.quote}${value.type === 'human_check' ? `\nReview: ${value.human_check.checks.map(check => SHIFT_CHECK_LABELS[check]).join(', ') || 'none named'}` : value.type === 'route_to_owner' ? `\nOnly held work: ${value.route_to_owner.only_if_held ? 'yes' : 'no'}` : value.type === 'ai_draft' ? `\nState conditions: ${value.ai_draft.states_conditions ? 'yes' : 'no'}; forbid unsupported promises: ${value.ai_draft.forbids_promises ? 'yes' : 'no'}` : ''}`).join('\n') : 'No listed action.'}`).join('\n\n');
 }
-export function runShift(a: ShiftRunActivity, input: ShiftMapping): ShiftEpisodeResult {
+export function unusedShiftText(step: string, quotes: string[]): string {
+  let rest = ` ${step} `;
+  for (const quote of quotes.filter(Boolean).sort((a, b) => b.length - a.length)) rest = rest.replace(quote, ' ');
+  const unused = rest.replace(/\s+/g, ' ').replace(/^[\s.,;:—–-]+|[\s,;]+$/g, '').trim();
+  return /[A-Za-z0-9]/.test(unused) ? unused : '';
+}
+function appendUnusedNote(results: ShiftCaseResult[], input: ShiftMapping, steps?: readonly string[]) {
+  if (!steps?.length) return;
+  const unused = steps.map((step, index) => {
+    const text = unusedShiftText(step, (input.find(line => line.step === index + 1)?.actions ?? []).map(action => action.quote));
+    return text ? `line ${index + 1} (“${text}”)` : '';
+  }).filter(Boolean);
+  if (unused.length) for (const result of results) if (result.consequenceId === 'stopped' && result.explanation) result.explanation += ` No action uses: ${unused.join('; ')}.`;
+}
+export function runShift(a: ShiftRunActivity, input: ShiftMapping, steps?: readonly string[]): ShiftEpisodeResult {
   const results = (['A', 'B'] as const).map(caseId => runCase(a, input, caseId));
+  appendUnusedNote(results, input, steps);
   return { results, tally: { sent: results.filter(value => value.sent).length, routed: results.filter(value => value.ownerRouted).length, held: results.filter(value => value.path === 'held').length, asked: results.filter(value => value.path === 'asked').length, stopped: results.filter(value => value.path === 'stopped').length } };
 }
-export function runNextRequest(a: ShiftRunActivity, input: ShiftMapping): ShiftCaseResult { return runCase(a, input, 'C'); }
+export function runNextRequest(a: ShiftRunActivity, input: ShiftMapping, steps?: readonly string[]): ShiftCaseResult {
+  const result = runCase(a, input, 'C');
+  appendUnusedNote([result], input, steps);
+  return result;
+}
 export function emptyShiftRecord(a: ShiftRunActivity): ShiftRecord { activityIdentity(a); return frozen({ version: 1, mode: 'shift-run', activityRevision: a.activityRevision, page: a.page, runs: [], nextRequest: null }); }
 function usage(value: unknown): ShiftUsage | null | undefined {
   if (value === undefined || value === null) return value;
@@ -321,7 +351,7 @@ function entry(a: ShiftRunActivity, value: unknown, expected: 1 | 2): ShiftRunEn
   if (value.classifiedBy !== 'ai' && value.classifiedBy !== 'student') fail('Name how the steps were classified.');
   if (value.classifiedBy === 'ai' && (typeof value.modelId !== 'string' || !value.modelId.trim() || value.modelId.length > 200)) fail('An AI-classified run needs its model identifier.');
   if (value.classifiedBy === 'student' && value.modelId !== undefined) fail('Student classification must not claim an AI model.');
-  const parsed = validateShiftMapping(value.mapping, steps), result = runShift(a, parsed);
+  const parsed = validateShiftMapping(value.mapping, steps), result = runShift(a, parsed, steps);
   if (!same(value.result, result)) fail('A saved consequence does not match the authored engine.');
   const tokenUsage = usage(value.usage);
   if (value.classifiedBy === 'student' && tokenUsage !== undefined && tokenUsage !== null) fail('Student classification must not claim model token use.');
@@ -338,7 +368,7 @@ export function validateShiftRecord(value: unknown, a: ShiftRunActivity): ShiftR
   let nextRequest: ShiftCaseResult | null = null;
   if (value.nextRequest !== null) {
     if (runs.length !== 2) fail('Request C follows the second frozen workflow.');
-    nextRequest = runNextRequest(a, runs[1].mapping);
+    nextRequest = runNextRequest(a, runs[1].mapping, runs[1].steps);
     if (!same(value.nextRequest, nextRequest)) fail('The saved next-request outcome does not match workflow two.');
   }
   return frozen({ version: 1, mode: 'shift-run', activityRevision: a.activityRevision, page: a.page, runs, nextRequest });
@@ -352,14 +382,14 @@ export function recordShiftRun(a: ShiftRunActivity, current: ShiftRecord, input:
   if (record.runs.length >= SHIFT_LIMITS.runs || record.nextRequest) fail('The two workflow runs are complete; request C uses the frozen second workflow.');
   const steps = validateShiftWorkflow(input.workflow), parsed = validateShiftMapping(input.mapping, steps), number = (record.runs.length + 1) as 1 | 2;
   const accepted = a.activityRevision >= 3 ? acceptance(input.acceptance, steps, parsed, input.classifiedBy, input.modelId, usage(input.usage), false) : undefined;
-  const candidate = { number, workflow: input.workflow, steps, mapping: parsed, reason: input.reason ?? '', classifiedBy: input.classifiedBy, ...(input.modelId !== undefined ? { modelId: input.modelId } : {}), ...(input.usage !== undefined ? { usage: input.usage } : {}), ...(accepted ? { acceptance: accepted } : {}), result: runShift(a, parsed) };
+  const candidate = { number, workflow: input.workflow, steps, mapping: parsed, reason: input.reason ?? '', classifiedBy: input.classifiedBy, ...(input.modelId !== undefined ? { modelId: input.modelId } : {}), ...(input.usage !== undefined ? { usage: input.usage } : {}), ...(accepted ? { acceptance: accepted } : {}), result: runShift(a, parsed, steps) };
   const added = entry(a, candidate, number);
   return frozen({ ...clone(record), runs: [...record.runs.map(clone), added] });
 }
 export function recordNextRequest(a: ShiftRunActivity, current: ShiftRecord): ShiftRecord {
   const record = validateShiftRecord(current, a);
   if (record.runs.length !== 2 || record.nextRequest) fail('Open request C once, after the two workflow runs.');
-  return frozen({ ...clone(record), nextRequest: runNextRequest(a, record.runs[1].mapping) });
+  return frozen({ ...clone(record), nextRequest: runNextRequest(a, record.runs[1].mapping, record.runs[1].steps) });
 }
 export function exportShiftRecord(a: ShiftRunActivity, current: ShiftRecord): string {
   const record = validateShiftRecord(current, a), lines = [a.exportStamp, a.stamp, a.title];
@@ -371,7 +401,9 @@ export function exportShiftRecord(a: ShiftRunActivity, current: ShiftRecord): st
     if (result.trace) lines.push('Accepted workflow execution trace:', ...result.trace.map(event => `Step ${event.step}, action ${event.action}: ${SHIFT_ACTION_LABELS[event.type]} — ${event.status}. ${event.detail}`));
   }
   for (const run of record.runs) {
-    lines.push(a.stamp, `Workflow ${run.number}`, run.workflow, `Reason: ${run.reason}`, run.classifiedBy === 'student' ? 'Steps classified by the student.' : `Steps classified by AI: ${run.modelId}`);
+    lines.push(a.stamp, `Workflow ${run.number}`, run.workflow);
+    if (run.reason.trim()) lines.push(`Reason: ${run.reason}`);
+    lines.push(run.classifiedBy === 'student' ? 'Steps classified by the student.' : `Steps classified by AI: ${run.modelId}`);
     if (run.acceptance) {
       lines.push(run.acceptance.origin === 'ai-proposal' ? `AI proposed an interpretation; the learner explicitly accepted ${run.acceptance.corrected ? 'an edited interpretation' : 'the unchanged proposal'}.` : run.acceptance.assistedByRejectedProposal ? 'The AI proposal failed validation. Valid line suggestions were kept; the learner constructed and explicitly accepted the final interpretation.' : 'The learner constructed and explicitly accepted the interpretation.');
       if (run.acceptance.prediction) lines.push(`Prediction before this run: ${run.acceptance.prediction.text}`, `Self-reported confidence: ${run.acceptance.prediction.confidence}; not a checked learning result.`);

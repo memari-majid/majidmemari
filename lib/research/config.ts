@@ -54,6 +54,8 @@ export type ResearchManifest = {
   recordsRetainUntil?: string;
   withdrawalPolicy: "delete-on-request";
   gradingReleasedAt: string;
+  /** Version-2 scoring packets stay unexported until this reviewed collection-close time. */
+  scoringReleasedAt?: string;
   delayedMinimumSeconds: number;
   delayedMaximumSeconds: number;
   prerequisites: {
@@ -193,7 +195,7 @@ export function validateResearchManifest(
       "prerequisites",
       "forms",
     ],
-    ["freeze", "studyEndsAt", "recordsRetainUntil", "assessment"],
+    ["freeze", "studyEndsAt", "recordsRetainUntil", "assessment", "scoringReleasedAt"],
   );
   if (
     (x.version !== 1 && x.version !== 2) ||
@@ -268,6 +270,9 @@ export function validateResearchManifest(
     retentionDays: Number(x.retentionDays),
     withdrawalPolicy: "delete-on-request",
     gradingReleasedAt: date(x.gradingReleasedAt),
+    ...(x.scoringReleasedAt !== undefined
+      ? { scoringReleasedAt: date(x.scoringReleasedAt) }
+      : {}),
     delayedMinimumSeconds: Number(x.delayedMinimumSeconds),
     delayedMaximumSeconds: Number(x.delayedMaximumSeconds),
     prerequisites: {
@@ -375,6 +380,11 @@ export function validateResearchManifest(
       );
     }
   }
+  if (live && result.version === 1 && result.experiment === "E2")
+    throw new ResearchError(
+      400,
+      "Live E2 requires the version-2 assessment schema.",
+    );
   if (live && (!result.studyEndsAt || !result.recordsRetainUntil)) {
     throw new ResearchError(
       503,
@@ -503,6 +513,7 @@ export function syntheticE2ResearchManifest(): ResearchManifest {
       studyId: "synthetic-e2-balanced-v2",
       protocolVersion: "synthetic-e2-candidate-v2",
       experiment: "E2",
+      scoringReleasedAt: "2026-01-01T00:00:00Z",
       forms: {
         rehearsal: legacy.forms.rehearsal,
         feedback: legacy.forms.feedback,

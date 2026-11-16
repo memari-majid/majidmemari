@@ -31,11 +31,11 @@ export type ResearchHelpCategory =
   | "unsure"
   | "decline";
 export type ResearchTaskContext = {
-  outsideHelp: ResearchSelfReport;
-  helpCategory: ResearchHelpCategory;
-  interruption: ResearchSelfReport;
-  accommodation: ResearchSelfReport;
-  priorExposure?: ResearchSelfReport;
+  outsideHelp: ResearchSelfReport | null;
+  helpCategory: ResearchHelpCategory | null;
+  interruption: ResearchSelfReport | null;
+  accommodation: ResearchSelfReport | null;
+  priorExposure?: ResearchSelfReport | null;
 };
 export type ResearchAssessmentDesign = {
   version: "balanced-forms-v1";

@@ -24,8 +24,10 @@ export function liveResearchDependencies(
         modelId,
         signal,
       }),
-    propose: async (workflow) => {
+    propose: async (workflow, signal) => {
       const steps = validateShiftWorkflow(workflow);
+      const timeout = AbortSignal.timeout(30000);
+      const abortSignal = signal ? AbortSignal.any([timeout, signal]) : timeout;
       const result = await generateText({
         model: gateway(modelId),
         system: SHIFT_CLASSIFIER_RULES,
@@ -33,7 +35,7 @@ export function liveResearchDependencies(
         output: Output.object({ schema: SHIFT_CLASSIFIER_OUTPUT }),
         maxOutputTokens: 5500,
         maxRetries: 0,
-        abortSignal: AbortSignal.timeout(30000),
+        abortSignal,
         experimental_telemetry: {
           isEnabled: false,
           recordInputs: false,

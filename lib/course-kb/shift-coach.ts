@@ -52,7 +52,8 @@ export function shiftCoachRequest(a: ShiftRunActivity, record: ShiftRecord, targ
 
 export function shiftCoachContext(a: ShiftRunActivity, value: unknown): ShiftCoachContext {
   const request = validateShiftCoachRequest(value, a);
-  const results: TracedResult[] = request.target === 'C' ? [runNextRequest(a, request.mapping)] : runShift(a, request.mapping).results;
+  const steps = validateShiftWorkflow(request.workflow);
+  const results: TracedResult[] = request.target === 'C' ? [runNextRequest(a, request.mapping, steps)] : runShift(a, request.mapping, steps).results;
   const cases = results.map(result => {
     const card = a.cases.find(c => c.id === result.caseId);
     if (!card || !result.trace || !result.explanation) invalid('This rehearsal needs its current execution trace before the companion can discuss a cause. Use the written explanation for now.');

@@ -831,10 +831,13 @@ export function ResearchSession() {
               {withdrawOpen ? (
                 <div className="mt-3 rounded-lg border border-amber-300 bg-amber-50 p-4">
                   <p className="text-sm leading-7">
-                    Withdrawing stops further study writes and asks this service
-                    to delete your stored responses and rehearsal checkpoint. It
-                    does not change course grades or ordinary support. Separate
-                    coordinator-held records follow the reviewed policy.
+                    Withdrawing stops further study writes and deletes your
+                    stored responses, rehearsal checkpoint, question and
+                    observation notes. A count of withdrawals is kept. Your
+                    participant code, coordinator reference, assigned arm, form
+                    order and enrollment times stay until the reviewed retention
+                    date, then a separate purge removes them. This does not
+                    change course grades or ordinary support.
                   </p>
                   <label className="mt-3 flex min-h-11 items-start gap-3 py-2 text-sm leading-7">
                     <input

@@ -195,7 +195,7 @@ export async function handleResearchRequest(
     if (action === "question")
       return reply(await service.question(token, input));
     if (action === "proposal")
-      return reply(await service.proposal(token, input));
+      return reply(await service.proposal(token, input, request.signal));
     if (action === "withdraw")
       return reply(await service.withdraw(token, input));
     if (!input || typeof input !== "object" || Array.isArray(input))

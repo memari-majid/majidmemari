@@ -1,5 +1,5 @@
 /** Version-2 E2 candidate mechanics. This module does not enable live research. */
-import { randomBytes } from "node:crypto";
+import { randomBytes, randomInt } from "node:crypto";
 import { exact, hash, ResearchError, type ResearchConfig } from "./config";
 import type { ResearchParticipant, ResearchDatabase } from "./store";
 import type {
@@ -25,23 +25,41 @@ export const FORM_ORDERS: [
 export function isAssessmentStage(stage: string): stage is AssessmentStage {
   return (ASSESSMENT_STAGES as readonly string[]).includes(stage);
 }
+/** Assign the next order when a participant first enters, not at enrollment.
+ * Complete blocks of the six orders are shuffled, so non-starters do not consume a slot
+ * and each form appears twice per occasion in every block of six starters. */
 export function allocateAssessment(
   db: ResearchDatabase,
-  config: ResearchConfig,
-): ResearchParticipant["assessment"] {
-  if (!config.manifest.assessment) return undefined;
-  const counters = (db.allocationCounters ??= {});
-  const ordinal = counters[config.fingerprint] ?? 0;
-  if (!Number.isSafeInteger(ordinal) || ordinal < 0)
+  studyId: string,
+): NonNullable<ResearchParticipant["assessment"]> {
+  const blocks = (db.formOrderBlocks ??= {});
+  const block = (blocks[studyId] ??= { nextOrdinal: 0, remaining: [] });
+  if (!Number.isSafeInteger(block.nextOrdinal) || block.nextOrdinal < 0)
     throw new ResearchError(
       503,
       "Assessment allocation needs operator attention.",
     );
-  counters[config.fingerprint] = ordinal + 1;
+  if (block.remaining.length === 0) {
+    const remaining = FORM_ORDERS.map(
+      (order) =>
+        [...order] as [AssessmentFormKey, AssessmentFormKey, AssessmentFormKey],
+    );
+    for (let i = remaining.length - 1; i > 0; i--) {
+      const j = randomInt(i + 1);
+      [remaining[i], remaining[j]] = [remaining[j], remaining[i]];
+    }
+    block.remaining = remaining;
+  }
+  const order = block.remaining.shift();
+  if (!order)
+    throw new ResearchError(
+      503,
+      "Assessment allocation needs operator attention.",
+    );
   return {
     version: "balanced-forms-v1",
-    allocationOrdinal: ordinal,
-    order: [...FORM_ORDERS[ordinal % 6]],
+    allocationOrdinal: block.nextOrdinal++,
+    order,
     tasks: {},
   };
 }
@@ -91,19 +109,19 @@ export function openAssessment(
     askPriorExposure: stage === "baseline",
   };
 }
+const unanswered = (stage: AssessmentStage): ResearchTaskContext => ({
+  outsideHelp: null,
+  helpCategory: null,
+  interruption: null,
+  accommodation: null,
+  ...(stage === "baseline" ? { priorExposure: null } : {}),
+});
 export function taskContext(
   input: unknown,
   stage: AssessmentStage,
 ): ResearchTaskContext {
-  // Omitted optional items are unknown, never interpreted as 'no'.
-  if (input === undefined)
-    return {
-      outsideHelp: "decline",
-      helpCategory: "decline",
-      interruption: "decline",
-      accommodation: "decline",
-      ...(stage === "baseline" ? { priorExposure: "decline" as const } : {}),
-    };
+  // Omitted or untouched items stay unknown. An explicit decline is a different value.
+  if (input === undefined) return unanswered(stage);
   exact(
     input,
     ["outsideHelp", "helpCategory", "interruption", "accommodation"],
@@ -117,12 +135,16 @@ export function taskContext(
       ? ["priorExposure"]
       : []),
   ])
-    if (!["yes", "no", "unsure", "decline"].includes(input[k] as string))
+    if (
+      input[k] !== null &&
+      !["yes", "no", "unsure", "decline"].includes(input[k] as string)
+    )
       throw new ResearchError(
         400,
         "Use a coarse optional self-report response.",
       );
   if (
+    input.helpCategory !== null &&
     ![
       "none",
       "person",
@@ -136,6 +158,7 @@ export function taskContext(
     throw new ResearchError(400, "Use a broad help category only.");
   if (
     (input.outsideHelp === "no" &&
+      input.helpCategory !== null &&
       !["none", "decline"].includes(input.helpCategory as string)) ||
     (input.outsideHelp === "yes" && input.helpCategory === "none")
   )
@@ -148,7 +171,7 @@ export function taskContext(
     ...(stage === "baseline"
       ? {
           priorExposure: (input.priorExposure ??
-            "decline") as ResearchTaskContext["priorExposure"],
+            null) as ResearchTaskContext["priorExposure"],
         }
       : {}),
   };

@@ -34,14 +34,12 @@ export function ResearchAnswerForm({
   ) => void;
 }) {
   const [answer, setAnswer] = useState("");
-  const [context, setContext] = useState<ResearchTaskContext>({
-    outsideHelp: "decline",
-    helpCategory: "decline",
-    interruption: "decline",
-    accommodation: "decline",
-    ...(assessment?.askPriorExposure
-      ? { priorExposure: "decline" as const }
-      : {}),
+  const [context, setContext] = useState<DraftContext>({
+    outsideHelp: "",
+    helpCategory: "",
+    interruption: "",
+    accommodation: "",
+    priorExposure: "",
   });
   const [skipOpen, setSkipOpen] = useState(false),
     [reason, setReason] = useState<StudyMissingReason | "">("");
@@ -52,7 +50,12 @@ export function ResearchAnswerForm({
       onSubmit={(event) => {
         event.preventDefault();
         if (!locked && answer.trim())
-          onSubmit(answer, assessment ? context : undefined);
+          onSubmit(
+            answer,
+            assessment
+              ? reportedContext(context, assessment.askPriorExposure)
+              : undefined,
+          );
       }}
     >
       {assessment ? <AssessmentTiming assessment={assessment} /> : null}
@@ -68,7 +71,7 @@ export function ResearchAnswerForm({
       <textarea
         id={id}
         rows={10}
-        maxLength={4000}
+        maxLength={6000}
         value={answer}
         disabled={locked}
         onChange={(event) => setAnswer(event.target.value)}
@@ -77,7 +80,7 @@ export function ResearchAnswerForm({
         aria-describedby={`${id}-count`}
       />
       <p id={`${id}-count`} className="mt-1 text-xs text-slate-500">
-        {answer.length}/4,000 characters. Submission is frozen after a server
+        {answer.length}/6,000 characters. Submission is frozen after a server
         receipt.
       </p>
       {assessment ? (
@@ -137,7 +140,13 @@ export function ResearchAnswerForm({
           className={`${studySecondary} mt-3`}
           disabled={locked || !reason}
           onClick={() =>
-            reason && onSkip(reason, assessment ? context : undefined)
+            reason &&
+            onSkip(
+              reason,
+              assessment
+                ? reportedContext(context, assessment.askPriorExposure)
+                : undefined,
+            )
           }
         >
           Record missing response and continue
@@ -285,14 +294,38 @@ function AssessmentTiming({
     </aside>
   );
 }
+type DraftContext = {
+  outsideHelp: ResearchSelfReport | "";
+  helpCategory: ResearchHelpCategory | "";
+  interruption: ResearchSelfReport | "";
+  accommodation: ResearchSelfReport | "";
+  priorExposure: ResearchSelfReport | "";
+};
+function reportedContext(
+  draft: DraftContext,
+  askPriorExposure: boolean,
+): ResearchTaskContext {
+  return {
+    outsideHelp: draft.outsideHelp === "" ? null : draft.outsideHelp,
+    helpCategory: draft.helpCategory === "" ? null : draft.helpCategory,
+    interruption: draft.interruption === "" ? null : draft.interruption,
+    accommodation: draft.accommodation === "" ? null : draft.accommodation,
+    ...(askPriorExposure
+      ? {
+          priorExposure:
+            draft.priorExposure === "" ? null : draft.priorExposure,
+        }
+      : {}),
+  };
+}
 function AssessmentContext({
   context,
   onChange,
   locked,
   askPriorExposure,
 }: {
-  context: ResearchTaskContext;
-  onChange: (value: ResearchTaskContext) => void;
+  context: DraftContext;
+  onChange: (value: DraftContext) => void;
   locked: boolean;
   askPriorExposure: boolean;
 }) {
@@ -338,18 +371,17 @@ function AssessmentContext({
           <select
             id={`${id}-${key}`}
             className={studyField}
-            value={context[key] ?? "decline"}
+            value={context[key]}
             onChange={(e) =>
               onChange({
                 ...context,
-                [key]: e.target.value as ResearchSelfReport,
-                ...(key === "outsideHelp"
-                  ? { helpCategory: "decline" as const }
-                  : {}),
+                [key]: e.target.value as ResearchSelfReport | "",
+                ...(key === "outsideHelp" ? { helpCategory: "" as const } : {}),
               })
             }
           >
-            <option value="decline">Unanswered / prefer not to say</option>
+            <option value="">Not answered</option>
+            <option value="decline">Prefer not to say</option>
             <option value="yes">Yes</option>
             <option value="no">No</option>
             <option value="unsure">Unsure</option>
@@ -371,11 +403,12 @@ function AssessmentContext({
             onChange={(e) =>
               onChange({
                 ...context,
-                helpCategory: e.target.value as ResearchHelpCategory,
+                helpCategory: e.target.value as ResearchHelpCategory | "",
               })
             }
           >
-            <option value="decline">Unanswered / prefer not to say</option>
+            <option value="">Not answered</option>
+            <option value="decline">Prefer not to say</option>
             <option value="person">Another person</option>
             <option value="ai">An AI tool</option>
             <option value="other-resource">Another resource</option>

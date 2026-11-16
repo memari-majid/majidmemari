@@ -15,7 +15,7 @@ export function StudyPacket({ form }: { form: ResearchForm }) {
       aria-labelledby="study-packet-title"
     >
       <p className="text-xs font-semibold uppercase tracking-widest text-teal-800">
-        Task packet · {form.id} · version {form.version}
+        Task packet · version {form.version}
       </p>
       <h2
         id="study-packet-title"

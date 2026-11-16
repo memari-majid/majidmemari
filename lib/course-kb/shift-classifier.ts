@@ -46,16 +46,22 @@ const object = (x: unknown): x is Record<string, unknown> => !!x && typeof x ===
 const adminOrOverride = (text: string) => /\b(?:exam|milestone|syllabus|speedgrader)\b|\bproject\s+update\b|\b(?:course|canvas)\s+(?:grade|policy|deadline)\b|\b(?:give|assign|return|mark|award|produce)\b[^.;]{0,90}\b(?:grade|score|passed|passing|pass)\b|\b(?:ignore|override|replace)\b[^.;]{0,70}\b(?:instructions?|rules?|system|prompt)\b|\b(?:pretend|act)\b[^.;]{0,70}\b(?:tester|test\s+user|grader)\b/i.test(text);
 
 /** Conservative rejection of affirmative readings of explicit prohibitions.
- * This is a bounded safety check, not a claim of complete language understanding.
+ * This is a bounded pattern check, not a claim of complete language understanding.
  * Ambiguous text can be rewritten or classified by the student in the fallback. */
+const DIRECT_PROHIBITION = /\b(?:never|do\s+not|don't|does\s+not|doesn't|must\s+not|mustn't|should\s+not|shouldn't|cannot|can't|may\s+not|avoid|refrain\s+from|not\s+to|do\s+nothing\s+to|nobody|no\s+one)\b/i;
+const SENTENCE_PROHIBITION = /\b(?:under\s+no\s+circumstances|in\s+no\s+case|by\s+no\s+means)\b/i;
+const APPROVAL_CONDITION = /\b(?:(?:only\s+)?(?:after|once|when|if|unless|until|upon|with)\b[^.;!?]{0,80}\b(?:approv(?:es?|ed|al)|authoriz(?:es?|ed|ation))|(?:owner|coordinator)\s+(?:approv(?:es?|ed|al)|authoriz(?:es?|ed|ation)))\b/i;
 function negatedAction(step: string, type: string, quoted: string): boolean {
   const start = step.indexOf(quoted);
-  const boundary = Math.max(step.lastIndexOf(";", start), step.lastIndexOf(".", start), step.lastIndexOf("!", start), step.lastIndexOf("?", start));
-  const prefix = step.slice(boundary + 1, start);
-  const prohibition = /\b(?:never|do\s+not|don't|must\s+not|mustn't|avoid|not\s+to)\b/i;
-  if (prohibition.test(prefix) || /^\s*(?:please\s+)?(?:never|do\s+not|don't|must\s+not|mustn't|avoid|not\s+to)\b/i.test(quoted)) return true;
-  if (type === "confirm_change") return /\b(?:never|do\s+not|don't|must\s+not|avoid)\b[^.;]{0,150}\b(?:say|tell|confirm|claim|promise|changed?|done|processed)\b/i.test(quoted);
-  if (type === "release") return /\b(?:never|do\s+not|don't|must\s+not|avoid)\b[^.;]{0,100}\b(?:send|release|publish|deliver)\b/i.test(quoted);
+  const sentenceBoundary = Math.max(step.lastIndexOf(";", start), step.lastIndexOf(".", start), step.lastIndexOf("!", start), step.lastIndexOf("?", start));
+  const sentencePrefix = step.slice(sentenceBoundary + 1, start);
+  const clauseBoundary = Math.max(sentenceBoundary, step.lastIndexOf(",", start), step.lastIndexOf(":", start));
+  const immediatePrefix = step.slice(clauseBoundary + 1, start);
+  if (SENTENCE_PROHIBITION.test(sentencePrefix) || DIRECT_PROHIBITION.test(immediatePrefix)) return true;
+  if (/^\s*(?:please\s+)?(?:never|do\s+not|don't|does\s+not|doesn't|must\s+not|mustn't|should\s+not|shouldn't|cannot|can't|may\s+not|avoid|refrain\s+from|not\s+to|do\s+nothing\s+to|under\s+no\s+circumstances|in\s+no\s+case|by\s+no\s+means|nobody|no\s+one)\b/i.test(quoted)) return true;
+  if ((type === "confirm_change" || type === "release") && /\bwithout\s*$/i.test(immediatePrefix)) return true;
+  if (type === "confirm_change") return /\b(?:never|do\s+not|don't|does\s+not|doesn't|must\s+not|mustn't|should\s+not|shouldn't|cannot|can't|may\s+not|avoid|refrain\s+from|without|nobody|no\s+one|under\s+no\s+circumstances|in\s+no\s+case|by\s+no\s+means)\b[^.;]{0,150}\b(?:say|saying|tell|telling|confirm|confirming|claim|claiming|promise|promising|changed?|done|processed)\b/i.test(quoted);
+  if (type === "release") return /\b(?:never|do\s+not|don't|does\s+not|doesn't|must\s+not|mustn't|should\s+not|shouldn't|cannot|can't|may\s+not|avoid|refrain\s+from|without|nobody|no\s+one|under\s+no\s+circumstances|in\s+no\s+case|by\s+no\s+means)\b[^.;]{0,100}\b(?:send|sending|release|releasing|publish|publishing|deliver|delivering)\b/i.test(quoted);
   return false;
 }
 
@@ -77,8 +83,8 @@ export function validateShiftClassification(value: unknown, steps: readonly stri
     // these patterns do not claim general language understanding.
     for (const item of entry.actions) {
       if (item.type === "route_to_owner" && /\b(?:route|send|refer|escalate)\s+(?:(?:the|only|any)\s+)?(?:held|flagged)\s+(?:messages?|requests?|cases?|work)\b/i.test(line) && !item.route_to_owner.only_if_held) throw new ClassificationError(entry.step);
-      if (item.type === "ai_draft" && /\b(?:never|do not|don't)\s+(?:claim|say|confirm)\b[^.;]{0,100}\b(?:changed|processed|approved|confirmed)\b/i.test(line) && !item.ai_draft.forbids_promises) throw new ClassificationError(entry.step);
-      if (item.type === "confirm_change" && /\b(?:only\s+)?after\b[^.;]{0,60}\b(?:owner|coordinator|human|person)\b[^.;]{0,40}\bapprov(?:es?|ed|al)\b/i.test(line) && (item.when !== "if_approved" || !/\bapprov(?:es?|ed|al)\b/i.test(item.quote))) throw new ClassificationError(entry.step);
+      if (item.type === "ai_draft" && /\b(?:never|do\s+not|don't|must\s+not|should\s+not|refrain\s+from|avoid)\s+(?:claim|claiming|say|saying|confirm|confirming|promise|promising)\b[^.;]{0,100}\b(?:changed?|processed|approved|confirmed|promise|booking)\b/i.test(line) && !item.ai_draft.forbids_promises) throw new ClassificationError(entry.step);
+      if (item.type === "confirm_change" && APPROVAL_CONDITION.test(line) && item.when !== "if_approved") throw new ClassificationError(entry.step);
       if ((item.type === "route_to_owner" || item.type === "acknowledge_customer") && /\bif\b[^.;]{0,70}\b(?:needs?|requires?)\b[^.;]{0,30}\bexception\b/i.test(line) && item.when !== "if_exception") throw new ClassificationError(entry.step);
       if (item.type === "release" && /\bonly\s+if\s+(?:not\s+held|not\s+on\s+hold)\b/i.test(line) && (item.when !== "if_not_held" || !/\bnot\s+(?:held|on\s+hold)\b/i.test(item.quote))) throw new ClassificationError(entry.step);
       if (item.type === "human_check") for (const check of item.human_check.checks) {

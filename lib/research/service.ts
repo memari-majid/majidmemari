@@ -73,6 +73,34 @@ const requestId = (x: unknown) => {
     throw new ResearchError(400, "Use a bounded request identifier.");
   return s;
 };
+function classifyAttemptError(
+  error: unknown,
+  signal?: AbortSignal,
+): "timeout" | "interrupted" | "invalid_output" | "provider_error" {
+  if (signal?.aborted) return "interrupted";
+  if (error instanceof ResearchError && error.status < 500)
+    return "invalid_output";
+  if (error instanceof Error) {
+    const label = `${error.name} ${error.message}`;
+    if (error.name === "TimeoutError" || /timeout|timed\s*out/i.test(label))
+      return "timeout";
+    if (error.name === "AbortError")
+      return signal?.aborted ? "interrupted" : "timeout";
+    if (
+      [
+        "ClassificationError",
+        "ShiftValidationError",
+        "AI_NoObjectGeneratedError",
+        "NoObjectGeneratedError",
+      ].includes(error.name) ||
+      /could not be validated|invalid|unrecognized|not match/i.test(
+        error.message,
+      )
+    )
+      return "invalid_output";
+  }
+  return "provider_error";
+}
 export type ResearchDependencies = {
   now?: () => number;
   condition?: () => "A" | "F";
@@ -80,7 +108,10 @@ export type ResearchDependencies = {
     context: ResearchQuestionContext,
     signal: AbortSignal,
   ) => Promise<ResearchModelSelection>;
-  propose?: (workflow: string) => Promise<{
+  propose?: (
+    workflow: string,
+    signal?: AbortSignal,
+  ) => Promise<{
     mapping: ShiftMapping;
     modelId: string;
     usage: unknown;
@@ -100,6 +131,7 @@ export class ResearchService {
     db: ResearchDatabase,
     token: string,
     active = true,
+    allowStaleFingerprint = false,
   ): ResearchParticipant {
     const p = db.participants.find(
       (p) =>
@@ -108,7 +140,7 @@ export class ResearchService {
     );
     if (!p)
       throw new ResearchError(401, "The participant token is not recognized.");
-    if (p.fingerprint !== this.config.fingerprint)
+    if (!allowStaleFingerprint && p.fingerprint !== this.config.fingerprint)
       throw new ResearchError(
         409,
         "The frozen study version changed; contact the independent coordinator.",
@@ -213,7 +245,9 @@ export class ResearchService {
                 : "not-ready-at-release";
       q.releasedAt = iso(releaseAt);
       q.deliveredAt = iso(this.now());
-      q.responseBy = iso(releaseAt + 180000);
+      q.responseBy = iso(
+        releaseAt + Math.round(180000 * (p.accommodationTimeMultiplier ?? 1)),
+      );
     }
     if (
       q.releasedAt &&
@@ -225,7 +259,7 @@ export class ResearchService {
       q.responseStatus = "timed-out";
     }
   }
-  view(p: ResearchParticipant): ResearchSessionView {
+  view(p: ResearchParticipant, reveal = true): ResearchSessionView {
     const inactive = p.withdrawnAt
       ? "withdrawn"
       : this.now() >= Date.parse(p.retentionUntil)
@@ -249,6 +283,7 @@ export class ResearchService {
         : false;
     const q = stage === "rehearsal" ? p.question : null;
     const form =
+      !reveal ||
       !p.startedAt ||
       stage === "complete" ||
       stage === "withdrawn" ||
@@ -300,14 +335,32 @@ export class ResearchService {
     if (input.version !== 1)
       throw new ResearchError(400, "Unrecognized request version.");
     requestId(input.requestId);
-    exact(input.attestation, [
-      "consentVersion",
-      "consentRecorded",
-      "eligibleAdult",
-      "coordinatorReference",
-    ]);
+    exact(
+      input.attestation,
+      [
+        "consentVersion",
+        "consentRecorded",
+        "eligibleAdult",
+        "coordinatorReference",
+      ],
+      ["accommodationTimeMultiplier"],
+    );
     const a = input.attestation,
       m = this.config.manifest;
+    const accommodationMultiplier =
+      a.accommodationTimeMultiplier === undefined
+        ? undefined
+        : Number(a.accommodationTimeMultiplier);
+    if (
+      accommodationMultiplier !== undefined &&
+      (!Number.isFinite(accommodationMultiplier) ||
+        accommodationMultiplier < 1 ||
+        accommodationMultiplier > 3)
+    )
+      throw new ResearchError(
+        400,
+        "An approved timing accommodation multiplier must be between 1 and 3.",
+      );
     if (m.studyEndsAt && this.now() >= Date.parse(m.studyEndsAt)) {
       throw new ResearchError(
         410,
@@ -370,7 +423,7 @@ export class ResearchService {
           );
         return {
           participantToken: null,
-          session: this.view(existing),
+          session: this.view(existing, false),
           replayed: true,
         };
       }
@@ -392,7 +445,7 @@ export class ResearchService {
           );
         return {
           participantToken: null,
-          session: this.view(sameConsentRecord),
+          session: this.view(sameConsentRecord, false),
           replayed: true,
         };
       }
@@ -415,9 +468,6 @@ export class ResearchService {
         fingerprint: this.config.fingerprint,
         experiment: m.experiment,
         assignedCondition: null,
-        ...(m.assessment
-          ? { assessment: allocateAssessment(db, this.config) }
-          : {}),
         createdAt: iso(this.now()),
         startedAt: null,
         retentionUntil:
@@ -425,6 +475,9 @@ export class ResearchService {
         withdrawnAt: null,
         consentVersion: m.consentVersion,
         coordinatorReference: ref,
+        ...(accommodationMultiplier && accommodationMultiplier > 1
+          ? { accommodationTimeMultiplier: accommodationMultiplier }
+          : {}),
         responses: {},
         checkpoint: null,
         checkpointReceipt: null,
@@ -454,6 +507,8 @@ export class ResearchService {
           p.experiment === "E3"
             ? (this.deps.condition?.() ?? (randomInt(2) ? "A" : "F"))
             : null;
+        if (this.config.manifest.assessment && !p.assessment)
+          p.assessment = allocateAssessment(db, p.studyId);
       }
       return { session: this.view(p) };
     });
@@ -596,6 +651,14 @@ export class ResearchService {
         );
         task.overNominal =
           task.elapsedSeconds > this.config.manifest.assessment.nominalSeconds;
+        if (stage === "delayed") {
+          const immediate = p.responses.immediate?.receipt.receivedAt;
+          task.outsidePlannedWindow = immediate
+            ? this.now() >
+              Date.parse(immediate) +
+                this.config.manifest.delayedMaximumSeconds * 1000
+            : false;
+        }
       } else if (input.taskContext !== undefined) {
         throw new ResearchError(
           400,
@@ -762,9 +825,10 @@ export class ResearchService {
             409,
             "The reviewed question pool version changed.",
           );
+        const mult = p.accommodationTimeMultiplier ?? 1;
         p.question = {
           startedAt: iso(this.now()),
-          releaseBy: iso(this.now() + 60000),
+          releaseBy: iso(this.now() + Math.round(60000 * mult)),
           deadline: iso(this.now() + 30000),
           selectionStatus:
             p.assignedCondition === "F"
@@ -782,15 +846,22 @@ export class ResearchService {
             return { session: this.view(p) };
           if (this.now() >= Date.parse(q.deadline)) {
             q.selectionStatus = "failed";
+            q.selectionOutcome = "timeout";
             q.deliveryReason = "selection-deadline-passed";
             return { session: this.view(p) };
           }
           q.selectionStatus = "pending";
+          q.selectionStartedAt = q.selectionStartedAt ?? iso(this.now());
           if (
             (this.config.mode === "synthetic" && !this.deps.select) ||
             !this.deps.select
           ) {
             q.selectionStatus = "failed";
+            q.selectionOutcome = "unavailable";
+            q.selectionElapsedMs = Math.max(
+              0,
+              this.now() - Date.parse(q.selectionStartedAt ?? iso(this.now())),
+            );
           } else
             selection = {
               context: this.context(p),
@@ -827,6 +898,12 @@ export class ResearchService {
       deadline: number;
     };
     let result: ResearchModelSelection | undefined;
+    let selectionFailure:
+      | "timeout"
+      | "interrupted"
+      | "invalid_output"
+      | "provider_error"
+      | undefined;
     try {
       const candidate = await this.deps.select!(
         context,
@@ -840,8 +917,8 @@ export class ResearchService {
         context,
       );
       result = candidate;
-    } catch {
-      /* No provider content or secret-bearing error is logged. */
+    } catch (error) {
+      selectionFailure = classifyAttemptError(error);
     }
     return this.store.transaction((db) => {
       const p = this.requireParticipant(db, token);
@@ -853,6 +930,13 @@ export class ResearchService {
         result
       ) {
         q.selectionStatus = "success";
+        q.selectionOutcome = "success";
+        q.selectionElapsedMs = Math.max(
+          0,
+          this.now() - Date.parse(q.selectionStartedAt ?? iso(this.now())),
+        );
+        q.selectionModelId = result.modelId;
+        q.selectionUsage = result.usage;
         q.selected = {
           question: researchQuestionCard(context, result.questionId),
           learnerQuote: result.learnerQuote,
@@ -860,11 +944,20 @@ export class ResearchService {
           usage: result.usage,
           receivedAt: iso(this.now()),
         };
-      } else if (q.selectionStatus === "pending") q.selectionStatus = "failed";
+      } else if (q.selectionStatus === "pending") {
+        q.selectionStatus = "failed";
+        q.selectionOutcome = result
+          ? "late"
+          : (selectionFailure ?? "provider_error");
+        q.selectionElapsedMs = Math.max(
+          0,
+          this.now() - Date.parse(q.selectionStartedAt ?? iso(this.now())),
+        );
+      }
       return { session: this.view(p) };
     });
   }
-  async proposal(token: string, input: unknown) {
+  async proposal(token: string, input: unknown, signal?: AbortSignal) {
     exact(input, [
       "version",
       "requestId",
@@ -910,35 +1003,88 @@ export class ResearchService {
         run: input.run as 1 | 2,
         requestId: input.requestId as string,
         status: "reserved" as const,
+        startedAt: iso(this.now()),
       };
       p.proposalAttempts.push(attempt);
       return null;
     });
     if (early?.response) return early.response;
-    if (early || this.config.mode === "synthetic" || !this.deps.propose)
-      throw new ResearchError(
-        503,
-        "AI interpretation is unavailable; use the same manual editor.",
-      );
-    let result;
-    try {
-      result = await this.deps.propose(input.workflow as string);
-    } catch {
+    if (early || this.config.mode === "synthetic" || !this.deps.propose) {
       await this.store.transaction((db) => {
         const p = this.requireParticipant(db, token);
-        p.proposalAttempts.find((a) => a.run === input.run)!.status = "failed";
+        const attempt = p.proposalAttempts.find((a) => a.run === input.run);
+        if (attempt && attempt.status === "reserved") {
+          attempt.status = "failed";
+          attempt.outcome = "unavailable";
+          attempt.elapsedMs = Math.max(
+            0,
+            this.now() - Date.parse(attempt.startedAt),
+          );
+        }
       });
       throw new ResearchError(
         503,
         "AI interpretation is unavailable; use the same manual editor.",
       );
     }
-    await this.store.transaction((db) => {
-      const p = this.requireParticipant(db, token);
+    let result;
+    try {
+      if (signal?.aborted) {
+        const aborted = new Error("Proposal request interrupted");
+        aborted.name = "AbortError";
+        throw aborted;
+      }
+      result = await this.deps.propose(input.workflow as string, signal);
+    } catch (error) {
+      const outcome = classifyAttemptError(error, signal);
+      await this.store.transaction((db) => {
+        const p = this.requireParticipant(db, token, false);
+        const failed = p.proposalAttempts.find((a) => a.run === input.run);
+        if (failed) {
+          failed.status = "failed";
+          failed.outcome = outcome;
+          failed.elapsedMs = Math.max(
+            0,
+            this.now() - Date.parse(failed.startedAt),
+          );
+        }
+      });
+      throw new ResearchError(
+        503,
+        "AI interpretation is unavailable; use the same manual editor.",
+      );
+    }
+    const stale = await this.store.transaction((db) => {
+      const p = this.requireParticipant(db, token, false);
       const a = p.proposalAttempts.find((a) => a.run === input.run)!;
+      a.elapsedMs = Math.max(0, this.now() - Date.parse(a.startedAt));
+      a.modelId =
+        result && typeof result === "object" && "modelId" in result
+          ? String((result as { modelId?: unknown }).modelId ?? "")
+          : null;
+      a.usage =
+        result && typeof result === "object" && "usage" in result
+          ? (result as { usage?: unknown }).usage
+          : null;
+      if (
+        p.withdrawnAt ||
+        this.stage(p) !== "rehearsal" ||
+        (p.checkpoint?.record.runs.length ?? 0) >= Number(input.run)
+      ) {
+        a.status = "failed";
+        a.outcome = "late";
+        return true;
+      }
       a.status = "complete";
+      a.outcome = "success";
       a.response = result;
+      return false;
     });
+    if (stale)
+      throw new ResearchError(
+        409,
+        "This workflow version has already moved past its proposal window.",
+      );
     return result;
   }
   async withdraw(token: string, input: unknown) {
@@ -949,7 +1095,7 @@ export class ResearchService {
         "Explicitly request withdrawal and deletion.",
       );
     return this.store.transaction((db) => {
-      const p = this.requireParticipant(db, token, false);
+      const p = this.requireParticipant(db, token, false, true);
       requestId(input.requestId);
       p.withdrawnAt = p.withdrawnAt ?? iso(this.now());
       p.responses = {};
@@ -972,12 +1118,46 @@ export class ResearchService {
         403,
         "Unmasked analysis export is held until the reviewed grading-release date.",
       );
+    if (scope === "scoring" && this.config.manifest.assessment) {
+      const closed =
+        this.config.manifest.scoringReleasedAt ??
+        this.config.manifest.studyEndsAt;
+      if (!closed || this.now() < Date.parse(closed))
+        throw new ResearchError(
+          403,
+          "Scoring export is held until the reviewed collection-close time.",
+        );
+    }
     return this.store.transaction((db) => {
-      const records = db.participants.filter(
-        (p) =>
-          p.studyId === this.config.manifest.studyId &&
-          !p.withdrawnAt &&
-          this.now() < Date.parse(p.retentionUntil),
+      const enrolled = db.participants.filter(
+        (p) => p.studyId === this.config.manifest.studyId,
+      );
+      const flow = {
+        enrolled_n: enrolled.length,
+        started_n: enrolled.filter((p) => p.startedAt).length,
+        withdrawn_n: enrolled.filter((p) => p.withdrawnAt).length,
+        expired_n: enrolled.filter(
+          (p) => !p.withdrawnAt && this.now() >= Date.parse(p.retentionUntil),
+        ).length,
+        withdrawnByArm: enrolled
+          .filter((p) => p.withdrawnAt)
+          .reduce<Record<string, number>>((counts, p) => {
+            const arm = p.assignedCondition ?? "unassigned";
+            counts[arm] = (counts[arm] ?? 0) + 1;
+            return counts;
+          }, {}),
+        withdrawnByFormOrder: enrolled
+          .filter((p) => p.withdrawnAt)
+          .reduce<Record<string, number>>((counts, p) => {
+            const order = p.assessment
+              ? p.assessment.order.join("")
+              : "unassigned";
+            counts[order] = (counts[order] ?? 0) + 1;
+            return counts;
+          }, {}),
+      };
+      const records = enrolled.filter(
+        (p) => !p.withdrawnAt && this.now() < Date.parse(p.retentionUntil),
       );
       if (records.some((p) => p.fingerprint !== this.config.fingerprint))
         throw new ResearchError(
@@ -999,6 +1179,7 @@ export class ResearchService {
         frozenArtifacts: this.config.manifest.freeze ?? null,
         mode: this.config.mode,
         scope,
+        flow,
         exportedAt: iso(this.now()),
         participants: records.map((p) =>
           scope === "scoring"
@@ -1024,6 +1205,11 @@ export class ResearchService {
                 participantId: p.participantId,
                 status: this.stage(p),
                 assignedCondition: p.assignedCondition,
+                ...(p.accommodationTimeMultiplier
+                  ? {
+                      accommodationTimeMultiplier: p.accommodationTimeMultiplier,
+                    }
+                  : {}),
                 ...(p.assessment ? { assessment: p.assessment } : {}),
                 createdAt: p.createdAt,
                 startedAt: p.startedAt,
@@ -1032,9 +1218,14 @@ export class ResearchService {
                 checkpoint: p.checkpoint,
                 question: p.question,
                 observations: p.observations,
-                proposalAttempts: p.proposalAttempts.map(({ run, status }) => ({
-                  run,
-                  status,
+                proposalAttempts: p.proposalAttempts.map((attempt) => ({
+                  run: attempt.run,
+                  status: attempt.status,
+                  startedAt: attempt.startedAt,
+                  elapsedMs: attempt.elapsedMs ?? null,
+                  outcome: attempt.outcome ?? null,
+                  modelId: attempt.modelId ?? null,
+                  usage: attempt.usage ?? null,
                 })),
               },
         ),
@@ -1141,7 +1332,7 @@ export class ResearchService {
       if (!p || p.withdrawnAt || this.now() >= Date.parse(p.retentionUntil))
         throw new ResearchError(404, "No active session found.");
       p.tokenHash = hash(token);
-      return { participantToken: token, session: this.view(p) };
+      return { participantToken: token, session: this.view(p, false) };
     });
   }
 }
