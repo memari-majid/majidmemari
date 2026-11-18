@@ -4,6 +4,8 @@ import { PROJECTS } from "@/lib/projects";
 
 export const INDEXABLE_PATHS = [
   "/",
+  "/teaching",
+  "/teaching/ai-in-business-analytics",
   "/about",
   "/projects",
   ...PROJECTS.map(({ slug }) => `/projects/${slug}`),

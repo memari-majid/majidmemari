@@ -2,21 +2,22 @@
 
 Personal website for **Majid Memari**, presenting his independent AI courses, practical workshops, mentorship and professional background. The canonical public address is [www.majidmemari.com](https://www.majidmemari.com).
 
-The site uses Next.js 15 App Router, React 19, TypeScript, Tailwind CSS 4 and Vercel AI SDK 6. Its current presentation uses a light background, dark typography and teal/blue accents. Building AI Solutions is the featured course. Public course identity does not depend on a university affiliation or historical course number. Exact dependency versions are recorded in the lockfile.
+The site uses Next.js 15 App Router, React 19, TypeScript, Tailwind CSS 4 and Vercel AI SDK 6. Its current presentation uses a light background, dark typography and teal/blue accents. AI Solution Studio is the featured course. Public course identity does not depend on a university affiliation or historical course number. Exact dependency versions are recorded in the lockfile.
 
 ## Main experiences
 
 | Path | Purpose |
 | --- | --- |
-| `/` | Courses, workshops, mentorship and contact |
-| `/#teaching` | Courses and workshops in the homepage overview (`/teaching` redirects here) |
-| `/teaching/ai-solutions/index.html` | Complete Building AI Solutions course |
+| `/` | Introduction and site navigation |
+| `/teaching` | Courses, the analytics field reference, and workshops |
+| `/teaching/ai-in-business-analytics` | Public AI in Business Analytics field reference and reader |
+| `/teaching/ai-solutions/index.html` | Complete AI Solution Studio course |
 | `/teaching/ai-solutions/assistant` | Course AI teaching assistant |
 | `/teaching/agentic-llm` | Separate NVIDIA DLI workshop and workshop assistant |
-| `/about` | Professional background |
-| `/publications` | Publications and research links |
+| `/about` | Professional background, mentorship, and collaboration |
+| `/projects` | Research, projects, and publications |
 
-The floating website assistant is a brief navigation/profile guide. The course assistant helps learners reason about Building AI Solutions. The workshop assistant uses separate notes and prerequisites. Their prompts and endpoints are distinct.
+The floating website assistant is a brief navigation/profile guide. The course assistant helps learners reason about AI Solution Studio. The workshop assistant uses separate notes and prerequisites. Their prompts and endpoints are distinct.
 
 ## Development
 
@@ -32,9 +33,21 @@ Open `http://localhost:3000`. Public pages and the static course work without AI
 
 `npm run build` regenerates the course knowledge base through `prebuild`, then builds Next.js. `npm run start` serves the production build. `npm run vercel-build` uses the same build path.
 
+## Business analytics field reference
+
+The [public source repository](https://github.com/memari-majid/business-ai-analytics) owns the Markdown. The personal website bundles a verified snapshot so readers can open the published guides without leaving Teaching or requiring GitHub at request time. The reference shows its source revision and links lab files to that commit.
+
+After publishing updates to the source repository, refresh its local main checkout and run:
+
+```sh
+node scripts/sync-business-analytics.mjs /absolute/path/to/business-ai-analytics
+```
+
+Review and commit the refreshed snapshot in `content/business-analytics/`. The sync reads tracked public Markdown from the verified main commit.
+
 ## Course source and synchronization
 
-Building AI Solutions is owned, created and taught by Majid Memari. Learners work from a partner or classroom-client need through discovery, a usable AI-assisted solution, a controlled pilot, evaluation, pitching, sales or internal adoption, and handoff. No student programming is required. Twelve units follow Learn → Try → Build → Finish, with one capstone and five milestones. Business cases, numerical tables, figures, and decision simulations are integrated into the lessons.
+AI Solution Studio is owned, created and taught by Majid Memari. Learners work from a partner or classroom-client need through discovery, a usable AI-assisted solution, a controlled pilot, evaluation, pitching, sales or internal adoption, and handoff. No student programming is required. Twelve units follow Learn → Try → Build → Finish, with one capstone and five milestones. Business cases, numerical tables, figures, and decision simulations are integrated into the lessons.
 
 The curriculum is maintained in the sibling course repository. Start with the [course source and review guide](docs/ai-solutions/README.md) to locate the active source, design plan, review brief, and live pages. This site tracks only the course’s **public built output** in `public/teaching/ai-solutions/`. It does not deploy private instructor guides, partner records or learning-platform administration files.
 
@@ -50,7 +63,7 @@ node --test scripts/test-course-kb.mjs
 npm run build
 ```
 
-The historical source directory is repository organization, not public branding. The sync validates public file types, rejects hidden files and symlinks, replaces only the course's public directory, records checksums in `content/ai-solutions-release.json`, and regenerates the assistant knowledge base. Hosted HTML uses a same-origin assistant path; the portable ZIP retains its absolute online assistant link.
+The sync validates public file types, rejects hidden files and symlinks, replaces only the course's public directory, records checksums in `content/ai-solutions-release.json`, and regenerates the assistant knowledge base. It publishes the display title **AI Solution Studio** in the course pages and portable download. The existing `/teaching/ai-solutions/` URLs and workbook storage keys carry forward. Hosted HTML uses a same-origin assistant path. The ZIP retains its absolute online assistant link.
 
 Commit the synchronized public output, checksum manifest and generated knowledge base together. Make lasting curriculum changes in the maintained course source, then synchronize again.
 
@@ -93,7 +106,7 @@ The course model precedence is `COURSE_TA_MODEL` → `WORKSHOP_TA_MODEL` → `an
 
 Course requests are bounded to 16 messages, 4,000 characters per user message, 8,000 per assistant message, 20,000 total text characters and 48 KiB JSON. Generation is capped at 3,000 output tokens and 50 seconds while the teaching prompt requests concise answers. Native finish-reason metadata and interruption callbacks show a visible notice when an answer reaches its length limit or does not finish normally. Best-effort per-process controls allow eight requests per client hint per ten minutes, 120 total per ten minutes and four concurrent generations. **Cold starts and parallel instances have separate counters: these are not a distributed quota or hard spending ceiling.** Use Gateway/platform budget controls when deployment-wide limits are needed. A shared code is an optional gate, not individual authentication; the UI keeps it only in memory.
 
-Contact links open one native inquiry dialog directly: `/?inquiry=general`, `/?inquiry=mentorship`, `/?inquiry=workshop`, or `/?inquiry=research`. Topic links prefill the message; opening the dialog never sends it. The website chatbot links to the same form. `GET /api/contact` reports delivery availability without exposing addresses. All three delivery variables are required. If unavailable, the form reports it and offers LinkedIn; there is no log-only success or public email fallback. Only a provider-accepted response returns success. AI chat itself does not send an inquiry.
+Contact links open one native inquiry dialog on the current page. The original `/?inquiry=…` links also work. Topic links prefill the message; opening the dialog never sends it. The website chatbot links to the same form. `GET /api/contact` reports delivery availability without exposing addresses. All three delivery variables are required. If unavailable, the form reports it and offers LinkedIn; there is no log-only success or public email fallback. Only a provider-accepted response returns success. AI chat itself does not send an inquiry.
 
 ## Validation
 

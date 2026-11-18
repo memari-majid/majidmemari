@@ -1,4 +1,4 @@
-# Building AI Solutions AI Learning Companion
+# AI Learning Companion for AI Solution Studio
 
 The Learning Companion supports exploration, practice and reflection. It follows the existing workshop retrieval architecture: local public course chunks → deterministic lexical retrieval → server teaching prompt → AI SDK/Gateway stream. It has no web browsing, external actions, private records, learner-workbook access, vector database or embedding service. Start with the [course source and review guide](../../docs/ai-solutions/README.md) for the relationship between editable curriculum, public output, and the live course.
 

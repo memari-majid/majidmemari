@@ -51,7 +51,7 @@ export const emptyLearningRecord = (a?: ActivityIdentity): LearningRecord => ({ 
 export function learningActivity(page: string): LearningActivity | undefined { return LEARNING_ACTIVITIES.find(activity => activity.page === page); }
 /** Old work is copied as text, never mapped onto a replacement scenario. */
 export function previousLearningExport(unit: number, saved: PreviousLearningData): string {
-  return [`Building AI Solutions — Unit ${unit}: previous activity ${saved.kind} (revision ${saved.activityRevision})`,
+  return [`AI Solution Studio — Unit ${unit}: previous activity ${saved.kind} (revision ${saved.activityRevision})`,
     'Preserved original data from an earlier activity. Choice and evidence indexes belong to that earlier activity. This is not a current attempt, a grade or a submission.', saved.raw].join('\n\n');
 }
 function isPristinePreviousRecord(raw: string): boolean {
@@ -137,7 +137,7 @@ function restoreActivityRecord(raw: string | null, a: LearningActivity): Learnin
 }
 export function learningSummary(a: LearningActivity, r: LearningRecord): string {
   requireDecisionLab(a);
-  return [`Building AI Solutions — Unit ${a.unit} decision lab: ${a.title}`, 'Fictional teaching scenario. Self-reported practice; not a grade or a submission.', `Initial choice: ${a.choices.find(c => c.id === r.choice)?.label ?? 'Not recorded'}`, `Initial reason: ${r.attempt || 'Not recorded'}`, `Revision: ${r.revision || 'Not recorded'}`, `Project action: ${r.transfer || 'Not recorded'}`, `Practice record: ${r.complete ? 'reasoning cycle recorded' : 'in progress'}`, 'Check the reasoning and add relevant work to your existing project update.'].join('\n\n');
+  return [`AI Solution Studio — Unit ${a.unit} decision lab: ${a.title}`, 'Fictional teaching scenario. Self-reported practice; not a grade or a submission.', `Initial choice: ${a.choices.find(c => c.id === r.choice)?.label ?? 'Not recorded'}`, `Initial reason: ${r.attempt || 'Not recorded'}`, `Revision: ${r.revision || 'Not recorded'}`, `Project action: ${r.transfer || 'Not recorded'}`, `Practice record: ${r.complete ? 'reasoning cycle recorded' : 'in progress'}`, 'Check the reasoning and add relevant work to your existing project update.'].join('\n\n');
 }
 /** The coach receives only the activity facts available at the current step.
  * Worked routes remain public in the course, but must not silently enter an

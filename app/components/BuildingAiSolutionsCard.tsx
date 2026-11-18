@@ -16,7 +16,7 @@ export function BuildingAiSolutionsCard({
         <div className="py-1">
           <p className="text-xs font-semibold uppercase tracking-widest text-teal-800">Featured course · designed by Majid Memari</p>
           <Heading id="building-ai-solutions-heading" className="mt-4 font-serif text-3xl font-semibold tracking-tight text-slate-900 sm:text-4xl">
-            Building AI Solutions
+            AI Solution Studio
           </Heading>
           <p className="mt-5 max-w-xl text-lg leading-relaxed text-slate-700">
             Learn by exploring, deciding and building.

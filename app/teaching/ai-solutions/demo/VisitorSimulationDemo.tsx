@@ -96,10 +96,10 @@ export function VisitorSimulationDemo() {
 
   return (
     <div className="min-w-0">
-      <Link href="/#teaching" className="inline-flex min-h-11 items-center text-sm font-semibold text-teal-800 underline underline-offset-4">← Teaching</Link>
+      <Link href="/teaching" className="inline-flex min-h-11 items-center text-sm font-semibold text-teal-800 underline underline-offset-4">← Teaching</Link>
       <div className="mt-7 grid gap-8 lg:grid-cols-[minmax(0,1.25fr)_minmax(270px,.75fr)] lg:items-end">
         <div>
-          <p className="text-xs font-bold uppercase tracking-[0.2em] text-teal-800">Building AI Solutions · Interactive preview</p>
+          <p className="text-xs font-bold uppercase tracking-[0.2em] text-teal-800">AI Solution Studio · Interactive preview</p>
           <h1 className="mt-4 max-w-3xl font-serif text-4xl font-semibold leading-tight text-slate-950 sm:text-5xl">A small AI workflow. Real decisions to make.</h1>
           <p className="mt-5 max-w-2xl text-lg leading-8 text-slate-700">You are designing a reply process for Cedar Desk. Run it on two requests, repair what goes wrong, and test a request the workflow has not seen.</p>
           <p className="mt-4 max-w-2xl text-sm leading-6 text-slate-600">About 3 minutes · No account or coding · All requests, policies, and reactions are fictional teaching material.</p>

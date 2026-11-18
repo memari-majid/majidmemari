@@ -71,6 +71,14 @@ export default function AboutPage() {
             </div>
           </div>
         </section>
+        <section id="mentorship" aria-labelledby="mentorship-heading" className="mt-10 border-t border-slate-200 pt-8">
+          <h2 id="mentorship-heading" className="text-xl font-semibold">Mentorship &amp; collaboration</h2>
+          <p className="mt-4 max-w-2xl leading-relaxed text-slate-600">Support for learners and teams developing an AI idea, capstone, or applied project. Clarify the problem, evaluate the work, and plan the next step.</p>
+          <div className="mt-3 flex flex-wrap gap-x-6 gap-y-2 text-sm">
+            <Link href="/about?inquiry=mentorship" scroll={false} className={`inline-flex min-h-11 items-center ${linkClass}`}>Ask about mentorship →</Link>
+            <Link href="/about?inquiry=general" scroll={false} className={`inline-flex min-h-11 items-center ${linkClass}`}>Discuss a collaboration →</Link>
+          </div>
+        </section>
         <section aria-labelledby="connect-heading" className="mt-10">
           <h2 id="connect-heading" className="text-xl font-semibold">Connect &amp; explore</h2>
           <div className="mt-4 flex flex-wrap gap-x-6 gap-y-4 text-sm">
@@ -79,9 +87,6 @@ export default function AboutPage() {
             <a className={linkClass} href={SITE.scholar} rel="me">Google Scholar</a>
             <a className={linkClass} href={MAJID.orcid} rel="me">ORCID</a>
           </div>
-          <p className="mt-7 text-sm text-slate-600">
-            To discuss a course, workshop, or project, <Link className={linkClass} href="/?inquiry=general">get in touch</Link>.
-          </p>
         </section>
       </main>
       <ChatWidget />

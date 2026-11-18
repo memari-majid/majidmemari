@@ -8,7 +8,7 @@ import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
 
 const QUICK_PROMPTS = [
-  "Who is Building AI Solutions for?",
+  "Who is AI Solution Studio for?",
   "Tell me about the AI workshops",
   "How can I ask about mentorship?",
 ];

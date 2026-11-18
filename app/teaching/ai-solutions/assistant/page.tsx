@@ -5,7 +5,7 @@ import { normalizeCoursePage } from "@/lib/course-kb/context";
 import { CourseAssistant } from "./CourseAssistant";
 
 export const metadata: Metadata = {
-  title: "Building AI Solutions — AI Learning Companion",
+  title: "AI Solution Studio — AI Learning Companion",
   description: "Explore ideas, practice decisions and reflect with an AI Learning Companion grounded in the course materials. Work through decision labs, a workflow rehearsal and your own project reasoning.",
   alternates: { canonical: "/teaching/ai-solutions/assistant" },
   robots: { index: false, follow: true },

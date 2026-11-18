@@ -1,17 +1,26 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
 const NAV_ITEMS = [
-  { label: "Teaching", href: "/#teaching" },
+  { label: "Teaching", href: "/teaching" },
   { label: "Research", href: "/projects" },
   { label: "About", href: "/about" },
 ];
 
 export function NavBar() {
+  const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
   const menuButton = useRef<HTMLButtonElement>(null);
+  const contactHref = { pathname, query: { inquiry: "general" } };
+
+  function currentSection(href: string) {
+    if (pathname === href) return "page";
+    if (pathname.startsWith(`${href}/`)) return "location";
+    return undefined;
+  }
 
   useEffect(() => {
     if (!menuOpen) return;
@@ -34,11 +43,11 @@ export function NavBar() {
         </Link>
         <div className="hidden items-center gap-7 lg:flex">
           {NAV_ITEMS.map((item) => (
-            <Link key={item.href} href={item.href} className="inline-flex min-h-11 items-center text-sm font-medium text-slate-600 transition hover:text-teal-800">
+            <Link key={item.href} href={item.href} aria-current={currentSection(item.href)} className="inline-flex min-h-11 items-center text-sm font-medium text-slate-600 transition hover:text-teal-800 aria-[current]:text-teal-800">
               {item.label}
             </Link>
           ))}
-          <Link href="/?inquiry=general" className="inline-flex min-h-11 items-center rounded-xl bg-slate-900 px-5 text-sm font-semibold text-white transition hover:bg-slate-950">Contact</Link>
+          <Link href={contactHref} scroll={false} className="inline-flex min-h-11 items-center rounded-xl bg-slate-900 px-5 text-sm font-semibold text-white transition hover:bg-slate-950">Contact</Link>
         </div>
         <button
           ref={menuButton}
@@ -57,11 +66,11 @@ export function NavBar() {
       {menuOpen ? (
         <nav id="mobile-navigation" aria-label="Mobile navigation" className="max-h-[70dvh] overflow-y-auto border-t border-slate-200 bg-[#f7f6f2] px-5 pb-[max(1rem,env(safe-area-inset-bottom))] pt-2 lg:hidden">
           {NAV_ITEMS.map((item) => (
-            <Link key={item.href} href={item.href} onClick={() => setMenuOpen(false)} className="flex min-h-12 items-center text-sm font-medium text-slate-700 hover:text-teal-800">
+            <Link key={item.href} href={item.href} aria-current={currentSection(item.href)} onClick={() => setMenuOpen(false)} className="flex min-h-12 items-center text-sm font-medium text-slate-700 hover:text-teal-800 aria-[current]:text-teal-800">
               {item.label}
             </Link>
           ))}
-          <Link href="/?inquiry=general" onClick={() => setMenuOpen(false)} className="mt-2 flex min-h-12 items-center justify-center rounded-xl bg-slate-900 px-5 text-sm font-semibold text-white">Contact</Link>
+          <Link href={contactHref} scroll={false} onClick={() => setMenuOpen(false)} className="mt-2 flex min-h-12 items-center justify-center rounded-xl bg-slate-900 px-5 text-sm font-semibold text-white">Contact</Link>
         </nav>
       ) : null}
     </header>

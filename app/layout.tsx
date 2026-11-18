@@ -19,7 +19,7 @@ export const metadata: Metadata = {
     "Majid Memari",
     "Majid MJ Memari",
     "Dr. Majid Memari",
-    "Building AI Solutions",
+    "AI Solution Studio",
     "AI education",
     "AI workshops",
     "AI mentorship",

@@ -48,7 +48,7 @@ export const PROJECTS: readonly Project[] = [
     keywords: ["AI literacy", "Project-based learning", "AI evaluation"],
     kind: "Interactive course",
     group: "learning",
-    name: "Building AI Solutions",
+    name: "AI Solution Studio",
     category: "Learning & problem-solving",
     summary: "Build useful AI solutions through interactive simulations, moving figures and an AI Learning Companion. Open to any discipline, with no prerequisites or coding required.",
     purpose: "Help learners from any discipline identify a useful problem, create a usable AI solution, and evaluate it with evidence and numbers. No prerequisites are required.",
@@ -289,7 +289,6 @@ export const PROJECTS: readonly Project[] = [
   },
 ];
 
-export const FEATURED_PROJECT_SLUGS = ["datagovai", "ai-classsims", "carewise"];
 
 export function getProject(slug: string) {
   return PROJECTS.find((project) => project.slug === slug);

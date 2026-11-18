@@ -65,7 +65,7 @@
  }
  function markdown(state){
   const s=normalize(state);
-  return '# Building AI Solutions — project record\n\nCourse by Majid Memari. Personal study notes, not submitted work or grades.\n\n## Study progress\n\n'+(s.completed.map(n=>'Unit '+n).join(', ')||'No units marked complete.')+'\n\n'+Object.entries(s.notes).filter(([,v])=>v.trim()).map(([k,v])=>'## '+k+'\n\n'+v+'\n').join('\n')+'\n## Preparation checklist\n\n'+Object.entries(s.checks).filter(([,v])=>v).map(([k])=>'- [x] '+k).join('\n');
+  return '# AI Solution Studio — project record\n\nCourse by Majid Memari. Personal study notes, not submitted work or grades.\n\n## Study progress\n\n'+(s.completed.map(n=>'Unit '+n).join(', ')||'No units marked complete.')+'\n\n'+Object.entries(s.notes).filter(([,v])=>v.trim()).map(([k,v])=>'## '+k+'\n\n'+v+'\n').join('\n')+'\n## Preparation checklist\n\n'+Object.entries(s.checks).filter(([,v])=>v).map(([k])=>'- [x] '+k).join('\n');
  }
  const api={LIMITS,normalize,assertSavable,legacy,pack,unpack,updateNote,merge,markdown};
  if(typeof module!=='undefined'&&module.exports)module.exports=api;else root.CourseWorkbook=api;

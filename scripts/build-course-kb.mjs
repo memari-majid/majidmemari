@@ -22,7 +22,7 @@ const voids = new Set(["br", "hr", "img", "input", "meta", "link", "source", "wb
 // The input is our generated static HTML, not arbitrary fetched documents. Preserve
 // main headings, paragraphs, row/cell boundaries and rubrics; omit navigation and notes UI.
 export function extractSections(html) {
-  const title = clean((html.match(/<title>([\s\S]*?)<\/title>/i)?.[1] ?? "Course").replace(/ · Building AI Solutions$/, ""));
+  const title = clean((html.match(/<title>([\s\S]*?)<\/title>/i)?.[1] ?? "Course").replace(/ · (?:AI Solution Studio|Building AI Solutions)$/, ""));
   const stack = []; const sections = []; let current = { heading: "Overview", anchor: "main", text: "" }; let heading = false;
   const flush = () => { const body = clean(current.text); if (body) sections.push({ ...current, body }); };
   for (const token of html.match(/<!--[\s\S]*?-->|<[^>]+>|[^<]+/g) ?? []) {

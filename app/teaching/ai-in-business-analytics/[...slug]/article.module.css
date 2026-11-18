@@ -1,0 +1,152 @@
+.article {
+  color: var(--color-slate-700);
+  font-size: 1rem;
+  line-height: 1.75;
+}
+
+.article > :first-child {
+  margin-top: 0;
+}
+
+.article :global(h2),
+.article :global(h3),
+.article :global(h4),
+.article :global(h5),
+.article :global(h6) {
+  color: var(--color-slate-900);
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+.article :global(h2) {
+  margin: 2.5rem 0 0.75rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--color-slate-200);
+  font-size: clamp(1.5rem, 2.5vw, 1.95rem);
+  letter-spacing: -0.02em;
+}
+
+.article :global(h3) {
+  margin: 1.65rem 0 0.65rem;
+  font-size: 1.2rem;
+}
+
+.article :global(h4),
+.article :global(h5),
+.article :global(h6) {
+  margin: 1.35rem 0 0.5rem;
+  font-size: 1.05rem;
+}
+
+.article :global(p),
+.article :global(blockquote) {
+  margin: 0 0 1rem;
+}
+
+.article :global(a) {
+  color: var(--color-teal-800);
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, var(--color-teal-800), transparent 55%);
+  text-underline-offset: 0.19em;
+}
+
+.article :global(a:hover) {
+  text-decoration-color: currentColor;
+}
+
+.article :global(ul),
+.article :global(ol) {
+  margin: 0 0 1.15rem;
+  padding-left: 1.35rem;
+}
+
+.article :global(ul) {
+  list-style: disc;
+}
+
+.article :global(ol) {
+  list-style: decimal;
+}
+
+.article :global(li + li) {
+  margin-top: 0.45rem;
+}
+
+.article :global(li > ul),
+.article :global(li > ol) {
+  margin: 0.35rem 0;
+}
+
+.article :global(blockquote) {
+  padding: 0.35rem 0 0.35rem 1rem;
+  border-inline-start: 3px solid var(--color-teal-800);
+}
+
+.article :global(blockquote > :last-child) {
+  margin-bottom: 0;
+}
+
+.article :global(code) {
+  border-radius: 0.3rem;
+  background: var(--color-slate-100);
+  color: var(--color-slate-950);
+  padding: 0.12em 0.3em;
+  font-size: 0.88em;
+}
+
+.article :global(pre) {
+  margin: 0 0 1.25rem;
+  overflow-x: auto;
+  padding: 1rem;
+  border: 1px solid var(--color-slate-200);
+  border-radius: 0.65rem;
+  background: var(--color-slate-100);
+}
+
+.article :global(pre > code) {
+  padding: 0;
+  background: none;
+}
+
+.tableScroll {
+  margin: 1.3rem 0 1.75rem;
+  overflow-x: auto;
+  border: 1px solid var(--color-slate-200);
+  border-radius: 0.75rem;
+  background: rgb(255 255 255 / 55%);
+}
+
+.tableScroll table {
+  width: 100%;
+  font-size: 0.9rem;
+  line-height: 1.55;
+}
+
+.tableScroll table:has(th:nth-child(3)) {
+  min-width: 35rem;
+}
+
+.tableScroll table:has(th:nth-child(4)) {
+  min-width: 44rem;
+}
+
+.tableScroll :is(th, td) {
+  padding: 0.8rem 0.85rem;
+  border-bottom: 1px solid var(--color-slate-200);
+  vertical-align: top;
+  text-align: start;
+}
+
+.tableScroll th {
+  background: var(--color-slate-100);
+  color: var(--color-slate-900);
+  font-weight: 650;
+}
+
+.tableScroll tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.tableScroll tbody tr:nth-child(even) {
+  background: rgb(237 240 244 / 42%);
+}

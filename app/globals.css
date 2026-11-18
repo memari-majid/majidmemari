@@ -2,7 +2,7 @@
 
 @custom-variant dark (&:where(.dark, .dark *));
 
-/* Shared editorial palette with the portable Building AI Solutions course. */
+/* Shared editorial palette with the portable AI Solution Studio course. */
 @theme {
   --color-zinc-50: #f7f6f2;
   --color-zinc-100: #edf0f4;

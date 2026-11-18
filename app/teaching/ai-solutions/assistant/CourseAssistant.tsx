@@ -165,7 +165,7 @@ function CourseConversation({ embedded = false, lesson = "", canvasDelivery = fa
   return (
     <section aria-label="Conversation with the AI Learning Companion" className={embedded ? "course-assistant-embedded px-4 py-5" : "mx-auto max-w-3xl px-5 py-10"}>
 
-      {!embedded && <header className="mb-8 border-b border-slate-200 pb-6"><a href="/teaching/ai-solutions/index.html" className="text-sm font-semibold text-teal-800">← Building AI Solutions · Majid Memari</a><h1 className="mt-5 font-serif text-4xl">Your AI Learning Companion.</h1><p className="mt-3 text-slate-600">Explore ideas, practice and reflect using the course materials. Open it from any lesson to keep your place.</p></header>}
+      {!embedded && <header className="mb-8 border-b border-slate-200 pb-6"><a href="/teaching/ai-solutions/index.html" className="text-sm font-semibold text-teal-800">← AI Solution Studio · Majid Memari</a><h1 className="mt-5 font-serif text-4xl">Your AI Learning Companion.</h1><p className="mt-3 text-slate-600">Explore ideas, practice and reflect using the course materials. Open it from any lesson to keep your place.</p></header>}
       {currentLesson && <p className="mb-4 text-xs font-medium text-teal-800">Helping with {coursePageLabel(currentLesson)}</p>}
       {canvasDelivery && <p className="mb-4 rounded-lg bg-teal-50 p-3 text-xs leading-relaxed text-teal-900">Stay in Canvas while you study. Source titles below identify the material used; explore a source with the Learning Companion here. Submit your check-in and review instructor feedback in Canvas.</p>}
       <div>
@@ -232,7 +232,7 @@ export function CourseAssistant({ embedded = false, lesson = "", canvasDelivery 
   const reflectionContext = { unit: activity.unit, page: activity.page, activityRevision: activity.activityRevision ?? 1, activityMode: isShiftRunActivity(activity) ? 'shift-run' as const : 'decision-lab' as const };
   return <main id="main-content" className={embedded ? 'px-3 py-4 sm:px-5' : 'mx-auto max-w-3xl px-4 py-8 sm:px-6'}>
     <header className="mb-5">
-      {!embedded && <a href="/teaching/ai-solutions/index.html" className="text-sm font-semibold text-teal-800">← Building AI Solutions · Majid Memari</a>}
+      {!embedded && <a href="/teaching/ai-solutions/index.html" className="text-sm font-semibold text-teal-800">← AI Solution Studio · Majid Memari</a>}
       <h1 className={embedded ? 'font-serif text-xl' : 'mt-5 font-serif text-3xl sm:text-4xl'}>AI Learning Companion</h1>
       <p className="mt-2 text-sm leading-6 text-slate-600">{isShiftRunActivity(activity) ? "Write a workflow, follow its simulated consequences, revise once, then try the same process on a new request." : "Decide, investigate, revise, apply. Explore ideas, practice and reflect with your Learning Companion as you work through each unit."}</p>
     </header>

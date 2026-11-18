@@ -4,7 +4,7 @@ import { NavBar } from '@/app/components/NavBar';
 import { VisitorSimulationDemo } from './VisitorSimulationDemo';
 
 export const metadata: Metadata = {
-  title: 'Try the AI Workflow Simulation — Building AI Solutions',
+  title: 'Try the AI Workflow Simulation — AI Solution Studio',
   description: 'Try a short, fictional AI workflow simulation. Compare a first attempt with a revised approach, inspect policy evidence, and see what changes when a new request arrives.',
   alternates: { canonical: '/teaching/ai-solutions/demo' },
 };
