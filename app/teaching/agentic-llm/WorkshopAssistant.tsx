@@ -2,6 +2,7 @@
 
 import { useChat } from "@ai-sdk/react";
 import { DefaultChatTransport } from "ai";
+import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
 import ReactMarkdown, { type Components } from "react-markdown";
 
@@ -192,20 +193,16 @@ export function WorkshopAssistant() {
   }
 
   return (
-    <main className="mx-auto flex min-h-0 w-full max-w-3xl flex-1 flex-col px-4 pt-[calc(6rem+env(safe-area-inset-top))] sm:px-6">
+    <main id="main-content" className="mx-auto flex min-h-0 w-full max-w-3xl flex-1 flex-col px-5 pt-[calc(6rem+env(safe-area-inset-top))] sm:px-8">
       <header className="shrink-0 border-b border-slate-200 pb-3">
-        <p className="text-xs font-medium uppercase tracking-[0.2em] text-slate-600">Workshop</p>
-        <h1 className="mt-2 text-2xl font-serif font-semibold tracking-tight text-slate-900 sm:text-3xl">
+        <h1 className="text-2xl font-serif font-semibold tracking-tight text-slate-900 sm:text-3xl">
           Building Agentic AI Applications with LLMs
         </h1>
-        <p className="mt-2 text-sm text-slate-600">
-          AI Workshop Companion for the NVIDIA DLI live lab (Dr. Majid Memari)
-        </p>
-        <p className="mt-2 text-xs leading-relaxed text-slate-600">
-          This assistant follows the current notebooks (1_basic_chat through 4t_assessment), not the old
-          archive names.
-        </p>
-        <form onSubmit={onCodeSubmit} className="mt-3 flex flex-col gap-2 sm:flex-row sm:items-end">
+        <div className="mt-1 flex flex-wrap items-center justify-between gap-x-4 text-sm">
+          <p className="leading-relaxed text-slate-600">NVIDIA DLI workshop companion with Dr. Majid Memari</p>
+          <Link href="/teaching/agentic-llm?inquiry=workshop" scroll={false} className="inline-flex min-h-11 items-center font-medium text-teal-800 underline decoration-teal-800/30 underline-offset-4 hover:decoration-teal-800">Discuss a workshop</Link>
+        </div>
+        <form onSubmit={onCodeSubmit} className="mt-1 flex flex-col gap-2 sm:flex-row sm:items-end">
           <div className="min-w-0 flex-1">
             <label htmlFor="workshop-code" className="text-xs font-medium text-slate-600">
               Workshop code

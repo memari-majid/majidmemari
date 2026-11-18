@@ -17,8 +17,10 @@ const allowed = new Set([".html", ".css", ".js", ".mjs", ".svg", ".txt", ".zip",
 const sourceTitle = "Building AI Solutions";
 const publicTitle = "AI Solution Studio";
 const titleReplacements = [[sourceTitle, publicTitle], [sourceTitle.toUpperCase(), publicTitle.toUpperCase()]];
+const htmlTitleReplacements = [...titleReplacements, ["Building<br>AI Solutions", "AI Solution<br>Studio"]];
 const assistantUrl = "https://www.majidmemari.com/teaching/ai-solutions/assistant";
 const assistantPath = "/teaching/ai-solutions/assistant";
+const hostedDemoLink = '<a class="button secondary" href="/teaching/ai-solutions/demo">Try the 3-minute simulation</a>';
 const portableArchive = "downloads/course-site.zip";
 const exportAssets = ["assets/practice.js", "assets/workbook.js"];
 const hash = (bytes) => createHash("sha256").update(bytes).digest("hex");
@@ -52,7 +54,7 @@ for (const full of files.sort()) {
   const original = await readFile(full);
   originals.set(path, original);
   portableFiles.set(path, displaysTitle(path)
-    ? Buffer.from(replaceText(original.toString("utf8"), titleReplacements))
+    ? Buffer.from(replaceText(original.toString("utf8"), extname(path) === ".html" ? htmlTitleReplacements : titleReplacements))
     : original);
 }
 
@@ -70,7 +72,7 @@ for (const [path, bytes] of portableFiles) {
 // Keep the existing portable package structure and links while refreshing the
 // same display text and asset versions. Python is also used for the source build.
 const replacements = Object.fromEntries([...originals.keys()].filter(displaysTitle).map(
-  (path) => [path, extname(path) === ".html" ? [...titleReplacements, ...assetVersions] : titleReplacements],
+  (path) => [path, extname(path) === ".html" ? [...htmlTitleReplacements, ...assetVersions] : titleReplacements],
 ));
 const archiveBytes = execFileSync("python3", ["-c", `
 from io import BytesIO
@@ -102,10 +104,18 @@ const hostedFiles = new Map();
 for (const [path, portableBytes] of portableFiles) {
   // Keep the portable archive's absolute online link, but use this deployment
   // for course pages so previews and production share the same assistant.
-  const bytes = extname(path) === ".html"
-    ? Buffer.from(portableBytes.toString("utf8").replaceAll(assistantUrl, assistantPath))
-    : portableBytes;
-  hostedFiles.set(path, bytes);
+  if (extname(path) !== ".html") {
+    hostedFiles.set(path, portableBytes);
+    continue;
+  }
+  let html = portableBytes.toString("utf8").replaceAll(assistantUrl, assistantPath);
+  if (path === "index.html") {
+    // The standalone simulation is served by Next.js alongside the hosted course.
+    const startLink = /<a\b[^>]*\bdata-resume\b[^>]*>[^<]*<\/a>/;
+    if (!startLink.test(html)) throw new Error("Missing course start link in index.html.");
+    html = html.replace(startLink, (link) => `<div class="button-row">${link}${hostedDemoLink}</div>`);
+  }
+  hostedFiles.set(path, Buffer.from(html));
 }
 
 // Only this course's generated public directory is replaced after validation.

@@ -25,22 +25,25 @@ export function ReferenceNavigation({ current }: { current: string }) {
     <nav aria-label="Reference guides" className="sticky top-27 hidden max-h-[calc(100dvh-8rem)] overflow-y-auto border-r border-slate-200 pr-5 lg:block">
       <Link href={analyticsBasePath} className="mb-5 inline-block text-sm font-semibold text-teal-800 underline decoration-teal-800/40 underline-offset-4 hover:decoration-teal-800">Reference home</Link>
       {guideGroups.map((group) => (
-        <div key={group.title} className="mb-5 last:mb-0">
-          <h2 className="mb-1 font-sans text-sm font-semibold text-slate-900">{group.title}</h2>
-          <ul>
+        <details key={group.title} open={group.guides.some(({ href }) => href === current) ? true : undefined} className="group border-t border-slate-200">
+          <summary className="flex min-h-10 cursor-pointer list-none items-center justify-between gap-2 py-1.5 text-sm font-semibold text-slate-900 hover:text-teal-800 [&::-webkit-details-marker]:hidden">
+            {group.title}
+            <span aria-hidden="true" className="text-teal-800 group-open:rotate-45">+</span>
+          </summary>
+          <ul className="pb-2">
             {group.guides.map((guide) => (
               <li key={guide.href}>
                 <Link
                   href={guide.href}
                   aria-current={guide.href === current ? "page" : undefined}
-                  className="block rounded-md px-2 py-1.5 text-sm leading-snug text-slate-600 transition hover:bg-slate-100 hover:text-teal-800 aria-[current=page]:bg-slate-100 aria-[current=page]:font-semibold aria-[current=page]:text-teal-800"
+                  className="block px-2 py-1.5 text-sm leading-snug text-slate-600 hover:text-teal-800 hover:underline hover:underline-offset-4 aria-[current=page]:font-semibold aria-[current=page]:text-teal-800"
                 >
                   {guide.label}
                 </Link>
               </li>
             ))}
           </ul>
-        </div>
+        </details>
       ))}
     </nav>
   );

@@ -115,8 +115,8 @@
     },
     {
       "path": "downloads/course-site.zip",
-      "bytes": 294065,
-      "sha256": "037b5bb4243e809b9d955a02f55c90a1198a2cd022686a35d383b64671395097"
+      "bytes": 294062,
+      "sha256": "718486fe76e04dd23fb21d583cdb889be5d2929768a2cce515fb6ee5f8b81a7d"
     },
     {
       "path": "downloads/project-record.txt",
@@ -140,8 +140,8 @@
     },
     {
       "path": "index.html",
-      "bytes": 9223,
-      "sha256": "1eaaecc3589f5b0e7f4f7ff2e4e47ec99191da37190a91b2046d0cf6b0d10f44"
+      "bytes": 9344,
+      "sha256": "16afad43657027ed843e22abf7b5ecccdd00ef09bc8e5bcb93a17f7212073f64"
     },
     {
       "path": "instructor.html",

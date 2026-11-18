@@ -17,9 +17,9 @@ export function GuideDirectory({ groups }: { groups: GuideGroup[] }) {
   const count = visibleGroups.reduce((total, { guides }) => total + guides.length, 0);
 
   return (
-    <section id="guides" aria-labelledby="guides-heading" className="mt-12 border-t border-slate-200 pt-8 sm:mt-16 sm:pt-10">
-      <div className="mb-6 flex flex-wrap items-end justify-between gap-x-8 gap-y-4">
-        <h2 id="guides-heading" className="text-3xl font-semibold tracking-tight sm:text-4xl">Browse the reference</h2>
+    <section id="guides" aria-labelledby="guides-heading" className="mt-10 border-t border-slate-200 pt-7 sm:mt-12">
+      <div className="mb-4 flex flex-wrap items-center justify-between gap-x-8 gap-y-3">
+        <h2 id="guides-heading" className="text-2xl font-semibold tracking-tight">Browse the reference</h2>
         <label className="w-full max-w-70 sm:w-64">
           <span className="sr-only">Filter guides by title or topic</span>
           <input
@@ -35,24 +35,27 @@ export function GuideDirectory({ groups }: { groups: GuideGroup[] }) {
         {terms.length > 0 ? count + (count === 1 ? " guide matches" : " guides match") : ""}
       </p>
       {count > 0 ? (
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+        <div className="divide-y divide-slate-200 border-b border-slate-200">
           {visibleGroups.map((group) => (
-            <section key={group.title} className="min-w-0 rounded-2xl border border-slate-200 bg-white/50 p-5 sm:p-6">
-              <h3 className="font-serif text-xl font-semibold tracking-tight">{group.title}</h3>
-              <ul className="mt-3 divide-y divide-slate-200">
+            <details key={group.title} open={terms.length > 0 ? true : undefined} className="group">
+              <summary className="flex min-h-12 cursor-pointer list-none items-center justify-between gap-3 font-medium hover:text-teal-800 [&::-webkit-details-marker]:hidden">
+                {group.title}
+                <span aria-hidden="true" className="shrink-0 text-lg text-teal-800 group-open:rotate-45">+</span>
+              </summary>
+              <ul className="space-y-1 pb-4 pl-3 sm:pl-4">
                 {group.guides.map((guide) => (
                   <li key={guide.href}>
-                    <Link href={guide.href} className="group block rounded-sm py-3 last:pb-2">
-                      <span className="flex items-baseline justify-between gap-3 font-semibold text-teal-800 group-hover:underline group-hover:underline-offset-4">
+                    <Link href={guide.href} className="group/guide block py-2">
+                      <span className="flex items-baseline justify-between gap-3 text-sm font-semibold text-teal-800 group-hover/guide:underline group-hover/guide:underline-offset-4">
                         {guide.label}
                         <span aria-hidden="true" className="shrink-0">→</span>
                       </span>
-                      <span className="mt-1 block text-sm leading-relaxed text-slate-600">{guide.description}</span>
+                      <span className="mt-0.5 block text-sm leading-relaxed text-slate-600">{guide.description}</span>
                     </Link>
                   </li>
                 ))}
               </ul>
-            </section>
+            </details>
           ))}
         </div>
       ) : (
